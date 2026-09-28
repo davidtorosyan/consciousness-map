@@ -133,13 +133,12 @@
     ts.forEach(function (t) { max = Math.max(max, sc[t.key] || 0); });
     var rows = ts.map(function (t, i) {
       var s = sc[t.key] || 0;
-      var w = max > 0 ? Math.round((s / max) * 100) : 4;
-      if (s === 0) w = 4;
+      var pct = max > 0 ? Math.round((s / max) * 100) : 0;
       return '<button class="r-row' + (i === 0 ? " top1" : "") + '" data-target="' + t.key + '">' +
         '<span class="rank">' + (i + 1) + '</span>' +
         '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
         '<span class="nm">' + t.name + "</span>" +
-        '<span class="barwrap"><span class="bar" style="width:' + w + '%"></span></span>' +
+        '<span class="pct">' + pct + "%</span>" +
         '<span class="chev">›</span></button>';
     }).join("");
     return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
