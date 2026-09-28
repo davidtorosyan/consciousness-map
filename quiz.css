@@ -1,11 +1,31 @@
-/* Drill-down quiz — minimal text, phone-first. Extends styles.css. */
-.q-top{display:flex;justify-content:space-between;align-items:center;margin:2px 0 6px}
+/* Drill-down quiz — minimal text, phone-first. Extends styles.css.
+   Persistent chrome: brand + dots stay put; only the window card's
+   contents transition between questions. */
+.wz-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 2px 14px}
+.wz-brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;line-height:1.3;letter-spacing:.01em}
+.wz-mark{color:var(--acc);font-size:16px;flex:none}
+.wz-name{max-width:180px}
+.wz-side{display:flex;align-items:center;gap:8px;flex:none}
+.wz-window{
+  border:1px solid var(--line);border-radius:22px;
+  background:linear-gradient(170deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+  box-shadow:0 18px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+  min-height:54dvh;display:flex;flex-direction:column;justify-content:center;
+  padding:26px 20px;overflow:hidden;
+}
+.wz-body{transition:opacity .17s ease,transform .17s ease}
+.wz-body.wz-leave{opacity:0;transform:translateY(10px)}
+.wz-body.wz-enter{opacity:0;transform:translateY(-10px)}
+.wz-foot{display:flex;justify-content:center;align-items:center;gap:10px;
+  padding:20px 0 10px;font-size:13.5px;color:var(--faint)}
+.wz-foot a{color:var(--faint);text-decoration:none}
+.wz-foot a:active{color:var(--acc)}
 .q-dots{display:flex;gap:7px;align-items:center}
 .q-dot{width:7px;height:7px;border-radius:50%;background:rgba(242,245,249,.18);transition:background .2s ease,transform .2s ease}
 .q-dot.done{background:var(--acc);box-shadow:0 0 8px var(--acc)}
 .q-dot.now{background:var(--text);transform:scale(1.25)}
 
-.q-stage{min-height:52dvh;display:flex;flex-direction:column;justify-content:center;padding:12px 4px}
+.q-qwrap{min-height:30dvh;display:flex;flex-direction:column;justify-content:center}
 .q-kicker{font-size:11px;letter-spacing:.22em;color:var(--acc);font-weight:700;margin-bottom:14px}
 .q-text{font-family:var(--serif);font-size:27px;line-height:1.32;letter-spacing:-.01em;margin-bottom:8px}
 .q-why{overflow:hidden;max-height:0;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease}
@@ -70,4 +90,5 @@
 
 @media (prefers-reduced-motion:reduce){
   .r-row .bar{transition:none}
+  .wz-body{transition:none}
 }

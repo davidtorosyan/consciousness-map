@@ -97,7 +97,7 @@
       '\'><span>◈ <strong>Rather start by describing experience?</strong></span><span class="arr">›</span></button>' +
       "</div>" +
       '<div class="foot rise" style="--i:11">120 theories · sources: Closer to Truth<br>' +
-      '<a href="https://davidtorosyan.github.io/consciousness-theory-quiz/" target="_blank" rel="noopener">Also try the deep quiz ↗</a></div>';
+      '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></div>';
   }
 
   function categoryView(cardId) {

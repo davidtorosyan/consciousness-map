@@ -1,6 +1,7 @@
-/* The Consciousness Map — drill-down quiz.
-   One question per screen, icon answers (yes / no / not sure / don't get it),
-   ranked results, tap to drill in. Minimal text by design. */
+/* Landscape of Consciousness Quiz — drill-down quiz.
+   Persistent chrome (brand, dots, nav) + one "view window" card.
+   Only the window's contents transition between questions; the page stays put.
+   Answers: yes / no / not sure / don't get it. Minimal text by design. */
 (function () {
   "use strict";
   var D = window.MAP_DATA, QD = window.QUIZ_DATA;
@@ -9,6 +10,7 @@
   var params = new URLSearchParams(location.search);
   var catParam = params.get("cat");
   var quizId = catParam && QD.cats && QD.cats[catParam] ? catParam : "top";
+  var LOC_URL = "https://loc.closertotruth.com/";
 
   function cardById(id) { return D.cards.find(function (c) { return c.id === id; }); }
   function quizDef() { return quizId === "top" ? QD.top : QD.cats[quizId]; }
@@ -62,69 +64,96 @@
     return sc;
   }
 
+  /* ---------- persistent chrome: brand, dots, window, footer ---------- */
+  app.innerHTML =
+    '<header class="wz-top">' +
+      '<div class="wz-brand"><span class="wz-mark">◉</span>' +
+      '<span class="wz-name">Landscape of Consciousness Quiz</span></div>' +
+      '<div class="wz-side"><div class="q-dots" id="wz-dots" aria-hidden="true"></div>' +
+      '<button class="icon-btn" data-act="back" aria-label="Back">‹</button>' +
+      '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
+    "</header>" +
+    '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
+    '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
+    '<span aria-hidden="true">·</span>' +
+    '<a href="' + LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
+
+  var winBody = document.getElementById("wz-body");
+  var dotsEl = document.getElementById("wz-dots");
+
+  function renderDots(n, idx) {
+    var dots = "";
+    for (var i = 0; i < n; i++) {
+      dots += '<span class="q-dot' + (i < idx ? " done" : i === idx ? " now" : "") + '"></span>';
+    }
+    dotsEl.innerHTML = dots;
+  }
+
+  /* Swap only the window's content: quick fade/slide inside the card. */
+  var locked = false;
+  function setWindow(html, n, idx) {
+    renderDots(n, idx);
+    winBody.classList.add("wz-leave");
+    setTimeout(function () {
+      winBody.innerHTML = html;
+      winBody.classList.remove("wz-leave");
+      winBody.classList.add("wz-enter");
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { winBody.classList.remove("wz-enter"); });
+      });
+      bindWindow();
+      locked = false;
+    }, 170);
+  }
+
   /* ---------- tiny router ---------- */
   var hist = [];
+  var cur = { name: "start" };
   function go(view, back) {
-    document.documentElement.classList.toggle("nav-back", !!back);
     if (!back) hist.push(view); else hist.pop();
+    cur = view;
     setTerritory(quizId === "top" ? null : quizId);
-    var apply = function () { render(view); window.scrollTo(0, 0); locked = false; };
-    // backstop: never leave the UI untappable if a transition stalls
-    setTimeout(function () { locked = false; }, 1500);
-    if (document.startViewTransition) {
-      try {
-        var vt = document.startViewTransition(apply);
-        if (vt && vt.finished && vt.finished.catch) vt.finished.catch(function () {});
-      } catch (e) { apply(); }
-    } else apply();
+    setTimeout(function () { locked = false; }, 1500); // backstop: never leave taps dead
+    var nq = quizDef().questions.length, h, dn, di;
+    if (view.name === "start") { h = startView(); dn = 0; di = -1; }
+    else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
+    else if (view.name === "results") { h = resultsView(); dn = nq; di = nq; }
+    else { h = detailView(view.key); dn = 0; di = -1; }
+    setWindow(h, dn, di);
   }
   function backTo() {
     var prev = hist.length > 1 ? hist[hist.length - 2] : { name: "start" };
     go(prev, true);
   }
 
-  /* ---------- shared chrome ---------- */
-  function qtop(n, idx, showBack) {
-    var dots = "";
-    for (var i = 0; i < n; i++) {
-      dots += '<span class="q-dot' + (i < idx ? " done" : i === idx ? " now" : "") + '"></span>';
-    }
-    return '<div class="q-top rise" style="--i:0">' +
-      (showBack ? '<button class="icon-btn" data-act="back" aria-label="Back">‹</button>' : '<span></span>') +
-      '<div class="q-dots" aria-hidden="true">' + dots + "</div>" +
-      '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>';
-  }
-
-  /* ---------- views ---------- */
+  /* ---------- window views ---------- */
   function startView() {
     var q = quizDef();
     var backLink = quizId === "top"
       ? '<a class="q-quiet" href="index.html">or browse the map instead</a>'
       : '<a class="q-quiet" href="quiz.html">← back to all quizzes</a>';
     return '<div class="q-start">' +
-      '<div class="eyebrow rise" style="--i:0">A QUIZ · ' + q.kicker + "</div>" +
-      '<h1 class="rise" style="--i:1">' + q.title + "</h1>" +
-      '<p class="lede rise" style="--i:2">' + q.intro + "</p>" +
-      '<button class="big-start rise" style="--i:3" data-act="start">Start</button>' +
-      '<div class="rise" style="--i:4">' + backLink + "</div></div>";
+      '<div class="eyebrow">A QUIZ · ' + q.kicker + "</div>" +
+      "<h1>" + q.title + "</h1>" +
+      '<p class="lede">' + q.intro + "</p>" +
+      '<button class="big-start" data-act="start">Start</button>' +
+      "<div>" + backLink + "</div></div>";
   }
 
   function questionView(idx) {
-    var qd = quizDef(), q = qd.questions[idx], n = qd.questions.length;
+    var q = quizDef().questions[idx];
     var whyBtn = q.why
       ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">Don\u2019t get it</span></button>'
       : "";
     var whyHtml = q.why
       ? '<div class="q-why" id="why"><div class="why-card">' + q.why + "</div></div>"
       : "";
-    return qtop(n, idx, true) +
-      '<div class="q-stage"><div class="rise" style="--i:1">' +
-      '<div class="q-text">' + q.q + "</div>" + whyHtml + "</div>" +
-      '<div class="a-grid rise" style="--i:2">' +
+    return '<div class="q-qwrap"><div class="q-text">' + q.q + "</div>" + whyHtml + "</div>" +
+      '<div class="a-grid">' +
       '<button class="a-btn yes" data-ans="yes"><span class="ic">✓</span><span class="lb">Yes</span></button>' +
       '<button class="a-btn no" data-ans="no"><span class="ic">✗</span><span class="lb">No</span></button>' +
       '<button class="a-btn maybe" data-ans="skip"><span class="ic">?</span><span class="lb">Not sure</span></button>' +
-      whyBtn + "</div></div>";
+      whyBtn + "</div>";
   }
 
   function resultsView() {
@@ -136,18 +165,15 @@
       var s = sc[t.key] || 0;
       var w = max > 0 ? Math.round((s / max) * 100) : 4;
       if (s === 0) w = 4;
-      return '<button class="r-row rise' + (i === 0 ? " top1" : "") + '" style="--i:' + (i + 2) + '" data-target="' + t.key + '">' +
+      return '<button class="r-row' + (i === 0 ? " top1" : "") + '" data-target="' + t.key + '">' +
         '<span class="rank">' + (i + 1) + '</span>' +
         '<span class="nm">' + t.name + "</span>" +
         '<span class="barwrap"><span class="bar" style="width:' + w + '%"></span></span>' +
         '<span class="chev">›</span></button>';
     }).join("");
-    return '<div class="q-top rise" style="--i:0"><span></span>' +
-      '<div class="q-dots" aria-hidden="true"></div>' +
-      '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
-      '<div class="r-head rise" style="--i:1"><div class="eyebrow">YOUR ALIGNMENT</div>' +
+    return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
       "<h1>Closest first.</h1></div>" + rows +
-      '<div class="d-quiet rise" style="--i:9">' +
+      '<div class="d-quiet">' +
       '<button class="d-link" data-act="restart">↺ Retake</button>' +
       '<a class="d-link" href="index.html">Browse the map</a></div>';
   }
@@ -160,30 +186,17 @@
     var secondary = t.quiz
       ? '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '"><span>Or explore <strong>' + t.name + '</strong> on the map</span><span class="arr">›</span></a>'
       : "";
-    return '<div class="q-top rise" style="--i:0">' +
-      '<button class="icon-btn" data-act="back" aria-label="Back">‹</button><span></span><span></span></div>' +
-      '<div class="d-head"><div class="eyebrow rise" style="--i:1">' +
+    return '<div class="d-head"><div class="eyebrow">' +
       (quizId === "top" ? "TERRITORY" : "VIEW") + "</div>" +
-      '<h1 class="rise" style="--i:2">' + t.name + "</h1>" +
-      '<p class="tag rise" style="--i:3">' + t.tagline + "</p></div>" +
-      '<div class="d-actions rise" style="--i:4">' + primary + secondary + "</div>" +
-      '<div class="d-quiet rise" style="--i:5">' +
+      "<h1>" + t.name + "</h1>" +
+      '<p class="tag">' + t.tagline + "</p></div>" +
+      '<div class="d-actions">' + primary + secondary + "</div>" +
+      '<div class="d-quiet">' +
       '<button class="d-link" data-act="back">‹ Back to results</button>' +
       '<button class="d-link" data-act="restart">↺ Retake quiz</button></div>';
   }
 
-  /* ---------- render + events ---------- */
-  var locked = false;
-  function render(view) {
-    var h;
-    if (view.name === "start") h = startView();
-    else if (view.name === "q") h = questionView(view.idx);
-    else if (view.name === "results") h = resultsView();
-    else h = detailView(view.key);
-    app.innerHTML = h;
-    bind(view);
-  }
-
+  /* ---------- events ---------- */
   function answer(idx, ans) {
     if (locked) return;
     if (ans === "why") {
@@ -193,7 +206,7 @@
     }
     locked = true;
     S.answers[idx] = ans;
-    var btn = app.querySelector('[data-ans="' + ans + '"]');
+    var btn = winBody.querySelector('[data-ans="' + ans + '"]');
     if (btn && ans !== "skip") btn.classList.add(ans === "yes" ? "picked-yes" : "picked-no");
     var n = quizDef().questions.length;
     setTimeout(function () {
@@ -202,25 +215,27 @@
     }, ans === "skip" ? 120 : 260);
   }
 
-  function bind(view) {
-    app.querySelectorAll("[data-act]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var act = el.dataset.act;
-        if (act === "start") { S = freshSession(); go({ name: "q", idx: 0 }); }
-        else if (act === "restart") { go({ name: "start" }); }
-        else if (act === "back") { backTo(); }
-      });
+  function actGo(act) {
+    if (act === "start") { S = freshSession(); go({ name: "q", idx: 0 }); }
+    else if (act === "restart") { S = null; go({ name: "start" }); }
+    else if (act === "back") { backTo(); }
+  }
+
+  // header buttons persist across the whole quiz
+  document.querySelector(".wz-top").querySelectorAll("[data-act]").forEach(function (el) {
+    el.addEventListener("click", function () { actGo(el.dataset.act); });
+  });
+
+  function bindWindow() {
+    winBody.querySelectorAll("[data-act]").forEach(function (el) {
+      el.addEventListener("click", function () { actGo(el.dataset.act); });
     });
-    if (view.name === "q") {
-      app.querySelectorAll("[data-ans]").forEach(function (el) {
-        el.addEventListener("click", function () { answer(view.idx, el.dataset.ans); });
-      });
-    }
-    if (view.name === "results") {
-      app.querySelectorAll("[data-target]").forEach(function (el) {
-        el.addEventListener("click", function () { go({ name: "detail", key: el.dataset.target }); });
-      });
-    }
+    winBody.querySelectorAll("[data-ans]").forEach(function (el) {
+      el.addEventListener("click", function () { answer(cur.idx, el.dataset.ans); });
+    });
+    winBody.querySelectorAll("[data-target]").forEach(function (el) {
+      el.addEventListener("click", function () { go({ name: "detail", key: el.dataset.target }); });
+    });
   }
 
   go({ name: "start" });

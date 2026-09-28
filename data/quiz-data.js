@@ -7,7 +7,7 @@ window.QUIZ_DATA = {
     id: "top",
     kicker: "THE BIG PICTURE",
     title: "Find your view",
-    intro: "9 quick questions. Yes, no, not sure — that's it.",
+    intro: "9 quick questions.",
     questions: [
       {
         q: "Your mind is just what your brain does — nothing extra.",
@@ -21,7 +21,7 @@ window.QUIZ_DATA = {
       },
       {
         q: "Even a grain of sand has a tiny spark of experience.",
-        why: "This view says experience isn't made by brains — it's built into everything. Brains just combine tiny sparks into a big one.",
+        why: "This view puts a spark of experience in everything. Brains just combine tiny sparks into a big one.",
         yes: { everywhere: 2 },
         no: { brain: 1, twokinds: 1 }
       },
@@ -32,7 +32,7 @@ window.QUIZ_DATA = {
       },
       {
         q: "Explaining consciousness will need quantum physics — brain cells alone won't cut it.",
-        why: "A few views say the secret hides in quantum effects inside neurons, not in ordinary wiring.",
+        why: "A few views say the secret hides in quantum effects inside neurons.",
         yes: { deeper: 2 },
         no: { brain: 1 }
       },
@@ -48,7 +48,7 @@ window.QUIZ_DATA = {
       },
       {
         q: "Consciousness is mostly a trick — the brain convincing itself it's \u2018someone\u2019.",
-        why: "On this view there's no inner movie — just the brain's story about one.",
+        why: "On this view, the \u2018inner movie\u2019 is the brain\u2019s own storytelling.",
         yes: { brain: 2 },
         no: { twokinds: 1, allmind: 1, everywhere: 1 }
       },
@@ -64,12 +64,12 @@ window.QUIZ_DATA = {
     brain: {
       id: "brain",
       kicker: "JUST THE BRAIN",
-      title: "Which kind of physicalist?",
-      intro: "8 quick questions — all inside \u201cJust the brain\u201d.",
+      title: "Which version fits you?",
+      intro: "8 quick questions inside \u201cJust the brain\u201d.",
       questions: [
         {
           q: "The feeling of being \u2018you\u2019 is mostly a trick your brain plays on itself.",
-          why: "On this view there's no inner movie — just the brain's story about one.",
+          why: "On this view, the \u2018inner movie\u2019 is the brain\u2019s own storytelling.",
           yes: { illusion: 2 },
           no: { wiring: 1, notreducible: 1 }
         },
@@ -84,7 +84,7 @@ window.QUIZ_DATA = {
         },
         {
           q: "Consciousness is literally the brain's electromagnetic field.",
-          why: "Every firing neuron makes a tiny electric field. Together they merge into one brain-wide field — and this view says that field IS your experience.",
+          why: "Every firing neuron makes a tiny electric field. This view says those fields merge into one brain-wide field, and that field is your experience.",
           yes: { field: 2 }
         },
         {
