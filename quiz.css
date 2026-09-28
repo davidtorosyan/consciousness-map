@@ -5,7 +5,8 @@
 .wz-brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;line-height:1.3;letter-spacing:.01em}
 .wz-mark{color:var(--acc);font-size:16px;flex:none}
 .wz-name{max-width:180px}
-.wz-side{display:flex;align-items:center;gap:8px;flex:none}
+.wz-nav{display:flex;align-items:center;gap:8px;flex:none}
+.wz-dotsrow{padding:2px 2px 14px}
 .wz-window{
   border:1px solid var(--line);border-radius:22px;
   background:linear-gradient(170deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
@@ -91,4 +92,12 @@
 @media (prefers-reduced-motion:reduce){
   .r-row .bar{transition:none}
   .wz-body{transition:none}
+}
+
+/* ---------- narrow phones (e.g. 393px): results rows give names room ---------- */
+@media (max-width:520px){
+  .r-row{gap:10px;padding:14px}
+  .r-row .rank{width:20px}
+  .r-row .barwrap{width:52px}
+  .r-row .nm{font-size:17px}
 }

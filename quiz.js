@@ -42,10 +42,11 @@
     '<header class="wz-top">' +
       '<div class="wz-brand"><span class="wz-mark">◉</span>' +
       '<span class="wz-name">Landscape of Consciousness Quiz</span></div>' +
-      '<div class="wz-side"><div class="q-dots" id="wz-dots" aria-hidden="true"></div>' +
+      '<div class="wz-nav">' +
       '<button class="icon-btn" data-act="back" aria-label="Back">‹</button>' +
       '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
     "</header>" +
+    '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
     '<span aria-hidden="true">·</span>' +
@@ -60,6 +61,7 @@
       dots += '<span class="q-dot' + (i < idx ? " done" : i === idx ? " now" : "") + '"></span>';
     }
     dotsEl.innerHTML = dots;
+    dotsEl.parentElement.style.display = n ? "" : "none";
   }
 
   /* Swap only the window's content: quick fade/slide inside the card. */
