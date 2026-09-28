@@ -1,0 +1,81 @@
+/* Canonical Landscape of Consciousness taxonomy (loc.closertotruth.com).
+   Names and colors match the official site exactly. */
+window.LOC_CATEGORIES = [
+  {
+    id: "materialism",
+    name: "Materialism",
+    color: "#EDCF4A",
+    tagline: "Consciousness is what the brain does. Nothing extra.",
+    url: "https://loc.closertotruth.com/materialism",
+  },
+  {
+    id: "non-reductive-physicalism",
+    name: "Non-Reductive Physicalism",
+    color: "#E4822D",
+    tagline: "All physical, yet experience can't be reduced to neurons.",
+    url: "https://loc.closertotruth.com/non-reductive-physicalism",
+  },
+  {
+    id: "quantum-dimensions",
+    name: "Quantum & Dimensions",
+    color: "#FFA9A0",
+    tagline: "The answer lies in quantum physics, or beyond our dimensions.",
+    url: "https://loc.closertotruth.com/quantum-dimensions",
+  },
+  {
+    id: "information",
+    name: "Information",
+    color: "#BF2B39",
+    tagline: "Consciousness is what information feels like from the inside.",
+    url: "https://loc.closertotruth.com/information",
+  },
+  {
+    id: "panpsychisms",
+    name: "Panpsychisms",
+    color: "#CF56CA",
+    tagline: "Experience is built into everything, down to grains of sand.",
+    url: "https://loc.closertotruth.com/panpsychisms",
+  },
+  {
+    id: "neutral-monism",
+    name: "Neutral Monism",
+    color: "#6A22D1",
+    tagline: "Mind and matter are two faces of one deeper stuff.",
+    url: "https://loc.closertotruth.com/neutral-monism",
+  },
+  {
+    id: "dualisms",
+    name: "Dualisms",
+    color: "#007ACC",
+    tagline: "Mind and body are two fundamentally different things.",
+    url: "https://loc.closertotruth.com/dualisms",
+  },
+  {
+    id: "idealisms",
+    name: "Idealisms",
+    color: "#65D3F7",
+    tagline: "Reality is mental through and through; matter is secondary.",
+    url: "https://loc.closertotruth.com/idealisms",
+  },
+  {
+    id: "phenomenology",
+    name: "Phenomenology",
+    color: "#FF5733",
+    tagline: "Start by describing experience as it's actually lived.",
+    url: "https://loc.closertotruth.com/phenomenology",
+  },
+  {
+    id: "anomalous-altered-states",
+    name: "Anomalous & Altered States",
+    color: "#686882",
+    tagline: "Strange states of mind could be clues worth following.",
+    url: "https://loc.closertotruth.com/anomalous-and-altered-states",
+  },
+  {
+    id: "challenge",
+    name: "Challenge",
+    color: "#C6C6DA",
+    tagline: "Maybe the mystery can't be solved, or it's the wrong question.",
+    url: "https://loc.closertotruth.com/challenge",
+  },
+];

@@ -1,48 +1,21 @@
-/* Landscape of Consciousness Quiz — drill-down quiz.
+/* Landscape of Consciousness Quiz.
    Persistent chrome (brand, dots, nav) + one "view window" card.
    Only the window's contents transition between questions; the page stays put.
    Answers: yes / no / not sure / don't get it. Minimal text by design. */
 (function () {
   "use strict";
-  var D = window.MAP_DATA, QD = window.QUIZ_DATA;
+  var QD = window.QUIZ_DATA;
   var app = document.getElementById("app");
-  var bg = document.querySelector(".bg");
-  var params = new URLSearchParams(location.search);
-  var catParam = params.get("cat");
-  var quizId = catParam && QD.cats && QD.cats[catParam] ? catParam : "top";
+  var QUIZ = QD.top;
   var LOC_URL = "https://loc.closertotruth.com/";
 
-  function cardById(id) { return D.cards.find(function (c) { return c.id === id; }); }
-  function quizDef() { return quizId === "top" ? QD.top : QD.cats[quizId]; }
-
-  function setTerritory(t) {
-    if (document.body.dataset.territory === t) return;
-    bg.classList.add("fade");
-    setTimeout(function () {
-      if (t) document.body.dataset.territory = t;
-      else document.body.removeAttribute("data-territory");
-      bg.classList.remove("fade");
-    }, 200);
-  }
-
-  /* targets: top -> the six categories; cat quiz -> that category's sub-views */
+  /* targets: the 11 canonical categories */
   function targets() {
-    if (quizId === "top") {
-      return D.cards.map(function (c) {
-        return {
-          key: c.id, name: c.name, tagline: c.short || c.tagline,
-          quiz: !!(QD.cats && QD.cats[c.id]),
-          quizUrl: "quiz.html?cat=" + c.id,
-          mapUrl: "index.html#/category/" + c.id
-        };
-      });
-    }
-    var c = cardById(quizId);
-    return c.subs.map(function (s) {
+    return QD.order.map(function (id) {
+      var c = QD.cats[id];
       return {
-        key: s.id, name: s.name, tagline: s.tagline,
-        quiz: false, quizUrl: null,
-        mapUrl: "index.html#/leaf/" + c.id + "/" + s.id
+        key: id, name: c.name, color: c.color, tagline: c.tagline,
+        url: c.url, mapUrl: "index.html#/category/" + id,
       };
     });
   }
@@ -50,12 +23,12 @@
   /* ---------- session state ---------- */
   var S = null; // {answers: ["yes"|"no"|"skip"|null ...]}
   function freshSession() {
-    var n = quizDef().questions.length;
-    var a = []; for (var i = 0; i < n; i++) a.push(null);
+    var a = [];
+    for (var i = 0; i < QUIZ.questions.length; i++) a.push(null);
     return { answers: a };
   }
   function scores() {
-    var qs = quizDef().questions, sc = {};
+    var qs = QUIZ.questions, sc = {};
     S.answers.forEach(function (ans, i) {
       if (ans !== "yes" && ans !== "no") return;
       var pts = qs[i][ans] || {};
@@ -112,9 +85,8 @@
   function go(view, back) {
     if (!back) hist.push(view); else hist.pop();
     cur = view;
-    setTerritory(quizId === "top" ? null : quizId);
     setTimeout(function () { locked = false; }, 1500); // backstop: never leave taps dead
-    var nq = quizDef().questions.length, h, dn, di;
+    var nq = QUIZ.questions.length, h, dn, di;
     if (view.name === "start") { h = startView(); dn = 0; di = -1; }
     else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
     else if (view.name === "results") { h = resultsView(); dn = nq; di = nq; }
@@ -128,27 +100,23 @@
 
   /* ---------- window views ---------- */
   function startView() {
-    var q = quizDef();
-    var backLink = quizId === "top"
-      ? '<a class="q-quiet" href="index.html">or browse the map instead</a>'
-      : '<a class="q-quiet" href="quiz.html">← back to all quizzes</a>';
     return '<div class="q-start">' +
-      '<div class="eyebrow">A QUIZ · ' + q.kicker + "</div>" +
-      "<h1>" + q.title + "</h1>" +
-      '<p class="lede">' + q.intro + "</p>" +
+      '<div class="eyebrow">A QUIZ · ' + QUIZ.kicker + "</div>" +
+      "<h1>" + QUIZ.title + "</h1>" +
+      '<p class="lede">' + QUIZ.intro + "</p>" +
       '<button class="big-start" data-act="start">Start</button>' +
-      "<div>" + backLink + "</div></div>";
+      '<div><a class="q-quiet" href="index.html">' + QUIZ.browse + "</a></div></div>";
   }
 
   function questionView(idx) {
-    var q = quizDef().questions[idx];
+    var q = QUIZ.questions[idx];
     var whyBtn = q.why
       ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">Don\u2019t get it</span></button>'
       : "";
     var whyHtml = q.why
       ? '<div class="q-why" id="why"><div class="why-card">' + q.why + "</div></div>"
       : "";
-    return '<div class="q-qwrap"><div class="q-text">' + q.q + "</div>" + whyHtml + "</div>" +
+    return '<div class="q-qwrap"><div class="q-text">' + q.t + "</div>" + whyHtml + "</div>" +
       '<div class="a-grid">' +
       '<button class="a-btn yes" data-ans="yes"><span class="ic">✓</span><span class="lb">Yes</span></button>' +
       '<button class="a-btn no" data-ans="no"><span class="ic">✗</span><span class="lb">No</span></button>' +
@@ -167,6 +135,7 @@
       if (s === 0) w = 4;
       return '<button class="r-row' + (i === 0 ? " top1" : "") + '" data-target="' + t.key + '">' +
         '<span class="rank">' + (i + 1) + '</span>' +
+        '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
         '<span class="nm">' + t.name + "</span>" +
         '<span class="barwrap"><span class="bar" style="width:' + w + '%"></span></span>' +
         '<span class="chev">›</span></button>';
@@ -179,18 +148,17 @@
   }
 
   function detailView(key) {
-    var t = targets().find(function (x) { return x.key === key; });
-    var primary = t.quiz
-      ? '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.quizUrl + '">Start the \u201c' + t.name + '\u201d quiz</a>'
-      : '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.mapUrl + '">See on the map</a>';
-    var secondary = t.quiz
-      ? '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '"><span>Or explore <strong>' + t.name + '</strong> on the map</span><span class="arr">›</span></a>'
-      : "";
-    return '<div class="d-head"><div class="eyebrow">' +
-      (quizId === "top" ? "TERRITORY" : "VIEW") + "</div>" +
+    var t = null;
+    targets().forEach(function (x) { if (x.key === key) t = x; });
+    if (!t) return resultsView();
+    return '<div class="d-head"><div class="eyebrow">CATEGORY</div>' +
       "<h1>" + t.name + "</h1>" +
       '<p class="tag">' + t.tagline + "</p></div>" +
-      '<div class="d-actions">' + primary + secondary + "</div>" +
+      '<div class="d-actions">' +
+      '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
+      '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
+      '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
+      "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a></div>' +
       '<div class="d-quiet">' +
       '<button class="d-link" data-act="back">‹ Back to results</button>' +
       '<button class="d-link" data-act="restart">↺ Retake quiz</button></div>';
@@ -208,7 +176,7 @@
     S.answers[idx] = ans;
     var btn = winBody.querySelector('[data-ans="' + ans + '"]');
     if (btn && ans !== "skip") btn.classList.add(ans === "yes" ? "picked-yes" : "picked-no");
-    var n = quizDef().questions.length;
+    var n = QUIZ.questions.length;
     setTimeout(function () {
       if (idx + 1 < n) go({ name: "q", idx: idx + 1 });
       else go({ name: "results" });
