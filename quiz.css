@@ -50,6 +50,7 @@
 .a-btn.whyb .ic{color:var(--acc)}
 .a-btn.picked-yes{border-color:#6dffa8;background:rgba(109,255,168,.08)}
 .a-btn.picked-no{border-color:#ff8f8f;background:rgba(255,143,143,.08)}
+.a-btn.picked-skip{border-color:#f2b25c;background:rgba(242,178,92,.08)}
 
 .q-start{padding:34px 6px 10px;text-align:left}
 .q-start h1{font-size:38px;margin:2px 0 12px}
@@ -99,3 +100,16 @@
   .r-row .rank{width:20px}
   .r-row .nm{font-size:17px}
 }
+
+/* detail: which answers lined up with this category */
+.qa-sec{margin:24px 6px 0}
+.qa-sec .eyebrow{margin-bottom:6px}
+.qa-row{display:flex;gap:10px;align-items:baseline;padding:10px 2px;border-top:1px solid var(--line);
+  font-size:13.5px;line-height:1.45}
+.qa-mark{flex:none;width:15px;font-weight:700}
+.qa-row.al .qa-mark{color:#6dffa8}
+.qa-row.mis .qa-mark{color:#ff8f8f}
+.qa-row.na .qa-mark{color:var(--faint)}
+.qa-q{flex:1;min-width:0;color:var(--muted)}
+.qa-row.al .qa-q{color:var(--text)}
+.qa-a{flex:none;font-size:12px;color:var(--faint)}

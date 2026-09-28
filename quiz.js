@@ -118,12 +118,12 @@
     var whyHtml = q.why
       ? '<div class="q-why" id="why"><div class="why-card">' + q.why + "</div></div>"
       : "";
-    return '<div class="q-qwrap"><div class="q-text">' + q.t + "</div>" + whyHtml + "</div>" +
+    return '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
       '<div class="a-grid">' +
       '<button class="a-btn yes" data-ans="yes"><span class="ic">✓</span><span class="lb">Yes</span></button>' +
       '<button class="a-btn no" data-ans="no"><span class="ic">✗</span><span class="lb">No</span></button>' +
       '<button class="a-btn maybe" data-ans="skip"><span class="ic">?</span><span class="lb">Not sure</span></button>' +
-      whyBtn + "</div>";
+      whyBtn + "</div>" + whyHtml;
   }
 
   function resultsView() {
@@ -148,6 +148,24 @@
       '<a class="d-link" href="index.html">Browse the map</a></div>';
   }
 
+  /* questions that moved the needle for one category, marked by the user's answer */
+  function answerRows(key) {
+    if (!S) return "";
+    var qs = QUIZ.questions, out = [];
+    qs.forEach(function (q, i) {
+      var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
+      if (!yp && !np) return;
+      var a = S.answers[i], cls, mark, alabel;
+      if (a === "yes") { cls = yp > 0 ? "al" : "mis"; mark = yp > 0 ? "✓" : "✗"; alabel = "yes"; }
+      else if (a === "no") { cls = np > 0 ? "al" : "mis"; mark = np > 0 ? "✓" : "✗"; alabel = "no"; }
+      else { cls = "na"; mark = "–"; alabel = a === "skip" ? "not sure" : "–"; }
+      out.push('<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
+        '<span class="qa-q">' + q.t + '</span><span class="qa-a">' + alabel + "</span></div>");
+    });
+    if (!out.length) return "";
+    return '<div class="qa-sec"><div class="eyebrow">HOW YOU LINED UP</div>' + out.join("") + "</div>";
+  }
+
   function detailView(key) {
     var t = null;
     targets().forEach(function (x) { if (x.key === key) t = x; });
@@ -155,6 +173,7 @@
     return '<div class="d-head"><div class="eyebrow">CATEGORY</div>' +
       "<h1>" + t.name + "</h1>" +
       '<p class="tag">' + t.tagline + "</p></div>" +
+      answerRows(key) +
       '<div class="d-actions">' +
       '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
       '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
@@ -176,7 +195,7 @@
     locked = true;
     S.answers[idx] = ans;
     var btn = winBody.querySelector('[data-ans="' + ans + '"]');
-    if (btn && ans !== "skip") btn.classList.add(ans === "yes" ? "picked-yes" : "picked-no");
+    if (btn) btn.classList.add(ans === "yes" ? "picked-yes" : ans === "no" ? "picked-no" : "picked-skip");
     var n = QUIZ.questions.length;
     setTimeout(function () {
       if (idx + 1 < n) go({ name: "q", idx: idx + 1 });
