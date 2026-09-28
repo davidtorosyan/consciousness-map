@@ -78,7 +78,7 @@
       });
       bindWindow();
       locked = false;
-    }, 170);
+    }, 100);
   }
 
   /* ---------- tiny router ---------- */
@@ -129,16 +129,16 @@
   function resultsView() {
     var sc = scores(), ts = targets().slice();
     ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
-    var max = 0;
-    ts.forEach(function (t) { max = Math.max(max, sc[t.key] || 0); });
     var rows = ts.map(function (t, i) {
       var s = sc[t.key] || 0;
-      var pct = max > 0 ? Math.round((s / max) * 100) : 0;
+      // ternary, absolute: aligned = endorsed the core claim (3+), mixed = partial lean, lo = no signal
+      var tier = s >= 3 ? "hi" : s > 0 ? "mid" : "lo";
+      var icon = tier === "hi" ? "👍👍" : tier === "mid" ? "👍" : "–";
       return '<button class="r-row' + (i === 0 ? " top1" : "") + '" data-target="' + t.key + '">' +
         '<span class="rank">' + (i + 1) + '</span>' +
         '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
         '<span class="nm">' + t.name + "</span>" +
-        '<span class="pct">' + pct + "%</span>" +
+        '<span class="tier ' + tier + '" aria-label="' + tier + '">' + icon + "</span>" +
         '<span class="chev">›</span></button>';
     }).join("");
     return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
@@ -200,7 +200,7 @@
     setTimeout(function () {
       if (idx + 1 < n) go({ name: "q", idx: idx + 1 });
       else go({ name: "results" });
-    }, ans === "skip" ? 120 : 260);
+    }, ans === "skip" ? 80 : 120);
   }
 
   function actGo(act) {
