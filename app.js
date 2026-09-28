@@ -90,11 +90,13 @@
       '<p class="lede">Pick the card that sounds closest — then go deeper.</p></div>' +
       '<div class="grid">' + cards + "</div>" +
       '<div class="landing-tools">' +
-      '<button class="tool-btn rise" style="--i:8" data-nav="unsure"><span><strong>None of these fit?</strong> Take your time</span><span class="arr">›</span></button>' +
-      '<button class="tool-btn rise" style="--i:9" data-goto=\'' + JSON.stringify({ view: "phenomenology" }) +
+      '<a class="tool-btn rise" style="--i:8;text-decoration:none" href="quiz.html">' +
+      '<span>◉ <strong>Find your view</strong> — 9 quick questions</span><span class="arr">›</span></a>' +
+      '<button class="tool-btn rise" style="--i:9" data-nav="unsure"><span><strong>None of these fit?</strong> Take your time</span><span class="arr">›</span></button>' +
+      '<button class="tool-btn rise" style="--i:10" data-goto=\'' + JSON.stringify({ view: "phenomenology" }) +
       '\'><span>◈ <strong>Rather start by describing experience?</strong></span><span class="arr">›</span></button>' +
       "</div>" +
-      '<div class="foot rise" style="--i:10">120 theories · sources: Closer to Truth<br>' +
+      '<div class="foot rise" style="--i:11">120 theories · sources: Closer to Truth<br>' +
       '<a href="https://davidtorosyan.github.io/consciousness-theory-quiz/" target="_blank" rel="noopener">Also try the deep quiz ↗</a></div>';
   }
 
@@ -185,6 +187,22 @@
   }
 
   /* ---------- router ---------- */
+  // deep links: index.html#/category/brain , index.html#/leaf/brain/illusion
+  function hashFor(view) {
+    if (view.view === "category") return "#/category/" + view.card;
+    if (view.view === "leaf") return "#/leaf/" + view.card + "/" + view.sub;
+    if (view.view === "phenomenology") return "#/phenomenology";
+    return "#/";
+  }
+  function viewFromHash() {
+    var m = /^#\/(category|leaf|phenomenology)(?:\/([^\/]+))?(?:\/([^\/]+))?/.exec(location.hash || "");
+    if (!m) return null;
+    if (m[1] === "category" && m[2] && cardById(m[2])) return { view: "category", card: m[2] };
+    if (m[1] === "leaf" && m[2] && m[3] && cardById(m[2]) && subById(m[2], m[3]))
+      return { view: "leaf", card: m[2], sub: m[3] };
+    if (m[1] === "phenomenology") return { view: "phenomenology" };
+    return null;
+  }
   function territoryFor(view) {
     if (view.view === "category" || view.view === "leaf") return view.card;
     if (view.view === "phenomenology") return "phenomenology";
@@ -205,6 +223,7 @@
     document.documentElement.classList.toggle("nav-back", !!back);
     if (view.view === "unsure") unsureReturn = current;
     setTerritory(territoryFor(view));
+    try { history.replaceState(null, "", hashFor(view)); } catch (e) {}
     var apply = function () {
       render(view);
       current = view;
@@ -240,5 +259,7 @@
     });
   }
 
+  var deepStart = viewFromHash();
+  if (deepStart) { current = deepStart; setTerritory(territoryFor(current)); }
   render(current);
 })();

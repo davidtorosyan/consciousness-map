@@ -1,0 +1,73 @@
+/* Drill-down quiz — minimal text, phone-first. Extends styles.css. */
+.q-top{display:flex;justify-content:space-between;align-items:center;margin:2px 0 6px}
+.q-dots{display:flex;gap:7px;align-items:center}
+.q-dot{width:7px;height:7px;border-radius:50%;background:rgba(242,245,249,.18);transition:background .2s ease,transform .2s ease}
+.q-dot.done{background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.q-dot.now{background:var(--text);transform:scale(1.25)}
+
+.q-stage{min-height:52dvh;display:flex;flex-direction:column;justify-content:center;padding:12px 4px}
+.q-kicker{font-size:11px;letter-spacing:.22em;color:var(--acc);font-weight:700;margin-bottom:14px}
+.q-text{font-family:var(--serif);font-size:27px;line-height:1.32;letter-spacing:-.01em;margin-bottom:8px}
+.q-why{overflow:hidden;max-height:0;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease}
+.q-why.open{max-height:220px;opacity:1;margin-top:14px}
+.q-why .why-card{border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);border-radius:14px;
+  padding:13px 15px;font-size:14.5px;line-height:1.6;color:var(--muted);
+  background:color-mix(in srgb,var(--acc) 7%,transparent)}
+
+.a-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.a-btn{
+  border:1px solid var(--line);border-radius:18px;padding:16px 8px 13px;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  background:rgba(255,255,255,.028);transition:transform .15s ease,border-color .15s ease,background .15s ease;
+}
+.a-btn:active{transform:scale(.94)}
+.a-btn .ic{font-size:27px;line-height:1}
+.a-btn .lb{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.a-btn.yes .ic{color:#6dffa8}
+.a-btn.no .ic{color:#ff8f8f}
+.a-btn.maybe .ic{color:#f2b25c}
+.a-btn.whyb .ic{color:var(--acc)}
+.a-btn.picked-yes{border-color:#6dffa8;background:rgba(109,255,168,.08)}
+.a-btn.picked-no{border-color:#ff8f8f;background:rgba(255,143,143,.08)}
+
+.q-start{padding:34px 6px 10px;text-align:left}
+.q-start h1{font-size:38px;margin:2px 0 12px}
+.q-start .lede{font-size:15px;margin-bottom:26px;max-width:30ch}
+.big-start{
+  width:100%;border-radius:20px;padding:19px;font-size:18px;font-weight:700;
+  background:linear-gradient(140deg,var(--g2),var(--g1));
+  border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);
+  box-shadow:0 12px 34px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);
+  transition:transform .15s ease;
+}
+.big-start:active{transform:scale(.96)}
+.q-quiet{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--faint);text-decoration:none}
+
+/* results: ranked names only */
+.r-head{padding:18px 4px 6px}
+.r-head h1{font-size:30px;margin-bottom:4px}
+.r-row{
+  width:100%;text-align:left;display:flex;align-items:center;gap:14px;
+  border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:9px;
+  background:rgba(255,255,255,.022);transition:transform .15s ease,border-color .15s ease;
+}
+.r-row:active{transform:scale(.97);border-color:var(--acc)}
+.r-row .rank{flex:none;width:26px;font-size:13px;font-weight:700;color:var(--faint)}
+.r-row .nm{flex:1;min-width:0;font-family:var(--serif);font-size:18px}
+.r-row .barwrap{flex:none;width:84px;height:6px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
+.r-row .bar{height:100%;border-radius:99px;background:var(--acc);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.r-row .chev{font-size:20px;color:var(--acc);flex:none}
+.r-row.top1{border-color:color-mix(in srgb,var(--acc) 50%,transparent);
+  background:linear-gradient(140deg,color-mix(in srgb,var(--acc) 12%,transparent),rgba(255,255,255,.015))}
+
+/* detail: name + one line + buttons */
+.d-head{padding:26px 6px 8px}
+.d-head h1{font-size:34px;margin-bottom:10px}
+.d-head .tag{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:34ch}
+.d-actions{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.d-quiet{display:flex;justify-content:space-between;margin-top:22px}
+.d-link{font-size:14px;color:var(--faint);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px;padding:10px 4px}
+
+@media (prefers-reduced-motion:reduce){
+  .r-row .bar{transition:none}
+}
