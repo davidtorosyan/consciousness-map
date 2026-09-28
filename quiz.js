@@ -129,11 +129,14 @@
   function resultsView() {
     var sc = scores(), ts = targets().slice();
     ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
+    // flat hand-drawn tier icons (no emoji)
+    var THUMB = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="8" y="10" width="11.5" height="11" rx="2.5"/><rect x="11.5" y="7.8" width="3" height="3.7" rx="1.5"/><rect x="15" y="7.8" width="3" height="3.7" rx="1.5"/><rect x="5.5" y="2.5" width="4.5" height="10" rx="2.25"/><rect x="3" y="12" width="4" height="9" rx="1.9"/></svg>';
+    var DASH = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.5" y="10.8" width="11" height="2.4" rx="1.2"/></svg>';
     var rows = ts.map(function (t, i) {
       var s = sc[t.key] || 0;
       // ternary, absolute: aligned = endorsed the core claim (3+), mixed = partial lean, lo = no signal
       var tier = s >= 3 ? "hi" : s > 0 ? "mid" : "lo";
-      var icon = tier === "hi" ? "👍👍" : tier === "mid" ? "👍" : "–";
+      var icon = tier === "hi" ? THUMB + THUMB : tier === "mid" ? THUMB : DASH;
       return '<button class="r-row' + (i === 0 ? " top1" : "") + '" data-target="' + t.key + '">' +
         '<span class="rank">' + (i + 1) + '</span>' +
         '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
