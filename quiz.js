@@ -22,7 +22,10 @@
       };
     });
     return DRILL.areas.map(function (a) {
-      return { key: a.key, name: a.name, color: DRILL.color, tagline: "", url: "", mapUrl: "" };
+      return {
+        key: a.key, name: a.name, color: DRILL.color, tagline: a.tagline || "",
+        url: a.url || "", mapUrl: "index.html#/category/" + DRILL.categoryId,
+      };
     });
   }
 
@@ -180,12 +183,15 @@
     var tag = t.tagline ? '<p class="tag">' + t.tagline + "</p>" : "";
     var drillBtn = (!DRILL && QD.drill && QD.drill[key])
       ? '<button class="nav-btn primary drill-btn" data-drill="' + key + '">Next quiz →</button>' : "";
-    var extBtns = t.url
-      ? '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
-        '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
-        '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
-        "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a>'
-      : "";
+    var extBtns = "";
+    if (t.url) {
+      extBtns += '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
+        '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>';
+    }
+    if (t.mapUrl) {
+      extBtns += '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
+        "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a>';
+    }
     var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
     return '<div class="d-head"><div class="eyebrow">' + (DRILL ? "VIEW" : "CATEGORY") + "</div>" +
       "<h1>" + t.name + "</h1>" + tag + "</div>" +
