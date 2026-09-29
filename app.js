@@ -67,6 +67,15 @@
   function categoryView(id) {
     var c = catById(id);
     if (!c) return landingView();
+    // categories with a drill quiz get a direct entry point, no top-level quiz needed
+    var drill = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[id];
+    var drillBtn = "";
+    if (drill) {
+      var intro = drill.intro.charAt(0).toLowerCase() + drill.intro.slice(1);
+      drillBtn = '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html?quiz=' + id + '">' +
+        "<span>◉ <strong>Next quiz</strong> — " + intro + "</span>" +
+        '<span class="arr">›</span></a>';
+    }
     return topbar(true) +
       trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
@@ -79,7 +88,8 @@
       '<span class="arr">›</span></a>' +
       '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html">' +
       "<span>◉ <strong>Take the quiz</strong> — see where you land</span>" +
-      '<span class="arr">›</span></a></div>' +
+      '<span class="arr">›</span></a>' +
+      drillBtn + "</div>" +
       bottomNav();
   }
 
