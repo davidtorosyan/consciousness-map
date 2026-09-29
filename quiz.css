@@ -119,3 +119,7 @@
 .qa-a{flex:none;font-size:12px;color:var(--faint)}
 .tier-legend{font-size:11px;color:var(--faint);margin:4px 2px 12px;display:flex;gap:6px;align-items:center}
 .tier-legend .lg.hi{color:#3ad06e}.tier-legend .lg.mid{color:#f2b25c}.tier-legend .lg.lo{color:#ff5a5a}
+.wz-dotsrow{display:flex;align-items:center;justify-content:space-between}
+.q-count{font-size:11px;color:var(--faint);letter-spacing:.08em;flex:none}
+.r-note{font-size:12.5px;color:var(--muted);margin:0 2px 12px}
+.ext-note{font-size:11.5px;color:var(--faint);margin-top:8px;text-align:center}

@@ -902,7 +902,7 @@ window.QUIZ_DATA.drill["dualisms"] = {
       no: {}
     },
     {
-      t: "Each person gets a soul, handed out by God.",
+      t: "God hands each person their soul; it comes from Him, not from your brain.",
       why: "Across Judaism, Christianity, and Islam, many hold that God supplies every individual with a soul.",
       yes: { "god-as-the-supplier-of-souls": 3 },
       no: {}
@@ -926,7 +926,7 @@ window.QUIZ_DATA.drill["dualisms"] = {
       no: {}
     },
     {
-      t: "You are a soul carrying a spark of the divine, only briefly wearing a body.",
+      t: "You are a soul plus a separate spark of the divine, only briefly wearing a body.",
       why: "The mystic Lorber taught that each person is a soul plus a divine spirit, incarnated in matter for a short time.",
       yes: { "lorber-s-soul-and-spirit": 3 },
       no: {}
@@ -938,7 +938,7 @@ window.QUIZ_DATA.drill["dualisms"] = {
       no: {}
     },
     {
-      t: "What makes you you, across your whole life, is an immaterial soul.",
+      t: "What makes you the same person at 8 and at 80 is one immaterial soul.",
       why: "Moreland defends the classic view: a substantial soul, wholly immaterial, is the anchor of personal identity.",
       yes: { "moreland-s-christian-soul": 3 },
       no: {}

@@ -11,6 +11,25 @@
   var DRILL = qp && QD.drill && QD.drill[qp] ? QD.drill[qp] : null;
   var QUIZ = DRILL || QD.top;
   var LOC_URL = "https://loc.closertotruth.com/";
+  var retParam = null;
+  try { retParam = new URLSearchParams(location.search).get("ret"); } catch (e) { /* ignore */ }
+  var RET_ID = retParam && QD.cats && QD.cats[retParam] ? retParam : null;
+  var RET_URL = RET_ID ? "index.html#/category/" + RET_ID : null;
+
+  /* ---------- in-progress answers (sessionStorage): survive reloads and Back ---------- */
+  var PROG_KEY = "cm_progress_" + (qp || "main");
+  function saveProgress() {
+    try { if (S) sessionStorage.setItem(PROG_KEY, JSON.stringify(S.answers)); } catch (e) {}
+  }
+  function loadProgress() {
+    try {
+      var a = JSON.parse(sessionStorage.getItem(PROG_KEY));
+      if (Array.isArray(a) && a.length === QUIZ.questions.length &&
+          a.some(function (x) { return !!x; }) && a.some(function (x) { return !x; })) return a;
+    } catch (e) {}
+    return null;
+  }
+  function clearProgress() { try { sessionStorage.removeItem(PROG_KEY); } catch (e) {} }
 
   /* ---------- bookmarked theories (localStorage) ---------- */
   var FAV_KEY = "cm_favorites_v1";
@@ -77,7 +96,7 @@
       '<button class="icon-btn" id="wz-back" data-act="back" aria-label="Back">‹</button>' +
       '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
     "</header>" +
-    '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div></div>' +
+    '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
     '<span aria-hidden="true">·</span>' +
@@ -95,6 +114,8 @@
     }
     dotsEl.innerHTML = dots;
     dotsEl.parentElement.style.display = n ? "" : "none";
+    var c = document.getElementById("wz-count");
+    if (c) c.textContent = (n && idx >= 0 && idx < n) ? (idx + 1) + " of " + n : "";
   }
 
   /* Swap only the window's content: quick fade/slide inside the card. */
@@ -124,10 +145,10 @@
     var nq = QUIZ.questions.length, h, dn, di;
     if (view.name === "start") { h = startView(); dn = 0; di = -1; }
     else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
-    else if (view.name === "results") { h = resultsView(); dn = nq; di = nq; }
+    else if (view.name === "results") { clearProgress(); h = resultsView(); dn = nq; di = nq; }
     else { h = detailView(view.key); dn = 0; di = -1; }
     var backBtn = document.getElementById("wz-back");
-    if (backBtn) backBtn.style.display = view.name === "start" ? "none" : "";
+    if (backBtn) backBtn.style.display = (view.name === "start" && !RET_URL) ? "none" : "";
     setWindow(h, dn, di);
   }
   function backTo() {
@@ -137,12 +158,25 @@
 
   /* ---------- window views ---------- */
   function startView() {
+    var saved = loadProgress(), startBtn, underBtn;
+    var backLink = RET_URL
+      ? '<a class="q-quiet" href="' + RET_URL + '">‹ Back to ' + QD.cats[RET_ID].name + "</a>"
+      : '<a class="q-quiet" href="index.html">' + QUIZ.browse + "</a>";
+    if (saved) {
+      var i = 0;
+      while (i < saved.length && saved[i]) i++;
+      startBtn = '<button class="big-start" data-act="resume">Resume — question ' + (i + 1) + " of " + saved.length + "</button>";
+      underBtn = '<div><button class="q-quiet" data-act="start" style="background:none;border:none;cursor:pointer;width:100%">Start over instead</button></div>';
+    } else {
+      startBtn = '<button class="big-start" data-act="start">Start</button>';
+      underBtn = "";
+    }
     return '<div class="q-start">' +
       '<div class="eyebrow">' + QUIZ.kicker + "</div>" +
       "<h1>" + QUIZ.title + "</h1>" +
       '<p class="lede">' + QUIZ.intro + "</p>" +
-      '<button class="big-start" data-act="start">Start</button>' +
-      '<div><a class="q-quiet" href="index.html">' + QUIZ.browse + "</a></div></div>";
+      startBtn + underBtn +
+      "<div>" + backLink + "</div></div>";
   }
 
   function questionView(idx) {
@@ -164,6 +198,11 @@
   function resultsView() {
     var sc = scores(), ts = targets().slice();
     ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
+    var nAnswered = 0;
+    if (S) S.answers.forEach(function (a) { if (a === "yes" || a === "no") nAnswered++; });
+    var skipNote = nAnswered === 0
+      ? '<div class="r-note">You didn\u2019t answer Yes or No to anything \u2014 there\u2019s nothing to align yet.</div>'
+      : "";
     // flat status dots: green = aligned, yellow = mixed, red = not aligned
     var DOT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>';
     var rows = ts.map(function (t, i) {
@@ -179,7 +218,8 @@
     }).join("");
     return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
       "<h1>Closest first.</h1>" +
-      '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div></div>' + rows +
+      '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div>' +
+      skipNote + "</div>" + rows +
       '<div class="d-quiet">' +
       '<button class="d-link" data-act="restart">↺ Retake quiz</button>' +
       '<a class="d-link" href="index.html">Browse the map</a></div>';
@@ -222,7 +262,8 @@
     var extBtns = "";
     if (t.url) {
       extBtns += '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
-        '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>';
+        '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
+        '<div class="ext-note">The full theory entry, on the Closer to Truth site.</div>';
     }
     if (t.mapUrl) {
       extBtns += '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
@@ -249,6 +290,7 @@
     }
     locked = true;
     S.answers[idx] = ans;
+    saveProgress();
     var btn = winBody.querySelector('[data-ans="' + ans + '"]');
     if (btn) btn.classList.add(ans === "yes" ? "picked-yes" : ans === "no" ? "picked-no" : "picked-skip");
     var n = QUIZ.questions.length;
@@ -259,9 +301,18 @@
   }
 
   function actGo(act) {
-    if (act === "start") { S = freshSession(); go({ name: "q", idx: 0 }); }
-    else if (act === "restart") { S = null; go({ name: "start" }); }
-    else if (act === "back") { backTo(); }
+    if (act === "start") { clearProgress(); S = freshSession(); go({ name: "q", idx: 0 }); }
+    else if (act === "resume") {
+      var saved = loadProgress(), i = 0;
+      if (saved) { S = { answers: saved }; while (i < saved.length && saved[i]) i++; }
+      else S = freshSession();
+      go({ name: "q", idx: i });
+    }
+    else if (act === "restart") { clearProgress(); S = null; go({ name: "start" }); }
+    else if (act === "back") {
+      if (cur.name === "start" && RET_URL) { location.href = RET_URL; return; }
+      backTo();
+    }
   }
 
   // header buttons persist across the whole quiz

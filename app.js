@@ -88,7 +88,7 @@
     if (drill) {
       var intro = drill.intro.charAt(0).toLowerCase() + drill.intro.slice(1);
       quizBtns =
-        '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html?quiz=' + id + '">' +
+        '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html?quiz=' + id + "&ret=" + id + '">' +
         "<span>◉ <strong>Take the quiz</strong> — " + intro + "</span>" +
         '<span class="arr">›</span></a>' +
         '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html">' +
