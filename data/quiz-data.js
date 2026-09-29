@@ -89,3 +89,49 @@
     },
   };
 })();
+
+/* Drill-down quizzes: one per category, narrowing only within it.
+   Same answer rules as the top level. "no" scores only where the
+   negation directly affirms another sub-area. */
+window.QUIZ_DATA.drill = {
+  "panpsychisms": {
+    name: "Panpsychisms",
+    color: "#CF56CA",
+    kicker: "A QUIZ · PANPSYCHISMS",
+    title: "Which kind fits you?",
+    intro: "Four questions, all inside panpsychism.",
+    browse: "or browse the map instead",
+    areas: [
+      { key: "micropsychism", name: "Micropsychism" },
+      { key: "cosmopsychism", name: "Cosmopsychism" },
+      { key: "panexperientialism", name: "Panexperientialism" },
+      { key: "panprotopsychism", name: "Panprotopsychism" }
+    ],
+    questions: [
+      {
+        t: "A single particle has its own tiny spark of experience.",
+        why: "Micropsychism takes experience all the way down: an electron never thinks, yet there is still something it is like to be one, however faint.",
+        yes: { micropsychism: 3 },
+        no: { cosmopsychism: 1 }
+      },
+      {
+        t: "The universe itself is one big mind, and our minds are pieces of it.",
+        why: "Cosmopsychism starts at the top instead of the bottom. The whole cosmos is conscious, and smaller minds split off from it.",
+        yes: { cosmopsychism: 3 },
+        no: { micropsychism: 1 }
+      },
+      {
+        t: "Reality is made of tiny flashes of experience, moment to moment.",
+        why: "Panexperientialism says little drops of feeling, one after another, are what everything is made of.",
+        yes: { panexperientialism: 3 },
+        no: {}
+      },
+      {
+        t: "Matter itself feels nothing. It just carries the raw ingredients that become feeling inside a brain.",
+        why: "Panprotopsychism gives particles something less than consciousness: raw proto-conscious properties that brains combine into full experience.",
+        yes: { panprotopsychism: 3 },
+        no: { micropsychism: 1, cosmopsychism: 1 }
+      }
+    ]
+  }
+};

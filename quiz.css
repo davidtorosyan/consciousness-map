@@ -91,6 +91,7 @@
 .d-head .tag{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:34ch}
 .d-actions{margin-top:24px;display:flex;flex-direction:column;gap:10px}
 .d-quiet{display:flex;justify-content:space-between;margin-top:22px}
+.drill-btn{width:100%;margin:2px 0 18px;cursor:pointer;font-family:inherit}
 .d-link{font-size:14px;color:var(--faint);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px;padding:10px 4px}
 
 @media (prefers-reduced-motion:reduce){

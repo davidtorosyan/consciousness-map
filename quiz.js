@@ -6,17 +6,23 @@
   "use strict";
   var QD = window.QUIZ_DATA;
   var app = document.getElementById("app");
-  var QUIZ = QD.top;
+  var qp = null;
+  try { qp = new URLSearchParams(location.search).get("quiz"); } catch (e) { /* ignore */ }
+  var DRILL = qp && QD.drill && QD.drill[qp] ? QD.drill[qp] : null;
+  var QUIZ = DRILL || QD.top;
   var LOC_URL = "https://loc.closertotruth.com/";
 
-  /* targets: the 11 canonical categories */
+  /* targets: the 11 canonical categories, or a drill quiz's sub-areas */
   function targets() {
-    return QD.order.map(function (id) {
+    if (!DRILL) return QD.order.map(function (id) {
       var c = QD.cats[id];
       return {
         key: id, name: c.name, color: c.color, tagline: c.tagline,
         url: c.url, mapUrl: "index.html#/category/" + id,
       };
+    });
+    return DRILL.areas.map(function (a) {
+      return { key: a.key, name: a.name, color: DRILL.color, tagline: "", url: "", mapUrl: "" };
     });
   }
 
@@ -171,15 +177,21 @@
     var t = null;
     targets().forEach(function (x) { if (x.key === key) t = x; });
     if (!t) return resultsView();
-    return '<div class="d-head"><div class="eyebrow">CATEGORY</div>' +
-      "<h1>" + t.name + "</h1>" +
-      '<p class="tag">' + t.tagline + "</p></div>" +
+    var tag = t.tagline ? '<p class="tag">' + t.tagline + "</p>" : "";
+    var drillBtn = (!DRILL && QD.drill && QD.drill[key])
+      ? '<button class="nav-btn primary drill-btn" data-drill="' + key + '">Next quiz →</button>' : "";
+    var extBtns = t.url
+      ? '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
+        '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
+        '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
+        "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a>'
+      : "";
+    var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
+    return '<div class="d-head"><div class="eyebrow">' + (DRILL ? "VIEW" : "CATEGORY") + "</div>" +
+      "<h1>" + t.name + "</h1>" + tag + "</div>" +
+      drillBtn +
       answerRows(key) +
-      '<div class="d-actions">' +
-      '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
-      '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
-      '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
-      "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a></div>' +
+      actions +
       '<div class="d-quiet">' +
       '<button class="d-link" data-act="back">‹ Back to results</button>' +
       '<button class="d-link" data-act="restart">↺ Retake quiz</button></div>';
@@ -224,6 +236,9 @@
     });
     winBody.querySelectorAll("[data-target]").forEach(function (el) {
       el.addEventListener("click", function () { go({ name: "detail", key: el.dataset.target }); });
+    });
+    winBody.querySelectorAll("[data-drill]").forEach(function (el) {
+      el.addEventListener("click", function () { location.href = "quiz.html?quiz=" + el.dataset.drill; });
     });
   }
 
