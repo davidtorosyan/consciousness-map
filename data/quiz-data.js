@@ -1751,7 +1751,7 @@ window.QUIZ_DATA.drill["materialism"] = {
     },
     {
       t: "Consciousness is the brain's electromagnetic field, not just its neurons.",
-      why: "This school says the field neurons generate is where experience happens. Neurons make it, but the field is the mind.",
+      why: "This school says the field that neurons generate is where experience happens. Neurons make it, but the field is the mind.",
       yes: { "materialism-electromagnetic-field": 3 },
       no: {}
     },

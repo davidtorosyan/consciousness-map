@@ -74,7 +74,7 @@
       '<div class="wz-brand"><span class="wz-mark">◉</span>' +
       '<span class="wz-name">Landscape of Consciousness Quiz</span></div>' +
       '<div class="wz-nav">' +
-      '<button class="icon-btn" data-act="back" aria-label="Back">‹</button>' +
+      '<button class="icon-btn" id="wz-back" data-act="back" aria-label="Back">‹</button>' +
       '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
     "</header>" +
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div></div>' +
@@ -126,6 +126,8 @@
     else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
     else if (view.name === "results") { h = resultsView(); dn = nq; di = nq; }
     else { h = detailView(view.key); dn = 0; di = -1; }
+    var backBtn = document.getElementById("wz-back");
+    if (backBtn) backBtn.style.display = view.name === "start" ? "none" : "";
     setWindow(h, dn, di);
   }
   function backTo() {
@@ -176,9 +178,10 @@
         '<span class="chev">›</span></button>';
     }).join("");
     return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
-      "<h1>Closest first.</h1></div>" + rows +
+      "<h1>Closest first.</h1>" +
+      '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div></div>' + rows +
       '<div class="d-quiet">' +
-      '<button class="d-link" data-act="restart">↺ Retake</button>' +
+      '<button class="d-link" data-act="restart">↺ Retake quiz</button>' +
       '<a class="d-link" href="index.html">Browse the map</a></div>';
   }
 
@@ -226,7 +229,7 @@
         "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a>';
     }
     var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
-    return '<div class="d-head"><div class="eyebrow">' + (DRILL ? "VIEW" : "CATEGORY") + "</div>" +
+    return '<div class="d-head"><div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
       '<div class="d-title-row"><h1>' + t.name + "</h1>" + bmBtn + "</div>" + tag + "</div>" +
       drillBtn +
       answerRows(key) +
