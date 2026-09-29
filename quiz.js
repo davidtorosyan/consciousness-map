@@ -210,7 +210,7 @@
     if (DRILL && t.url) {
       var fid = DRILL.categoryId + ":" + t.key, on = isFav(fid);
       bm = '<button class="bm-btn sm' + (on ? " on" : "") + '" data-bm="' + fid +
-        '" aria-label="Bookmark ' + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
+        '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
     return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + t.color + ";--tint:" + t.color + '">' +
       '<button class="r-open" data-target="' + t.key + '" aria-label="View ' + t.name + '">' +
@@ -293,7 +293,7 @@
       var fid = DRILL.categoryId + ":" + t.key;
       var on = isFav(fid);
       bmBtn = '<button class="bm-btn' + (on ? " on" : "") + '" data-bm="' + fid +
-        '" aria-label="Bookmark this theory" aria-pressed="' + on + '">' + BM_SVG + "</button>";
+        '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
     var extBtns = "";
     if (t.url) {
@@ -378,10 +378,14 @@
       el.addEventListener("click", function () { go({ name: "detail", key: el.dataset.target }); });
     });
     winBody.querySelectorAll("[data-drill]").forEach(function (el) {
-      el.addEventListener("click", function () { location.href = "quiz.html?quiz=" + el.dataset.drill; });
+      el.addEventListener("click", function () {
+        location.href = "quiz.html?quiz=" + el.dataset.drill + (RET_ID ? "&ret=" + RET_ID : "");
+      });
     });
     winBody.querySelectorAll("[data-browse]").forEach(function (el) {
-      el.addEventListener("click", function () { location.href = "quiz.html?quiz=" + el.dataset.browse + "&mode=browse"; });
+      el.addEventListener("click", function () {
+        location.href = "quiz.html?quiz=" + el.dataset.browse + "&mode=browse" + (RET_ID ? "&ret=" + RET_ID : "");
+      });
     });
     winBody.querySelectorAll("[data-bm]").forEach(function (el) {
       el.addEventListener("click", function () {
