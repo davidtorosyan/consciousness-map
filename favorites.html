@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bookmarked theories</title>
+<meta name="description" content="Theories of consciousness you've bookmarked from the quizzes.">
+<meta name="theme-color" content="#04060a">
+<link rel="stylesheet" href="styles.css?v=20260929-160512">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="dots"></div></div>
+<main id="app" class="wrap"></main>
+<script src="data/categories.js?v=20260929-160512"></script>
+<script>
+/* Bookmarked theories — reads the same localStorage favorites the quizzes write. */
+(function () {
+  "use strict";
+  var FAV_KEY = "cm_favorites_v1";
+  var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function getFavs() {
+    try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
+    catch (e) { return []; }
+  }
+  function removeFav(id) {
+    try {
+      var f = getFavs().filter(function (x) { return x.id !== id; });
+      localStorage.setItem(FAV_KEY, JSON.stringify(f));
+    } catch (e) {}
+  }
+  function catById(id) {
+    var cs = window.LOC_CATEGORIES || [];
+    for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
+    return null;
+  }
+  function cardHtml(f, i) {
+    var c = catById(f.catId);
+    var dot = c ? '<span class="loc-dot sm" style="background:' + c.color + '" aria-hidden="true"></span>' : "";
+    var meta = c ? '<div class="fav-meta">' + dot + "<span>" + esc(c.name) + "</span></div>" : "";
+    var loc = f.url
+      ? '<a class="fav-link" href="' + esc(f.url) + '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>'
+      : "";
+    var map = c
+      ? '<a class="fav-link" style="margin-left:14px" href="index.html#/category/' + esc(f.catId) + '">See on the map ›</a>'
+      : "";
+    return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' +
+      '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + BM_SVG + "</button>" +
+      '<div class="grow"><div class="fav-name">' + esc(f.name) + "</div>" +
+      (f.tagline ? '<div class="fav-tag">' + esc(f.tagline) + "</div>" : "") +
+      meta + "<div>" + loc + map + "</div></div></div>";
+  }
+  function render() {
+    var favs = getFavs();
+    var h = '<div class="topbar rise" style="--i:0">' +
+      '<a class="icon-btn" style="text-decoration:none" href="index.html" aria-label="Back">‹</a><span></span></div>' +
+      '<header class="hero rise" style="--i:1"><div class="kicker">SAVED</div><h1>Bookmarked theories</h1>';
+    if (favs.length) {
+      h += '<p class="desc">' + favs.length + (favs.length === 1 ? " theory" : " theories") + " saved.</p></header>";
+      h += favs.map(cardHtml).join("");
+    } else {
+      h += '<p class="desc">Nothing saved yet. Tap the bookmark on any theory in a quiz and it will land here.</p></header>' +
+        '<div class="landing-tools"><a class="tool-btn rise" style="--i:2;text-decoration:none" href="quiz.html">' +
+        '<span>◉ <strong>Take the quiz</strong> — find theories worth saving</span><span class="arr">›</span></a></div>';
+    }
+    document.getElementById("app").innerHTML = h;
+    document.querySelectorAll("[data-unbm]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        removeFav(el.getAttribute("data-unbm"));
+        render();
+      });
+    });
+  }
+  render();
+})();
+</script>
+</body>
+</html>

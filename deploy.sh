@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 MSG="${1:-Site update}"
 V="$(date +%Y%m%d-%H%M%S)"
 
-for f in index.html quiz.html; do
+for f in index.html quiz.html favorites.html; do
   # strip any previous stamp
   sed -i -E 's/\?v=[0-9]{8}-[0-9]{6}//g' "$f"
   # stamp local (non-absolute) .js/.css asset URLs

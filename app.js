@@ -14,6 +14,18 @@
     else document.body.style.removeProperty("--acc");
   }
 
+  /* ---------- bookmarked theories (localStorage) ---------- */
+  var FAV_KEY = "cm_favorites_v1";
+  var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  function getFavs() {
+    try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
+    catch (e) { return []; }
+  }
+  function refreshFavCounts() {
+    var n = getFavs().length, label = n ? " (" + n + ")" : "";
+    document.querySelectorAll("[data-favcount]").forEach(function (el) { el.textContent = label; });
+  }
+
   /* ---------- shared chrome ---------- */
   function topbar(showBack) {
     return '<div class="topbar rise" style="--i:0">' +
@@ -49,7 +61,7 @@
   }
 
   function landingView() {
-    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 3); }).join("");
+    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 4); }).join("");
     return '<div class="landing-head rise" style="--i:0">' +
       '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
       "<h1>Find your view</h1>" +
@@ -57,23 +69,35 @@
       "Pick the one that sounds closest.</p></div>" +
       '<div class="landing-tools">' +
       '<a class="tool-btn rise" style="--i:1;text-decoration:none" href="quiz.html">' +
-      '<span>◉ <strong>Take the quiz</strong> — 11 quick questions</span><span class="arr">›</span></a></div>' +
-      '<div class="section-label rise" style="--i:2">THE ELEVEN CATEGORIES</div>' +
+      '<span>◉ <strong>Take the quiz</strong> — 11 quick questions</span><span class="arr">›</span></a>' +
+      '<a class="tool-btn rise" style="--i:2;text-decoration:none" href="favorites.html">' +
+      "<span>" + BM_SVG + ' <strong>Bookmarked theories</strong><span data-favcount></span></span><span class="arr">›</span></a></div>' +
+      '<div class="section-label rise" style="--i:3">THE ELEVEN CATEGORIES</div>' +
       rows +
-      '<div class="foot rise" style="--i:15">Names and colors follow the official ' +
+      '<div class="foot rise" style="--i:16">Names and colors follow the official ' +
       '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></div>';
   }
 
   function categoryView(id) {
     var c = catById(id);
     if (!c) return landingView();
-    // categories with a drill quiz get a direct entry point, no top-level quiz needed
+    // On a category page, "Take the quiz" means that category's own quiz;
+    // the top-level one is labeled the main quiz so the two can't be confused.
     var drill = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[id];
-    var drillBtn = "";
+    var quizBtns;
     if (drill) {
       var intro = drill.intro.charAt(0).toLowerCase() + drill.intro.slice(1);
-      drillBtn = '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html?quiz=' + id + '">' +
-        "<span>◉ <strong>Next quiz</strong> — " + intro + "</span>" +
+      quizBtns =
+        '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html?quiz=' + id + '">' +
+        "<span>◉ <strong>Take the quiz</strong> — " + intro + "</span>" +
+        '<span class="arr">›</span></a>' +
+        '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html">' +
+        "<span>◉ <strong>Take the main quiz</strong> — see where you land</span>" +
+        '<span class="arr">›</span></a>';
+    } else {
+      quizBtns =
+        '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html">' +
+        "<span>◉ <strong>Take the quiz</strong> — see where you land</span>" +
         '<span class="arr">›</span></a>';
     }
     return topbar(true) +
@@ -86,10 +110,7 @@
       '" target="_blank" rel="noopener">' +
       "<span><strong>Explore on Landscape of Consciousness</strong> ↗</span>" +
       '<span class="arr">›</span></a>' +
-      '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html">' +
-      "<span>◉ <strong>Take the quiz</strong> — see where you land</span>" +
-      '<span class="arr">›</span></a>' +
-      drillBtn + "</div>" +
+      quizBtns + "</div>" +
       bottomNav();
   }
 
@@ -107,6 +128,7 @@
     setAccent(view.view === "category" ? catById(view.id).color : null);
     app.innerHTML = view.view === "category" ? categoryView(view.id) : landingView();
     bind();
+    refreshFavCounts();
   }
   function navigate(view, back) {
     document.documentElement.classList.toggle("nav-back", !!back);

@@ -12,6 +12,27 @@
   var QUIZ = DRILL || QD.top;
   var LOC_URL = "https://loc.closertotruth.com/";
 
+  /* ---------- bookmarked theories (localStorage) ---------- */
+  var FAV_KEY = "cm_favorites_v1";
+  var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  function getFavs() {
+    try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
+    catch (e) { return []; }
+  }
+  function setFavs(f) { try { localStorage.setItem(FAV_KEY, JSON.stringify(f)); } catch (e) {} }
+  function isFav(id) { return getFavs().some(function (f) { return f.id === id; }); }
+  function toggleFav(entry) {
+    var f = getFavs(), idx = -1;
+    for (var i = 0; i < f.length; i++) if (f[i].id === entry.id) { idx = i; break; }
+    if (idx >= 0) f.splice(idx, 1); else f.push(entry);
+    setFavs(f);
+    return idx < 0; // true when the theory is now bookmarked
+  }
+  function refreshFavCounts() {
+    var n = getFavs().length, label = n ? " (" + n + ")" : "";
+    document.querySelectorAll("[data-favcount]").forEach(function (el) { el.textContent = label; });
+  }
+
   /* targets: the 11 canonical categories, or a drill quiz's sub-areas */
   function targets() {
     if (!DRILL) return QD.order.map(function (id) {
@@ -24,7 +45,8 @@
     return DRILL.areas.map(function (a) {
       return {
         key: a.key, name: a.name, color: DRILL.color, tagline: a.tagline || "",
-        url: a.url || "", mapUrl: "index.html#/category/" + DRILL.categoryId,
+        url: a.url || "", sub: a.sub || "",
+        mapUrl: "index.html#/category/" + DRILL.categoryId,
       };
     });
   }
@@ -58,6 +80,8 @@
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
+    '<span aria-hidden="true">·</span>' +
+    '<a href="favorites.html">Bookmarked<span data-favcount></span></a>' +
     '<span aria-hidden="true">·</span>' +
     '<a href="' + LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
 
@@ -181,8 +205,17 @@
     targets().forEach(function (x) { if (x.key === key) t = x; });
     if (!t) return resultsView();
     var tag = t.tagline ? '<p class="tag">' + t.tagline + "</p>" : "";
-    var drillBtn = (!DRILL && QD.drill && QD.drill[key])
-      ? '<button class="nav-btn primary drill-btn" data-drill="' + key + '">Next quiz →</button>' : "";
+    var subKey = DRILL ? t.sub : key;
+    var drillBtn = (subKey && QD.drill && QD.drill[subKey])
+      ? '<button class="nav-btn primary drill-btn" data-drill="' + subKey + '">Take the quiz →</button>' : "";
+    // bookmark toggle lives on theory (drill) detail screens — only for real theories (with a LOC url), not subcategory entries
+    var bmBtn = "";
+    if (DRILL && t.url) {
+      var fid = DRILL.categoryId + ":" + t.key;
+      var on = isFav(fid);
+      bmBtn = '<button class="bm-btn' + (on ? " on" : "") + '" data-bm="' + fid +
+        '" aria-label="Bookmark this theory" aria-pressed="' + on + '">' + BM_SVG + "</button>";
+    }
     var extBtns = "";
     if (t.url) {
       extBtns += '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
@@ -194,7 +227,7 @@
     }
     var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
     return '<div class="d-head"><div class="eyebrow">' + (DRILL ? "VIEW" : "CATEGORY") + "</div>" +
-      "<h1>" + t.name + "</h1>" + tag + "</div>" +
+      '<div class="d-title-row"><h1>' + t.name + "</h1>" + bmBtn + "</div>" + tag + "</div>" +
       drillBtn +
       answerRows(key) +
       actions +
@@ -246,7 +279,19 @@
     winBody.querySelectorAll("[data-drill]").forEach(function (el) {
       el.addEventListener("click", function () { location.href = "quiz.html?quiz=" + el.dataset.drill; });
     });
+    winBody.querySelectorAll("[data-bm]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var fid = el.getAttribute("data-bm"), t = null;
+        targets().forEach(function (x) { if (DRILL.categoryId + ":" + x.key === fid) t = x; });
+        if (!t) return;
+        var nowOn = toggleFav({ id: fid, name: t.name, tagline: t.tagline, url: t.url, catId: DRILL.categoryId });
+        el.classList.toggle("on", nowOn);
+        el.setAttribute("aria-pressed", nowOn ? "true" : "false");
+        refreshFavCounts();
+      });
+    });
   }
 
+  refreshFavCounts();
   go({ name: "start" });
 })();
