@@ -97,8 +97,8 @@
   /* ---------- persistent chrome: brand, dots, window, footer ---------- */
   app.innerHTML =
     '<header class="wz-top">' +
-      '<div class="wz-brand"><span class="wz-mark">◉</span>' +
-      '<span class="wz-name">Landscape of Consciousness Quiz</span></div>' +
+      '<a class="wz-brand" href="index.html" aria-label="Consciousness Map home"><span class="wz-mark">◉</span>' +
+      '<span class="wz-name">Landscape of Consciousness Quiz</span></a>' +
       '<div class="wz-nav">' +
       '<button class="icon-btn" id="wz-back" data-act="back" aria-label="Back">‹</button>' +
       '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
@@ -203,7 +203,8 @@
       whyBtn + "</div>" + whyHtml;
   }
 
-  /* one listing row: rank, color dot, name, tier/chevron, plus a bookmark toggle for real theories */
+  /* one listing row: rank, name, tier dot + bookmark tight on the right;
+     the row itself is lightly tinted with the theory's color (no separate color dot) */
   function rowHtml(t, i, tier) {
     var bm = "";
     if (DRILL && t.url) {
@@ -211,14 +212,13 @@
       bm = '<button class="bm-btn sm' + (on ? " on" : "") + '" data-bm="' + fid +
         '" aria-label="Bookmark ' + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
-    return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + t.color + '">' +
+    return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + t.color + ";--tint:" + t.color + '">' +
       '<button class="r-open" data-target="' + t.key + '" aria-label="View ' + t.name + '">' +
       '<span class="rank">' + (i + 1) + "</span>" +
-      '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
       '<span class="nm">' + t.name + "</span>" +
       (tier ? '<span class="tier ' + tier + '" aria-label="' +
         (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + TIER_DOT + "</span>" : "") +
-      '<span class="chev">›</span></button>' + bm + "</div>";
+      "</button>" + bm + "</div>";
   }
 
   function browseView() {
@@ -307,7 +307,7 @@
     }
     var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
     return '<div class="d-head" style="--bm:' + t.color + '"><div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
-      '<div class="d-title-row">' + bmBtn + "<h1>" + t.name + "</h1></div>" + tag + "</div>" +
+      bmBtn + "<h1>" + t.name + "</h1>" + tag + "</div>" +
       drillBtn + browseBtn +
       answerRows(key) +
       actions +
@@ -349,7 +349,12 @@
       else S = freshSession();
       go({ name: "q", idx: i });
     }
-    else if (act === "restart") { clearProgress(); S = null; go({ name: "start" }); }
+    else if (act === "restart") {
+      // always back to the start of the current mode — never a mode switch
+      clearProgress(); S = null;
+      if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
+      else go({ name: "start" });
+    }
     else if (act === "back") {
       if (cur.name === "browse") { location.href = RET_URL || "index.html"; return; }
       if (cur.name === "start" && RET_URL) { location.href = RET_URL; return; }
