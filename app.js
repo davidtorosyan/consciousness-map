@@ -81,41 +81,25 @@
   function categoryView(id) {
     var c = catById(id);
     if (!c) return landingView();
-    // On a category page, "Take the quiz" means that category's own quiz;
-    // the top-level one is labeled the main quiz so the two can't be confused.
+    // On a category page, "Quiz" means that category's own quiz;
+    // the top-level one is labeled "Main quiz" so the two can't be confused.
     var drill = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[id];
-    var quizBtns;
+    var pills;
     if (drill) {
-      var intro = drill.intro.charAt(0).toLowerCase() + drill.intro.slice(1);
-      var hasSub = drill.areas.some(function (a) { return !!a.sub; });
-      var browseLabel = hasSub ? "Browse the schools" : "Browse the theories";
-      quizBtns =
-        '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html?quiz=' + id + "&ret=" + id + '">' +
-        "<span>◉ <strong>Take the quiz</strong> — " + intro + "</span>" +
-        '<span class="arr">›</span></a>' +
-        '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '">' +
-        "<span><strong>" + browseLabel + "</strong> — no questions, just the list</span>" +
-        '<span class="arr">›</span></a>' +
-        '<a class="tool-btn rise" style="--i:6;text-decoration:none" href="quiz.html">' +
-        "<span>◉ <strong>Take the main quiz</strong> — see where you land</span>" +
-        '<span class="arr">›</span></a>';
+      pills =
+        '<a class="pill" href="quiz.html?quiz=' + id + "&ret=" + id + '">Quiz</a>' +
+        '<a class="pill" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '">Browse</a>' +
+        '<a class="pill" href="quiz.html">Main quiz</a>' +
+        '<a class="pill" href="' + c.url + '" target="_blank" rel="noopener">Source ↗</a>';
     } else {
-      quizBtns =
-        '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html">' +
-        "<span>◉ <strong>Take the quiz</strong> — see where you land</span>" +
-        '<span class="arr">›</span></a>';
+      pills = '<a class="pill" href="quiz.html">Quiz</a>';
     }
     return topbar(true) +
       trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
       "<h1>" + c.name + "</h1>" +
       '<p class="desc">' + c.tagline + "</p></header>" +
-      '<div class="landing-tools">' +
-      '<a class="tool-btn rise" style="--i:3;text-decoration:none" href="' + c.url +
-      '" target="_blank" rel="noopener">' +
-      "<span><strong>Explore on Landscape of Consciousness</strong> ↗</span>" +
-      '<span class="arr">›</span></a>' +
-      quizBtns + "</div>" +
+      '<div class="d-actions rise" style="--i:3">' + pills + "</div>" +
       bottomNav();
   }
 

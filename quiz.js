@@ -231,7 +231,7 @@
       "<h1>" + name + "</h1>" +
       '<p class="lede">' + ts.length + " " + kind + " — tap one to open it.</p></div>" + rows +
       '<div class="d-quiet">' +
-      '<a class="d-link" href="' + quizHref + '">Take the quiz instead →</a>' +
+      '<a class="d-link" href="' + quizHref + '">Quiz</a>' +
       '<a class="d-link" href="index.html">Browse the map</a></div>';
   }
 
@@ -283,10 +283,6 @@
     if (!t) return resultsView();
     var tag = t.tagline ? '<p class="tag">' + t.tagline + "</p>" : "";
     var subKey = DRILL ? t.sub : key;
-    var drillBtn = (subKey && QD.drill && QD.drill[subKey])
-      ? '<button class="nav-btn primary drill-btn" data-drill="' + subKey + '">Take the quiz →</button>' : "";
-    var browseBtn = (subKey && QD.drill && QD.drill[subKey])
-      ? '<button class="nav-btn drill-btn" data-browse="' + subKey + '">Browse the theories ›</button>' : "";
     // bookmark toggle lives on theory (drill) detail screens — only for real theories (with a LOC url), not subcategory entries
     var bmBtn = "";
     if (DRILL && t.url) {
@@ -295,22 +291,23 @@
       bmBtn = '<button class="bm-btn' + (on ? " on" : "") + '" data-bm="' + fid +
         '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
-    var extBtns = "";
+    // action pills: single words, no subtitles
+    var pills = "";
+    if (subKey && QD.drill && QD.drill[subKey]) {
+      pills += '<button class="pill" data-browse="' + subKey + '">Browse</button>' +
+               '<button class="pill" data-drill="' + subKey + '">Quiz</button>';
+    }
     if (t.url) {
-      extBtns += '<a class="nav-btn primary" style="text-decoration:none;text-align:center" href="' + t.url +
-        '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>' +
-        '<div class="ext-note">The full theory entry, on the Closer to Truth site.</div>';
+      pills += '<a class="pill" href="' + t.url + '" target="_blank" rel="noopener">Source ↗</a>';
     }
     if (t.mapUrl) {
-      extBtns += '<a class="tool-btn" style="text-decoration:none" href="' + t.mapUrl + '">' +
-        "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a>';
+      pills += '<a class="pill" href="' + t.mapUrl + '">Map</a>';
     }
-    var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
+    var actions = pills ? '<div class="d-actions">' + pills + "</div>" : "";
     return '<div class="d-head" style="--bm:' + t.color + '"><div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
       bmBtn + "<h1>" + t.name + "</h1>" + tag + "</div>" +
-      drillBtn + browseBtn +
-      answerRows(key) +
       actions +
+      answerRows(key) +
       '<div class="d-quiet">' +
       '<button class="d-link" data-act="back">' + (BROWSE ? "‹ Back to list" : "‹ Back to results") + "</button>" +
       (BROWSE ? "" : '<button class="d-link" data-act="restart">↺ Retake quiz</button>') + "</div>";
