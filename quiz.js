@@ -109,7 +109,7 @@
   /* ---------- window views ---------- */
   function startView() {
     return '<div class="q-start">' +
-      '<div class="eyebrow">A QUIZ · ' + QUIZ.kicker + "</div>" +
+      '<div class="eyebrow">' + QUIZ.kicker + "</div>" +
       "<h1>" + QUIZ.title + "</h1>" +
       '<p class="lede">' + QUIZ.intro + "</p>" +
       '<button class="big-start" data-act="start">Start</button>' +
