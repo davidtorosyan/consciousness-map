@@ -30,7 +30,7 @@
 .q-kicker{font-size:11px;letter-spacing:.22em;color:var(--acc);font-weight:700;margin-bottom:14px}
 .q-text{font-family:var(--serif);font-size:27px;line-height:1.32;letter-spacing:-.01em;margin-bottom:8px}
 .q-why{overflow:hidden;max-height:0;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease}
-.q-why.open{max-height:220px;opacity:1;margin-top:14px}
+.q-why.open{opacity:1;margin-top:14px}
 .q-why .why-card{border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);border-radius:14px;
   padding:13px 15px;font-size:14.5px;line-height:1.6;color:var(--muted);
   background:color-mix(in srgb,var(--acc) 7%,transparent)}
@@ -69,11 +69,18 @@
 .r-head{padding:18px 4px 6px}
 .r-head h1{font-size:30px;margin-bottom:4px}
 .r-row{
-  width:100%;text-align:left;display:flex;align-items:center;gap:14px;
-  border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:9px;
-  background:rgba(255,255,255,.022);transition:transform .15s ease,border-color .15s ease;
+  width:100%;display:flex;align-items:center;gap:2px;
+  border:1px solid var(--line);border-radius:16px;padding:4px 4px 4px 6px;margin-bottom:9px;
+  background:rgba(255,255,255,.022);transition:border-color .15s ease;
 }
-.r-row:active{transform:scale(.97);border-color:var(--acc)}
+.r-open{
+  flex:1;min-width:0;display:flex;align-items:center;gap:14px;text-align:left;
+  background:none;border:none;color:inherit;font:inherit;cursor:pointer;
+  padding:11px 10px;transition:transform .15s ease;
+}
+.r-open:active{transform:scale(.97)}
+.r-row .bm-btn{flex:none;align-self:center;margin:0}
+.bm-btn.sm .bm-ic{width:20px;height:20px}
 .r-row .rank{flex:none;width:26px;font-size:13px;font-weight:700;color:var(--faint)}
 .r-row .nm{flex:1;min-width:0;font-family:var(--serif);font-size:18px}
 .r-row .tier{flex:none;min-width:40px;display:inline-flex;align-items:center;justify-content:flex-end}

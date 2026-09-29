@@ -87,11 +87,16 @@
     var quizBtns;
     if (drill) {
       var intro = drill.intro.charAt(0).toLowerCase() + drill.intro.slice(1);
+      var hasSub = drill.areas.some(function (a) { return !!a.sub; });
+      var browseLabel = hasSub ? "Browse the schools" : "Browse the theories";
       quizBtns =
         '<a class="tool-btn rise" style="--i:4;text-decoration:none" href="quiz.html?quiz=' + id + "&ret=" + id + '">' +
         "<span>◉ <strong>Take the quiz</strong> — " + intro + "</span>" +
         '<span class="arr">›</span></a>' +
-        '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html">' +
+        '<a class="tool-btn rise" style="--i:5;text-decoration:none" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '">' +
+        "<span><strong>" + browseLabel + "</strong> — no questions, just the list</span>" +
+        '<span class="arr">›</span></a>' +
+        '<a class="tool-btn rise" style="--i:6;text-decoration:none" href="quiz.html">' +
         "<span>◉ <strong>Take the main quiz</strong> — see where you land</span>" +
         '<span class="arr">›</span></a>';
     } else {

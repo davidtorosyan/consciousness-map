@@ -15,6 +15,12 @@
   try { retParam = new URLSearchParams(location.search).get("ret"); } catch (e) { /* ignore */ }
   var RET_ID = retParam && QD.cats && QD.cats[retParam] ? retParam : null;
   var RET_URL = RET_ID ? "index.html#/category/" + RET_ID : null;
+  var BROWSE = false;
+  try { BROWSE = new URLSearchParams(location.search).get("mode") === "browse"; } catch (e) { /* ignore */ }
+  // the quiz wears its section's color (default blue only for the top-level quiz)
+  if (DRILL && DRILL.color) {
+    try { document.documentElement.style.setProperty("--acc", DRILL.color); } catch (e) { /* ignore */ }
+  }
 
   /* ---------- in-progress answers (sessionStorage): survive reloads and Back ---------- */
   var PROG_KEY = "cm_progress_" + (qp || "main");
@@ -34,6 +40,7 @@
   /* ---------- bookmarked theories (localStorage) ---------- */
   var FAV_KEY = "cm_favorites_v1";
   var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  var TIER_DOT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
     catch (e) { return []; }
@@ -146,6 +153,7 @@
     if (view.name === "start") { h = startView(); dn = 0; di = -1; }
     else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
     else if (view.name === "results") { clearProgress(); h = resultsView(); dn = nq; di = nq; }
+    else if (view.name === "browse") { h = browseView(); dn = 0; di = -1; }
     else { h = detailView(view.key); dn = 0; di = -1; }
     var backBtn = document.getElementById("wz-back");
     if (backBtn) backBtn.style.display = (view.name === "start" && !RET_URL) ? "none" : "";
@@ -195,6 +203,38 @@
       whyBtn + "</div>" + whyHtml;
   }
 
+  /* one listing row: rank, color dot, name, tier/chevron, plus a bookmark toggle for real theories */
+  function rowHtml(t, i, tier) {
+    var bm = "";
+    if (DRILL && t.url) {
+      var fid = DRILL.categoryId + ":" + t.key, on = isFav(fid);
+      bm = '<button class="bm-btn sm' + (on ? " on" : "") + '" data-bm="' + fid +
+        '" aria-label="Bookmark ' + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
+    }
+    return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + t.color + '">' +
+      '<button class="r-open" data-target="' + t.key + '" aria-label="View ' + t.name + '">' +
+      '<span class="rank">' + (i + 1) + "</span>" +
+      '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
+      '<span class="nm">' + t.name + "</span>" +
+      (tier ? '<span class="tier ' + tier + '" aria-label="' +
+        (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + TIER_DOT + "</span>" : "") +
+      '<span class="chev">›</span></button>' + bm + "</div>";
+  }
+
+  function browseView() {
+    var ts = targets();
+    var rows = ts.map(function (t, i) { return rowHtml(t, i, null); }).join("");
+    var name = DRILL ? DRILL.name : "All categories";
+    var kind = !DRILL ? "categories" : (ts.some(function (t) { return !!t.sub; }) ? "schools" : "theories");
+    var quizHref = qp ? "quiz.html?quiz=" + qp : "quiz.html";
+    return '<div class="r-head"><div class="eyebrow">BROWSE</div>' +
+      "<h1>" + name + "</h1>" +
+      '<p class="lede">' + ts.length + " " + kind + " — tap one to open it.</p></div>" + rows +
+      '<div class="d-quiet">' +
+      '<a class="d-link" href="' + quizHref + '">Take the quiz instead →</a>' +
+      '<a class="d-link" href="index.html">Browse the map</a></div>';
+  }
+
   function resultsView() {
     var sc = scores(), ts = targets().slice();
     ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
@@ -204,17 +244,11 @@
       ? '<div class="r-note">You didn\u2019t answer Yes or No to anything \u2014 there\u2019s nothing to align yet.</div>'
       : "";
     // flat status dots: green = aligned, yellow = mixed, red = not aligned
-    var DOT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>';
     var rows = ts.map(function (t, i) {
       var s = sc[t.key] || 0;
       // ternary, absolute: aligned = endorsed the core claim (3+), mixed = partial lean, lo = no signal
       var tier = s >= 3 ? "hi" : s > 0 ? "mid" : "lo";
-      return '<button class="r-row' + (i === 0 ? " top1" : "") + '" data-target="' + t.key + '">' +
-        '<span class="rank">' + (i + 1) + '</span>' +
-        '<span class="loc-dot sm" style="background:' + t.color + '" aria-hidden="true"></span>' +
-        '<span class="nm">' + t.name + "</span>" +
-        '<span class="tier ' + tier + '" aria-label="' + tier + '">' + DOT + "</span>" +
-        '<span class="chev">›</span></button>';
+      return rowHtml(t, i, tier);
     }).join("");
     return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
       "<h1>Closest first.</h1>" +
@@ -227,7 +261,7 @@
 
   /* questions that moved the needle for one category, marked by the user's answer */
   function answerRows(key) {
-    if (!S) return "";
+    if (!S || !S.answers.some(function (a) { return !!a; })) return "";
     var qs = QUIZ.questions, out = [];
     qs.forEach(function (q, i) {
       var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
@@ -251,6 +285,8 @@
     var subKey = DRILL ? t.sub : key;
     var drillBtn = (subKey && QD.drill && QD.drill[subKey])
       ? '<button class="nav-btn primary drill-btn" data-drill="' + subKey + '">Take the quiz →</button>' : "";
+    var browseBtn = (subKey && QD.drill && QD.drill[subKey])
+      ? '<button class="nav-btn drill-btn" data-browse="' + subKey + '">Browse the theories ›</button>' : "";
     // bookmark toggle lives on theory (drill) detail screens — only for real theories (with a LOC url), not subcategory entries
     var bmBtn = "";
     if (DRILL && t.url) {
@@ -270,14 +306,14 @@
         "<span><strong>See on the map</strong></span>" + '<span class="arr">›</span></a>';
     }
     var actions = extBtns ? '<div class="d-actions">' + extBtns + "</div>" : "";
-    return '<div class="d-head"><div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
-      '<div class="d-title-row"><h1>' + t.name + "</h1>" + bmBtn + "</div>" + tag + "</div>" +
-      drillBtn +
+    return '<div class="d-head" style="--bm:' + t.color + '"><div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
+      '<div class="d-title-row">' + bmBtn + "<h1>" + t.name + "</h1></div>" + tag + "</div>" +
+      drillBtn + browseBtn +
       answerRows(key) +
       actions +
       '<div class="d-quiet">' +
-      '<button class="d-link" data-act="back">‹ Back to results</button>' +
-      '<button class="d-link" data-act="restart">↺ Retake quiz</button></div>';
+      '<button class="d-link" data-act="back">' + (BROWSE ? "‹ Back to list" : "‹ Back to results") + "</button>" +
+      (BROWSE ? "" : '<button class="d-link" data-act="restart">↺ Retake quiz</button>') + "</div>";
   }
 
   /* ---------- events ---------- */
@@ -285,7 +321,12 @@
     if (locked) return;
     if (ans === "why") {
       var w = document.getElementById("why");
-      if (w) w.classList.toggle("open");
+      if (w) {
+        var willOpen = !w.classList.contains("open");
+        w.classList.toggle("open", willOpen);
+        // size to content so long explanations are never clipped mid-word
+        w.style.maxHeight = willOpen ? w.scrollHeight + "px" : "";
+      }
       return;
     }
     locked = true;
@@ -310,6 +351,7 @@
     }
     else if (act === "restart") { clearProgress(); S = null; go({ name: "start" }); }
     else if (act === "back") {
+      if (cur.name === "browse") { location.href = RET_URL || "index.html"; return; }
       if (cur.name === "start" && RET_URL) { location.href = RET_URL; return; }
       backTo();
     }
@@ -333,6 +375,9 @@
     winBody.querySelectorAll("[data-drill]").forEach(function (el) {
       el.addEventListener("click", function () { location.href = "quiz.html?quiz=" + el.dataset.drill; });
     });
+    winBody.querySelectorAll("[data-browse]").forEach(function (el) {
+      el.addEventListener("click", function () { location.href = "quiz.html?quiz=" + el.dataset.browse + "&mode=browse"; });
+    });
     winBody.querySelectorAll("[data-bm]").forEach(function (el) {
       el.addEventListener("click", function () {
         var fid = el.getAttribute("data-bm"), t = null;
@@ -347,5 +392,6 @@
   }
 
   refreshFavCounts();
-  go({ name: "start" });
+  if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
+  else go({ name: "start" });
 })();
