@@ -61,7 +61,7 @@
 .q-quiet{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--faint);text-decoration:none}
 
 /* results: ranked names only */
-.r-head{padding:18px 4px 6px}
+.r-head{padding:18px 4px 6px;position:relative}
 .r-head h1{font-size:30px;margin-bottom:4px}
 .r-row{
   width:100%;display:flex;align-items:center;gap:2px;
@@ -77,6 +77,13 @@
 .r-open:active{transform:scale(.97)}
 .r-row .bm-btn{flex:none;align-self:center;margin:0;padding:8px}
 .bm-btn.sm .bm-ic{width:20px;height:20px}
+/* info button on school/category rows: icon-only link to the LOC page */
+.row-info{flex:none;align-self:center;display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:var(--muted);text-decoration:none;
+  transition:transform .15s ease,border-color .15s ease}
+.row-info:active{transform:scale(.88);border-color:var(--acc)}
+.row-info svg{width:16px;height:16px;display:block}
 .r-row .rank{flex:none;width:22px;font-size:13px;font-weight:700;color:var(--faint)}
 .r-row .nm{flex:1;min-width:0;font-family:var(--serif);font-size:18px}
 .r-row .tier{flex:none;min-width:26px;display:inline-flex;align-items:center;justify-content:flex-end}

@@ -385,10 +385,18 @@
      the row itself is lightly tinted with the theory's color (no separate color dot) */
   function rowHtml(t, i, tier) {
     var bm = "";
-    if (DRILL && t.url) {
+    // bookmarks are theories only — schools keep their rows clean
+    if (DRILL && t.url && !t.sub) {
       var fid = DRILL.categoryId + ":" + t.key, on = isFav(fid);
       bm = '<button class="bm-btn sm' + (on ? " on" : "") + '" data-bm="' + fid +
         '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
+    }
+    // schools and categories get an info button: the LOC overview page when one
+    // exists, otherwise the LOC category page
+    var info = "";
+    var infoUrl = t.sub ? (t.url || (DRILL && QD.cats[DRILL.categoryId].url)) : (!DRILL && t.url);
+    if (infoUrl) {
+      info = '<a class="row-info" href="' + infoUrl + '" target="_blank" rel="noopener" aria-label="Open ' + t.name + ' on Landscape of Consciousness">' + INFO_SVG + "</a>";
     }
     return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + t.color + ";--tint:" + t.color + '">' +
       '<button class="r-open" data-target="' + t.key + '" aria-label="View ' + t.name + '">' +
@@ -396,7 +404,7 @@
       '<span class="nm">' + t.name + "</span>" +
       (tier ? '<span class="tier ' + tier + '" aria-label="' +
         (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + TIER_DOT + "</span>" : "") +
-      "</button>" + bm + "</div>";
+      "</button>" + info + bm + "</div>";
   }
 
   function browseView() {
@@ -405,7 +413,13 @@
     var name = DRILL ? DRILL.name : "All categories";
     var kind = !DRILL ? "categories" : (ts.some(function (t) { return !!t.sub; }) ? "schools" : "theories");
     var quizHref = pathForQuiz(QKEY);
-    return '<div class="r-head"><div class="eyebrow">BROWSE</div>' +
+    // drill browse pages get an info badge for their category
+    var catBadge = "";
+    if (DRILL) {
+      var cu = QD.cats[DRILL.categoryId] && QD.cats[DRILL.categoryId].url;
+      if (cu) catBadge = '<a class="src-badge" href="' + cu + '" target="_blank" rel="noopener" aria-label="Open ' + name + ' on Landscape of Consciousness">' + INFO_SVG + "</a>";
+    }
+    return '<div class="r-head"><div class="eyebrow">BROWSE</div>' + catBadge +
       "<h1>" + name + "</h1>" +
       '<p class="lede">' + ts.length + " " + kind + " — tap one to open it.</p></div>" + rows +
       '<div class="d-quiet">' +
@@ -471,8 +485,10 @@
         '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
     // action pills: icons only — ? quiz, list browse, pin map. Source lives in the badge up top.
-    var srcBadge = t.url
-      ? '<a class="src-badge" href="' + t.url + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
+    // schools without their own LOC overview page fall back to the category page
+    var infoUrl = t.url || (DRILL && QD.cats[DRILL.categoryId] && QD.cats[DRILL.categoryId].url);
+    var srcBadge = infoUrl
+      ? '<a class="src-badge" href="' + infoUrl + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
       : "";
     var pills = "";
     if (subKey && QD.drill && QD.drill[subKey]) {
