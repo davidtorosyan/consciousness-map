@@ -99,10 +99,6 @@
 
   /* ---------- persistent chrome: brand, dots, window, footer ---------- */
   app.innerHTML =
-    '<header class="wz-top">' +
-      '<a class="wz-brand" href="index.html" aria-label="Consciousness Map home"><span class="wz-mark">◉</span>' +
-      '<span class="wz-name">Consciousness Quiz</span></a>' +
-    "</header>" +
     '<nav class="trail" id="wz-trail" aria-label="Where you are"></nav>' +
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
