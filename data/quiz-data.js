@@ -3,7 +3,7 @@
    "Not sure" and "Don't understand" give no points. */
 // Bump this whenever quiz questions change: shared result links (?r=) carry the
 // version they were made with, and links from a different version are rejected.
-window.QUIZ_DATA_VERSION = "20260930";
+window.QUIZ_DATA_VERSION = "20260930b";
 (function () {
   "use strict";
   var cats = {};
@@ -1034,216 +1034,471 @@ window.QUIZ_DATA.drill["quantum-dimensions"] = {
   categoryId: "quantum-dimensions",
   kicker: "A QUIZ · QUANTUM & DIMENSIONS",
   title: "Which kind fits you?",
-  intro: "Twenty-three questions, all inside quantum views of mind.",
+  intro: "Five questions, one per quantum school — then go deeper.",
   browse: "or browse the map instead",
   areas: [
-    { key: "beck-eccles-s-quantum-processes-in-the-synapse", name: "Beck-Eccles\u2019s Quantum Processes in the Synapse",
+    {
+      key: "quantum-dimensions-quantum-machinery",
+      name: "Quantum machinery in the brain",
+      tagline: "Experience comes from quantum effects in your neurons.",
+      sub: "quantum-dimensions-quantum-machinery"
+    },
+    {
+      key: "quantum-dimensions-mind-and-collapse",
+      name: "Mind settles quantum maybes",
+      tagline: "Your choices turn possibilities into facts.",
+      sub: "quantum-dimensions-mind-and-collapse"
+    },
+    {
+      key: "quantum-dimensions-hidden-orders",
+      name: "Hidden orders and dimensions",
+      tagline: "Mind belongs to a deeper level of reality.",
+      sub: "quantum-dimensions-hidden-orders"
+    },
+    {
+      key: "quantum-dimensions-cosmic-consciousness",
+      name: "Consciousness belongs to the cosmos",
+      tagline: "Mind isn't just a brain thing — it's the universe's business.",
+      sub: "quantum-dimensions-cosmic-consciousness"
+    },
+    {
+      key: "quantum-dimensions-relational-views",
+      name: "Everything is relations",
+      tagline: "Nothing exists on its own — only in relation.",
+      sub: "quantum-dimensions-relational-views"
+    }
+  ],
+  questions: [
+    {
+      t: "Consciousness comes from quantum effects happening inside your brain cells.",
+      why: "This school looks for mind in quantum physics inside neurons — entanglement, tunneling, and collapse in the brain's own machinery.",
+      yes: {
+        "quantum-dimensions-quantum-machinery": 3
+      },
+      no: {}
+    },
+    {
+      t: "Your mind turns quantum maybes into definite realities.",
+      why: "This school follows the von Neumann-Wigner idea: conscious choices collapse quantum possibilities into facts.",
+      yes: {
+        "quantum-dimensions-mind-and-collapse": 3
+      },
+      no: {}
+    },
+    {
+      t: "Beneath or beyond the visible world lies a hidden order or dimension, and mind belongs to it.",
+      why: "This school places mind in a deeper level of reality — a hidden order or extra dimensions beneath everyday things.",
+      yes: {
+        "quantum-dimensions-hidden-orders": 3
+      },
+      no: {}
+    },
+    {
+      t: "Consciousness isn't just a brain thing — it belongs to the universe itself, from cells to cosmos.",
+      why: "This school makes consciousness cosmic — a basic feature of the universe, not something brains invented.",
+      yes: {
+        "quantum-dimensions-cosmic-consciousness": 3
+      },
+      no: {}
+    },
+    {
+      t: "Nothing has properties all by itself; everything, including mind, exists only in relation to other things.",
+      why: "This school takes physics' relational view: reality is made of relationships, and mind is no exception.",
+      yes: {
+        "quantum-dimensions-relational-views": 3
+      },
+      no: {}
+    }
+  ]
+};
+
+window.QUIZ_DATA.drill["quantum-dimensions-quantum-machinery"] = {
+  name: "Quantum machinery in the brain",
+  color: "#FFA9A0",
+  categoryId: "quantum-dimensions",
+  kicker: "A QUIZ · QUANTUM & DIMENSIONS",
+  title: "Which kind fits you?",
+  intro: "Nine questions, all inside quantum machinery in the brain.",
+  browse: "or browse the map instead",
+  areas: [
+    {
+      key: "beck-eccles-s-quantum-processes-in-the-synapse",
+      name: "Beck-Eccles’s Quantum Processes in the Synapse",
       tagline: "Mind nudges synapses through quantum effects.",
-      url: "https://loc.closertotruth.com/theory/beck-eccles-s-quantum-processes-in-the-synapse" },
-    { key: "bohm-s-implicate-explicate-order", name: "Bohm\u2019s Implicate-Explicate Order",
-      tagline: "A hidden order folds beneath the visible world.",
-      url: "https://loc.closertotruth.com/theory/bohm-s-implicate-explicate-order" },
-    { key: "carr-s-quantum-theory-psi-mental-space", name: "Carr\u2019s Higher Dimensions and Mental Space",
-      tagline: "Consciousness lives in a hidden higher dimension.",
-      url: "https://loc.closertotruth.com/theory/carr-s-quantum-theory-psi-mental-space" },
-    { key: "caveliers-entangled-spins-at-the-nmda-receptor", name: "Cavelier's Entangled Spins at the NMDA Receptor",
+      url: "https://loc.closertotruth.com/theory/beck-eccles-s-quantum-processes-in-the-synapse"
+    },
+    {
+      key: "caveliers-entangled-spins-at-the-nmda-receptor",
+      name: "Cavelier's Entangled Spins at the NMDA Receptor",
       tagline: "Experience lives in entangled spins in the brain.",
-      url: "https://loc.closertotruth.com/theory/caveliers-entangled-spins-at-the-nmda-receptor" },
-    { key: "fisher-s-quantum-cognition", name: "Fisher\u2019s Quantum Cognition",
+      url: "https://loc.closertotruth.com/theory/caveliers-entangled-spins-at-the-nmda-receptor"
+    },
+    {
+      key: "fisher-s-quantum-cognition",
+      name: "Fisher’s Quantum Cognition",
       tagline: "The brain does quantum computing with phosphorus atoms.",
-      url: "https://loc.closertotruth.com/theory/fisher-s-quantum-cognition" },
-    { key: "globus-s-quantum-thermofield-brain-dynamics", name: "Globus\u2019s Quantum Thermofield Brain Dynamics",
+      url: "https://loc.closertotruth.com/theory/fisher-s-quantum-cognition"
+    },
+    {
+      key: "globus-s-quantum-thermofield-brain-dynamics",
+      name: "Globus’s Quantum Thermofield Brain Dynamics",
       tagline: "The brain is a quantum field; your world is how it settles.",
-      url: "https://loc.closertotruth.com/theory/globus-s-quantum-thermofield-brain-dynamics" },
-    { key: "hameroff-s-consciousness-came-before-life", name: "Hameroff\u2019s Consciousness Came Before Life",
-      tagline: "Consciousness was here first; it helped bring about life.",
-      url: "https://loc.closertotruth.com/theory/hameroff-s-consciousness-came-before-life" },
-    { key: "kauffman-s-mind-mediating-possibles-to-actuals", name: "Kauffman\u2019s Mind Mediating Possibles to Actuals",
-      tagline: "Mind turns quantum maybes into definite realities.",
-      url: "https://loc.closertotruth.com/theory/kauffman-s-mind-mediating-possibles-to-actuals" },
-    { key: "keppler-s-zero-point-field", name: "Keppler\u2019s Zero-Point Field",
-      tagline: "The brain tunes into a background field of the universe.",
-      url: "https://loc.closertotruth.com/theory/keppler-s-zero-point-field" },
-    { key: "king-s-symbiotic-existential-cosmology", name: "King\u2019s Symbiotic Existential Cosmology",
-      tagline: "Life, mind, and cosmos grew up together.",
-      url: "https://loc.closertotruth.com/theory/king-s-symbiotic-existential-cosmology" },
-    { key: "morrison-s-position-selecting-interactionism", name: "Morrison\u2019s Position Selecting Interactionism",
-      tagline: "Your inner life is tied to one tiny particle in the brain.",
-      url: "https://loc.closertotruth.com/theory/morrison-s-position-selecting-interactionism" },
-    { key: "pacheco-s-science-of-unity", name: "Pacheco\u2019s Science of Unity",
-      tagline: "Matter and mind are woven together in repeating layers.",
-      url: "https://loc.closertotruth.com/theory/pacheco-s-science-of-unity" },
-    { key: "penrose-hameroff-s-orchestrated-objective-reduction", name: "Penrose-Hameroff\u2019s Orchestrated Objective Reduction",
+      url: "https://loc.closertotruth.com/theory/globus-s-quantum-thermofield-brain-dynamics"
+    },
+    {
+      key: "penrose-hameroff-s-orchestrated-objective-reduction",
+      name: "Penrose-Hameroff’s Orchestrated Objective Reduction",
       tagline: "Each aware moment is a quantum collapse in neurons.",
-      url: "https://loc.closertotruth.com/theory/penrose-hameroff-s-orchestrated-objective-reduction" },
-    { key: "poznanski-s-dynamic-organicity-theory", name: "Poznanski\u2019s Dynamic Organicity Theory",
-      tagline: "Consciousness is a living system’s quantum reach.",
-      url: "https://loc.closertotruth.com/theory/poznanski-s-dynamic-organicity-theory" },
-    { key: "pylkkaenen-s-quantum-potential-energy-and-active-information", name: "Pylkk\u00e4nen\u2019s Quantum Potential Energy and Active Information",
-      tagline: "A deeper quantum order carries meaning in the brain.",
-      url: "https://loc.closertotruth.com/theory/pylkkaenen-s-quantum-potential-energy-and-active-information" },
-    { key: "rourk-s-catecholaminergic-neuron-electron-transport-theory", name: "Rourk\u2019s Catecholaminergic Neuron Electron Transport Theory",
+      url: "https://loc.closertotruth.com/theory/penrose-hameroff-s-orchestrated-objective-reduction"
+    },
+    {
+      key: "rourk-s-catecholaminergic-neuron-electron-transport-theory",
+      name: "Rourk’s Catecholaminergic Neuron Electron Transport Theory",
       tagline: "Electron traffic in key neurons binds experience.",
-      url: "https://loc.closertotruth.com/theory/rourk-s-catecholaminergic-neuron-electron-transport-theory" },
-    { key: "rovelli-s-relational-physics", name: "Rovelli\u2019s Relational Physics",
-      tagline: "Nothing exists on its own \u2014 everything is relations.",
-      url: "https://loc.closertotruth.com/theory/rovelli-s-relational-physics" },
-    { key: "shiah-s-cryptochrome-theory", name: "Shiah\u2019s Cryptochrome Theory",
+      url: "https://loc.closertotruth.com/theory/rourk-s-catecholaminergic-neuron-electron-transport-theory"
+    },
+    {
+      key: "morrison-s-position-selecting-interactionism",
+      name: "Morrison’s Position Selecting Interactionism",
+      tagline: "Your inner life is tied to one tiny particle in the brain.",
+      url: "https://loc.closertotruth.com/theory/morrison-s-position-selecting-interactionism"
+    },
+    {
+      key: "shiah-s-cryptochrome-theory",
+      name: "Shiah’s Cryptochrome Theory",
       tagline: "A tiny protein turns mental intent physical.",
-      url: "https://loc.closertotruth.com/theory/shiah-s-cryptochrome-theory" },
-    { key: "smolin-s-causal-theory-of-views", name: "Smolin\u2019s Causal Theory of Views",
-      tagline: "Every event has its own point of view.",
-      url: "https://loc.closertotruth.com/theory/smolin-s-causal-theory-of-views" },
-    { key: "stapp-s-collapsing-the-wave-function-via-asking-questions", name: "Stapp\u2019s Collapsing the Wave Function via Asking \u201cQuestions\u201d",
-      tagline: "Your mind makes reality definite by questioning nature.",
-      url: "https://loc.closertotruth.com/theory/stapp-s-collapsing-the-wave-function-via-asking-questions" },
-    { key: "torday-s-cellular-and-cosmic-consciousness", name: "Torday\u2019s Cellular and Cosmic Consciousness",
-      tagline: "Consciousness starts in the cell itself.",
-      url: "https://loc.closertotruth.com/theory/torday-s-cellular-and-cosmic-consciousness" },
-    { key: "tozzi-s-multidimensional-brain", name: "Tozzi\u2019s Multidimensional Brain",
-      tagline: "The brain\u2019s real work happens in higher dimensions.",
-      url: "https://loc.closertotruth.com/theory/tozzi-s-multidimensional-brain" },
-    { key: "wolfram-s-consciousness-in-the-ruliad", name: "Wolfram\u2019s Consciousness in the Ruliad",
-      tagline: "Consciousness is a mind sampling all possible computations.",
-      url: "https://loc.closertotruth.com/theory/wolfram-s-consciousness-in-the-ruliad" }
+      url: "https://loc.closertotruth.com/theory/shiah-s-cryptochrome-theory"
+    },
+    {
+      key: "poznanski-s-dynamic-organicity-theory",
+      name: "Poznanski’s Dynamic Organicity Theory",
+      tagline: "Consciousness is a living system’s quantum reach.",
+      url: "https://loc.closertotruth.com/theory/poznanski-s-dynamic-organicity-theory"
+    }
   ],
   questions: [
     {
       t: "Your thoughts reach into the brain at the tiny gaps between cells, nudging what happens there through quantum effects.",
       why: "Eccles, a Nobel-winning brain scientist, proposed that the mind acts on the brain where neurons meet. Quantum uncertainty at the synapse leaves room for intention to tip the scales.",
-      yes: { "beck-eccles-s-quantum-processes-in-the-synapse": 3 },
+      yes: {
+        "beck-eccles-s-quantum-processes-in-the-synapse": 3
+      },
       no: {}
     },
     {
-      t: "Beneath the world you see lies a deeper folded order, and mind belongs to that hidden level.",
-      why: "Bohm argued quantum physics points to an implicate order enfolded beneath the explicate order of everyday things. Consciousness, on this view, is enfolded in the deeper level.",
-      yes: { "bohm-s-implicate-explicate-order": 3 },
-      no: {}
-    },
-    {
-      t: "Consciousness lives in a hidden higher dimension, a mental space our physics hasn\u2019t reached.",
-      why: "Carr suggests reality has extra dimensions beyond space and time, and mind is rooted in one of them. That would also explain psychic phenomena as leakage between dimensions.",
-      yes: { "carr-s-quantum-theory-psi-mental-space": 3 },
-      no: {}
-    },
-    {
-      t: "Your experience is first written into entangled quantum spins at the brain\u2019s receptors, then read out as nerve signals.",
+      t: "Your experience is first written into entangled quantum spins at the brain’s receptors, then read out as nerve signals.",
       why: "This view traces a chain from quantum spin states at NMDA receptors up through molecules, channels, and circuits. Qualia emerge at the top of that ladder.",
-      yes: { "caveliers-entangled-spins-at-the-nmda-receptor": 3 },
+      yes: {
+        "caveliers-entangled-spins-at-the-nmda-receptor": 3
+      },
       no: {}
     },
     {
       t: "Your brain does quantum computing, using the spins of phosphorus atoms as its qubits.",
       why: "Fisher identified phosphorus as the one biological element whose nucleus can hold quantum information long enough to matter. Phosphate molecules would shuttle these neural qubits around the brain.",
-      yes: { "fisher-s-quantum-cognition": 3 },
+      yes: {
+        "fisher-s-quantum-cognition": 3
+      },
       no: {}
     },
     {
       t: "Your brain works like a warm quantum field, and the world you experience is how that field settles from moment to moment.",
-      why: "Globus marries quantum field theory of the brain with continental philosophy. There is no gap between brain and world to bridge; your lived world is the field\u2019s own settling.",
-      yes: { "globus-s-quantum-thermofield-brain-dynamics": 3 },
-      no: {}
-    },
-    {
-      t: "Consciousness didn\u2019t show up with brains. It was here first, and helped bring life about.",
-      why: "Built on the Penrose-Hameroff quantum theory, this view makes consciousness a basic feature of the universe. Evolution didn\u2019t invent it; it learned to use it.",
-      yes: { "hameroff-s-consciousness-came-before-life": 3 },
-      no: {}
-    },
-    {
-      t: "Your mind turns quantum maybes into definite realities. Every choice collapses possibilities into facts.",
-      why: "Kauffman argues quantum measurement converts real possibilities into real actualities, and that no purely classical system could do what minds do. So mind must be partly quantum, doing the converting.",
-      yes: { "kauffman-s-mind-mediating-possibles-to-actuals": 3 },
-      no: {}
-    },
-    {
-      t: "Your brain tunes into a background field humming through the universe, and consciousness is what that tuning feels like.",
-      why: "Keppler locates consciousness in the zero-point field of quantum physics, the energy of empty space itself. The brain acts as a resonator, locking onto its modes the way a radio locks onto a station.",
-      yes: { "keppler-s-zero-point-field": 3 },
-      no: {}
-    },
-    {
-      t: "Life, mind, and the universe grew up together, and your choices ride on tiny quantum turning points.",
-      why: "King\u2019s cosmology treats subjective consciousness and the physical universe as partners in one symbiotic process. Mind participates in cosmic evolution through indeterminate quantum transitions.",
-      yes: { "king-s-symbiotic-existential-cosmology": 3 },
-      no: {}
-    },
-    {
-      t: "Your whole inner life is tied to the quantum state of a single tiny particle, sitting in a small pocket of your brain.",
-      why: "Morrison proposes the direct correlate of experience is the wavefunction of one rare particle confined in a neural cavity. Mind interacts with matter at exactly that point.",
-      yes: { "morrison-s-position-selecting-interactionism": 3 },
-      no: {}
-    },
-    {
-      t: "Matter and mind are woven together in repeating layers, across higher dimensions of reality.",
-      why: "The Science of Unity pictures reality as a fractal hierarchy where matter and consciousness interpenetrate. Different layers share the same space but run on different physics.",
-      yes: { "pacheco-s-science-of-unity": 3 },
+      why: "Globus marries quantum field theory of the brain with continental philosophy. There is no gap between brain and world to bridge; your lived world is the field’s own settling.",
+      yes: {
+        "globus-s-quantum-thermofield-brain-dynamics": 3
+      },
       no: {}
     },
     {
       t: "Each moment of awareness is a tiny collapse from quantum possibility to definite fact, orchestrated inside your brain cells.",
       why: "Orch OR says consciousness happens in the gap between quantum and classical worlds. Quantum computations in neuronal microtubules collapse by objective reduction, and each collapse is a flash of experience.",
-      yes: { "penrose-hameroff-s-orchestrated-objective-reduction": 3 },
-      no: {}
-    },
-    {
-      t: "A living system becomes conscious when its inner activity spreads across quantum scales and aims itself at the world.",
-      why: "Poznanski\u2019s materialist view treats consciousness as strongly emergent: embodied systems whose information is quantum-delocalized develop a self-directed, agential inner life.",
-      yes: { "poznanski-s-dynamic-organicity-theory": 3 },
-      no: {}
-    },
-    {
-      t: "Beneath the brain\u2019s machinery runs a deeper quantum order that carries meaning and shapes what you feel.",
-      why: "Following Bohm, Pylkk\u00e4nen argues classical physics can\u2019t house experience. Quantum potential and active information provide a holistic level where mind finds its natural place.",
-      yes: { "pylkkaenen-s-quantum-potential-energy-and-active-information": 3 },
+      yes: {
+        "penrose-hameroff-s-orchestrated-objective-reduction": 3
+      },
       no: {}
     },
     {
       t: "Consciousness gets bound together by quantum electron traffic inside the brain cells that steer attention and action.",
       why: "CNET is a neural-correlate theory, not a grand metaphysics. It proposes electron transport in catecholaminergic neurons as the physical mechanism that selects and unifies experience.",
-      yes: { "rourk-s-catecholaminergic-neuron-electron-transport-theory": 3 },
+      yes: {
+        "rourk-s-catecholaminergic-neuron-electron-transport-theory": 3
+      },
       no: {}
     },
     {
-      t: "Nothing has properties all by itself. Everything, including mind, exists only in relation to other things.",
-      why: "Rovelli reads modern physics as the study of relations, not of lone objects. Consciousness, like everything else, is what shows up between things rather than inside any one of them.",
-      yes: { "rovelli-s-relational-physics": 3 },
+      t: "Your whole inner life is tied to the quantum state of a single tiny particle, sitting in a small pocket of your brain.",
+      why: "Morrison proposes the direct correlate of experience is the wavefunction of one rare particle confined in a neural cavity. Mind interacts with matter at exactly that point.",
+      yes: {
+        "morrison-s-position-selecting-interactionism": 3
+      },
       no: {}
     },
     {
-      t: "A tiny light-sensitive protein found in living things translates your mind\u2019s intent into real physical effects.",
+      t: "A tiny light-sensitive protein found in living things translates your mind’s intent into real physical effects.",
       why: "Cryptochrome Theory says this flavoprotein acts as a transducer: quantum radical-pair reactions convert consciousness-driven information into the physical traces behind psychic phenomena.",
-      yes: { "shiah-s-cryptochrome-theory": 3 },
+      yes: {
+        "shiah-s-cryptochrome-theory": 3
+      },
       no: {}
     },
     {
-      t: "Every event in nature has its own point of view, and physics is built from how those views relate.",
-      why: "Smolin\u2019s completion of quantum theory is relational and realist: the world is a network of events, each with a view of the others. Qualia are what those views are like from the inside.",
-      yes: { "smolin-s-causal-theory-of-views": 3 },
+      t: "A living system becomes conscious when its inner activity spreads across quantum scales and aims itself at the world.",
+      why: "Poznanski’s materialist view treats consciousness as strongly emergent: embodied systems whose information is quantum-delocalized develop a self-directed, agential inner life.",
+      yes: {
+        "poznanski-s-dynamic-organicity-theory": 3
+      },
+      no: {}
+    }
+  ]
+};
+
+window.QUIZ_DATA.drill["quantum-dimensions-mind-and-collapse"] = {
+  name: "Mind settles quantum maybes",
+  color: "#FFA9A0",
+  categoryId: "quantum-dimensions",
+  kicker: "A QUIZ · QUANTUM & DIMENSIONS",
+  title: "Which kind fits you?",
+  intro: "Two questions, all inside mind settling quantum maybes.",
+  browse: "or browse the map instead",
+  areas: [
+    {
+      key: "kauffman-s-mind-mediating-possibles-to-actuals",
+      name: "Kauffman’s Mind Mediating Possibles to Actuals",
+      tagline: "Mind turns quantum maybes into definite realities.",
+      url: "https://loc.closertotruth.com/theory/kauffman-s-mind-mediating-possibles-to-actuals"
+    },
+    {
+      key: "stapp-s-collapsing-the-wave-function-via-asking-questions",
+      name: "Stapp’s Collapsing the Wave Function via Asking “Questions”",
+      tagline: "Your mind makes reality definite by questioning nature.",
+      url: "https://loc.closertotruth.com/theory/stapp-s-collapsing-the-wave-function-via-asking-questions"
+    }
+  ],
+  questions: [
+    {
+      t: "Your mind turns quantum maybes into definite realities. Every choice collapses possibilities into facts.",
+      why: "Kauffman argues quantum measurement converts real possibilities into real actualities, and that no purely classical system could do what minds do. So mind must be partly quantum, doing the converting.",
+      yes: {
+        "kauffman-s-mind-mediating-possibles-to-actuals": 3
+      },
       no: {}
     },
     {
       t: "Your mind makes reality definite by putting questions to nature. Each answered question is a moment of experience.",
       why: "Stapp takes the classic view that wave functions collapse only when consciousness measures. Attention poses yes-or-no questions to the quantum world, and the answers are what you live through.",
-      yes: { "stapp-s-collapsing-the-wave-function-via-asking-questions": 3 },
+      yes: {
+        "stapp-s-collapsing-the-wave-function-via-asking-questions": 3
+      },
+      no: {}
+    }
+  ]
+};
+
+window.QUIZ_DATA.drill["quantum-dimensions-hidden-orders"] = {
+  name: "Hidden orders and dimensions",
+  color: "#FFA9A0",
+  categoryId: "quantum-dimensions",
+  kicker: "A QUIZ · QUANTUM & DIMENSIONS",
+  title: "Which kind fits you?",
+  intro: "Five questions, all inside hidden orders and dimensions.",
+  browse: "or browse the map instead",
+  areas: [
+    {
+      key: "bohm-s-implicate-explicate-order",
+      name: "Bohm’s Implicate-Explicate Order",
+      tagline: "A hidden order folds beneath the visible world.",
+      url: "https://loc.closertotruth.com/theory/bohm-s-implicate-explicate-order"
+    },
+    {
+      key: "carr-s-quantum-theory-psi-mental-space",
+      name: "Carr’s Higher Dimensions and Mental Space",
+      tagline: "Consciousness lives in a hidden higher dimension.",
+      url: "https://loc.closertotruth.com/theory/carr-s-quantum-theory-psi-mental-space"
+    },
+    {
+      key: "pacheco-s-science-of-unity",
+      name: "Pacheco’s Science of Unity",
+      tagline: "Matter and mind are woven together in repeating layers.",
+      url: "https://loc.closertotruth.com/theory/pacheco-s-science-of-unity"
+    },
+    {
+      key: "tozzi-s-multidimensional-brain",
+      name: "Tozzi’s Multidimensional Brain",
+      tagline: "The brain’s real work happens in higher dimensions.",
+      url: "https://loc.closertotruth.com/theory/tozzi-s-multidimensional-brain"
+    },
+    {
+      key: "pylkkaenen-s-quantum-potential-energy-and-active-information",
+      name: "Pylkkänen’s Quantum Potential Energy and Active Information",
+      tagline: "A deeper quantum order carries meaning in the brain.",
+      url: "https://loc.closertotruth.com/theory/pylkkaenen-s-quantum-potential-energy-and-active-information"
+    }
+  ],
+  questions: [
+    {
+      t: "Beneath the world you see lies a deeper folded order, and mind belongs to that hidden level.",
+      why: "Bohm argued quantum physics points to an implicate order enfolded beneath the explicate order of everyday things. Consciousness, on this view, is enfolded in the deeper level.",
+      yes: {
+        "bohm-s-implicate-explicate-order": 3
+      },
+      no: {}
+    },
+    {
+      t: "Consciousness lives in a hidden higher dimension, a mental space our physics hasn’t reached.",
+      why: "Carr suggests reality has extra dimensions beyond space and time, and mind is rooted in one of them. That would also explain psychic phenomena as leakage between dimensions.",
+      yes: {
+        "carr-s-quantum-theory-psi-mental-space": 3
+      },
+      no: {}
+    },
+    {
+      t: "Matter and mind are woven together in repeating layers, across higher dimensions of reality.",
+      why: "The Science of Unity pictures reality as a fractal hierarchy where matter and consciousness interpenetrate. Different layers share the same space but run on different physics.",
+      yes: {
+        "pacheco-s-science-of-unity": 3
+      },
+      no: {}
+    },
+    {
+      t: "Your brain’s real work happens in dimensions beyond the three you see. Consciousness lives in that higher-dimensional shape.",
+      why: "Tozzi argues neural activity can’t be captured in three spatial dimensions plus time. Perception, emotion, and consciousness are best described in high-dimensional phase spaces.",
+      yes: {
+        "tozzi-s-multidimensional-brain": 3
+      },
+      no: {}
+    },
+    {
+      t: "Beneath the brain’s machinery runs a deeper quantum order that carries meaning and shapes what you feel.",
+      why: "Following Bohm, Pylkkänen argues classical physics can’t house experience. Quantum potential and active information provide a holistic level where mind finds its natural place.",
+      yes: {
+        "pylkkaenen-s-quantum-potential-energy-and-active-information": 3
+      },
+      no: {}
+    }
+  ]
+};
+
+window.QUIZ_DATA.drill["quantum-dimensions-cosmic-consciousness"] = {
+  name: "Consciousness belongs to the cosmos",
+  color: "#FFA9A0",
+  categoryId: "quantum-dimensions",
+  kicker: "A QUIZ · QUANTUM & DIMENSIONS",
+  title: "Which kind fits you?",
+  intro: "Five questions, all inside cosmic consciousness.",
+  browse: "or browse the map instead",
+  areas: [
+    {
+      key: "hameroff-s-consciousness-came-before-life",
+      name: "Hameroff’s Consciousness Came Before Life",
+      tagline: "Consciousness was here first; it helped bring about life.",
+      url: "https://loc.closertotruth.com/theory/hameroff-s-consciousness-came-before-life"
+    },
+    {
+      key: "keppler-s-zero-point-field",
+      name: "Keppler’s Zero-Point Field",
+      tagline: "The brain tunes into a background field of the universe.",
+      url: "https://loc.closertotruth.com/theory/keppler-s-zero-point-field"
+    },
+    {
+      key: "king-s-symbiotic-existential-cosmology",
+      name: "King’s Symbiotic Existential Cosmology",
+      tagline: "Life, mind, and cosmos grew up together.",
+      url: "https://loc.closertotruth.com/theory/king-s-symbiotic-existential-cosmology"
+    },
+    {
+      key: "torday-s-cellular-and-cosmic-consciousness",
+      name: "Torday’s Cellular and Cosmic Consciousness",
+      tagline: "Consciousness starts in the cell itself.",
+      url: "https://loc.closertotruth.com/theory/torday-s-cellular-and-cosmic-consciousness"
+    },
+    {
+      key: "wolfram-s-consciousness-in-the-ruliad",
+      name: "Wolfram’s Consciousness in the Ruliad",
+      tagline: "Consciousness is a mind sampling all possible computations.",
+      url: "https://loc.closertotruth.com/theory/wolfram-s-consciousness-in-the-ruliad"
+    }
+  ],
+  questions: [
+    {
+      t: "Consciousness didn’t show up with brains. It was here first, and helped bring life about.",
+      why: "Built on the Penrose-Hameroff quantum theory, this view makes consciousness a basic feature of the universe. Evolution didn’t invent it; it learned to use it.",
+      yes: {
+        "hameroff-s-consciousness-came-before-life": 3
+      },
+      no: {}
+    },
+    {
+      t: "Your brain tunes into a background field humming through the universe, and consciousness is what that tuning feels like.",
+      why: "Keppler locates consciousness in the zero-point field of quantum physics, the energy of empty space itself. The brain acts as a resonator, locking onto its modes the way a radio locks onto a station.",
+      yes: {
+        "keppler-s-zero-point-field": 3
+      },
+      no: {}
+    },
+    {
+      t: "Life, mind, and the universe grew up together, and your choices ride on tiny quantum turning points.",
+      why: "King’s cosmology treats subjective consciousness and the physical universe as partners in one symbiotic process. Mind participates in cosmic evolution through indeterminate quantum transitions.",
+      yes: {
+        "king-s-symbiotic-existential-cosmology": 3
+      },
       no: {}
     },
     {
       t: "Consciousness starts in the cell itself. Its membrane is the first flicker, and cells talking to cells build the rest.",
       why: "Torday embeds quantum mechanics in cell physiology. The cell membrane forms the first tier of awareness; the integration of cell signals through cell-to-cell communication forms the second.",
-      yes: { "torday-s-cellular-and-cosmic-consciousness": 3 },
-      no: {}
-    },
-    {
-      t: "Your brain\u2019s real work happens in dimensions beyond the three you see. Consciousness lives in that higher-dimensional shape.",
-      why: "Tozzi argues neural activity can\u2019t be captured in three spatial dimensions plus time. Perception, emotion, and consciousness are best described in high-dimensional phase spaces.",
-      yes: { "tozzi-s-multidimensional-brain": 3 },
+      yes: {
+        "torday-s-cellular-and-cosmic-consciousness": 3
+      },
       no: {}
     },
     {
       t: "Consciousness is what happens when a mind like yours samples the vast space of everything computation can possibly do.",
-      why: "Wolfram\u2019s ruliad is the entangled limit of all possible computations. An observer samples this structure, and consciousness is formalized as facts about that sampling.",
-      yes: { "wolfram-s-consciousness-in-the-ruliad": 3 },
+      why: "Wolfram’s ruliad is the entangled limit of all possible computations. An observer samples this structure, and consciousness is formalized as facts about that sampling.",
+      yes: {
+        "wolfram-s-consciousness-in-the-ruliad": 3
+      },
+      no: {}
+    }
+  ]
+};
+
+window.QUIZ_DATA.drill["quantum-dimensions-relational-views"] = {
+  name: "Everything is relations",
+  color: "#FFA9A0",
+  categoryId: "quantum-dimensions",
+  kicker: "A QUIZ · QUANTUM & DIMENSIONS",
+  title: "Which kind fits you?",
+  intro: "Two questions, all inside relational views.",
+  browse: "or browse the map instead",
+  areas: [
+    {
+      key: "rovelli-s-relational-physics",
+      name: "Rovelli’s Relational Physics",
+      tagline: "Nothing exists on its own — everything is relations.",
+      url: "https://loc.closertotruth.com/theory/rovelli-s-relational-physics"
+    },
+    {
+      key: "smolin-s-causal-theory-of-views",
+      name: "Smolin’s Causal Theory of Views",
+      tagline: "Every event has its own point of view.",
+      url: "https://loc.closertotruth.com/theory/smolin-s-causal-theory-of-views"
+    }
+  ],
+  questions: [
+    {
+      t: "Nothing has properties all by itself. Everything, including mind, exists only in relation to other things.",
+      why: "Rovelli reads modern physics as the study of relations, not of lone objects. Consciousness, like everything else, is what shows up between things rather than inside any one of them.",
+      yes: {
+        "rovelli-s-relational-physics": 3
+      },
+      no: {}
+    },
+    {
+      t: "Every event in nature has its own point of view, and physics is built from how those views relate.",
+      why: "Smolin’s completion of quantum theory is relational and realist: the world is a network of events, each with a view of the others. Qualia are what those views are like from the inside.",
+      yes: {
+        "smolin-s-causal-theory-of-views": 3
+      },
       no: {}
     }
   ]

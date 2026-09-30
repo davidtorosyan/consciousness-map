@@ -68,7 +68,7 @@
       rows +
       '<div class="foot rise" style="--i:17">Names and colors follow the official ' +
       '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
-      ' · <a href="?path=history">History</a></div>';
+      ' · <a href="?path=history">History</a> · <a href="?path=debug">Debug</a></div>';
   }
 
   function categoryView(id) {
@@ -94,6 +94,68 @@
       '<div class="d-actions rise" style="--i:3">' + pills + "</div>";
   }
 
+  /* ---------- debug: quiz nesting + question counts ---------- */
+  var QUIZ_CAP = 12;
+  function debugParentKey(key, drills) {
+    var best = null;
+    Object.keys(drills).forEach(function (k) {
+      if (k !== key && key.indexOf(k + "-") === 0 && (!best || k.length > best.length)) best = k;
+    });
+    return best;
+  }
+  function debugQuizPath(key, drills) {
+    var chain = [key], p = debugParentKey(key, drills);
+    while (p) { chain.unshift(p); p = debugParentKey(p, drills); }
+    return chain.map(function (k, i) {
+      return i === 0 ? k : k.slice(chain[i - 1].length + 1);
+    }).join("/");
+  }
+  function debugView() {
+    var QD = window.QUIZ_DATA || {};
+    var drills = QD.drill || {};
+    var rows = [];
+    function addRow(depth, name, key, qs, items, itemKind) {
+      rows.push({ depth: depth, name: name, key: key, qs: qs, items: items,
+        itemKind: itemKind, over: qs > QUIZ_CAP });
+    }
+    if (QD.top) addRow(0, "Main quiz", null, QD.top.questions.length, 11, "categories");
+    CATS.forEach(function (c) {
+      var d = drills[c.id];
+      if (!d) return;
+      var kind = d.areas.some(function (a) { return !!a.sub; }) ? "schools" : "theories";
+      addRow(0, c.name, c.id, d.questions.length, d.areas.length, kind);
+      (function kids(pk, depth) {
+        Object.keys(drills).forEach(function (k) {
+          if (debugParentKey(k, drills) === pk) {
+            var sd = drills[k];
+            var sk = sd.areas.some(function (a) { return !!a.sub; }) ? "schools" : "theories";
+            addRow(depth, sd.name, k, sd.questions.length, sd.areas.length, sk);
+            kids(k, depth + 1);
+          }
+        });
+      })(c.id, 1);
+    });
+    var over = rows.filter(function (r) { return r.over; }).length;
+    return trail([{ label: "Home", view: { view: "landing" } }, { label: "Debug", view: null }]) +
+      '<header class="hero rise" style="--i:2"><div class="kicker">DEBUG</div>' +
+      "<h1>Quiz breakdown</h1>" +
+      '<p class="desc">Every quiz on the site, nested, with question counts. Cap: ' +
+      QUIZ_CAP + " per quiz. " +
+      (over ? over + " over cap." : "All within cap.") + "</p></header>" +
+      '<div class="dbg-table rise" style="--i:3">' +
+      '<div class="dbg-row dbg-head"><span class="dbg-name">Quiz</span>' +
+      '<span class="dbg-num">Questions</span><span class="dbg-num">Items</span></div>' +
+      rows.map(function (r) {
+        var indent = r.depth ? '<span class="dbg-indent">' + new Array(r.depth + 1).join("› ") + "</span>" : "";
+        var name = r.key
+          ? '<a class="dbg-link" href="?path=' + debugQuizPath(r.key, drills) + '/quiz">' + r.name + "</a>"
+          : r.name;
+        return '<div class="dbg-row"><span class="dbg-name">' + indent + name + "</span>" +
+          '<span class="dbg-num' + (r.over ? " dbg-over" : "") + '">' + r.qs + "</span>" +
+          '<span class="dbg-num">' + r.items + " " + r.itemKind + "</span></div>";
+      }).join("") + "</div>";
+  }
+
   /* ---------- router: every view lives at / with ?path=<a/b/c> ---------- */
   function viewFromHash() {
     var m = /^#\/category\/([^\/]+)/.exec(location.hash || "");
@@ -103,12 +165,15 @@
   function viewFromPath() {
     var segs = window.CM_PATH || [];
     if (segs.length === 0) return { view: "landing" };
+    if (segs.length === 1 && segs[0] === "debug") return { view: "debug" };
     if (segs.length === 1 && catById(segs[0])) return { view: "category", id: segs[0] };
     return null;
   }
   function render(view) {
     setAccent(view.view === "category" ? catById(view.id).color : null);
-    app.innerHTML = view.view === "category" ? categoryView(view.id) : landingView();
+    app.innerHTML = view.view === "category" ? categoryView(view.id)
+      : view.view === "debug" ? debugView()
+      : landingView();
     bind();
     refreshFavCounts();
   }
