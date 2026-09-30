@@ -418,11 +418,6 @@
     }
   }
 
-  // header buttons persist across the whole quiz
-  document.querySelector(".wz-top").querySelectorAll("[data-act]").forEach(function (el) {
-    el.addEventListener("click", function () { actGo(el.dataset.act); });
-  });
-
   function bindWindow() {
     winBody.querySelectorAll("[data-act]").forEach(function (el) {
       el.addEventListener("click", function () { actGo(el.dataset.act); });
