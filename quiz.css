@@ -59,6 +59,8 @@
 }
 .big-start:active{transform:scale(.96)}
 .q-quiet{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--faint);text-decoration:none}
+.q-backrow{margin:0 0 2px}
+.q-backrow .q-quiet{display:inline-block;margin-top:0;background:none;border:none;cursor:pointer;font:inherit;padding:4px 0}
 
 /* results: ranked names only */
 .r-head{padding:18px 4px 6px;position:relative}

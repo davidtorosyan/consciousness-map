@@ -374,11 +374,21 @@
     var whyHtml = q.why
       ? '<div class="q-why" id="why"><div class="why-card">' + q.why + "</div></div>"
       : "";
-    return '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
+    // undo: stepping back shows the answer already given, highlighted
+    var prev = (S && S.answers) ? S.answers[idx] : null;
+    function abtn(base, ans, ic, lb) {
+      var picked = prev === ans ? " picked-" + (ans === "skip" ? "skip" : ans) : "";
+      return '<button class="a-btn ' + base + picked + '" data-ans="' + ans + '"><span class="ic">' + ic + '</span><span class="lb">' + lb + "</span></button>";
+    }
+    var backRow = idx > 0
+      ? '<div class="q-backrow"><button class="q-quiet" data-act="qback" aria-label="Previous question">\u2039 Previous</button></div>'
+      : "";
+    return backRow +
+      '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
       '<div class="a-grid">' +
-      '<button class="a-btn yes" data-ans="yes"><span class="ic">✓</span><span class="lb">Yes</span></button>' +
-      '<button class="a-btn no" data-ans="no"><span class="ic">✗</span><span class="lb">No</span></button>' +
-      '<button class="a-btn maybe" data-ans="skip"><span class="ic">?</span><span class="lb">Not sure</span></button>' +
+      abtn("yes", "yes", "\u2713", "Yes") +
+      abtn("no", "no", "\u2717", "No") +
+      abtn("maybe", "skip", "?", "Not sure") +
       whyBtn + "</div>" + whyHtml;
   }
 
@@ -583,6 +593,10 @@
     else if (act === "back") {
       if (cur.name === "browse") { location.href = pathForCategory(DRILL.categoryId); return; }
       backTo();
+    }
+    else if (act === "qback") {
+      // undo: step to the previous question, keeping answers intact
+      if (cur.name === "q" && cur.idx > 0) go({ name: "q", idx: cur.idx - 1 }, true);
     }
   }
 
