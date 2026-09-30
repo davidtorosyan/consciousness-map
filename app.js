@@ -65,7 +65,8 @@
       '<div class="section-label rise" style="--i:3">THE ELEVEN CATEGORIES</div>' +
       rows +
       '<div class="foot rise" style="--i:16">Names and colors follow the official ' +
-      '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></div>';
+      '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
+      ' · <a href="history.html">History</a></div>';
   }
 
   function categoryView(id) {

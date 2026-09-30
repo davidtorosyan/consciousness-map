@@ -17,6 +17,28 @@
   var RET_URL = RET_ID ? "index.html#/category/" + RET_ID : null;
   var BROWSE = false;
   try { BROWSE = new URLSearchParams(location.search).get("mode") === "browse"; } catch (e) { /* ignore */ }
+  /* ---------- shareable results: ?r=<base64url({v,q,a})> ---------- */
+  function b64urlEncode(s) {
+    try {
+      var b = btoa(unescape(encodeURIComponent(s)));
+      return b.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    } catch (e) { return ""; }
+  }
+  function b64urlDecode(s) {
+    var b = String(s).replace(/-/g, "+").replace(/_/g, "/");
+    while (b.length % 4) b += "=";
+    return decodeURIComponent(escape(atob(b)));
+  }
+  var SHARE_ANS = null, SHARE_BAD = false;
+  try {
+    var _rp = new URLSearchParams(location.search).get("r");
+    if (_rp) {
+      var _p = JSON.parse(b64urlDecode(_rp));
+      if (_p && _p.v === window.QUIZ_DATA_VERSION && _p.q === (qp || "main") &&
+          Array.isArray(_p.a) && _p.a.length === QUIZ.questions.length) SHARE_ANS = _p.a;
+      else SHARE_BAD = true;
+    }
+  } catch (e) { SHARE_BAD = true; }
   // the quiz wears its section's color (default blue only for the top-level quiz)
   if (DRILL && DRILL.color) {
     try { document.documentElement.style.setProperty("--acc", DRILL.color); } catch (e) { /* ignore */ }
@@ -62,6 +84,24 @@
     document.querySelectorAll("[data-favcount]").forEach(function (el) { el.textContent = label; });
   }
 
+  /* ---------- quiz history (localStorage) ---------- */
+  var HIST_KEY = "cm_history_v1";
+  function getHistory() {
+    try { var h = JSON.parse(localStorage.getItem(HIST_KEY)); return Array.isArray(h) ? h : []; }
+    catch (e) { return []; }
+  }
+  function saveHistory() {
+    try {
+      if (!S || !S.answers.some(function (a) { return a === "yes" || a === "no"; })) return;
+      var sc = scores(), ts = targets().slice();
+      ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
+      var h = getHistory();
+      h.unshift({ q: qp || "main", t: Date.now(), a: S.answers.slice(), top: ts.length ? ts[0].name : "" });
+      while (h.length > 30) h.pop();
+      localStorage.setItem(HIST_KEY, JSON.stringify(h));
+    } catch (e) {}
+  }
+
   /* targets: the 11 canonical categories, or a drill quiz's sub-areas */
   function targets() {
     if (!DRILL) return QD.order.map(function (id) {
@@ -87,9 +127,16 @@
     for (var i = 0; i < QUIZ.questions.length; i++) a.push(null);
     return { answers: a };
   }
+  // answers behind the current view: a shared/history snapshot when the view
+  // carries one, otherwise the live session
+  function viewAnswers() {
+    if (typeof cur !== "undefined" && cur.answers) return cur.answers;
+    return S && S.answers;
+  }
   function scores() {
-    var qs = QUIZ.questions, sc = {};
-    S.answers.forEach(function (ans, i) {
+    var qs = QUIZ.questions, sc = {}, A = viewAnswers();
+    if (!A) return sc;
+    A.forEach(function (ans, i) {
       if (ans !== "yes" && ans !== "no") return;
       var pts = qs[i][ans] || {};
       Object.keys(pts).forEach(function (k) { sc[k] = (sc[k] || 0) + pts[k]; });
@@ -103,6 +150,8 @@
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
+    '<span aria-hidden="true">·</span>' +
+    '<a href="history.html">History</a>' +
     '<span aria-hidden="true">·</span>' +
     '<a href="favorites.html">Bookmarked<span data-favcount></span></a>' +
     '<span aria-hidden="true">·</span>' +
@@ -195,7 +244,14 @@
     var nq = QUIZ.questions.length, h, dn, di;
     if (view.name === "start") { h = startView(); dn = 0; di = -1; }
     else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
-    else if (view.name === "results") { clearProgress(); h = resultsView(); dn = nq; di = nq; }
+    else if (view.name === "results") {
+      // snapshots (shared links, history, back-from-detail) don't clear the live
+      // progress and are never written back to history
+      if (!view.answers) clearProgress();
+      h = resultsView(); dn = nq; di = nq;
+      if (!view.answers && !view.shared) saveHistory();
+    }
+    else if (view.name === "badshare") { h = badShareView(); dn = 0; di = -1; }
     else if (view.name === "browse") { h = browseView(); dn = 0; di = -1; }
     else { h = detailView(view.key); dn = 0; di = -1; }
     var trailEl = document.getElementById("wz-trail");
@@ -228,6 +284,14 @@
       '<p class="lede">' + QUIZ.intro + "</p>" +
       startBtn + underBtn +
       "<div>" + backLink + "</div></div>";
+  }
+
+  function badShareView() {
+    var quizHref = qp ? "quiz.html?quiz=" + qp : "quiz.html";
+    return '<div class="q-start"><div class="eyebrow">SHARED RESULT</div>' +
+      "<h1>That link didn\u2019t work.</h1>" +
+      '<p class="lede">It may be from an older version of the quiz.</p>' +
+      '<div><a class="q-quiet" href="' + quizHref + '">Take the quiz instead</a></div></div>';
   }
 
   function questionView(idx) {
@@ -279,10 +343,10 @@
   }
 
   function resultsView() {
-    var sc = scores(), ts = targets().slice();
+    var sc = scores(), ts = targets().slice(), A = viewAnswers() || [];
     ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
     var nAnswered = 0;
-    if (S) S.answers.forEach(function (a) { if (a === "yes" || a === "no") nAnswered++; });
+    A.forEach(function (a) { if (a === "yes" || a === "no") nAnswered++; });
     var skipNote = nAnswered === 0
       ? '<div class="r-note">You didn\u2019t answer Yes or No to anything \u2014 there\u2019s nothing to align yet.</div>'
       : "";
@@ -293,21 +357,24 @@
       var tier = s >= 3 ? "hi" : s > 0 ? "mid" : "lo";
       return rowHtml(t, i, tier);
     }).join("");
-    return '<div class="r-head"><div class="eyebrow">YOUR ALIGNMENT</div>' +
+    var eyebrow = cur.shared ? "SHARED RESULT" : "YOUR ALIGNMENT";
+    return '<div class="r-head"><div class="eyebrow">' + eyebrow + "</div>" +
       "<h1>Closest first.</h1>" +
       '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div>' +
       skipNote + "</div>" + rows +
-      '<div class="d-quiet"><a class="d-link" href="index.html">Browse the map</a></div>';
+      '<div class="d-quiet"><a class="d-link" href="index.html">Browse the map</a>' +
+      '<button class="d-link" data-act="share" style="background:none;border:none;cursor:pointer;font:inherit">Share results</button></div>';
   }
 
   /* questions that moved the needle for one category, marked by the user's answer */
   function answerRows(key) {
-    if (!S || !S.answers.some(function (a) { return !!a; })) return "";
+    var A = viewAnswers();
+    if (!A || !A.some(function (a) { return !!a; })) return "";
     var qs = QUIZ.questions, out = [];
     qs.forEach(function (q, i) {
       var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
       if (!yp && !np) return;
-      var a = S.answers[i], cls, mark, alabel;
+      var a = A[i], cls, mark, alabel;
       if (a === "yes") { cls = yp > 0 ? "al" : "mis"; mark = yp > 0 ? "✓" : "✗"; alabel = "yes"; }
       else if (a === "no") { cls = np > 0 ? "al" : "mis"; mark = np > 0 ? "✓" : "✗"; alabel = "no"; }
       else { cls = "na"; mark = "–"; alabel = a === "skip" ? "not sure" : "–"; }
@@ -343,11 +410,15 @@
     }
     var actions = pills ? '<div class="d-actions">' + pills + "</div>" : "";
     var eyebrowLabel = !DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY");
+    var backRes = cur.from === "results"
+      ? '<div class="d-quiet"><button class="d-link" data-act="back-results" style="background:none;border:none;cursor:pointer;font:inherit">\u2039 Results</button></div>'
+      : "";
     return '<div class="d-head" style="--bm:' + t.color + '">' + srcBadge +
       '<div class="eyebrow">' + eyebrowLabel + bmBtn + "</div>" +
       "<h1>" + t.name + "</h1>" + tag + "</div>" +
       actions +
-      answerRows(key);
+      answerRows(key) +
+      backRes;
   }
 
   /* ---------- events ---------- */
@@ -375,7 +446,20 @@
     }, ans === "skip" ? 80 : 120);
   }
 
-  function actGo(act) {
+  /* copy a shareable results link: quiz key + data version + answers, base64url'd */
+  function shareResults(btn) {
+    var A = viewAnswers();
+    if (!A) return;
+    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: qp || "main", a: A }));
+    var base = location.href.split("?")[0].split("#")[0];
+    var url = base + (qp ? "?quiz=" + encodeURIComponent(qp) + "&r=" + enc : "?r=" + enc);
+    function done(ok) { if (btn) btn.textContent = ok ? "Copied" : "Couldn\u2019t copy"; }
+    if (enc && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
+    } else done(false);
+  }
+
+  function actGo(act, el) {
     if (act === "start") { clearProgress(); S = freshSession(); go({ name: "q", idx: 0 }); }
     else if (act === "resume") {
       var saved = loadProgress(), i = 0;
@@ -383,6 +467,8 @@
       else S = freshSession();
       go({ name: "q", idx: i });
     }
+    else if (act === "share") { shareResults(el); }
+    else if (act === "back-results") { go({ name: "results", answers: cur.answers, shared: cur.shared }); }
     else if (act === "restart") {
       // always back to the start of the current mode — never a mode switch
       clearProgress(); S = null;
@@ -398,13 +484,15 @@
 
   function bindWindow() {
     winBody.querySelectorAll("[data-act]").forEach(function (el) {
-      el.addEventListener("click", function () { actGo(el.dataset.act); });
+      el.addEventListener("click", function () { actGo(el.dataset.act, el); });
     });
     winBody.querySelectorAll("[data-ans]").forEach(function (el) {
       el.addEventListener("click", function () { answer(cur.idx, el.dataset.ans); });
     });
     winBody.querySelectorAll("[data-target]").forEach(function (el) {
-      el.addEventListener("click", function () { go({ name: "detail", key: el.dataset.target }); });
+      el.addEventListener("click", function () {
+        go({ name: "detail", key: el.dataset.target, from: cur.name, answers: viewAnswers(), shared: cur.shared });
+      });
     });
     winBody.querySelectorAll("[data-drill]").forEach(function (el) {
       el.addEventListener("click", function () {
@@ -431,5 +519,7 @@
 
   refreshFavCounts();
   if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
+  else if (SHARE_ANS) go({ name: "results", answers: SHARE_ANS, shared: true });
+  else if (SHARE_BAD) go({ name: "badshare" });
   else go({ name: "start" });
 })();

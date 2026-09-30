@@ -1,6 +1,9 @@
 /* Landscape of Consciousness Quiz — top level.
    11 questions, one per canonical category. Yes/No/Not sure/Don't understand.
    "Not sure" and "Don't understand" give no points. */
+// Bump this whenever quiz questions change: shared result links (?r=) carry the
+// version they were made with, and links from a different version are rejected.
+window.QUIZ_DATA_VERSION = "20260930";
 (function () {
   "use strict";
   var cats = {};
