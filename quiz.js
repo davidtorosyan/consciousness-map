@@ -31,6 +31,7 @@
   /* ---------- routing: every view lives at / with ?path=<a/b/c> ----------
      quiz:          ?path=quiz | ?path=<cat>/quiz | ?path=<cat>/<school>/quiz
      theory list:   ?path=<cat>/browse | ?path=<cat>/<school>/browse (bare school path too)
+     theory:        ?path=<cat>/<theory> | ?path=<cat>/<school>/<theory>
      shared result: ?path=share/<payload>   (legacy ?r=<payload> still read) */
   var SEGS = window.CM_PATH || [];
   function drillPath(key) {
@@ -45,7 +46,8 @@
   function pathForQuiz(key) { return "?path=" + (key ? drillPath(key) + "/quiz" : "quiz"); }
   function pathForBrowse(key) { return "?path=" + drillPath(key) + "/browse"; }
   function pathForCategory(id) { return "?path=" + id + "/"; }
-  var MODE = null, QKEY = null, SHARE_R = null;
+  function pathForTheory(drillKey, tkey) { return "?path=" + drillPath(drillKey) + "/" + tkey; }
+  var MODE = null, QKEY = null, TKEY = null, SHARE_R = null;
   (function () {
     if (!SEGS.length) {
       try { SHARE_R = new URLSearchParams(location.search).get("r"); } catch (e) { /* ignore */ }
@@ -55,11 +57,18 @@
     var a = SEGS[0], b = SEGS[1], c = SEGS[2];
     if (a === "quiz" && !b) { MODE = "quiz"; return; }
     if (a === "share" && b) { MODE = "share"; SHARE_R = b; return; }
-    var key = null, mode = null;
+    var key = null, mode = null, tkey = null;
     if ((b === "quiz" || b === "browse") && !c) { key = a; mode = b; }
     else if ((c === "quiz" || c === "browse") && b) { key = a + "-" + b; mode = c; }
+    else if (a && b && c) { key = a + "-" + b; mode = "theory"; tkey = c; }
+    else if (a && b && !c && !(QD.drill && QD.drill[a + "-" + b])) { key = a; mode = "theory"; tkey = b; }
     else if (a && b && !c) { key = a + "-" + b; mode = "browse"; } // bare school path -> theory list
-    if (key && mode && QD.drill && QD.drill[key]) { MODE = mode; QKEY = key; }
+    if (mode === "theory") {
+      var d = key && QD.drill && QD.drill[key], ok = false;
+      if (d) d.areas.forEach(function (x) { if (x.key === tkey) ok = true; });
+      if (ok) { MODE = "theory"; QKEY = key; TKEY = tkey; }
+    }
+    else if (key && mode && QD.drill && QD.drill[key]) { MODE = mode; QKEY = key; }
   })();
   if (!MODE) return; // another view owns this URL
   window.CM_CLAIMED = true;
@@ -90,6 +99,10 @@
   // the quiz wears its section's color (default blue only for the top-level quiz)
   if (DRILL && DRILL.color) {
     try { document.documentElement.style.setProperty("--acc", DRILL.color); } catch (e) { /* ignore */ }
+  }
+  // a theory's own URL: title it with the theory's name
+  if (MODE === "theory" && DRILL) {
+    DRILL.areas.forEach(function (x) { if (x.key === TKEY) document.title = x.name; });
   }
 
   /* ---------- in-progress answers (sessionStorage): survive reloads and Back ---------- */
@@ -300,7 +313,14 @@
     }
     else if (view.name === "badshare") { h = badShareView(); dn = 0; di = -1; }
     else if (view.name === "browse") { h = browseView(); dn = 0; di = -1; }
-    else { h = detailView(view.key); dn = 0; di = -1; }
+    else if (view.name === "detail") {
+      h = detailView(view.key); dn = 0; di = -1;
+      // the theory owns this URL now: tapping a theory puts it in the path
+      // (drill theories only — main-quiz category details stay on the quiz URL)
+      if (!back && DRILL) {
+        try { history.replaceState(null, "", pathForTheory(QKEY, view.key)); } catch (e) {}
+      }
+    }
     var trailEl = document.getElementById("wz-trail");
     if (trailEl) { trailEl.innerHTML = trailHtml(); }
     setWindow(h, dn, di);
@@ -513,7 +533,10 @@
       go({ name: "q", idx: i });
     }
     else if (act === "share") { shareResults(el); }
-    else if (act === "back-results") { go({ name: "results", answers: cur.answers, shared: cur.shared }); }
+    else if (act === "back-results") {
+      try { history.replaceState(null, "", pathForQuiz(QKEY)); } catch (e) {}
+      go({ name: "results", answers: cur.answers, shared: cur.shared });
+    }
     else if (act === "restart") {
       // always back to the start of the current mode — never a mode switch
       clearProgress(); S = null;
@@ -553,7 +576,7 @@
         var fid = el.getAttribute("data-bm"), t = null;
         targets().forEach(function (x) { if (DRILL.categoryId + ":" + x.key === fid) t = x; });
         if (!t) return;
-        var nowOn = toggleFav({ id: fid, name: t.name, tagline: t.tagline, url: t.url, catId: DRILL.categoryId });
+        var nowOn = toggleFav({ id: fid, name: t.name, tagline: t.tagline, url: t.url, catId: DRILL.categoryId, drill: QKEY });
         el.classList.toggle("on", nowOn);
         el.setAttribute("aria-pressed", nowOn ? "true" : "false");
         refreshFavCounts();
@@ -565,5 +588,6 @@
   if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
   else if (SHARE_ANS) go({ name: "results", answers: SHARE_ANS, shared: true });
   else if (SHARE_BAD) go({ name: "badshare" });
+  else if (MODE === "theory") go({ name: "detail", key: TKEY });
   else go({ name: "start" });
 })();

@@ -29,6 +29,31 @@
     for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
     return null;
   }
+  function drillPath(key) {
+    var cs = window.LOC_CATEGORIES || [];
+    for (var i = 0; i < cs.length; i++) {
+      var c = cs[i].id;
+      if (key === c) return c;
+      if (key.indexOf(c + "-") === 0) return c + "/" + key.slice(c.length + 1);
+    }
+    return key;
+  }
+  function theoryKeyOf(f) { var i = String(f.id).indexOf(":"); return i < 0 ? f.id : f.id.slice(i + 1); }
+  function drillKeyOf(f) {
+    var drills = (window.QUIZ_DATA && window.QUIZ_DATA.drill) || {};
+    if (f.drill && drills[f.drill]) return f.drill;
+    // bookmarks saved before the drill was recorded: find the drill holding the theory,
+    // preferring the deeper (school) drill over the bare category drill
+    var tk = theoryKeyOf(f), best = null;
+    Object.keys(drills).forEach(function (k) {
+      var d = drills[k];
+      if (!d || d.categoryId !== f.catId) return;
+      (d.areas || []).forEach(function (a) {
+        if (a.key === tk && (!best || best === d.categoryId)) best = k;
+      });
+    });
+    return best;
+  }
   function cardHtml(f, i) {
     var c = catById(f.catId);
     var dot = c ? '<span class="loc-dot sm" style="background:' + c.color + '" aria-hidden="true"></span>' : "";
@@ -36,12 +61,16 @@
     var loc = f.url
       ? '<a class="src-badge" href="' + esc(f.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
       : "";
-    var map = c
-      ? '<a class="fav-link" style="margin-left:14px" href="?path=' + esc(f.catId) + '/">See on the map ›</a>'
-      : "";
-    return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' + loc +
+    var dk = drillKeyOf(f), tk = theoryKeyOf(f);
+    var browseHref = dk ? "?path=" + esc(drillPath(dk)) + "/browse" : (c ? "?path=" + esc(f.catId) + "/" : "./");
+    var theoryHref = dk ? "?path=" + esc(drillPath(dk)) + "/" + esc(tk) : "";
+    var map = '<a class="fav-link" style="margin-left:14px" href="' + browseHref + '">See on the map ›</a>';
+    var name = theoryHref
+      ? '<a class="fav-name" href="' + theoryHref + '">' + esc(f.name) + "</a>"
+      : '<div class="fav-name">' + esc(f.name) + "</div>";
+    return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' +
       '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + BM_SVG + "</button>" +
-      '<div class="grow"><div class="fav-name">' + esc(f.name) + "</div>" +
+      '<div class="grow">' + name +
       (f.tagline ? '<div class="fav-tag">' + esc(f.tagline) + "</div>" : "") +
       meta + "<div>" + loc + map + "</div></div></div>";
   }
