@@ -476,9 +476,10 @@
     if (!t) return resultsView();
     var tag = t.tagline ? '<p class="tag">' + t.tagline + "</p>" : "";
     var subKey = DRILL ? t.sub : key;
-    // bookmark toggle lives on theory (drill) detail screens — only for real theories (with a LOC url), not subcategory entries
+    // bookmark toggle lives on theory detail screens only — schools get the
+    // info badge, not a bookmark
     var bmBtn = "";
-    if (DRILL && t.url) {
+    if (DRILL && t.url && !t.sub) {
       var fid = DRILL.categoryId + ":" + t.key;
       var on = isFav(fid);
       bmBtn = '<button class="bm-btn' + (on ? " on" : "") + '" data-bm="' + fid +
