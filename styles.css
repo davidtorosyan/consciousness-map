@@ -90,6 +90,8 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .trail .tseg{white-space:nowrap;font-size:13px;color:var(--muted);padding:8px 2px;
   overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
 .trail .tseg.root{flex:none}
+/* middle crumbs collapse before the current page does */
+.trail .tseg:not(.root):not(:last-child){flex-shrink:5}
 .trail button.tseg,.trail a.tseg{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
 .trail .sep{color:var(--faint);font-size:12px;flex:none}
 .trail .here-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none;
