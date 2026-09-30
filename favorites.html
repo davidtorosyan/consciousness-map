@@ -6,12 +6,12 @@
 <title>Bookmarked theories</title>
 <meta name="description" content="Theories of consciousness you've bookmarked from the quizzes.">
 <meta name="theme-color" content="#04060a">
-<link rel="stylesheet" href="styles.css?v=20260929-170631">
+<link rel="stylesheet" href="styles.css?v=20260929-171043">
 </head>
 <body>
 <div class="bg" aria-hidden="true"><div class="dots"></div></div>
 <main id="app" class="wrap"></main>
-<script src="data/categories.js?v=20260929-170631"></script>
+<script src="data/categories.js?v=20260929-171043"></script>
 <script>
 /* Bookmarked theories — reads the same localStorage favorites the quizzes write. */
 (function () {
@@ -58,9 +58,7 @@
   }
   function render() {
     var favs = getFavs();
-    var h = '<div class="topbar rise" style="--i:0">' +
-      '<a class="icon-btn" style="text-decoration:none" href="index.html" aria-label="Back">‹</a><span></span></div>' +
-      '<header class="hero rise" style="--i:1"><div class="kicker">SAVED</div><h1>Bookmarked theories</h1>';
+    var h = '<header class="hero rise" style="--i:1"><div class="kicker">SAVED</div><h1>Bookmarked theories</h1>';
     if (favs.length) {
       h += '<p class="desc">' + favs.length + (favs.length === 1 ? " theory" : " theories") + " saved.</p></header>";
       h += favs.map(cardHtml).join("");

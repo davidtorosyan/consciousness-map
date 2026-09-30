@@ -30,13 +30,6 @@
   }
 
   /* ---------- shared chrome ---------- */
-  function topbar(showBack) {
-    return '<div class="topbar rise" style="--i:0">' +
-      (showBack
-        ? '<button class="icon-btn" data-nav="back" aria-label="Back">‹</button>'
-        : '<span></span>') +
-      '<button class="icon-btn" data-nav="home" aria-label="Start over">↺</button></div>';
-  }
   function trail(segs) {
     var h = '<nav class="trail rise" style="--i:1" aria-label="Where you are"><span class="here-dot"></span>';
     segs.forEach(function (s, i) {
@@ -47,12 +40,6 @@
     });
     return h + "</nav>";
   }
-  function bottomNav() {
-    return '<div class="bottom-nav rise" style="--i:98">' +
-      '<button class="nav-btn" data-nav="back">‹ Back</button>' +
-      '<button class="nav-btn primary" data-nav="home">↺ Start over</button></div>';
-  }
-
   /* ---------- views ---------- */
   function rowHtml(c, i) {
     return '<button class="subcard rise" style="--i:' + i + '"' +
@@ -94,14 +81,12 @@
     } else {
       pills = '<a class="pill" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>";
     }
-    return topbar(true) +
-      trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +
+    return trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
       '<a class="src-badge" href="' + c.url + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>" +
       "<h1>" + c.name + "</h1>" +
       '<p class="desc">' + c.tagline + "</p></header>" +
-      '<div class="d-actions rise" style="--i:3">' + pills + "</div>" +
-      bottomNav();
+      '<div class="d-actions rise" style="--i:3">' + pills + "</div>";
   }
 
   /* ---------- router ---------- */
@@ -135,21 +120,11 @@
       } catch (e) { apply(); }
     } else apply();
   }
-  function parentOf(view) {
-    if (view.view === "category") return { view: "landing" };
-    return { view: "landing" };
-  }
   function bind() {
     app.querySelectorAll("[data-goto]").forEach(function (el) {
       el.addEventListener("click", function () {
         navigate(JSON.parse(el.dataset.goto), false);
       });
-    });
-    app.querySelectorAll('[data-nav="back"]').forEach(function (el) {
-      el.addEventListener("click", function () { navigate(parentOf(current), true); });
-    });
-    app.querySelectorAll('[data-nav="home"]').forEach(function (el) {
-      el.addEventListener("click", function () { navigate({ view: "landing" }, true); });
     });
   }
 

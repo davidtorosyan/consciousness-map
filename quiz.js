@@ -103,9 +103,6 @@
     '<header class="wz-top">' +
       '<a class="wz-brand" href="index.html" aria-label="Consciousness Map home"><span class="wz-mark">◉</span>' +
       '<span class="wz-name">Landscape of Consciousness Quiz</span></a>' +
-      '<div class="wz-nav">' +
-      '<button class="icon-btn" id="wz-back" data-act="back" aria-label="Back">‹</button>' +
-      '<button class="icon-btn" data-act="restart" aria-label="Start over">↺</button></div>' +
     "</header>" +
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
@@ -172,7 +169,7 @@
   function startView() {
     var saved = loadProgress(), startBtn, underBtn;
     var backLink = RET_URL
-      ? '<a class="q-quiet" href="' + RET_URL + '">‹ Back to ' + QD.cats[RET_ID].name + "</a>"
+      ? ""
       : '<a class="q-quiet" href="index.html">' + QUIZ.browse + "</a>";
     if (saved) {
       var i = 0;
