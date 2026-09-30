@@ -171,10 +171,12 @@
       if (c) segs.push({ label: c.name });
     }
     return segs.map(function (s, i) {
+      var last = i === segs.length - 1;
       var pre = i > 0 ? '<span class="sep">›</span>' : "";
       var cls = "tseg" + (i === 0 ? " root" : "");
-      return pre + (s.href ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
-                           : '<span class="' + cls + '">' + s.label + "</span>");
+      // the last crumb is where you are — never a link
+      return pre + (!last && s.href ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
+                                    : '<span class="' + cls + '">' + s.label + "</span>");
     }).join("");
   }
 
