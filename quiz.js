@@ -153,10 +153,12 @@
     var v = cur.name;
     if (DRILL) {
       var cat = QD.cats[DRILL.categoryId];
-      if (cat) segs.push({ label: cat.name, href: "index.html#/category/" + DRILL.categoryId });
+      // the category crumb always links to the category page: it is the way back up
+      if (cat) segs.push({ label: cat.name, href: "index.html#/category/" + DRILL.categoryId, sec: true });
       if (qp !== DRILL.categoryId) {
-        // nested school drill: the school itself is a crumb
-        segs.push({ label: DRILL.name, href: "quiz.html?quiz=" + qp + "&mode=browse" + retQ });
+        // nested school drill: the school crumb links to the school's theory list,
+        // except on that list itself, where the school is where you are
+        segs.push({ label: DRILL.name, href: "quiz.html?quiz=" + qp + "&mode=browse" + retQ, sec: v !== "browse" });
       }
       if (v === "detail") {
         var t = targetByKey(cur.key);
@@ -173,14 +175,19 @@
       var last = i === segs.length - 1;
       var pre = i > 0 ? '<span class="sep">›</span>' : "";
       var cls = "tseg" + (i === 0 ? " root" : "");
-      // the last crumb is where you are — never a link
-      return pre + (!last && s.href ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
-                                    : '<span class="' + cls + '">' + s.label + "</span>");
+      // section crumbs link to their section index even when last, so there is
+      // always a way back up; the true current view is never a link
+      var link = s.href && (!last || s.sec);
+      return pre + (link ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
+                         : '<span class="' + cls + '">' + s.label + "</span>");
     }).join("");
   }
 
   var cur = { name: "start" };
   function go(view, back) {
+    // no landing page: a quiz opens straight into its first question.
+    // saved progress still lands on the resume screen, so it can be resumed or discarded.
+    if (!back && view.name === "start" && !loadProgress()) view = { name: "q", idx: 0 };
     if (!back) hist.push(view); else hist.pop();
     cur = view;
     setTimeout(function () { locked = false; }, 1500); // backstop: never leave taps dead
