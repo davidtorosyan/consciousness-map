@@ -20,6 +20,7 @@
   var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
   var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
   var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var HIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3.2 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
     catch (e) { return []; }
@@ -52,7 +53,7 @@
   }
 
   function landingView() {
-    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 4); }).join("");
+    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 5); }).join("");
     return trail([{ label: "Home", view: null }]) +
       '<div class="landing-head rise" style="--i:0">' +
       '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
@@ -61,10 +62,11 @@
       "Pick the one that sounds closest.</p></div>" +
       '<div class="d-actions">' +
       '<a class="pill rise" style="--i:1" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>" +
-      '<a class="pill icon rise" style="--i:2" href="favorites.html" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
-      '<div class="section-label rise" style="--i:3">THE ELEVEN CATEGORIES</div>' +
+      '<a class="pill rise" style="--i:2" href="history.html" aria-label="Quiz history">' + HIST_SVG + "<span>History</span></a>" +
+      '<a class="pill icon rise" style="--i:3" href="favorites.html" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
+      '<div class="section-label rise" style="--i:4">THE ELEVEN CATEGORIES</div>' +
       rows +
-      '<div class="foot rise" style="--i:16">Names and colors follow the official ' +
+      '<div class="foot rise" style="--i:17">Names and colors follow the official ' +
       '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
       ' · <a href="history.html">History</a></div>';
   }

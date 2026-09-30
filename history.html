@@ -6,13 +6,13 @@
 <title>Quiz history</title>
 <meta name="description" content="Quizzes you've completed, with their results.">
 <meta name="theme-color" content="#04060a">
-<link rel="stylesheet" href="styles.css?v=20260929-224421">
+<link rel="stylesheet" href="styles.css?v=20260930-072224">
 </head>
 <body>
 <div class="bg" aria-hidden="true"><div class="dots"></div></div>
 <main id="app" class="wrap"></main>
-<script src="data/categories.js?v=20260929-224421"></script>
-<script src="data/quiz-data.js?v=20260929-224421"></script>
+<script src="data/categories.js?v=20260930-072224"></script>
+<script src="data/quiz-data.js?v=20260930-072224"></script>
 <script>
 /* Quiz history — reads the cm_history_v1 localStorage the quizzes write.
    Each entry links to its results via the same share mechanism (?r=). */
@@ -21,7 +21,7 @@
   var HIST_KEY = "cm_history_v1";
   var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   function esc(s) {
-    return String(s == null ? "")
+    return String(s == null ? "" : s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;")
       .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
@@ -40,9 +40,12 @@
     var d = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[q];
     return d ? d.name : q;
   }
+  function packAnswers(a) {
+    return a.map(function (x) { return x === "yes" ? "y" : x === "no" ? "n" : x === "skip" ? "s" : "-"; }).join("");
+  }
   function shareHref(e) {
-    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: e.q, a: e.a }));
-    return "quiz.html" + (e.q === "main" ? "?r=" + enc : "?quiz=" + encodeURIComponent(e.q) + "&r=" + enc);
+    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: e.q, a: packAnswers(e.a) }));
+    return "quiz.html?r=" + enc;
   }
   function dateStr(t) {
     try { return new Date(t).toLocaleDateString(undefined, { month: "short", day: "numeric" }); }

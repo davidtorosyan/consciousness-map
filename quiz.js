@@ -6,18 +6,8 @@
   "use strict";
   var QD = window.QUIZ_DATA;
   var app = document.getElementById("app");
-  var qp = null;
-  try { qp = new URLSearchParams(location.search).get("quiz"); } catch (e) { /* ignore */ }
-  var DRILL = qp && QD.drill && QD.drill[qp] ? QD.drill[qp] : null;
-  var QUIZ = DRILL || QD.top;
-  var LOC_URL = "https://loc.closertotruth.com/";
-  var retParam = null;
-  try { retParam = new URLSearchParams(location.search).get("ret"); } catch (e) { /* ignore */ }
-  var RET_ID = retParam && QD.cats && QD.cats[retParam] ? retParam : null;
-  var RET_URL = RET_ID ? "index.html#/category/" + RET_ID : null;
-  var BROWSE = false;
-  try { BROWSE = new URLSearchParams(location.search).get("mode") === "browse"; } catch (e) { /* ignore */ }
-  /* ---------- shareable results: ?r=<base64url({v,q,a})> ---------- */
+  /* ---------- shareable results: ?r=<base64url({v,q,a})> ----------
+     The payload names its own quiz, so the URL never duplicates it. */
   function b64urlEncode(s) {
     try {
       var b = btoa(unescape(encodeURIComponent(s)));
@@ -29,13 +19,40 @@
     while (b.length % 4) b += "=";
     return decodeURIComponent(escape(atob(b)));
   }
+  // compact answers: "yns-" instead of ["yes","no","skip",null]; arrays still accepted
+  function packAnswers(a) {
+    return a.map(function (x) { return x === "yes" ? "y" : x === "no" ? "n" : x === "skip" ? "s" : "-"; }).join("");
+  }
+  function unpackAnswers(s) {
+    return String(s).split("").map(function (c) {
+      return c === "y" ? "yes" : c === "n" ? "no" : c === "s" ? "skip" : null;
+    });
+  }
+  var qp = null, rq = null;
+  try {
+    var _qs = new URLSearchParams(location.search);
+    qp = _qs.get("quiz");
+    var _rp0 = _qs.get("r");
+    if (_rp0) rq = JSON.parse(b64urlDecode(_rp0)).q;
+  } catch (e) { /* ignore */ }
+  var qkey = rq || qp; // a share payload names its own quiz
+  var DRILL = qkey && QD.drill && QD.drill[qkey] ? QD.drill[qkey] : null;
+  var QUIZ = DRILL || QD.top;
+  var LOC_URL = "https://loc.closertotruth.com/";
+  var retParam = null;
+  try { retParam = new URLSearchParams(location.search).get("ret"); } catch (e) { /* ignore */ }
+  var RET_ID = retParam && QD.cats && QD.cats[retParam] ? retParam : null;
+  var RET_URL = RET_ID ? "index.html#/category/" + RET_ID : null;
+  var BROWSE = false;
+  try { BROWSE = new URLSearchParams(location.search).get("mode") === "browse"; } catch (e) { /* ignore */ }
   var SHARE_ANS = null, SHARE_BAD = false;
   try {
     var _rp = new URLSearchParams(location.search).get("r");
     if (_rp) {
-      var _p = JSON.parse(b64urlDecode(_rp));
-      if (_p && _p.v === window.QUIZ_DATA_VERSION && _p.q === (qp || "main") &&
-          Array.isArray(_p.a) && _p.a.length === QUIZ.questions.length) SHARE_ANS = _p.a;
+      var _p = JSON.parse(b64urlDecode(_rp)), _ans = null;
+      if (_p && Array.isArray(_p.a) && _p.a.length === QUIZ.questions.length) _ans = _p.a;
+      else if (_p && typeof _p.a === "string" && _p.a.length === QUIZ.questions.length) _ans = unpackAnswers(_p.a);
+      if (_p && _p.v === window.QUIZ_DATA_VERSION && _p.q === (qkey || "main") && _ans) SHARE_ANS = _ans;
       else SHARE_BAD = true;
     }
   } catch (e) { SHARE_BAD = true; }
@@ -45,7 +62,7 @@
   }
 
   /* ---------- in-progress answers (sessionStorage): survive reloads and Back ---------- */
-  var PROG_KEY = "cm_progress_" + (qp || "main");
+  var PROG_KEY = "cm_progress_" + (qkey || "main");
   function saveProgress() {
     try { if (S) sessionStorage.setItem(PROG_KEY, JSON.stringify(S.answers)); } catch (e) {}
   }
@@ -96,7 +113,7 @@
       var sc = scores(), ts = targets().slice();
       ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
       var h = getHistory();
-      h.unshift({ q: qp || "main", t: Date.now(), a: S.answers.slice(), top: ts.length ? ts[0].name : "" });
+      h.unshift({ q: qkey || "main", t: Date.now(), a: S.answers.slice(), top: ts.length ? ts[0].name : "" });
       while (h.length > 30) h.pop();
       localStorage.setItem(HIST_KEY, JSON.stringify(h));
     } catch (e) {}
@@ -204,10 +221,10 @@
       var cat = QD.cats[DRILL.categoryId];
       // the category crumb always links to the category page: it is the way back up
       if (cat) segs.push({ label: cat.name, href: "index.html#/category/" + DRILL.categoryId, sec: true });
-      if (qp !== DRILL.categoryId) {
+      if (qkey !== DRILL.categoryId) {
         // nested school drill: the school crumb links to the school's theory list,
         // except on that list itself, where the school is where you are
-        segs.push({ label: DRILL.name, href: "quiz.html?quiz=" + qp + "&mode=browse" + retQ, sec: v !== "browse" });
+        segs.push({ label: DRILL.name, href: "quiz.html?quiz=" + qkey + "&mode=browse" + retQ, sec: v !== "browse" });
       }
       if (v === "detail") {
         var t = targetByKey(cur.key);
@@ -287,7 +304,7 @@
   }
 
   function badShareView() {
-    var quizHref = qp ? "quiz.html?quiz=" + qp : "quiz.html";
+    var quizHref = qkey ? "quiz.html?quiz=" + qkey : "quiz.html";
     return '<div class="q-start"><div class="eyebrow">SHARED RESULT</div>' +
       "<h1>That link didn\u2019t work.</h1>" +
       '<p class="lede">It may be from an older version of the quiz.</p>' +
@@ -333,7 +350,7 @@
     var rows = ts.map(function (t, i) { return rowHtml(t, i, null); }).join("");
     var name = DRILL ? DRILL.name : "All categories";
     var kind = !DRILL ? "categories" : (ts.some(function (t) { return !!t.sub; }) ? "schools" : "theories");
-    var quizHref = qp ? "quiz.html?quiz=" + qp : "quiz.html";
+    var quizHref = qkey ? "quiz.html?quiz=" + qkey : "quiz.html";
     return '<div class="r-head"><div class="eyebrow">BROWSE</div>' +
       "<h1>" + name + "</h1>" +
       '<p class="lede">' + ts.length + " " + kind + " — tap one to open it.</p></div>" + rows +
@@ -450,9 +467,9 @@
   function shareResults(btn) {
     var A = viewAnswers();
     if (!A) return;
-    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: qp || "main", a: A }));
+    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: qkey || "main", a: packAnswers(A) }));
     var base = location.href.split("?")[0].split("#")[0];
-    var url = base + (qp ? "?quiz=" + encodeURIComponent(qp) + "&r=" + enc : "?r=" + enc);
+    var url = base + "?r=" + enc;
     function done(ok) { if (btn) btn.textContent = ok ? "Copied" : "Couldn\u2019t copy"; }
     if (enc && navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
