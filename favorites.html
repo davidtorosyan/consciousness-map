@@ -6,18 +6,19 @@
 <title>Bookmarked theories</title>
 <meta name="description" content="Theories of consciousness you've bookmarked from the quizzes.">
 <meta name="theme-color" content="#04060a">
-<link rel="stylesheet" href="styles.css?v=20260929-165509">
+<link rel="stylesheet" href="styles.css?v=20260929-170030">
 </head>
 <body>
 <div class="bg" aria-hidden="true"><div class="dots"></div></div>
 <main id="app" class="wrap"></main>
-<script src="data/categories.js?v=20260929-165509"></script>
+<script src="data/categories.js?v=20260929-170030"></script>
 <script>
 /* Bookmarked theories — reads the same localStorage favorites the quizzes write. */
 (function () {
   "use strict";
   var FAV_KEY = "cm_favorites_v1";
   var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;")
@@ -43,12 +44,12 @@
     var dot = c ? '<span class="loc-dot sm" style="background:' + c.color + '" aria-hidden="true"></span>' : "";
     var meta = c ? '<div class="fav-meta">' + dot + "<span>" + esc(c.name) + "</span></div>" : "";
     var loc = f.url
-      ? '<a class="fav-link" href="' + esc(f.url) + '" target="_blank" rel="noopener">Explore on Landscape of Consciousness ↗</a>'
+      ? '<a class="src-badge" href="' + esc(f.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
       : "";
     var map = c
       ? '<a class="fav-link" style="margin-left:14px" href="index.html#/category/' + esc(f.catId) + '">See on the map ›</a>'
       : "";
-    return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' +
+    return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' + loc +
       '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + BM_SVG + "</button>" +
       '<div class="grow"><div class="fav-name">' + esc(f.name) + "</div>" +
       (f.tagline ? '<div class="fav-tag">' + esc(f.tagline) + "</div>" : "") +
@@ -64,8 +65,7 @@
       h += favs.map(cardHtml).join("");
     } else {
       h += '<p class="desc">Nothing saved yet. Tap the bookmark on any theory in a quiz and it will land here.</p></header>' +
-        '<div class="landing-tools"><a class="tool-btn rise" style="--i:2;text-decoration:none" href="quiz.html">' +
-        '<span>◉ <strong>Take the quiz</strong> — find theories worth saving</span><span class="arr">›</span></a></div>';
+        '<div class="d-actions"><a class="pill icon rise" style="--i:2" href="quiz.html" aria-label="Take the quiz"><span class="ic-q">?</span></a></div>';
     }
     document.getElementById("app").innerHTML = h;
     document.querySelectorAll("[data-unbm]").forEach(function (el) {

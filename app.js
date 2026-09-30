@@ -17,6 +17,8 @@
   /* ---------- bookmarked theories (localStorage) ---------- */
   var FAV_KEY = "cm_favorites_v1";
   var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
+  var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
     catch (e) { return []; }
@@ -67,11 +69,9 @@
       "<h1>Find your view</h1>" +
       '<p class="lede">Eleven families of theories about what consciousness is. ' +
       "Pick the one that sounds closest.</p></div>" +
-      '<div class="landing-tools">' +
-      '<a class="tool-btn rise" style="--i:1;text-decoration:none" href="quiz.html">' +
-      '<span>◉ <strong>Take the quiz</strong> — 11 quick questions</span><span class="arr">›</span></a>' +
-      '<a class="tool-btn rise" style="--i:2;text-decoration:none" href="favorites.html">' +
-      "<span>" + BM_SVG + ' <strong>Bookmarked theories</strong><span data-favcount></span></span><span class="arr">›</span></a></div>' +
+      '<div class="d-actions">' +
+      '<a class="pill icon rise" style="--i:1" href="quiz.html" aria-label="Take the quiz — 11 quick questions"><span class="ic-q">?</span></a>' +
+      '<a class="pill icon rise" style="--i:2" href="favorites.html" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
       '<div class="section-label rise" style="--i:3">THE ELEVEN CATEGORIES</div>' +
       rows +
       '<div class="foot rise" style="--i:16">Names and colors follow the official ' +
@@ -81,22 +81,22 @@
   function categoryView(id) {
     var c = catById(id);
     if (!c) return landingView();
-    // On a category page, "Quiz" means that category's own quiz;
-    // the top-level one is labeled "Main quiz" so the two can't be confused.
+    // "Quiz" here means that category's own quiz. The top-level quiz lives
+    // only on the map landing page — it is never linked from sub pages.
     var drill = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[id];
     var pills;
     if (drill) {
+      var browseAria = drill.areas.some(function (a) { return !!a.sub; }) ? "Browse the schools" : "Browse the theories";
       pills =
-        '<a class="pill" href="quiz.html?quiz=' + id + "&ret=" + id + '">Quiz</a>' +
-        '<a class="pill" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '">Browse</a>' +
-        '<a class="pill" href="quiz.html">Main quiz</a>' +
-        '<a class="pill" href="' + c.url + '" target="_blank" rel="noopener">Source ↗</a>';
+        '<a class="pill icon" href="quiz.html?quiz=' + id + "&ret=" + id + '" aria-label="Take the quiz"><span class="ic-q">?</span></a>' +
+        '<a class="pill icon" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '" aria-label="' + browseAria + '">' + LIST_SVG + "</a>";
     } else {
-      pills = '<a class="pill" href="quiz.html">Quiz</a>';
+      pills = '<a class="pill icon" href="quiz.html" aria-label="Take the quiz"><span class="ic-q">?</span></a>';
     }
     return topbar(true) +
       trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
+      '<a class="src-badge" href="' + c.url + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>" +
       "<h1>" + c.name + "</h1>" +
       '<p class="desc">' + c.tagline + "</p></header>" +
       '<div class="d-actions rise" style="--i:3">' + pills + "</div>" +

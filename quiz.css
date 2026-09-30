@@ -93,7 +93,7 @@
   background:linear-gradient(140deg,color-mix(in srgb,var(--acc) 12%,transparent),rgba(255,255,255,.015))}
 
 /* detail: name + one line + buttons */
-.d-head{padding:26px 6px 8px}
+.d-head{padding:26px 6px 8px;position:relative}
 .d-head h1{font-size:34px;margin-bottom:10px}
 .d-head .tag{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:34ch}
 /* .d-actions lives in styles.css (pill row shared with the map pages) */

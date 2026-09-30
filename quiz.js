@@ -41,6 +41,9 @@
   var FAV_KEY = "cm_favorites_v1";
   var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
   var TIER_DOT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>';
+  var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
+  var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
+  var PIN_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-3.9 0-7 3-7 6.8 0 4.9 7 10.2 7 10.2s7-5.3 7-10.2c0-3.8-3.1-6.8-7-6.8z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10.3" r="2.3" fill="currentColor"/></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
     catch (e) { return []; }
@@ -291,20 +294,20 @@
       bmBtn = '<button class="bm-btn' + (on ? " on" : "") + '" data-bm="' + fid +
         '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
-    // action pills: single words, no subtitles
+    // action pills: icons only — ? quiz, list browse, pin map. Source lives in the badge up top.
+    var srcBadge = t.url
+      ? '<a class="src-badge" href="' + t.url + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
+      : "";
     var pills = "";
     if (subKey && QD.drill && QD.drill[subKey]) {
-      pills += '<button class="pill" data-browse="' + subKey + '">Browse</button>' +
-               '<button class="pill" data-drill="' + subKey + '">Quiz</button>';
-    }
-    if (t.url) {
-      pills += '<a class="pill" href="' + t.url + '" target="_blank" rel="noopener">Source ↗</a>';
+      pills += '<button class="pill icon" data-browse="' + subKey + '" aria-label="Browse the theories">' + LIST_SVG + "</button>" +
+               '<button class="pill icon" data-drill="' + subKey + '" aria-label="Take the quiz"><span class="ic-q">?</span></button>';
     }
     if (t.mapUrl) {
-      pills += '<a class="pill" href="' + t.mapUrl + '">Map</a>';
+      pills += '<a class="pill icon" href="' + t.mapUrl + '" aria-label="See on the map">' + PIN_SVG + "</a>";
     }
     var actions = pills ? '<div class="d-actions">' + pills + "</div>" : "";
-    return '<div class="d-head" style="--bm:' + t.color + '"><div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
+    return '<div class="d-head" style="--bm:' + t.color + '">' + srcBadge + '<div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
       bmBtn + "<h1>" + t.name + "</h1>" + tag + "</div>" +
       actions +
       answerRows(key) +
