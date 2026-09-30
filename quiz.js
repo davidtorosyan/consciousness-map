@@ -152,7 +152,7 @@
     return found;
   }
   function trailHtml() {
-    var segs = [{ label: "Map", href: "index.html" }];
+    var segs = [{ label: "Home", href: "index.html" }];
     var retQ = RET_ID ? "&ret=" + RET_ID : "";
     var v = cur.name;
     if (DRILL) {
@@ -172,8 +172,9 @@
     }
     return segs.map(function (s, i) {
       var pre = i > 0 ? '<span class="sep">›</span>' : "";
-      return pre + (s.href ? '<a class="tseg" href="' + s.href + '">' + s.label + "</a>"
-                           : '<span class="tseg">' + s.label + "</span>");
+      var cls = "tseg" + (i === 0 ? " root" : "");
+      return pre + (s.href ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
+                           : '<span class="' + cls + '">' + s.label + "</span>");
     }).join("");
   }
 

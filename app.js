@@ -34,9 +34,10 @@
     var h = '<nav class="trail rise" style="--i:1" aria-label="Where you are"><span class="here-dot"></span>';
     segs.forEach(function (s, i) {
       if (i > 0) h += '<span class="sep">›</span>';
+      var cls = "tseg" + (i === 0 ? " root" : "");
       h += s.view
-        ? '<button class="tseg" data-goto=\'' + JSON.stringify(s.view) + "'>" + s.label + "</button>"
-        : '<span class="tseg">' + s.label + "</span>";
+        ? '<button class="' + cls + '" data-goto=\'' + JSON.stringify(s.view) + "'>" + s.label + "</button>"
+        : '<span class="' + cls + '">' + s.label + "</span>";
     });
     return h + "</nav>";
   }
@@ -52,7 +53,8 @@
 
   function landingView() {
     var rows = CATS.map(function (c, i) { return rowHtml(c, i + 4); }).join("");
-    return '<div class="landing-head rise" style="--i:0">' +
+    return trail([{ label: "Home", view: null }]) +
+      '<div class="landing-head rise" style="--i:0">' +
       '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
       "<h1>Find your view</h1>" +
       '<p class="lede">Eleven families of theories about what consciousness is. ' +
@@ -81,7 +83,7 @@
     } else {
       pills = '<a class="pill" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>";
     }
-    return trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +
+    return trail([{ label: "Home", view: { view: "landing" } }, { label: c.name, view: null }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
       '<a class="src-badge" href="' + c.url + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>" +
       "<h1>" + c.name + "</h1>" +

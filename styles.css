@@ -85,13 +85,13 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   font-size:12.5px;color:var(--faint);line-height:1.7}
 .foot a{color:var(--faint)}
 
-/* ---------- breadcrumb trail ---------- */
-.trail{display:flex;align-items:center;gap:7px;margin:0 0 14px;overflow-x:auto;scrollbar-width:none;
-  -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
-.trail::-webkit-scrollbar{display:none}
-.trail .tseg{white-space:nowrap;font-size:13px;color:var(--muted);padding:8px 2px}
-.trail button.tseg{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
-.trail .sep{color:var(--faint);font-size:12px}
+/* ---------- breadcrumb trail: always one line, never scrolls — middle crumbs collapse ---------- */
+.trail{display:flex;align-items:center;gap:7px;margin:0 0 14px;overflow:hidden}
+.trail .tseg{white-space:nowrap;font-size:13px;color:var(--muted);padding:8px 2px;
+  overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+.trail .tseg.root{flex:none}
+.trail button.tseg,.trail a.tseg{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.trail .sep{color:var(--faint);font-size:12px;flex:none}
 .trail .here-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none;
   box-shadow:0 0 10px var(--acc);animation:pulse 2.2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.45}}
