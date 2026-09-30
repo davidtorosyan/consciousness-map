@@ -11,6 +11,23 @@ cd "$(dirname "$0")"
 MSG="${1:-Site update}"
 V="$(date +%Y%m%d-%H%M%S)"
 
+# pre-deploy lint: every standalone .js file and every inline <script> block
+# must parse. (A single syntax error in an inline script blanks the whole page.)
+for f in app.js quiz.js data/categories.js data/quiz-data.js; do
+  node --check "$f" || { echo "LINT FAIL: $f"; exit 1; }
+done
+for f in index.html quiz.html favorites.html history.html; do
+  python3 - "$f" <<'PYEOF' > /tmp/inline-check.js
+import re, sys
+html = open(sys.argv[1]).read()
+blocks = [m.group(1) for m in re.finditer(r'<script>(.*?)</script>', html, re.S)]
+print("\n".join(blocks))
+PYEOF
+  [ -s /tmp/inline-check.js ] || continue
+  node --check /tmp/inline-check.js || { echo "LINT FAIL: inline script in $f"; exit 1; }
+done
+echo "lint ok"
+
 for f in index.html quiz.html favorites.html history.html; do
   # strip any previous stamp
   sed -i -E 's/\?v=[0-9]{8}-[0-9]{6}//g' "$f"
