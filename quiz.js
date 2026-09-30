@@ -318,15 +318,9 @@
     else if (view.name === "detail") {
       h = detailView(view.key); dn = 0; di = -1;
       // the theory owns this URL now: tapping a theory puts it in the path
-      // (drill theories only — main-quiz category details stay on the quiz URL).
-      // school details leave the URL alone: the bare school path renders its
-      // theory list, so replacing would both break back-navigation to the
-      // school list and show the wrong view on reload.
+      // (drill theories only — main-quiz category details stay on the quiz URL)
       if (!back && DRILL) {
-        var dt = targetByKey(view.key);
-        if (dt && !dt.sub) {
-          try { history.replaceState(null, "", pathForTheory(QKEY, view.key)); } catch (e) {}
-        }
+        try { history.replaceState(null, "", pathForTheory(QKEY, view.key)); } catch (e) {}
       }
     }
     var trailEl = document.getElementById("wz-trail");
@@ -590,6 +584,11 @@
     });
     winBody.querySelectorAll("[data-target]").forEach(function (el) {
       el.addEventListener("click", function () {
+        var t = targetByKey(el.dataset.target);
+        // schools tapped from a browse list get their own page — and their own
+        // history entry — so back returns to the school list; everywhere else
+        // details stay in-page
+        if (t && t.sub && DRILL && cur.name === "browse") { location.href = pathForTheory(QKEY, t.key); return; }
         go({ name: "detail", key: el.dataset.target, from: cur.name, answers: viewAnswers(), shared: cur.shared });
       });
     });
