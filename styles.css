@@ -86,10 +86,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .foot a{color:var(--faint)}
 
 /* ---------- breadcrumb trail: always one line, never scrolls — middle crumbs collapse to "…" first ---------- */
-.trail{display:flex;align-items:center;gap:7px;margin:0 0 14px;overflow:hidden}
+.trail{display:flex;align-items:center;flex-wrap:wrap;gap:4px 7px;margin:0 0 14px}
 .trail .tseg{white-space:nowrap;font-size:13px;color:var(--muted);padding:8px 2px;flex:none}
 .trail .tseg.root{flex:none}
-.trail.squeeze .tseg:last-child{flex:0 1 auto;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .trail button.tseg,.trail a.tseg{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
 .trail .sep{color:var(--faint);font-size:12px;flex:none}
 .trail .here-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none;

@@ -169,7 +169,7 @@
       // main quiz views: the trail should show where you are
       segs.push({ label: "Quiz" });
     }
-    return segs.map(function (s, i) {
+    return '<span class="here-dot"></span>' + segs.map(function (s, i) {
       var last = i === segs.length - 1;
       var pre = i > 0 ? '<span class="sep">›</span>' : "";
       var cls = "tseg" + (i === 0 ? " root" : "");
@@ -177,36 +177,6 @@
       return pre + (!last && s.href ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
                                     : '<span class="' + cls + '">' + s.label + "</span>");
     }).join("");
-  }
-
-  /* Collapse the middle of the trail to "…" until it fits on one line; the current
-     page keeps its full name unless nothing else can give. */
-  function fitTrail(nav) {
-    if (!nav) return;
-    nav.classList.remove("squeeze");
-    function overflows() { return nav.scrollWidth > nav.clientWidth + 1; }
-    if (!overflows()) return;
-    var first = null, last = null;
-    Array.prototype.forEach.call(nav.children, function (el) {
-      if (el.classList && el.classList.contains("tseg") && !el.classList.contains("here-dot")) {
-        if (!first) first = el;
-        last = el;
-      }
-    });
-    if (first && last && first !== last) {
-      var dot = document.createElement("span");
-      dot.className = "tseg";
-      dot.setAttribute("aria-hidden", "true");
-      dot.textContent = "…";
-      var s1 = document.createElement("span"); s1.className = "sep"; s1.textContent = "›";
-      var s2 = document.createElement("span"); s2.className = "sep"; s2.textContent = "›";
-      var node = first.nextSibling, after;
-      while (node && node !== last) { after = node.nextSibling; nav.removeChild(node); node = after; }
-      nav.insertBefore(s1, last);
-      nav.insertBefore(dot, last);
-      nav.insertBefore(s2, last);
-    }
-    if (overflows()) nav.classList.add("squeeze");
   }
 
   var cur = { name: "start" };
@@ -221,7 +191,7 @@
     else if (view.name === "browse") { h = browseView(); dn = 0; di = -1; }
     else { h = detailView(view.key); dn = 0; di = -1; }
     var trailEl = document.getElementById("wz-trail");
-    if (trailEl) { trailEl.innerHTML = trailHtml(); fitTrail(trailEl); }
+    if (trailEl) { trailEl.innerHTML = trailHtml(); }
     setWindow(h, dn, di);
   }
   function backTo() {

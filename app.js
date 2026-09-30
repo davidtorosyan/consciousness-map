@@ -92,36 +92,6 @@
   }
 
   /* ---------- router ---------- */
-  /* Collapse the middle of the trail to "…" until it fits on one line; the current
-     page keeps its full name unless nothing else can give. */
-  function fitTrail(nav) {
-    if (!nav) return;
-    nav.classList.remove("squeeze");
-    function overflows() { return nav.scrollWidth > nav.clientWidth + 1; }
-    if (!overflows()) return;
-    var first = null, last = null;
-    Array.prototype.forEach.call(nav.children, function (el) {
-      if (el.classList && el.classList.contains("tseg") && !el.classList.contains("here-dot")) {
-        if (!first) first = el;
-        last = el;
-      }
-    });
-    if (first && last && first !== last) {
-      var dot = document.createElement("span");
-      dot.className = "tseg";
-      dot.setAttribute("aria-hidden", "true");
-      dot.textContent = "…";
-      var s1 = document.createElement("span"); s1.className = "sep"; s1.textContent = "›";
-      var s2 = document.createElement("span"); s2.className = "sep"; s2.textContent = "›";
-      var node = first.nextSibling, after;
-      while (node && node !== last) { after = node.nextSibling; nav.removeChild(node); node = after; }
-      nav.insertBefore(s1, last);
-      nav.insertBefore(dot, last);
-      nav.insertBefore(s2, last);
-    }
-    if (overflows()) nav.classList.add("squeeze");
-  }
-
   function hashFor(view) {
     if (view.view === "category") return "#/category/" + view.id;
     return "#/";
@@ -135,7 +105,6 @@
     setAccent(view.view === "category" ? catById(view.id).color : null);
     app.innerHTML = view.view === "category" ? categoryView(view.id) : landingView();
     bind();
-    fitTrail(app.querySelector(".trail"));
     refreshFavCounts();
   }
   function navigate(view, back) {
