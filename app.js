@@ -61,14 +61,14 @@
       '<p class="lede">Eleven families of theories about what consciousness is. ' +
       "Pick the one that sounds closest.</p></div>" +
       '<div class="d-actions">' +
-      '<a class="pill rise" style="--i:1" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>" +
-      '<a class="pill icon rise" style="--i:2" href="history.html" aria-label="Quiz history">' + HIST_SVG + "</a>" +
-      '<a class="pill icon rise" style="--i:3" href="favorites.html" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
+      '<a class="pill rise" style="--i:1" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a>" +
+      '<a class="pill icon rise" style="--i:2" href="?path=history" aria-label="Quiz history">' + HIST_SVG + "</a>" +
+      '<a class="pill icon rise" style="--i:3" href="?path=saved" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
       '<div class="section-label rise" style="--i:4">THE ELEVEN CATEGORIES</div>' +
       rows +
       '<div class="foot rise" style="--i:17">Names and colors follow the official ' +
       '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
-      ' · <a href="history.html">History</a></div>';
+      ' · <a href="?path=history">History</a></div>';
   }
 
   function categoryView(id) {
@@ -81,10 +81,10 @@
     if (drill) {
       var browseAria = drill.areas.some(function (a) { return !!a.sub; }) ? "Browse the schools" : "Browse the theories";
       pills =
-        '<a class="pill" href="quiz.html?quiz=' + id + "&ret=" + id + '">' + MAG_SVG + "<span>Quiz</span></a>" +
-        '<a class="pill icon" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '" aria-label="' + browseAria + '">' + LIST_SVG + "</a>";
+        '<a class="pill" href="?path=' + id + '/quiz">' + MAG_SVG + "<span>Quiz</span></a>" +
+        '<a class="pill icon" href="?path=' + id + '/browse" aria-label="' + browseAria + '">' + LIST_SVG + "</a>";
     } else {
-      pills = '<a class="pill" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>";
+      pills = '<a class="pill" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a>";
     }
     return trail([{ label: "Home", view: { view: "landing" } }, { label: c.name, view: null }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
@@ -94,14 +94,16 @@
       '<div class="d-actions rise" style="--i:3">' + pills + "</div>";
   }
 
-  /* ---------- router ---------- */
-  function hashFor(view) {
-    if (view.view === "category") return "#/category/" + view.id;
-    return "#/";
-  }
+  /* ---------- router: every view lives at / with ?path=<a/b/c> ---------- */
   function viewFromHash() {
     var m = /^#\/category\/([^\/]+)/.exec(location.hash || "");
     if (m && catById(m[1])) return { view: "category", id: m[1] };
+    return null;
+  }
+  function viewFromPath() {
+    var segs = window.CM_PATH || [];
+    if (segs.length === 0) return { view: "landing" };
+    if (segs.length === 1 && catById(segs[0])) return { view: "category", id: segs[0] };
     return null;
   }
   function render(view) {
@@ -110,20 +112,8 @@
     bind();
     refreshFavCounts();
   }
-  function navigate(view, back) {
-    document.documentElement.classList.toggle("nav-back", !!back);
-    try { history.replaceState(null, "", hashFor(view)); } catch (e) {}
-    var apply = function () {
-      render(view);
-      current = view;
-      window.scrollTo(0, 0);
-    };
-    if (document.startViewTransition) {
-      try {
-        var vt = document.startViewTransition(apply);
-        if (vt && vt.finished && vt.finished.catch) vt.finished.catch(function () {});
-      } catch (e) { apply(); }
-    } else apply();
+  function navigate(view) {
+    location.href = view.view === "category" ? "?path=" + view.id + "/" : "./";
   }
   function bind() {
     app.querySelectorAll("[data-goto]").forEach(function (el) {
@@ -133,7 +123,9 @@
     });
   }
 
-  var deepStart = viewFromHash();
-  if (deepStart) current = deepStart;
+  var start = viewFromHash() || viewFromPath();
+  if (!start) return; // another view owns this URL
+  window.CM_CLAIMED = true;
+  current = start;
   render(current);
 })();

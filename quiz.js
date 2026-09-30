@@ -28,41 +28,72 @@
       return c === "y" ? "yes" : c === "n" ? "no" : c === "s" ? "skip" : null;
     });
   }
-  var qp = null, rq = null;
-  try {
-    var _qs = new URLSearchParams(location.search);
-    qp = _qs.get("quiz");
-    var _rp0 = _qs.get("r");
-    if (_rp0) rq = JSON.parse(b64urlDecode(_rp0)).q;
-  } catch (e) { /* ignore */ }
-  var qkey = rq || qp; // a share payload names its own quiz
-  var DRILL = qkey && QD.drill && QD.drill[qkey] ? QD.drill[qkey] : null;
+  /* ---------- routing: every view lives at / with ?path=<a/b/c> ----------
+     quiz:          ?path=quiz | ?path=<cat>/quiz | ?path=<cat>/<school>/quiz
+     theory list:   ?path=<cat>/browse | ?path=<cat>/<school>/browse (bare school path too)
+     shared result: ?path=share/<payload>   (legacy ?r=<payload> still read) */
+  var SEGS = window.CM_PATH || [];
+  function drillPath(key) {
+    var cs = window.LOC_CATEGORIES || [];
+    for (var i = 0; i < cs.length; i++) {
+      var c = cs[i].id;
+      if (key === c) return c;
+      if (key.indexOf(c + "-") === 0) return c + "/" + key.slice(c.length + 1);
+    }
+    return key;
+  }
+  function pathForQuiz(key) { return "?path=" + (key ? drillPath(key) + "/quiz" : "quiz"); }
+  function pathForBrowse(key) { return "?path=" + drillPath(key) + "/browse"; }
+  function pathForCategory(id) { return "?path=" + id + "/"; }
+  var MODE = null, QKEY = null, SHARE_R = null;
+  (function () {
+    if (!SEGS.length) {
+      try { SHARE_R = new URLSearchParams(location.search).get("r"); } catch (e) { /* ignore */ }
+      if (SHARE_R) MODE = "share";
+      return;
+    }
+    var a = SEGS[0], b = SEGS[1], c = SEGS[2];
+    if (a === "quiz" && !b) { MODE = "quiz"; return; }
+    if (a === "share" && b) { MODE = "share"; SHARE_R = b; return; }
+    var key = null, mode = null;
+    if ((b === "quiz" || b === "browse") && !c) { key = a; mode = b; }
+    else if ((c === "quiz" || c === "browse") && b) { key = a + "-" + b; mode = c; }
+    else if (a && b && !c) { key = a + "-" + b; mode = "browse"; } // bare school path -> theory list
+    if (key && mode && QD.drill && QD.drill[key]) { MODE = mode; QKEY = key; }
+  })();
+  if (!MODE) return; // another view owns this URL
+  window.CM_CLAIMED = true;
+  document.title = "Landscape of Consciousness Quiz";
+  var DRILL = null;
+  if (MODE === "share" && SHARE_R) {
+    try {
+      var _pq = JSON.parse(b64urlDecode(SHARE_R)).q;
+      if (_pq && _pq !== "main" && QD.drill[_pq]) { DRILL = QD.drill[_pq]; QKEY = _pq; }
+    } catch (e) { /* handled below */ }
+  } else if (QKEY && QD.drill[QKEY]) {
+    DRILL = QD.drill[QKEY];
+  }
   var QUIZ = DRILL || QD.top;
   var LOC_URL = "https://loc.closertotruth.com/";
-  var retParam = null;
-  try { retParam = new URLSearchParams(location.search).get("ret"); } catch (e) { /* ignore */ }
-  var RET_ID = retParam && QD.cats && QD.cats[retParam] ? retParam : null;
-  var RET_URL = RET_ID ? "index.html#/category/" + RET_ID : null;
-  var BROWSE = false;
-  try { BROWSE = new URLSearchParams(location.search).get("mode") === "browse"; } catch (e) { /* ignore */ }
+  var BROWSE = MODE === "browse";
   var SHARE_ANS = null, SHARE_BAD = false;
-  try {
-    var _rp = new URLSearchParams(location.search).get("r");
-    if (_rp) {
-      var _p = JSON.parse(b64urlDecode(_rp)), _ans = null;
+  if (MODE === "share") {
+    try {
+      var _p = JSON.parse(b64urlDecode(SHARE_R)), _ans = null;
       if (_p && Array.isArray(_p.a) && _p.a.length === QUIZ.questions.length) _ans = _p.a;
       else if (_p && typeof _p.a === "string" && _p.a.length === QUIZ.questions.length) _ans = unpackAnswers(_p.a);
-      if (_p && _p.v === window.QUIZ_DATA_VERSION && _p.q === (qkey || "main") && _ans) SHARE_ANS = _ans;
+      var _okQ = _p && ((_p.q === "main" && !DRILL) || (_p.q && DRILL && _p.q === QKEY));
+      if (_p && _p.v === window.QUIZ_DATA_VERSION && _okQ && _ans) SHARE_ANS = _ans;
       else SHARE_BAD = true;
-    }
-  } catch (e) { SHARE_BAD = true; }
+    } catch (e) { SHARE_BAD = true; }
+  }
   // the quiz wears its section's color (default blue only for the top-level quiz)
   if (DRILL && DRILL.color) {
     try { document.documentElement.style.setProperty("--acc", DRILL.color); } catch (e) { /* ignore */ }
   }
 
   /* ---------- in-progress answers (sessionStorage): survive reloads and Back ---------- */
-  var PROG_KEY = "cm_progress_" + (qkey || "main");
+  var PROG_KEY = "cm_progress_" + (QKEY || "main");
   function saveProgress() {
     try { if (S) sessionStorage.setItem(PROG_KEY, JSON.stringify(S.answers)); } catch (e) {}
   }
@@ -113,7 +144,7 @@
       var sc = scores(), ts = targets().slice();
       ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
       var h = getHistory();
-      h.unshift({ q: qkey || "main", t: Date.now(), a: S.answers.slice(), top: ts.length ? ts[0].name : "" });
+      h.unshift({ q: QKEY || "main", t: Date.now(), a: S.answers.slice(), top: ts.length ? ts[0].name : "" });
       while (h.length > 30) h.pop();
       localStorage.setItem(HIST_KEY, JSON.stringify(h));
     } catch (e) {}
@@ -125,14 +156,14 @@
       var c = QD.cats[id];
       return {
         key: id, name: c.name, color: c.color, tagline: c.tagline,
-        url: c.url, mapUrl: "index.html#/category/" + id,
+        url: c.url, mapUrl: pathForCategory(id),
       };
     });
     return DRILL.areas.map(function (a) {
       return {
         key: a.key, name: a.name, color: DRILL.color, tagline: a.tagline || "",
         url: a.url || "", sub: a.sub || "",
-        mapUrl: "index.html#/category/" + DRILL.categoryId,
+        mapUrl: pathForCategory(DRILL.categoryId),
       };
     });
   }
@@ -166,11 +197,11 @@
     '<nav class="trail" id="wz-trail" aria-label="Where you are"></nav>' +
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
-    '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
+    '<footer class="wz-foot"><a href="./">Browse the map</a>' +
     '<span aria-hidden="true">·</span>' +
-    '<a href="history.html">History</a>' +
+    '<a href="?path=history">History</a>' +
     '<span aria-hidden="true">·</span>' +
-    '<a href="favorites.html">Bookmarked<span data-favcount></span></a>' +
+    '<a href="?path=saved">Bookmarked<span data-favcount></span></a>' +
     '<span aria-hidden="true">·</span>' +
     '<a href="' + LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
 
@@ -214,17 +245,16 @@
     return found;
   }
   function trailHtml() {
-    var segs = [{ label: "Home", href: "index.html" }];
-    var retQ = RET_ID ? "&ret=" + RET_ID : "";
+    var segs = [{ label: "Home", href: "./" }];
     var v = cur.name;
     if (DRILL) {
       var cat = QD.cats[DRILL.categoryId];
       // the category crumb always links to the category page: it is the way back up
-      if (cat) segs.push({ label: cat.name, href: "index.html#/category/" + DRILL.categoryId, sec: true });
-      if (qkey !== DRILL.categoryId) {
+      if (cat) segs.push({ label: cat.name, href: pathForCategory(DRILL.categoryId), sec: true });
+      if (QKEY !== DRILL.categoryId) {
         // nested school drill: the school crumb links to the school's theory list,
         // except on that list itself, where the school is where you are
-        segs.push({ label: DRILL.name, href: "quiz.html?quiz=" + qkey + "&mode=browse" + retQ, sec: v !== "browse" });
+        segs.push({ label: DRILL.name, href: pathForBrowse(QKEY), sec: v !== "browse" });
       }
       if (v === "detail") {
         var t = targetByKey(cur.key);
@@ -283,9 +313,7 @@
   /* ---------- window views ---------- */
   function startView() {
     var saved = loadProgress(), startBtn, underBtn;
-    var backLink = RET_URL
-      ? ""
-      : '<a class="q-quiet" href="index.html">' + QUIZ.browse + "</a>";
+    var backLink = '<a class="q-quiet" href="./">' + QUIZ.browse + "</a>";
     if (saved) {
       var i = 0;
       while (i < saved.length && saved[i]) i++;
@@ -304,7 +332,7 @@
   }
 
   function badShareView() {
-    var quizHref = qkey ? "quiz.html?quiz=" + qkey : "quiz.html";
+    var quizHref = pathForQuiz(QKEY);
     return '<div class="q-start"><div class="eyebrow">SHARED RESULT</div>' +
       "<h1>That link didn\u2019t work.</h1>" +
       '<p class="lede">It may be from an older version of the quiz.</p>' +
@@ -350,13 +378,13 @@
     var rows = ts.map(function (t, i) { return rowHtml(t, i, null); }).join("");
     var name = DRILL ? DRILL.name : "All categories";
     var kind = !DRILL ? "categories" : (ts.some(function (t) { return !!t.sub; }) ? "schools" : "theories");
-    var quizHref = qkey ? "quiz.html?quiz=" + qkey : "quiz.html";
+    var quizHref = pathForQuiz(QKEY);
     return '<div class="r-head"><div class="eyebrow">BROWSE</div>' +
       "<h1>" + name + "</h1>" +
       '<p class="lede">' + ts.length + " " + kind + " — tap one to open it.</p></div>" + rows +
       '<div class="d-quiet">' +
       '<a class="d-link" href="' + quizHref + '">Quiz</a>' +
-      '<a class="d-link" href="index.html">Browse the map</a></div>';
+      '<a class="d-link" href="./">Browse the map</a></div>';
   }
 
   function resultsView() {
@@ -379,7 +407,7 @@
       "<h1>Closest first.</h1>" +
       '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div>' +
       skipNote + "</div>" + rows +
-      '<div class="d-quiet"><a class="d-link" href="index.html">Browse the map</a>' +
+      '<div class="d-quiet"><a class="d-link" href="./">Browse the map</a>' +
       '<button class="d-link" data-act="share" style="background:none;border:none;cursor:pointer;font:inherit">Share results</button></div>';
   }
 
@@ -467,9 +495,9 @@
   function shareResults(btn) {
     var A = viewAnswers();
     if (!A) return;
-    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: qkey || "main", a: packAnswers(A) }));
+    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: QKEY || "main", a: packAnswers(A) }));
     var base = location.href.split("?")[0].split("#")[0];
-    var url = base + "?r=" + enc;
+    var url = base + "?path=share/" + enc;
     function done(ok) { if (btn) btn.textContent = ok ? "Copied" : "Couldn\u2019t copy"; }
     if (enc && navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
@@ -493,8 +521,7 @@
       else go({ name: "start" });
     }
     else if (act === "back") {
-      if (cur.name === "browse") { location.href = RET_URL || "index.html"; return; }
-      if (cur.name === "start" && RET_URL) { location.href = RET_URL; return; }
+      if (cur.name === "browse") { location.href = pathForCategory(DRILL.categoryId); return; }
       backTo();
     }
   }
@@ -513,12 +540,12 @@
     });
     winBody.querySelectorAll("[data-drill]").forEach(function (el) {
       el.addEventListener("click", function () {
-        location.href = "quiz.html?quiz=" + el.dataset.drill + (RET_ID ? "&ret=" + RET_ID : "");
+        location.href = pathForQuiz(el.dataset.drill);
       });
     });
     winBody.querySelectorAll("[data-browse]").forEach(function (el) {
       el.addEventListener("click", function () {
-        location.href = "quiz.html?quiz=" + el.dataset.browse + "&mode=browse" + (RET_ID ? "&ret=" + RET_ID : "");
+        location.href = pathForBrowse(el.dataset.browse);
       });
     });
     winBody.querySelectorAll("[data-bm]").forEach(function (el) {

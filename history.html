@@ -2,83 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Quiz history</title>
-<meta name="description" content="Quizzes you've completed, with their results.">
-<meta name="theme-color" content="#04060a">
-<link rel="stylesheet" href="styles.css?v=20260930-073331">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redirecting…</title>
+<meta http-equiv="refresh" content="0;url=./?path=history">
+<script>location.replace("./?path=history");</script>
 </head>
-<body>
-<div class="bg" aria-hidden="true"><div class="dots"></div></div>
-<main id="app" class="wrap"></main>
-<script src="data/categories.js?v=20260930-073331"></script>
-<script src="data/quiz-data.js?v=20260930-073331"></script>
-<script>
-/* Quiz history — reads the cm_history_v1 localStorage the quizzes write.
-   Each entry links to its results via the same share mechanism (?r=). */
-(function () {
-  "use strict";
-  var HIST_KEY = "cm_history_v1";
-  var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  }
-  function b64urlEncode(s) {
-    try {
-      var b = btoa(unescape(encodeURIComponent(s)));
-      return b.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-    } catch (e) { return ""; }
-  }
-  function getHistory() {
-    try { var h = JSON.parse(localStorage.getItem(HIST_KEY)); return Array.isArray(h) ? h : []; }
-    catch (e) { return []; }
-  }
-  function quizName(q) {
-    if (q === "main") return "Main quiz";
-    var d = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[q];
-    return d ? d.name : q;
-  }
-  function packAnswers(a) {
-    return a.map(function (x) { return x === "yes" ? "y" : x === "no" ? "n" : x === "skip" ? "s" : "-"; }).join("");
-  }
-  function shareHref(e) {
-    var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: e.q, a: packAnswers(e.a) }));
-    return "quiz.html?r=" + enc;
-  }
-  function dateStr(t) {
-    try { return new Date(t).toLocaleDateString(undefined, { month: "short", day: "numeric" }); }
-    catch (e) { return ""; }
-  }
-  function entryHtml(e, i) {
-    return '<a class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + ';text-decoration:none;color:inherit" href="' + shareHref(e) + '">' +
-      '<div class="grow"><div class="fav-name">' + esc(quizName(e.q)) + "</div>" +
-      (e.top ? '<div class="fav-tag">Closest: ' + esc(e.top) + "</div>" : "") +
-      '<div class="fav-meta"><span>' + esc(dateStr(e.t)) + "</span></div>" +
-      "</div></a>";
-  }
-  function render() {
-    var h = getHistory();
-    var out = '<nav class="trail" aria-label="Breadcrumb"><span class="here-dot"></span><a class="tseg root" href="index.html">Home</a><span class="sep">›</span><span class="tseg">History</span></nav>';
-    out += '<header class="hero rise" style="--i:1"><div class="kicker">HISTORY</div><h1>Past quizzes</h1>';
-    if (h.length) {
-      out += '<p class="desc">' + h.length + (h.length === 1 ? " quiz" : " quizzes") + " completed.</p></header>";
-      out += h.map(entryHtml).join("");
-      out += '<div style="text-align:center;margin-top:22px"><button data-clear style="background:none;border:none;cursor:pointer;font:inherit;font-size:14px;color:var(--faint);text-decoration:underline;text-underline-offset:4px;padding:10px 4px">Clear history</button></div>';
-    } else {
-      out += '<p class="desc">Nothing here yet. Finish a quiz and it will land here.</p></header>' +
-        '<div class="d-actions"><a class="pill rise" style="--i:2" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a></div>";
-    }
-    document.getElementById("app").innerHTML = out;
-    var clr = document.querySelector("[data-clear]");
-    if (clr) clr.addEventListener("click", function () {
-      try { localStorage.removeItem(HIST_KEY); } catch (e) {}
-      render();
-    });
-  }
-  render();
-})();
-</script>
-</body>
+<body><p><a href="./?path=history">Continue</a></p></body>
 </html>

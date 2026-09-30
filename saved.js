@@ -1,0 +1,68 @@
+/* Bookmarked theories — reads the same localStorage favorites the quizzes write. */
+(function () {
+  "use strict";
+  var SEGS = window.CM_PATH || [];
+  if (!(SEGS.length === 1 && SEGS[0] === "saved")) return;
+  window.CM_CLAIMED = true;
+  document.title = "Bookmarked theories";
+  var FAV_KEY = "cm_favorites_v1";
+  var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
+  var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
+  var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function getFavs() {
+    try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
+    catch (e) { return []; }
+  }
+  function removeFav(id) {
+    try {
+      var f = getFavs().filter(function (x) { return x.id !== id; });
+      localStorage.setItem(FAV_KEY, JSON.stringify(f));
+    } catch (e) {}
+  }
+  function catById(id) {
+    var cs = window.LOC_CATEGORIES || [];
+    for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
+    return null;
+  }
+  function cardHtml(f, i) {
+    var c = catById(f.catId);
+    var dot = c ? '<span class="loc-dot sm" style="background:' + c.color + '" aria-hidden="true"></span>' : "";
+    var meta = c ? '<div class="fav-meta">' + dot + "<span>" + esc(c.name) + "</span></div>" : "";
+    var loc = f.url
+      ? '<a class="src-badge" href="' + esc(f.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
+      : "";
+    var map = c
+      ? '<a class="fav-link" style="margin-left:14px" href="?path=' + esc(f.catId) + '/">See on the map ›</a>'
+      : "";
+    return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' + loc +
+      '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + BM_SVG + "</button>" +
+      '<div class="grow"><div class="fav-name">' + esc(f.name) + "</div>" +
+      (f.tagline ? '<div class="fav-tag">' + esc(f.tagline) + "</div>" : "") +
+      meta + "<div>" + loc + map + "</div></div></div>";
+  }
+  function render() {
+    var favs = getFavs();
+    var h = '<nav class="trail" aria-label="Breadcrumb"><span class="here-dot"></span><a class="tseg root" href="./">Home</a><span class="sep">›</span><span class="tseg">Saved</span></nav>';
+    h += '<header class="hero rise" style="--i:1"><div class="kicker">SAVED</div><h1>Bookmarked theories</h1>';
+    if (favs.length) {
+      h += '<p class="desc">' + favs.length + (favs.length === 1 ? " theory" : " theories") + " saved.</p></header>";
+      h += favs.map(cardHtml).join("");
+    } else {
+      h += '<p class="desc">Nothing saved yet. Tap the bookmark on any theory in a quiz and it will land here.</p></header>' +
+        '<div class="d-actions"><a class="pill rise" style="--i:2" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a></div>";
+    }
+    document.getElementById("app").innerHTML = h;
+    document.querySelectorAll("[data-unbm]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        removeFav(el.getAttribute("data-unbm"));
+        render();
+      });
+    });
+  }
+  render();
+})();

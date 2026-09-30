@@ -13,7 +13,7 @@ V="$(date +%Y%m%d-%H%M%S)"
 
 # pre-deploy lint: every standalone .js file and every inline <script> block
 # must parse. (A single syntax error in an inline script blanks the whole page.)
-for f in app.js quiz.js data/categories.js data/quiz-data.js; do
+for f in app.js quiz.js saved.js history.js data/categories.js data/quiz-data.js; do
   node --check "$f" || { echo "LINT FAIL: $f"; exit 1; }
 done
 for f in index.html quiz.html favorites.html history.html; do
