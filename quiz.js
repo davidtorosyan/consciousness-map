@@ -169,6 +169,9 @@
     } else if (v === "detail") {
       var c = QD.cats[cur.key];
       if (c) segs.push({ label: c.name });
+    } else {
+      // main quiz views: the trail should show where you are
+      segs.push({ label: "Quiz" });
     }
     return segs.map(function (s, i) {
       var last = i === segs.length - 1;
