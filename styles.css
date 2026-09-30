@@ -125,17 +125,12 @@ body[data-territory="phenomenology"] .hero::after{background:radial-gradient(cir
 
 /* sub-category rows */
 .subcard{
-  width:100%;display:flex;align-items:center;gap:10px;
-  border:1px solid var(--line);border-radius:18px;padding:8px 8px 8px 16px;margin-bottom:10px;
+  width:100%;text-align:left;display:flex;align-items:center;gap:14px;
+  border:1px solid var(--line);border-radius:18px;padding:17px 16px;margin-bottom:10px;
   background:linear-gradient(140deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
   transition:transform .16s ease,border-color .16s ease,background .16s ease;
 }
-.subcard-open{
-  flex:1;min-width:0;display:flex;align-items:center;gap:14px;text-align:left;
-  background:none;border:none;color:inherit;font:inherit;cursor:pointer;padding:9px 8px 9px 0;
-  transition:transform .16s ease;
-}
-.subcard-open:active{transform:scale(.97)}
+.subcard:active{transform:scale(.97);border-color:var(--acc)}
 .subcard .grow{flex:1;min-width:0}
 .subcard .sub-name{font-family:var(--serif);font-size:19px;margin-bottom:4px}
 .subcard .sub-tag{font-size:13.5px;line-height:1.5;color:var(--muted)}

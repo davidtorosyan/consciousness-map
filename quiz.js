@@ -391,20 +391,13 @@
       bm = '<button class="bm-btn sm' + (on ? " on" : "") + '" data-bm="' + fid +
         '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + t.name + '" aria-pressed="' + on + '">' + BM_SVG + "</button>";
     }
-    // schools and categories get an info button: the LOC overview page when one
-    // exists, otherwise the LOC category page
-    var info = "";
-    var infoUrl = t.sub ? (t.url || (DRILL && QD.cats[DRILL.categoryId].url)) : (!DRILL && t.url);
-    if (infoUrl) {
-      info = '<a class="row-info" href="' + infoUrl + '" target="_blank" rel="noopener" aria-label="Open ' + t.name + ' on Landscape of Consciousness">' + INFO_SVG + "</a>";
-    }
     return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + t.color + ";--tint:" + t.color + '">' +
       '<button class="r-open" data-target="' + t.key + '" aria-label="View ' + t.name + '">' +
       '<span class="rank">' + (i + 1) + "</span>" +
       '<span class="nm">' + t.name + "</span>" +
       (tier ? '<span class="tier ' + tier + '" aria-label="' +
         (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + TIER_DOT + "</span>" : "") +
-      "</button>" + info + bm + "</div>";
+      "</button>" + bm + "</div>";
   }
 
   function browseView() {

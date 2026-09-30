@@ -43,15 +43,13 @@
     return h + "</nav>";
   }
   /* ---------- views ---------- */
-  var INFO_SVG_ROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
   function rowHtml(c, i) {
-    return '<div class="subcard rise" style="--i:' + i + '">' +
-      '<button class="subcard-open" data-goto=\'' + JSON.stringify({ view: "category", id: c.id }) + "' aria-label=\"Open " + c.name + "\">" +
+    return '<button class="subcard rise" style="--i:' + i + '"' +
+      " data-goto='" + JSON.stringify({ view: "category", id: c.id }) + "'>" +
       '<span class="loc-dot" style="background:' + c.color + '" aria-hidden="true"></span>' +
       '<span class="grow"><span class="sub-name">' + c.name + "</span><br>" +
       '<span class="sub-tag">' + c.tagline + "</span></span>" +
-      '<span class="chev">›</span></button>' +
-      '<a class="row-info" href="' + c.url + '" target="_blank" rel="noopener" aria-label="Open ' + c.name + ' on Landscape of Consciousness">' + INFO_SVG_ROW + "</a></div>";
+      '<span class="chev">›</span></button>';
   }
 
   function landingView() {
