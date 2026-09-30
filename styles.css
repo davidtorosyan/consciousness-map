@@ -94,6 +94,12 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .trail .here-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none;
   box-shadow:0 0 10px var(--acc);animation:pulse 2.2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.45}}
+.trail-share{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center}
+.trail-share .ic{width:17px;height:17px}
+.trail-share:active{transform:scale(.93)}
+.trail-share.ok{color:#3ad06e;border-color:#3ad06e}
 
 /* ---------- hero (territory header) ---------- */
 .hero{

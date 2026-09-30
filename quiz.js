@@ -127,6 +127,7 @@
   var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
   var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
   var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var SHARE_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14.5V4"/><path d="M8 7.5 12 3.5l4 4"/><path d="M5 12.5v7h14v-7"/></g></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
     catch (e) { return []; }
@@ -212,10 +213,6 @@
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="./">Browse the map</a>' +
     '<span aria-hidden="true">·</span>' +
-    '<a href="?path=history">History</a>' +
-    '<span aria-hidden="true">·</span>' +
-    '<a href="?path=saved">Bookmarked<span data-favcount></span></a>' +
-    '<span aria-hidden="true">·</span>' +
     '<a href="' + LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
 
   var winBody = document.getElementById("wz-body");
@@ -280,7 +277,7 @@
       // main quiz views: the trail should show where you are
       segs.push({ label: "Quiz" });
     }
-    return '<span class="here-dot"></span>' + segs.map(function (s, i) {
+    var crumbs = '<span class="here-dot"></span>' + segs.map(function (s, i) {
       var last = i === segs.length - 1;
       var pre = i > 0 ? '<span class="sep">›</span>' : "";
       var cls = "tseg" + (i === 0 ? " root" : "");
@@ -290,6 +287,11 @@
       return pre + (link ? '<a class="' + cls + '" href="' + s.href + '">' + s.label + "</a>"
                          : '<span class="' + cls + '">' + s.label + "</span>");
     }).join("");
+    // results get a share button pinned to the top right
+    var shareBtn = v === "results"
+      ? '<button class="trail-share" id="wz-share" aria-label="Share results">' + SHARE_SVG + "</button>"
+      : "";
+    return crumbs + shareBtn;
   }
 
   var cur = { name: "start" };
@@ -316,13 +318,23 @@
     else if (view.name === "detail") {
       h = detailView(view.key); dn = 0; di = -1;
       // the theory owns this URL now: tapping a theory puts it in the path
-      // (drill theories only — main-quiz category details stay on the quiz URL)
+      // (drill theories only — main-quiz category details stay on the quiz URL).
+      // school details leave the URL alone: the bare school path renders its
+      // theory list, so replacing would both break back-navigation to the
+      // school list and show the wrong view on reload.
       if (!back && DRILL) {
-        try { history.replaceState(null, "", pathForTheory(QKEY, view.key)); } catch (e) {}
+        var dt = targetByKey(view.key);
+        if (dt && !dt.sub) {
+          try { history.replaceState(null, "", pathForTheory(QKEY, view.key)); } catch (e) {}
+        }
       }
     }
     var trailEl = document.getElementById("wz-trail");
-    if (trailEl) { trailEl.innerHTML = trailHtml(); }
+    if (trailEl) {
+      trailEl.innerHTML = trailHtml();
+      var shareBtn = document.getElementById("wz-share");
+      if (shareBtn) shareBtn.addEventListener("click", function () { shareResults(shareBtn); });
+    }
     setWindow(h, dn, di);
   }
   function backTo() {
@@ -511,15 +523,35 @@
     }, ans === "skip" ? 80 : 120);
   }
 
-  /* copy a shareable results link: quiz key + data version + answers, base64url'd */
-  function shareResults(btn) {
+  /* shareable results link: quiz key + data version + answers, base64url'd */
+  function resultsShareUrl() {
     var A = viewAnswers();
-    if (!A) return;
+    if (!A) return null;
     var enc = b64urlEncode(JSON.stringify({ v: window.QUIZ_DATA_VERSION, q: QKEY || "main", a: packAnswers(A) }));
+    if (!enc) return null;
     var base = location.href.split("?")[0].split("#")[0];
-    var url = base + "?path=share/" + enc;
-    function done(ok) { if (btn) btn.textContent = ok ? "Copied" : "Couldn\u2019t copy"; }
-    if (enc && navigator.clipboard && navigator.clipboard.writeText) {
+    return base + "?path=share/" + enc;
+  }
+  function shareResults(btn) {
+    var url = resultsShareUrl();
+    var isIcon = btn && btn.classList && btn.classList.contains("trail-share");
+    function done(ok) {
+      if (!btn) return;
+      if (isIcon) {
+        btn.classList.toggle("ok", !!ok);
+        setTimeout(function () { btn.classList.remove("ok"); }, 1600);
+      } else btn.textContent = ok ? "Copied" : "Couldn\u2019t copy";
+    }
+    if (!url) { done(false); return; }
+    // native share sheet where available (iOS), clipboard everywhere else
+    if (navigator.share) {
+      try {
+        navigator.share({ title: "My consciousness-map results", url: url })
+          .then(function () { done(true); }, function () { /* dismissed */ });
+        return;
+      } catch (e) { /* fall through to clipboard */ }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
     } else done(false);
   }
