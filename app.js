@@ -62,7 +62,7 @@
       "Pick the one that sounds closest.</p></div>" +
       '<div class="d-actions">' +
       '<a class="pill rise" style="--i:1" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>" +
-      '<a class="pill rise" style="--i:2" href="history.html" aria-label="Quiz history">' + HIST_SVG + "<span>History</span></a>" +
+      '<a class="pill icon rise" style="--i:2" href="history.html" aria-label="Quiz history">' + HIST_SVG + "</a>" +
       '<a class="pill icon rise" style="--i:3" href="favorites.html" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
       '<div class="section-label rise" style="--i:4">THE ELEVEN CATEGORIES</div>' +
       rows +

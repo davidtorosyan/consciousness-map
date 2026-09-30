@@ -422,8 +422,8 @@
       : "";
     var pills = "";
     if (subKey && QD.drill && QD.drill[subKey]) {
-      pills += '<button class="pill icon" data-browse="' + subKey + '" aria-label="Browse the theories">' + LIST_SVG + "</button>" +
-               '<button class="pill" data-drill="' + subKey + '">' + MAG_SVG + "<span>Quiz</span></button>";
+      pills += '<button class="pill" data-drill="' + subKey + '">' + MAG_SVG + "<span>Quiz</span></button>" +
+               '<button class="pill icon" data-browse="' + subKey + '" aria-label="Browse the theories">' + LIST_SVG + "</button>";
     }
     var actions = pills ? '<div class="d-actions">' + pills + "</div>" : "";
     var eyebrowLabel = !DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY");
