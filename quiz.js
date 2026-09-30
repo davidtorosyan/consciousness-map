@@ -319,8 +319,9 @@
       h = detailView(view.key); dn = 0; di = -1;
       // the theory owns this URL now: tapping a theory puts it in the path
       // (drill theories only — main-quiz category details stay on the quiz URL)
+      // preserve any pushed state (e.g. results-back) across the replace
       if (!back && DRILL) {
-        try { history.replaceState(null, "", pathForTheory(QKEY, view.key)); } catch (e) {}
+        try { history.replaceState(history.state, "", pathForTheory(QKEY, view.key)); } catch (e) {}
       }
     }
     var trailEl = document.getElementById("wz-trail");
@@ -599,6 +600,12 @@
         // history entry — so back returns to the list; everywhere else
         // details stay in-page
         if (t && DRILL && cur.name === "browse") { location.href = pathForTheory(QKEY, t.key); return; }
+        if (t && cur.name === "results") {
+          // push a real history entry for the theory/school so a swipe-back
+          // lands on the results instead of wherever the quiz was opened from
+          var dest = DRILL ? pathForTheory(QKEY, t.key) : pathForCategory(t.key);
+          try { history.pushState({ qm: "detail", key: t.key }, "", dest); } catch (e) {}
+        }
         go({ name: "detail", key: el.dataset.target, from: cur.name, answers: viewAnswers(), shared: cur.shared });
       });
     });
@@ -626,6 +633,18 @@
   }
 
   refreshFavCounts();
+  // swipe-back from a theory/school opened off the results: the tap pushed a
+  // real history entry, so popstate restores the results in-page — and a
+  // swipe-forward re-opens the detail
+  window.addEventListener("popstate", function (ev) {
+    var st = ev.state || {};
+    if (st.qm === "detail") {
+      var t = targetByKey(st.key);
+      if (t) go({ name: "detail", key: st.key, from: "results", answers: viewAnswers(), shared: cur.shared });
+    } else if (cur.name === "detail" && cur.from === "results") {
+      go({ name: "results", answers: cur.answers, shared: cur.shared });
+    }
+  });
   if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
   else if (SHARE_ANS) go({ name: "results", answers: SHARE_ANS, shared: true });
   else if (SHARE_BAD) go({ name: "badshare" });
