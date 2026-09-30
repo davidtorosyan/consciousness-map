@@ -185,9 +185,10 @@
 
   var cur = { name: "start" };
   function go(view, back) {
-    // no landing page: a quiz opens straight into its first question.
-    // saved progress still lands on the resume screen, so it can be resumed or discarded.
-    if (!back && view.name === "start" && !loadProgress()) view = { name: "q", idx: 0 };
+    // no landing page: a quiz opens straight into its first question, with a fresh
+    // answer session (the old Start button used to create it). Saved progress still
+    // lands on the resume screen, so it can be resumed or discarded.
+    if (!back && view.name === "start" && !loadProgress()) { S = freshSession(); view = { name: "q", idx: 0 }; }
     if (!back) hist.push(view); else hist.pop();
     cur = view;
     setTimeout(function () { locked = false; }, 1500); // backstop: never leave taps dead
