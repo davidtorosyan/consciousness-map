@@ -19,6 +19,7 @@
   var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
   var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
   var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
+  var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
     catch (e) { return []; }
@@ -70,7 +71,7 @@
       '<p class="lede">Eleven families of theories about what consciousness is. ' +
       "Pick the one that sounds closest.</p></div>" +
       '<div class="d-actions">' +
-      '<a class="pill icon rise" style="--i:1" href="quiz.html" aria-label="Take the quiz — 11 quick questions"><span class="ic-q">?</span></a>' +
+      '<a class="pill rise" style="--i:1" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>" +
       '<a class="pill icon rise" style="--i:2" href="favorites.html" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
       '<div class="section-label rise" style="--i:3">THE ELEVEN CATEGORIES</div>' +
       rows +
@@ -88,10 +89,10 @@
     if (drill) {
       var browseAria = drill.areas.some(function (a) { return !!a.sub; }) ? "Browse the schools" : "Browse the theories";
       pills =
-        '<a class="pill icon" href="quiz.html?quiz=' + id + "&ret=" + id + '" aria-label="Take the quiz"><span class="ic-q">?</span></a>' +
+        '<a class="pill" href="quiz.html?quiz=' + id + "&ret=" + id + '">' + MAG_SVG + "<span>Quiz</span></a>" +
         '<a class="pill icon" href="quiz.html?quiz=' + id + "&mode=browse&ret=" + id + '" aria-label="' + browseAria + '">' + LIST_SVG + "</a>";
     } else {
-      pills = '<a class="pill icon" href="quiz.html" aria-label="Take the quiz"><span class="ic-q">?</span></a>';
+      pills = '<a class="pill" href="quiz.html">' + MAG_SVG + "<span>Quiz</span></a>";
     }
     return topbar(true) +
       trail([{ label: "Map", view: { view: "landing" } }, { label: c.name, view: null }]) +

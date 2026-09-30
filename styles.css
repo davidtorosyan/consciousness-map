@@ -171,12 +171,12 @@ body[data-territory="phenomenology"] .hero::after{background:radial-gradient(cir
 .pill{flex:1 1 0;min-width:104px;padding:13px 10px;border-radius:999px;text-align:center;
   border:1px solid var(--line);background:rgba(255,255,255,.03);
   font-size:14.5px;font-weight:600;color:var(--text);text-decoration:none;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
   transition:transform .15s ease,border-color .15s ease}
 .pill:active{transform:scale(.95);border-color:var(--acc)}
 .pill.icon{flex:0 0 auto;min-width:56px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .pill .ic{width:19px;height:19px;display:block}
 .pill .bm-ic{width:19px;height:19px}
-.pill .ic-q{font-size:18px;font-weight:700;line-height:1}
 .pill .fav-n{font-size:13px;color:var(--muted);font-weight:600}
 
 /* source badge: icon-only link to the LOC entry, top-right of headers and cards */
