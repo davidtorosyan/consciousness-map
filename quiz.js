@@ -585,10 +585,10 @@
     winBody.querySelectorAll("[data-target]").forEach(function (el) {
       el.addEventListener("click", function () {
         var t = targetByKey(el.dataset.target);
-        // schools tapped from a browse list get their own page — and their own
-        // history entry — so back returns to the school list; everywhere else
+        // rows tapped from a browse list get their own page — and their own
+        // history entry — so back returns to the list; everywhere else
         // details stay in-page
-        if (t && t.sub && DRILL && cur.name === "browse") { location.href = pathForTheory(QKEY, t.key); return; }
+        if (t && DRILL && cur.name === "browse") { location.href = pathForTheory(QKEY, t.key); return; }
         go({ name: "detail", key: el.dataset.target, from: cur.name, answers: viewAnswers(), shared: cur.shared });
       });
     });
