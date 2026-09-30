@@ -43,7 +43,6 @@
   var TIER_DOT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>';
   var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
   var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
-  var PIN_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-3.9 0-7 3-7 6.8 0 4.9 7 10.2 7 10.2s7-5.3 7-10.2c0-3.8-3.1-6.8-7-6.8z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10.3" r="2.3" fill="currentColor"/></svg>';
   var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   function getFavs() {
     try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
@@ -104,6 +103,7 @@
       '<a class="wz-brand" href="index.html" aria-label="Consciousness Map home"><span class="wz-mark">◉</span>' +
       '<span class="wz-name">Landscape of Consciousness Quiz</span></a>' +
     "</header>" +
+    '<nav class="trail" id="wz-trail" aria-label="Where you are"></nav>' +
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
     '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="index.html">Browse the map</a>' +
@@ -145,6 +145,38 @@
 
   /* ---------- tiny router ---------- */
   var hist = [];
+  /* breadcrumb: Map › Category › School › Theory, following the drill nesting */
+  function targetByKey(key) {
+    var found = null;
+    targets().forEach(function (x) { if (x.key === key) found = x; });
+    return found;
+  }
+  function trailHtml() {
+    var segs = [{ label: "Map", href: "index.html" }];
+    var retQ = RET_ID ? "&ret=" + RET_ID : "";
+    var v = cur.name;
+    if (DRILL) {
+      var cat = QD.cats[DRILL.categoryId];
+      if (cat) segs.push({ label: cat.name, href: "index.html#/category/" + DRILL.categoryId });
+      if (qp !== DRILL.categoryId) {
+        // nested school drill: the school itself is a crumb
+        segs.push({ label: DRILL.name, href: "quiz.html?quiz=" + qp + "&mode=browse" + retQ });
+      }
+      if (v === "detail") {
+        var t = targetByKey(cur.key);
+        if (t) segs.push({ label: t.name });
+      }
+    } else if (v === "detail") {
+      var c = QD.cats[cur.key];
+      if (c) segs.push({ label: c.name });
+    }
+    return segs.map(function (s, i) {
+      var pre = i > 0 ? '<span class="sep">›</span>' : "";
+      return pre + (s.href ? '<a class="tseg" href="' + s.href + '">' + s.label + "</a>"
+                           : '<span class="tseg">' + s.label + "</span>");
+    }).join("");
+  }
+
   var cur = { name: "start" };
   function go(view, back) {
     if (!back) hist.push(view); else hist.pop();
@@ -156,8 +188,8 @@
     else if (view.name === "results") { clearProgress(); h = resultsView(); dn = nq; di = nq; }
     else if (view.name === "browse") { h = browseView(); dn = 0; di = -1; }
     else { h = detailView(view.key); dn = 0; di = -1; }
-    var backBtn = document.getElementById("wz-back");
-    if (backBtn) backBtn.style.display = (view.name === "start" && !RET_URL) ? "none" : "";
+    var trailEl = document.getElementById("wz-trail");
+    if (trailEl) trailEl.innerHTML = trailHtml();
     setWindow(h, dn, di);
   }
   function backTo() {
@@ -299,12 +331,11 @@
       pills += '<button class="pill icon" data-browse="' + subKey + '" aria-label="Browse the theories">' + LIST_SVG + "</button>" +
                '<button class="pill" data-drill="' + subKey + '">' + MAG_SVG + "<span>Quiz</span></button>";
     }
-    if (t.mapUrl) {
-      pills += '<a class="pill icon" href="' + t.mapUrl + '" aria-label="See on the map">' + PIN_SVG + "</a>";
-    }
     var actions = pills ? '<div class="d-actions">' + pills + "</div>" : "";
-    return '<div class="d-head" style="--bm:' + t.color + '">' + srcBadge + '<div class="eyebrow">' + (!DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY")) + "</div>" +
-      bmBtn + "<h1>" + t.name + "</h1>" + tag + "</div>" +
+    var eyebrowLabel = !DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY");
+    return '<div class="d-head" style="--bm:' + t.color + '">' + srcBadge +
+      '<div class="eyebrow">' + eyebrowLabel + bmBtn + "</div>" +
+      "<h1>" + t.name + "</h1>" + tag + "</div>" +
       actions +
       answerRows(key);
   }
