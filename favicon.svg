@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#0d1528"/>
+      <stop offset="100%" stop-color="#070b16"/>
+    </radialGradient>
+  </defs>
+  <rect x="4" y="4" width="172" height="172" rx="40" fill="url(#bg)"/>
+  <g stroke="#2e3d5e" stroke-width="5" stroke-linecap="round">
+    <line x1="54" y1="58" x2="90" y2="44"/>
+    <line x1="54" y1="58" x2="90" y2="74"/>
+    <line x1="54" y1="90" x2="90" y2="74"/>
+    <line x1="54" y1="90" x2="90" y2="106"/>
+    <line x1="54" y1="122" x2="90" y2="106"/>
+    <line x1="54" y1="122" x2="90" y2="136"/>
+    <line x1="90" y1="44" x2="126" y2="58"/>
+    <line x1="90" y1="74" x2="126" y2="58"/>
+    <line x1="90" y1="74" x2="126" y2="90"/>
+    <line x1="90" y1="106" x2="126" y2="90"/>
+    <line x1="90" y1="106" x2="126" y2="122"/>
+    <line x1="90" y1="136" x2="126" y2="122"/>
+  </g>
+  <g stroke="#070b16" stroke-width="3">
+    <circle cx="54" cy="58" r="11" fill="#EDCF4A"/>
+    <circle cx="54" cy="90" r="11" fill="#FFA9A0"/>
+    <circle cx="54" cy="122" r="11" fill="#65D3F7"/>
+    <circle cx="90" cy="44" r="11" fill="#CF56CA"/>
+    <circle cx="90" cy="74" r="11" fill="#6A22D1"/>
+    <circle cx="90" cy="106" r="11" fill="#007ACC"/>
+    <circle cx="90" cy="136" r="11" fill="#E4822D"/>
+    <circle cx="126" cy="58" r="11" fill="#BF2B39"/>
+    <circle cx="126" cy="90" r="11" fill="#FF5733"/>
+    <circle cx="126" cy="122" r="11" fill="#686882"/>
+  </g>
+</svg>

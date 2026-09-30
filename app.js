@@ -53,7 +53,6 @@
   }
 
   function landingView() {
-    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 5); }).join("");
     return trail([{ label: "Home", view: null }]) +
       '<div class="landing-head rise" style="--i:0">' +
       '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
@@ -62,13 +61,21 @@
       "Pick the one that sounds closest.</p></div>" +
       '<div class="d-actions">' +
       '<a class="pill rise" style="--i:1" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a>" +
-      '<a class="pill icon rise" style="--i:2" href="?path=history" aria-label="Quiz history">' + HIST_SVG + "</a>" +
-      '<a class="pill icon rise" style="--i:3" href="?path=saved" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
-      '<div class="section-label rise" style="--i:4">THE ELEVEN CATEGORIES</div>' +
-      rows +
-      '<div class="foot rise" style="--i:17">Names and colors follow the official ' +
+      '<a class="pill rise" style="--i:2" href="?path=browse">' + LIST_SVG + "<span>Browse</span></a>" +
+      '<a class="pill icon rise" style="--i:3" href="?path=history" aria-label="Quiz history">' + HIST_SVG + "</a>" +
+      '<a class="pill icon rise" style="--i:4" href="?path=saved" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
+      '<div class="foot rise" style="--i:5">Names and colors follow the official ' +
       '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
-      ' · <a href="?path=history">History</a> · <a href="?path=debug">Debug</a></div>';
+      ' · <a href="?path=debug">Debug</a></div>';
+  }
+
+  function browseView() {
+    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 3); }).join("");
+    return trail([{ label: "Home", view: { view: "landing" } }, { label: "Browse", view: null }]) +
+      '<header class="hero rise" style="--i:2"><div class="kicker">BROWSE</div>' +
+      "<h1>The eleven categories</h1>" +
+      '<p class="desc">Every family of theories on the map. Open one to take its quiz or browse its theories.</p></header>' +
+      rows;
   }
 
   function categoryView(id) {
@@ -165,6 +172,7 @@
   function viewFromPath() {
     var segs = window.CM_PATH || [];
     if (segs.length === 0) return { view: "landing" };
+    if (segs.length === 1 && segs[0] === "browse") return { view: "browse" };
     if (segs.length === 1 && segs[0] === "debug") return { view: "debug" };
     if (segs.length === 1 && catById(segs[0])) return { view: "category", id: segs[0] };
     return null;
@@ -173,12 +181,15 @@
     setAccent(view.view === "category" ? catById(view.id).color : null);
     app.innerHTML = view.view === "category" ? categoryView(view.id)
       : view.view === "debug" ? debugView()
+      : view.view === "browse" ? browseView()
       : landingView();
     bind();
     refreshFavCounts();
   }
   function navigate(view) {
-    location.href = view.view === "category" ? "?path=" + view.id + "/" : "./";
+    location.href = view.view === "category" ? "?path=" + view.id + "/"
+      : view.view === "browse" ? "?path=browse"
+      : "./";
   }
   function bind() {
     app.querySelectorAll("[data-goto]").forEach(function (el) {
