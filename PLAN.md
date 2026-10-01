@@ -55,7 +55,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 
 - [x] **U1. No horizontal scroll.** Progress dots become a progress bar
       (26 dots pushed "1 of 26" off-screen); long breadcrumbs wrap.
-- [ ] **U2. Home.** One-sentence intro to what the Landscape of Consciousness
+- [x] **U2. Home.** One-sentence intro to what the Landscape of Consciousness
       is; History/Saved only shown once they have something in them; Debug
       link removed from the public footer (page still at `?path=debug`).
 - [ ] **U3. Results.**

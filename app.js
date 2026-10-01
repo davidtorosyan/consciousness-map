@@ -5,27 +5,26 @@
   var app = document.getElementById("app");
   var QUIZ_CAP = 12;
 
-  function favCount() {
-    var n = CM.favs.all().length;
-    return n ? " (" + n + ")" : "";
-  }
-
   CM.views.home = function () {
+    // History and Saved only appear once there's something in them
+    var nFav = CM.favs.all().length, nHist = CM.history.all().length;
+    var nq = window.QUIZ_DATA.top.questions.length;
     app.innerHTML = CM.trail([{ label: "Home" }]) +
       '<div class="landing-head rise" style="--i:0">' +
       '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
       "<h1>Find your view</h1>" +
-      '<p class="lede">Eleven families of theories about what consciousness is. ' +
-      "Pick the one that sounds closest.</p></div>" +
+      '<p class="lede">There are hundreds of theories of what consciousness is. ' +
+      "The Landscape of Consciousness sorts them into eleven families. " +
+      "Answer " + nq + " quick questions to see which sound closest to you.</p></div>" +
       '<div class="d-actions">' +
-      '<a class="pill rise" style="--i:1" href="?path=quiz">' + I.search + "<span>Quiz</span></a>" +
-      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>Browse</span></a>" +
-      '<a class="pill icon rise" style="--i:3" href="?path=history" aria-label="Quiz history">' + I.history + "</a>" +
-      '<a class="pill icon rise" style="--i:4" href="?path=saved" aria-label="Bookmarked theories">' + I.bookmark +
-      '<span class="fav-n">' + favCount() + "</span></a></div>" +
+      '<a class="pill rise" style="--i:1" href="?path=quiz">' + I.search + "<span>Take the quiz</span></a>" +
+      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>Browse</span></a></div>" +
+      (nHist || nFav ? '<div class="d-actions">' +
+        (nHist ? '<a class="pill rise" style="--i:3" href="?path=history">' + I.history + "<span>History</span></a>" : "") +
+        (nFav ? '<a class="pill rise" style="--i:4" href="?path=saved">' + I.bookmark + "<span>Saved (" + nFav + ")</span></a>" : "") +
+        "</div>" : "") +
       '<div class="foot rise" style="--i:5">Names and colors follow the official ' +
-      '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
-      ' · <a href="?path=debug">Debug</a></div>';
+      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></div>';
   };
 
   CM.views.browse = function () {
