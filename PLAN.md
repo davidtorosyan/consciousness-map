@@ -58,7 +58,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 - [x] **U2. Home.** One-sentence intro to what the Landscape of Consciousness
       is; History/Saved only shown once they have something in them; Debug
       link removed from the public footer (page still at `?path=debug`).
-- [ ] **U3. Results.**
+- [x] **U3. Results.**
       Legend reads as match strength (strong / partial / none), and "none" is
       a neutral grey instead of red, since it mostly means "didn't come up".
       One share button and one way home instead of two of each. A clear next

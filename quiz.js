@@ -131,18 +131,22 @@
     return location.href.split("?")[0].split("#")[0] + CM.resultsHref(payload, true);
   }
   function share(btn, payload) {
-    function done(ok) {
-      btn.classList.toggle("ok", !!ok);
-      setTimeout(function () { btn.classList.remove("ok"); }, 1600);
+    var label = btn.querySelector("span"), was = label.textContent;
+    function done(text) {
+      label.textContent = text;
+      setTimeout(function () { label.textContent = was; }, 1800);
     }
     var url = shareUrl(payload);
     // native share sheet where available (iOS), clipboard everywhere else
     if (navigator.share) {
-      navigator.share({ title: "My consciousness-map results", url: url }).then(function () { done(true); }, function () { /* dismissed */ });
+      navigator.share({ title: "My consciousness-map results", url: url }).then(function () { done("Shared"); }, function () { /* dismissed */ });
     } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
-    } else done(false);
+      navigator.clipboard.writeText(url).then(function () { done("Link copied"); }, function () { done("Couldn\u2019t copy"); });
+    } else done("Couldn\u2019t copy");
   }
+  /* strong = agreed with its core claim, partial = some lean, none = it
+     didn't come up or you passed (scores are never negative) */
+  var TIERS = { hi: "strong match", mid: "partial match", lo: "no match" };
 
   CM.views.results = function (route) {
     var r = CM.share.decode(route.payload);
@@ -160,29 +164,37 @@
     var ranked = CM.ranked(quiz, r.answers);
     var answered = r.answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
     var rows = ranked.map(function (x, i) {
-      // aligned = endorsed the core claim (3+), mixed = partial lean, lo = no signal
       var tier = x.score >= 3 ? "hi" : x.score > 0 ? "mid" : "lo";
       var t = x.node;
-      return '<div class="r-row' + (i === 0 ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
+      return '<div class="r-row' + (i === 0 && x.score > 0 ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
         '<a class="r-open" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
         '<span class="nm">' + esc(t.name) + "</span>" +
-        '<span class="tier ' + tier + '" aria-label="' +
-        (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + I.dot + "</span>" +
+        '<span class="tier ' + tier + '" aria-label="' + TIERS[tier] + '">' + I.dot + "</span>" +
         "</a>" + (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
     }).join("");
-    var shareBtn = '<button class="trail-share" id="wz-share" aria-label="Share results">' + I.share + "</button>";
-    app.innerHTML = CM.frame(quizTrail(quiz, "Results", shareBtn),
-      '<div class="r-head"><div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR ALIGNMENT") + "</div>" +
+    // one obvious next step: someone else's result -> take it yourself;
+    // your own -> go deeper into your top match
+    var top = ranked[0], next = "";
+    if (route.shared) {
+      next = '<a class="pill wide" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>Take this quiz yourself</span></a>";
+    } else if (top && top.score > 0) {
+      next = top.node.quiz
+        ? '<a class="pill wide" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>Take the " + esc(top.node.name) + " quiz</span></a>"
+        : '<a class="pill wide" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
+    }
+    app.innerHTML = CM.frame(quizTrail(quiz, "Results"),
+      '<div class="r-head"><div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
       "<h1>Closest first.</h1>" +
-      '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div>' +
-      (answered ? "" : '<div class="r-note">You didn’t answer Yes or No to anything — there’s nothing to align yet.</div>') +
+      '<div class="tier-legend">' + ["hi", "mid", "lo"].map(function (k) {
+        return '<span class="lg ' + k + '">\u25CF</span> ' + TIERS[k].replace(" match", "").replace("no", "none");
+      }).join(" ") + "</div>" +
+      (answered ? "" : '<div class="r-note">You didn\u2019t answer Yes or No to anything, so nothing stands out yet.</div>') +
       "</div>" + rows +
-      '<div class="d-quiet"><a class="d-link" href="./">Browse the map</a>' +
-      '<button class="d-link" data-share style="background:none;border:none;cursor:pointer;font:inherit">Share results</button></div>');
-    var btn = document.getElementById("wz-share");
+      '<div class="d-actions">' + next +
+      '<button class="pill" data-share>' + I.share + "<span>Share</span></button></div>");
+    var btn = app.querySelector("[data-share]");
     btn.addEventListener("click", function () { share(btn, route.payload); });
-    app.querySelector("[data-share]").addEventListener("click", function () { share(btn, route.payload); });
     CM.bindBookmarks(app);
   };
 })();
