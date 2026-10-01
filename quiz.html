@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Redirecting…</title>
+<script src="data/categories.js"></script>
 <script>
 /* Old quiz.html URLs (?quiz=, ?r=, ?mode=browse) now live under ?path=. */
 (function () {
-  var CATS = ["materialism","non-reductive-physicalism","quantum-dimensions","information","panpsychisms","neutral-monism","dualisms","idealisms","phenomenology","anomalous-altered-states","challenge"];
+  var CATS = (window.LOC_CATEGORIES || []).map(function (c) { return c.id; });
   function qp(n) {
     try { return new URLSearchParams(location.search).get(n); } catch (e) { return null; }
   }

@@ -1,207 +1,95 @@
-/* Landscape of Consciousness — map. Tiny SPA over the 11 canonical categories. */
+/* Map pages: home, the category list, a category, and the debug page. */
 (function () {
   "use strict";
-  var CATS = window.LOC_CATEGORIES;
+  var esc = CM.esc, I = CM.icons;
   var app = document.getElementById("app");
-  var current = { view: "landing" };
+  var QUIZ_CAP = 12;
 
-  function catById(id) {
-    for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i];
-    return null;
-  }
-  function setAccent(color) {
-    if (color) document.body.style.setProperty("--acc", color);
-    else document.body.style.removeProperty("--acc");
+  function favCount() {
+    var n = CM.favs.all().length;
+    return n ? " (" + n + ")" : "";
   }
 
-  /* ---------- bookmarked theories (localStorage) ---------- */
-  var FAV_KEY = "cm_favorites_v1";
-  var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
-  var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
-  var LIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>';
-  var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-  var HIST_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3.2 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-  function getFavs() {
-    try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
-    catch (e) { return []; }
-  }
-  function refreshFavCounts() {
-    var n = getFavs().length, label = n ? " (" + n + ")" : "";
-    document.querySelectorAll("[data-favcount]").forEach(function (el) { el.textContent = label; });
-  }
-
-  /* ---------- shared chrome ---------- */
-  function trail(segs) {
-    var h = '<nav class="trail rise" style="--i:1" aria-label="Where you are"><span class="here-dot"></span>';
-    segs.forEach(function (s, i) {
-      if (i > 0) h += '<span class="sep">›</span>';
-      var cls = "tseg" + (i === 0 ? " root" : "");
-      h += s.view
-        ? '<button class="' + cls + '" data-goto=\'' + JSON.stringify(s.view) + "'>" + s.label + "</button>"
-        : '<span class="' + cls + '">' + s.label + "</span>";
-    });
-    return h + "</nav>";
-  }
-  /* ---------- views ---------- */
-  function rowHtml(c, i) {
-    return '<button class="subcard rise" style="--i:' + i + '"' +
-      " data-goto='" + JSON.stringify({ view: "category", id: c.id }) + "'>" +
-      '<span class="loc-dot" style="background:' + c.color + '" aria-hidden="true"></span>' +
-      '<span class="grow"><span class="sub-name">' + c.name + "</span><br>" +
-      '<span class="sub-tag">' + c.tagline + "</span></span>" +
-      '<span class="chev">›</span></button>';
-  }
-
-  function landingView() {
-    return trail([{ label: "Home", view: null }]) +
+  CM.views.home = function () {
+    app.innerHTML = CM.trail([{ label: "Home" }]) +
       '<div class="landing-head rise" style="--i:0">' +
       '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
       "<h1>Find your view</h1>" +
       '<p class="lede">Eleven families of theories about what consciousness is. ' +
       "Pick the one that sounds closest.</p></div>" +
       '<div class="d-actions">' +
-      '<a class="pill rise" style="--i:1" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a>" +
-      '<a class="pill rise" style="--i:2" href="?path=browse">' + LIST_SVG + "<span>Browse</span></a>" +
-      '<a class="pill icon rise" style="--i:3" href="?path=history" aria-label="Quiz history">' + HIST_SVG + "</a>" +
-      '<a class="pill icon rise" style="--i:4" href="?path=saved" aria-label="Bookmarked theories">' + BM_SVG + '<span class="fav-n" data-favcount></span></a></div>' +
+      '<a class="pill rise" style="--i:1" href="?path=quiz">' + I.search + "<span>Quiz</span></a>" +
+      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>Browse</span></a>" +
+      '<a class="pill icon rise" style="--i:3" href="?path=history" aria-label="Quiz history">' + I.history + "</a>" +
+      '<a class="pill icon rise" style="--i:4" href="?path=saved" aria-label="Bookmarked theories">' + I.bookmark +
+      '<span class="fav-n">' + favCount() + "</span></a></div>" +
       '<div class="foot rise" style="--i:5">Names and colors follow the official ' +
       '<a href="https://loc.closertotruth.com/" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
       ' · <a href="?path=debug">Debug</a></div>';
-  }
+  };
 
-  function browseView() {
-    var rows = CATS.map(function (c, i) { return rowHtml(c, i + 3); }).join("");
-    return trail([{ label: "Home", view: { view: "landing" } }, { label: "Browse", view: null }]) +
+  CM.views.browse = function () {
+    var rows = CM.categories.map(function (c, i) {
+      return '<a class="subcard rise" style="--i:' + (i + 3) + '" href="' + CM.href(c) + '">' +
+        '<span class="loc-dot" style="background:' + esc(c.color) + '" aria-hidden="true"></span>' +
+        '<span class="grow"><span class="sub-name">' + esc(c.name) + "</span><br>" +
+        '<span class="sub-tag">' + esc(c.tagline) + "</span></span>" +
+        '<span class="chev">›</span></a>';
+    }).join("");
+    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: "Browse" }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">BROWSE</div>' +
       "<h1>The eleven categories</h1>" +
       '<p class="desc">Every family of theories on the map. Open one to take its quiz or browse its theories.</p></header>' +
       rows;
-  }
+  };
 
-  function categoryView(id) {
-    var c = catById(id);
-    if (!c) return landingView();
-    // "Quiz" here means that category's own quiz. The top-level quiz lives
-    // only on the map landing page — it is never linked from sub pages.
-    var drill = window.QUIZ_DATA && window.QUIZ_DATA.drill && window.QUIZ_DATA.drill[id];
-    var pills;
-    if (drill) {
-      var browseAria = drill.areas.some(function (a) { return !!a.sub; }) ? "Browse the schools" : "Browse the theories";
-      pills =
-        '<a class="pill" href="?path=' + id + '/quiz">' + MAG_SVG + "<span>Quiz</span></a>" +
-        '<a class="pill icon" href="?path=' + id + '/browse" aria-label="' + browseAria + '">' + LIST_SVG + "</a>";
-    } else {
-      pills = '<a class="pill" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a>";
-    }
-    return trail([{ label: "Home", view: { view: "landing" } }, { label: c.name, view: null }]) +
+  CM.views.category = function (route) {
+    var c = route.node;
+    var hasSchools = c.children.some(function (x) { return x.kind === "school"; });
+    CM.setAccent(c.color);
+    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: c.name }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
-      '<a class="src-badge" href="' + c.url + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>" +
-      "<h1>" + c.name + "</h1>" +
-      '<p class="desc">' + c.tagline + "</p></header>" +
-      '<div class="d-actions rise" style="--i:3">' + pills + "</div>";
-  }
+      '<a class="src-badge" href="' + esc(c.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + I.info + "</a>" +
+      "<h1>" + esc(c.name) + "</h1>" +
+      '<p class="desc">' + esc(c.tagline) + "</p></header>" +
+      '<div class="d-actions rise" style="--i:3">' +
+      '<a class="pill" href="' + CM.href(c, "quiz") + '">' + I.search + "<span>Quiz</span></a>" +
+      '<a class="pill icon" href="' + CM.href(c, "browse") + '" aria-label="' +
+      (hasSchools ? "Browse the schools" : "Browse the theories") + '">' + I.list + "</a></div>";
+  };
 
   /* ---------- debug: quiz nesting + question counts ---------- */
-  var QUIZ_CAP = 12;
-  function debugParentKey(key, drills) {
-    var best = null;
-    Object.keys(drills).forEach(function (k) {
-      if (k !== key && key.indexOf(k + "-") === 0 && (!best || k.length > best.length)) best = k;
-    });
-    return best;
-  }
-  function debugQuizPath(key, drills) {
-    var chain = [key], p = debugParentKey(key, drills);
-    while (p) { chain.unshift(p); p = debugParentKey(p, drills); }
-    return chain.map(function (k, i) {
-      return i === 0 ? k : k.slice(chain[i - 1].length + 1);
-    }).join("/");
-  }
-  function debugView() {
-    var QD = window.QUIZ_DATA || {};
-    var drills = QD.drill || {};
+  CM.views.debug = function () {
     var rows = [];
-    function addRow(depth, name, key, qs, items, itemKind) {
-      rows.push({ depth: depth, name: name, key: key, qs: qs, items: items,
-        itemKind: itemKind, over: qs > QUIZ_CAP });
+    function addRow(depth, name, href, qs, items, kind) {
+      rows.push({ depth: depth, name: name, href: href, qs: qs, items: items, kind: kind, over: qs > QUIZ_CAP });
     }
-    if (QD.top) addRow(0, "Main quiz", null, QD.top.questions.length, 11, "categories");
-    CATS.forEach(function (c) {
-      var d = drills[c.id];
-      if (!d) return;
-      var kind = d.areas.some(function (a) { return !!a.sub; }) ? "schools" : "theories";
-      addRow(0, c.name, c.id, d.questions.length, d.areas.length, kind);
-      (function kids(pk, depth) {
-        Object.keys(drills).forEach(function (k) {
-          if (debugParentKey(k, drills) === pk) {
-            var sd = drills[k];
-            var sk = sd.areas.some(function (a) { return !!a.sub; }) ? "schools" : "theories";
-            addRow(depth, sd.name, k, sd.questions.length, sd.areas.length, sk);
-            kids(k, depth + 1);
-          }
-        });
-      })(c.id, 1);
-    });
+    addRow(0, "Main quiz", null, window.QUIZ_DATA.top.questions.length, CM.categories.length, "categories");
+    (function walk(nodes, depth) {
+      nodes.forEach(function (n) {
+        if (!n.quiz) return;
+        var q = CM.quiz(n.quiz);
+        var kind = n.children.some(function (x) { return x.kind === "school"; }) ? "schools" : "theories";
+        addRow(depth, n.name, CM.href(n, "quiz"), q.questions.length, n.children.length, kind);
+        walk(n.children, depth + 1);
+      });
+    })(CM.categories, 0);
     var over = rows.filter(function (r) { return r.over; }).length;
-    return trail([{ label: "Home", view: { view: "landing" } }, { label: "Debug", view: null }]) +
+    document.title = "Debug — Landscape of Consciousness";
+    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: "Debug" }]) +
       '<header class="hero rise" style="--i:2"><div class="kicker">DEBUG</div>' +
       "<h1>Quiz breakdown</h1>" +
       '<p class="desc">Every quiz on the site, nested, with question counts. Cap: ' +
-      QUIZ_CAP + " per quiz. " +
-      (over ? over + " over cap." : "All within cap.") + "</p></header>" +
+      QUIZ_CAP + " per quiz. " + (over ? over + " over cap." : "All within cap.") + "</p></header>" +
       '<div class="dbg-table rise" style="--i:3">' +
       '<div class="dbg-row dbg-head"><span class="dbg-name">Quiz</span>' +
       '<span class="dbg-num">Questions</span><span class="dbg-num">Items</span></div>' +
       rows.map(function (r) {
         var indent = r.depth ? '<span class="dbg-indent">' + new Array(r.depth + 1).join("› ") + "</span>" : "";
-        var name = r.key
-          ? '<a class="dbg-link" href="?path=' + debugQuizPath(r.key, drills) + '/quiz">' + r.name + "</a>"
-          : r.name;
+        var name = r.href ? '<a class="dbg-link" href="' + esc(r.href) + '">' + esc(r.name) + "</a>" : esc(r.name);
         return '<div class="dbg-row"><span class="dbg-name">' + indent + name + "</span>" +
           '<span class="dbg-num' + (r.over ? " dbg-over" : "") + '">' + r.qs + "</span>" +
-          '<span class="dbg-num">' + r.items + " " + r.itemKind + "</span></div>";
+          '<span class="dbg-num">' + r.items + " " + r.kind + "</span></div>";
       }).join("") + "</div>";
-  }
-
-  /* ---------- router: every view lives at / with ?path=<a/b/c> ---------- */
-  function viewFromHash() {
-    var m = /^#\/category\/([^\/]+)/.exec(location.hash || "");
-    if (m && catById(m[1])) return { view: "category", id: m[1] };
-    return null;
-  }
-  function viewFromPath() {
-    var segs = window.CM_PATH || [];
-    if (segs.length === 0) return { view: "landing" };
-    if (segs.length === 1 && segs[0] === "browse") return { view: "browse" };
-    if (segs.length === 1 && segs[0] === "debug") return { view: "debug" };
-    if (segs.length === 1 && catById(segs[0])) return { view: "category", id: segs[0] };
-    return null;
-  }
-  function render(view) {
-    setAccent(view.view === "category" ? catById(view.id).color : null);
-    app.innerHTML = view.view === "category" ? categoryView(view.id)
-      : view.view === "debug" ? debugView()
-      : view.view === "browse" ? browseView()
-      : landingView();
-    bind();
-    refreshFavCounts();
-  }
-  function navigate(view) {
-    location.href = view.view === "category" ? "?path=" + view.id + "/"
-      : view.view === "browse" ? "?path=browse"
-      : "./";
-  }
-  function bind() {
-    app.querySelectorAll("[data-goto]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        navigate(JSON.parse(el.dataset.goto), false);
-      });
-    });
-  }
-
-  var start = viewFromHash() || viewFromPath();
-  if (!start) return; // another view owns this URL
-  window.CM_CLAIMED = true;
-  current = start;
-  render(current);
+  };
 })();

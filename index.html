@@ -14,32 +14,13 @@
 <body>
 <div class="bg" aria-hidden="true"><div class="dots"></div></div>
 <main id="app" class="wrap"></main>
-<script>
-/* Every view lives at / with ?path=<a/b/c>. This parses it once for the scripts below. */
-window.CM_PATH = (function () {
-  var p = "";
-  try { p = new URLSearchParams(location.search).get("path") || ""; } catch (e) {}
-  return String(p).split("/").filter(function (s) { return !!s; });
-})();
-window.CM_CLAIMED = false;
-</script>
 <script src="data/categories.js?v=20260930-173801"></script>
 <script src="data/quiz-data.js?v=20260930-173801"></script>
+<script src="core.js?v=20260930-173801"></script>
 <script src="app.js?v=20260930-173801"></script>
 <script src="quiz.js?v=20260930-173801"></script>
 <script src="saved.js?v=20260930-173801"></script>
 <script src="history.js?v=20260930-173801"></script>
-<script>
-/* Unknown ?path=: tiny not-found instead of a blank page. */
-if (!window.CM_CLAIMED) {
-  document.title = "Not found — Landscape of Consciousness";
-  document.getElementById("app").innerHTML =
-    '<nav class="trail" aria-label="Breadcrumb"><span class="here-dot"></span>' +
-    '<a class="tseg root" href="./">Home</a></nav>' +
-    '<header class="hero"><div class="kicker">NOT FOUND</div><h1>Nothing here.</h1>' +
-    '<p class="desc">That page doesn\u2019t exist.</p></header>' +
-    '<div class="d-actions"><a class="pill" href="./">Map</a></div>';
-}
-</script>
+<script>CM.start();</script>
 </body>
 </html>

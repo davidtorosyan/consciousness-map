@@ -14,7 +14,8 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The only real page. Loads the data and scripts below. |
+| `index.html` | The only real page. Loads the data and scripts below, then `CM.start()`. |
+| `core.js` | Shared helpers, storage, share links, the category → school → theory tree, and the router. |
 | `app.js` | Home, category list, category page, debug page. |
 | `quiz.js` | Quizzes, results, theory/school detail, browse lists. |
 | `saved.js`, `history.js` | Bookmarked theories and past quiz results (localStorage). |
@@ -22,7 +23,9 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `data/quiz-data.js` | Every quiz: the top-level one and one per category/school. |
 | `styles.css`, `quiz.css` | All styling. |
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
-| `deploy.sh` | Lint, cache-bust, commit and push to `main`. |
+| `deploy.sh` | Check, cache-bust, commit and push to `main`. |
+| `tools/check.js` | Syntax lint and quiz-data integrity checks. |
+| `tools/smoke.js` | Headless phone-size walk-through of every page. |
 | `archive/` | Data from earlier versions, kept for reference. Not loaded. |
 
 ## URLs

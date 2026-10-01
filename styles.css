@@ -78,7 +78,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .hero .desc{font-size:15.5px;line-height:1.62;color:rgba(255,255,255,.82);max-width:34ch}
 
 /* sub-category rows */
-.subcard{
+.subcard{text-decoration:none;color:inherit;
   width:100%;text-align:left;display:flex;align-items:center;gap:14px;
   border:1px solid var(--line);border-radius:18px;padding:17px 16px;margin-bottom:10px;
   background:linear-gradient(140deg,rgba(255,255,255,.045),rgba(255,255,255,.012));

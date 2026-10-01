@@ -21,13 +21,13 @@ Each item below is one commit (or a small group) on
 - [x] **T3. Remove dead code.** `tools/build_data.py` (writes a file that no
       longer exists, reads `~/workspace/...`), unused `version.json`, the V3
       territory palettes and other unreferenced CSS.
-- [ ] **T4. One shared core.** `core.js` owns everything the four scripts
+- [x] **T4. One shared core.** `core.js` owns everything the four scripts
       currently copy-paste: HTML escaping, icons, localStorage/sessionStorage
       access, share-link encoding, and a **taxonomy tree** built once from
       `QUIZ_DATA` (category → school → theory, each node knowing its URL, its
       parent and its quiz). Nesting is derived from `area.sub`, not from
       key-prefix matching.
-- [ ] **T5. One router.** `core.js` parses `?path=` once into a route object;
+- [x] **T5. One router.** `core.js` parses `?path=` once into a route object;
       `index.html` dispatches to exactly one view. Replaces the
       `window.CM_CLAIMED` "first script to recognise the URL wins" pattern.
 - [ ] **T6. One navigation model: every screen is a real URL.** Only the
@@ -37,7 +37,7 @@ Each item below is one commit (or a small group) on
       the browser's back button just works. Removes the in-page history stack
       and the `pushState`/`replaceState`/`popstate` patches. The category page
       and its "browse" list become one page.
-- [ ] **T7. Escape everything.** All data-derived text goes through `esc()`.
+- [x] **T7. Escape everything.** All data-derived text goes through `esc()`.
 - [x] **T8. Smoke test.** `tools/smoke.js` drives the site in headless
       Chromium (Playwright, if installed) through home → quiz → results →
       detail → back, every category/school/theory page, and fails on JS errors

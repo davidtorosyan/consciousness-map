@@ -1,97 +1,57 @@
-/* Bookmarked theories — reads the same localStorage favorites the quizzes write. */
+/* Bookmarked theories (the localStorage list the theory pages write). */
 (function () {
   "use strict";
-  var SEGS = window.CM_PATH || [];
-  if (!(SEGS.length === 1 && SEGS[0] === "saved")) return;
-  window.CM_CLAIMED = true;
-  document.title = "Bookmarked theories";
-  var FAV_KEY = "cm_favorites_v1";
-  var BM_SVG = '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>';
-  var INFO_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>';
-  var MAG_SVG = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  var esc = CM.esc, I = CM.icons;
+
+  /* the theory a bookmark points at; null if it's no longer on the map */
+  function nodeOf(f) {
+    var id = String(f.id), i = id.indexOf(":");
+    return CM.node("theory", i < 0 ? id : id.slice(i + 1));
   }
-  function getFavs() {
-    try { var f = JSON.parse(localStorage.getItem(FAV_KEY)); return Array.isArray(f) ? f : []; }
-    catch (e) { return []; }
-  }
-  function removeFav(id) {
-    try {
-      var f = getFavs().filter(function (x) { return x.id !== id; });
-      localStorage.setItem(FAV_KEY, JSON.stringify(f));
-    } catch (e) {}
-  }
-  function catById(id) {
-    var cs = window.LOC_CATEGORIES || [];
-    for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
-    return null;
-  }
-  function drillPath(key) {
-    var cs = window.LOC_CATEGORIES || [];
-    for (var i = 0; i < cs.length; i++) {
-      var c = cs[i].id;
-      if (key === c) return c;
-      if (key.indexOf(c + "-") === 0) return c + "/" + key.slice(c.length + 1);
-    }
-    return key;
-  }
-  function theoryKeyOf(f) { var i = String(f.id).indexOf(":"); return i < 0 ? f.id : f.id.slice(i + 1); }
-  function drillKeyOf(f) {
-    var drills = (window.QUIZ_DATA && window.QUIZ_DATA.drill) || {};
-    if (f.drill && drills[f.drill]) return f.drill;
-    // bookmarks saved before the drill was recorded: find the drill holding the theory,
-    // preferring the deeper (school) drill over the bare category drill
-    var tk = theoryKeyOf(f), best = null;
-    Object.keys(drills).forEach(function (k) {
-      var d = drills[k];
-      if (!d || d.categoryId !== f.catId) return;
-      (d.areas || []).forEach(function (a) {
-        if (a.key === tk && (!best || best === d.categoryId)) best = k;
-      });
-    });
-    return best;
-  }
+
   function cardHtml(f, i) {
-    var c = catById(f.catId);
-    var dot = c ? '<span class="loc-dot sm" style="background:' + c.color + '" aria-hidden="true"></span>' : "";
-    var meta = c ? '<div class="fav-meta">' + dot + "<span>" + esc(c.name) + "</span></div>" : "";
+    var node = nodeOf(f), c = CM.node("category", f.catId);
+    var meta = c ? '<div class="fav-meta"><span class="loc-dot sm" style="background:' + esc(c.color) +
+      '" aria-hidden="true"></span><span>' + esc(c.name) + "</span></div>" : "";
     var loc = f.url
-      ? '<a class="src-badge" href="' + esc(f.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + INFO_SVG + "</a>"
+      ? '<a class="src-badge" href="' + esc(f.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + I.info + "</a>"
       : "";
-    var dk = drillKeyOf(f), tk = theoryKeyOf(f);
-    var browseHref = dk ? "?path=" + esc(drillPath(dk)) + "/browse" : (c ? "?path=" + esc(f.catId) + "/" : "./");
-    var theoryHref = dk ? "?path=" + esc(drillPath(dk)) + "/" + esc(tk) : "";
-    var map = '<a class="fav-link" style="margin-left:14px" href="' + browseHref + '">See on the map ›</a>';
-    var name = theoryHref
-      ? '<a class="fav-name" href="' + theoryHref + '">' + esc(f.name) + "</a>"
+    var map = node
+      ? '<a class="fav-link" style="margin-left:14px" href="' + CM.href(node.parent, "browse") + '">See on the map ›</a>'
+      : "";
+    var name = node
+      ? '<a class="fav-name" href="' + CM.href(node) + '">' + esc(f.name) + "</a>"
       : '<div class="fav-name">' + esc(f.name) + "</div>";
     return '<div class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + '">' +
-      '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + BM_SVG + "</button>" +
+      '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + I.bookmark + "</button>" +
       '<div class="grow">' + name +
       (f.tagline ? '<div class="fav-tag">' + esc(f.tagline) + "</div>" : "") +
       meta + "<div>" + loc + map + "</div></div></div>";
   }
+
   function render() {
-    var favs = getFavs();
-    var h = '<nav class="trail" aria-label="Breadcrumb"><span class="here-dot"></span><a class="tseg root" href="./">Home</a><span class="sep">›</span><span class="tseg">Saved</span></nav>';
-    h += '<header class="hero rise" style="--i:1"><div class="kicker">SAVED</div><h1>Bookmarked theories</h1>';
+    var favs = CM.favs.all();
+    var h = CM.trail([{ label: "Home", href: "./" }, { label: "Saved" }]) +
+      '<header class="hero rise" style="--i:1"><div class="kicker">SAVED</div><h1>Bookmarked theories</h1>';
     if (favs.length) {
-      h += '<p class="desc">' + favs.length + (favs.length === 1 ? " theory" : " theories") + " saved.</p></header>";
-      h += favs.map(cardHtml).join("");
+      h += '<p class="desc">' + favs.length + (favs.length === 1 ? " theory" : " theories") + " saved.</p></header>" +
+        favs.map(cardHtml).join("");
     } else {
-      h += '<p class="desc">Nothing saved yet. Tap the bookmark on any theory in a quiz and it will land here.</p></header>' +
-        '<div class="d-actions"><a class="pill rise" style="--i:2" href="?path=quiz">' + MAG_SVG + "<span>Quiz</span></a></div>";
+      h += '<p class="desc">Nothing saved yet. Tap the bookmark on any theory and it will land here.</p></header>' +
+        '<div class="d-actions"><a class="pill rise" style="--i:2" href="?path=quiz">' + I.search + "<span>Quiz</span></a></div>";
     }
-    document.getElementById("app").innerHTML = h;
-    document.querySelectorAll("[data-unbm]").forEach(function (el) {
+    var app = document.getElementById("app");
+    app.innerHTML = h;
+    app.querySelectorAll("[data-unbm]").forEach(function (el) {
       el.addEventListener("click", function () {
-        removeFav(el.getAttribute("data-unbm"));
+        CM.favs.remove(el.getAttribute("data-unbm"));
         render();
       });
     });
   }
-  render();
+
+  CM.views.saved = function () {
+    document.title = "Bookmarked theories";
+    render();
+  };
 })();
