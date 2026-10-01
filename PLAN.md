@@ -42,9 +42,11 @@ Each item below is one commit (or a small group) on
       Chromium (Playwright, if installed) through home → quiz → results →
       detail → back, every category/school/theory page, and fails on JS errors
       or horizontal overflow at phone width.
-- [ ] **T9. Safer deploy.** `deploy.sh` runs the checks, refuses to deploy
-      from a dirty tree with untracked files it would silently add, and no
-      longer makes empty commits.
+- [x] **T9. Safer deploy.** `deploy.sh` runs both checks, refuses to run off
+      `main` (it committed to the current branch but always pushed `main`),
+      refuses untracked files instead of sweeping them in with `git add -A`,
+      no longer makes empty commits, and uses `sed -i.bak` so it also works
+      with macOS sed.
 
 All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 `history.html`, `#/category/…`) keep working.
