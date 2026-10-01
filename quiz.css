@@ -83,6 +83,10 @@
 .bm-btn.sm .bm-ic{width:20px;height:20px}
 .r-row .rank{flex:none;width:22px;font-size:13px;font-weight:700;color:var(--faint)}
 .r-row .nm{flex:1;min-width:0;font-family:var(--serif);font-size:18px}
+/* list rows (no rank): name with its tagline underneath */
+.r-open .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;padding-left:6px}
+.r-open .tg{font-size:13.5px;line-height:1.45;color:var(--muted)}
+.r-open .chev{flex:none;font-size:22px;color:var(--acc);padding-right:6px}
 .r-row .tier{flex:none;min-width:26px;display:inline-flex;align-items:center;justify-content:flex-end}
 .r-row .tier svg{width:13px;height:13px;display:block}
 .r-row .tier.hi{color:#3ad06e}

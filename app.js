@@ -68,11 +68,12 @@
   CM.views.group = function (route) {
     var node = route.node;
     var hasSchools = node.children.some(function (x) { return x.kind === "school"; });
-    var rows = node.children.map(function (t, i) {
+    var rows = node.children.map(function (t) {
       return '<div class="r-row" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
-        '<a class="r-open" href="' + CM.href(t) + '">' +
-        '<span class="rank">' + (i + 1) + "</span>" +
-        '<span class="nm">' + esc(t.name) + "</span></a>" +
+        '<a class="r-open" href="' + CM.href(t) + '"><span class="grow">' +
+        '<span class="nm">' + esc(t.name) + "</span>" +
+        (t.tagline ? '<span class="tg">' + esc(t.tagline) + "</span>" : "") +
+        "</span>" + (t.kind === "school" ? '<span class="chev">\u203A</span>' : "") + "</a>" +
         (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
     }).join("");
     render(node, '<div class="d-head">' + locBadge(locUrl(node), node.name) +

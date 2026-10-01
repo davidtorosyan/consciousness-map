@@ -63,7 +63,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
       a neutral grey instead of red, since it mostly means "didn't come up".
       One share button and one way home instead of two of each. A clear next
       step: "Go deeper: take the <top match> quiz".
-- [ ] **U4. Lists.** Category/school lists show each item's tagline and drop
+- [x] **U4. Lists.** Category/school lists show each item's tagline and drop
       the meaningless 1–N numbering (numbers stay on results, where rank
       means something).
 - [ ] **U5. Detail pages aren't dead ends.** Bookmark and "Read on LOC ↗"
