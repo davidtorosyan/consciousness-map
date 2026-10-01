@@ -210,13 +210,16 @@
   app.innerHTML =
     '<nav class="trail" id="wz-trail" aria-label="Where you are"></nav>' +
     '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
-    '<main class="wz-window" id="wz-window"><div class="wz-body" id="wz-body"></div></main>' +
+    '<main class="wz-window" id="wz-window"><div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="Previous question">\u2039</button></div><div class="wz-body" id="wz-body"></div></main>' +
     '<footer class="wz-foot"><a href="./">Browse the map</a>' +
     '<span aria-hidden="true">·</span>' +
     '<a href="' + LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
 
   var winBody = document.getElementById("wz-body");
   var dotsEl = document.getElementById("wz-dots");
+  var backEl = document.getElementById("wz-back");
+  function showBack(b) { if (backEl) backEl.style.display = b ? "" : "none"; }
+  if (backEl) backEl.querySelector("button").addEventListener("click", function () { actGo("qback"); });
 
   function renderDots(n, idx) {
     var dots = "";
@@ -231,11 +234,12 @@
 
   /* Swap only the window's content: quick fade/slide inside the card. */
   var locked = false;
-  function setWindow(html, n, idx) {
+  function setWindow(html, n, idx, back) {
     renderDots(n, idx);
     winBody.classList.add("wz-leave");
     setTimeout(function () {
       winBody.innerHTML = html;
+      showBack(!!back);
       winBody.classList.remove("wz-leave");
       winBody.classList.add("wz-enter");
       requestAnimationFrame(function () {
@@ -324,13 +328,14 @@
         try { history.replaceState(history.state, "", pathForTheory(QKEY, view.key)); } catch (e) {}
       }
     }
+    var backBtn = view.name === "q" && view.idx > 0;
     var trailEl = document.getElementById("wz-trail");
     if (trailEl) {
       trailEl.innerHTML = trailHtml();
       var shareBtn = document.getElementById("wz-share");
       if (shareBtn) shareBtn.addEventListener("click", function () { shareResults(shareBtn); });
     }
-    setWindow(h, dn, di);
+    setWindow(h, dn, di, backBtn);
   }
   function backTo() {
     var prev = hist.length > 1 ? hist[hist.length - 2] : { name: "start" };
@@ -380,10 +385,7 @@
       var picked = prev === ans ? " picked-" + (ans === "skip" ? "skip" : ans) : "";
       return '<button class="a-btn ' + base + picked + '" data-ans="' + ans + '"><span class="ic">' + ic + '</span><span class="lb">' + lb + "</span></button>";
     }
-    var backRow = idx > 0
-      ? '<div class="q-backrow"><button class="q-backbtn" data-act="qback" aria-label="Previous question">\u2039</button></div>'
-      : "";
-    return backRow +
+    return 
       '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
       '<div class="a-grid">' +
       abtn("yes", "yes", "\u2713", "Yes") +
