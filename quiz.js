@@ -385,8 +385,7 @@
       var picked = prev === ans ? " picked-" + (ans === "skip" ? "skip" : ans) : "";
       return '<button class="a-btn ' + base + picked + '" data-ans="' + ans + '"><span class="ic">' + ic + '</span><span class="lb">' + lb + "</span></button>";
     }
-    return 
-      '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
+    return '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
       '<div class="a-grid">' +
       abtn("yes", "yes", "\u2713", "Yes") +
       abtn("no", "no", "\u2717", "No") +
