@@ -18,7 +18,6 @@
   };
   CM.icons = {
     bookmark: '<svg class="bm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11V21l-5.5-3.8L6.5 21z"/></svg>',
-    info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.5" fill="currentColor"/></svg>',
     list: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="10.5" y1="6" x2="20" y2="6"/><line x1="10.5" y1="12" x2="20" y2="12"/><line x1="10.5" y1="18" x2="20" y2="18"/></g></svg>',
     search: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.8" y1="15.8" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     history: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3.2 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
@@ -251,11 +250,14 @@
       '<span aria-hidden="true">·</span>' +
       '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
   };
-  /* bookmark toggles: <button data-bm="<theory key>"> */
-  CM.bookmarkButton = function (node, small) {
+  /* bookmark toggles: <button data-bm="<theory key>">. As a pill it's
+     labelled Save / Saved; otherwise it's just the icon. */
+  CM.bookmarkButton = function (node, small, pill) {
     var on = CM.favs.has(CM.favId(node));
-    return '<button class="bm-btn' + (small ? " sm" : "") + (on ? " on" : "") + '" data-bm="' + CM.esc(node.key) +
-      '" aria-label="Bookmark ' + CM.esc(node.name) + '" aria-pressed="' + on + '">' + CM.icons.bookmark + "</button>";
+    var cls = pill ? "pill bm-pill" : "bm-btn" + (small ? " sm" : "");
+    return '<button class="' + cls + (on ? " on" : "") + '" data-bm="' + CM.esc(node.key) +
+      '" aria-label="Bookmark ' + CM.esc(node.name) + '" aria-pressed="' + on + '">' + CM.icons.bookmark +
+      (pill ? "<span data-bm-label>" + (on ? "Saved" : "Save") + "</span>" : "") + "</button>";
   };
   CM.bindBookmarks = function (root) {
     root.querySelectorAll("[data-bm]").forEach(function (el) {
@@ -264,8 +266,13 @@
         var node = CM.node("theory", el.getAttribute("data-bm"));
         if (!node) return;
         var on = CM.favs.toggle(node);
-        el.classList.toggle("on", on);
-        el.setAttribute("aria-pressed", on ? "true" : "false");
+        // the same theory can appear twice on a page (e.g. header and list)
+        root.querySelectorAll('[data-bm="' + node.key + '"]').forEach(function (b) {
+          b.classList.toggle("on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+          var label = b.querySelector("[data-bm-label]");
+          if (label) label.textContent = on ? "Saved" : "Save";
+        });
       });
     });
   };

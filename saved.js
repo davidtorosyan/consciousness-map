@@ -14,10 +14,7 @@
     var meta = c ? '<div class="fav-meta"><span class="loc-dot sm" style="background:' + esc(c.color) +
       '" aria-hidden="true"></span><span>' + esc(c.name) + "</span></div>" : "";
     var loc = f.url
-      ? '<a class="src-badge" href="' + esc(f.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + I.info + "</a>"
-      : "";
-    var map = node
-      ? '<a class="fav-link" style="margin-left:14px" href="' + CM.href(node.parent, "browse") + '">See on the map ›</a>'
+      ? '<a class="fav-link" href="' + esc(f.url) + '" target="_blank" rel="noopener">Read on LOC \u2197</a>'
       : "";
     var name = node
       ? '<a class="fav-name" href="' + CM.href(node) + '">' + esc(f.name) + "</a>"
@@ -26,7 +23,7 @@
       '<button class="bm-btn on" data-unbm="' + esc(f.id) + '" aria-label="Remove bookmark">' + I.bookmark + "</button>" +
       '<div class="grow">' + name +
       (f.tagline ? '<div class="fav-tag">' + esc(f.tagline) + "</div>" : "") +
-      meta + "<div>" + loc + map + "</div></div></div>";
+      meta + "<div>" + loc + "</div></div></div>";
   }
 
   function render() {

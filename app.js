@@ -50,15 +50,31 @@
       return { label: n.name, href: i < chain.length - 1 ? CM.href(n) : null };
     })));
   }
-  function locBadge(url, name) {
-    return url ? '<a class="src-badge" href="' + esc(url) + '" target="_blank" rel="noopener" aria-label="Open ' +
-      esc(name) + ' on Landscape of Consciousness">' + I.info + "</a>" : "";
-  }
   /* school pages without their own LOC entry link to their category's */
-  function locUrl(node) { return node.url || node.category.url; }
+  function locPill(node) {
+    var url = node.url || node.category.url;
+    return '<a class="pill" href="' + esc(url) + '" target="_blank" rel="noopener">' +
+      "<span>Read on LOC \u2197</span></a>";
+  }
+  function head(node, kicker) {
+    var long = node.name.length > 36 ? ' class="long"' : "";
+    return '<div class="d-head"><div class="eyebrow">' + kicker + "</div>" +
+      "<h1" + long + ">" + esc(node.name) + "</h1>" +
+      (node.tagline ? '<p class="tag">' + esc(node.tagline) + "</p>" : "") + "</div>";
+  }
+  function listRows(nodes) {
+    return nodes.map(function (t) {
+      return '<div class="r-row" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
+        '<a class="r-open" href="' + CM.href(t) + '"><span class="grow">' +
+        '<span class="nm">' + esc(t.name) + "</span>" +
+        (t.tagline ? '<span class="tg">' + esc(t.tagline) + "</span>" : "") +
+        "</span>" + (t.kind === "school" ? '<span class="chev">\u203A</span>' : "") + "</a>" +
+        (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
+    }).join("");
+  }
   function render(node, body) {
     CM.setAccent(node.color);
-    document.title = node.name + " — Landscape of Consciousness";
+    document.title = node.name + " \u2014 Landscape of Consciousness";
     app.innerHTML = CM.frame(nodeTrail(node), body);
     CM.bindBookmarks(app);
     CM.bindBackToResults(app);
@@ -68,31 +84,24 @@
   CM.views.group = function (route) {
     var node = route.node;
     var hasSchools = node.children.some(function (x) { return x.kind === "school"; });
-    var rows = node.children.map(function (t) {
-      return '<div class="r-row" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
-        '<a class="r-open" href="' + CM.href(t) + '"><span class="grow">' +
-        '<span class="nm">' + esc(t.name) + "</span>" +
-        (t.tagline ? '<span class="tg">' + esc(t.tagline) + "</span>" : "") +
-        "</span>" + (t.kind === "school" ? '<span class="chev">\u203A</span>' : "") + "</a>" +
-        (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
-    }).join("");
-    render(node, '<div class="d-head">' + locBadge(locUrl(node), node.name) +
-      '<div class="eyebrow">' + (node.kind === "school" ? "SCHOOL" : "CATEGORY") + "</div>" +
-      "<h1>" + esc(node.name) + "</h1>" +
-      (node.tagline ? '<p class="tag">' + esc(node.tagline) + "</p>" : "") + "</div>" +
-      (node.quiz ? '<div class="d-actions"><a class="pill" href="' + CM.href(node, "quiz") + '">' + I.search + "<span>Quiz</span></a></div>" : "") +
+    render(node, head(node, node.kind === "school" ? "SCHOOL" : "CATEGORY") +
+      '<div class="d-actions">' +
+      (node.quiz ? '<a class="pill" href="' + CM.href(node, "quiz") + '">' + I.search + "<span>Take the quiz</span></a>" : "") +
+      locPill(node) + "</div>" +
       CM.answerRows(route.from, node.key) +
       '<div class="r-head"><div class="eyebrow">' + node.children.length + (hasSchools ? " SCHOOLS" : " THEORIES") + "</div></div>" +
-      rows);
+      listRows(node.children));
   };
 
+  /* a theory: save it, read it on LOC, or look at its neighbours */
   CM.views.theory = function (route) {
-    var node = route.node;
-    render(node, '<div class="d-head" style="--bm:' + esc(node.color) + '">' + locBadge(node.url, node.name) +
-      '<div class="eyebrow">THEORY' + CM.bookmarkButton(node) + "</div>" +
-      "<h1>" + esc(node.name) + "</h1>" +
-      (node.tagline ? '<p class="tag">' + esc(node.tagline) + "</p>" : "") + "</div>" +
-      CM.answerRows(route.from, node.key));
+    var node = route.node, parent = node.parent;
+    var siblings = parent.children.filter(function (x) { return x !== node; });
+    render(node, '<div style="--bm:' + esc(node.color) + '">' + head(node, "THEORY") +
+      '<div class="d-actions">' + CM.bookmarkButton(node, false, true) + locPill(node) + "</div></div>" +
+      CM.answerRows(route.from, node.key) +
+      (siblings.length ? '<div class="r-head"><div class="eyebrow">MORE IN ' + esc(parent.name.toUpperCase()) + "</div></div>" +
+        listRows(siblings) : ""));
   };
 
   /* ---------- debug: quiz nesting + question counts ---------- */

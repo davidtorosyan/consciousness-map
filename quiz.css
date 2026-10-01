@@ -97,10 +97,8 @@
 
 /* detail: name + one line + buttons */
 .d-head{padding:26px 6px 8px;position:relative}
-.d-head .eyebrow{display:flex;align-items:center;gap:10px}
-.d-head .eyebrow .bm-btn{padding:6px;margin:-6px}
-.d-head .eyebrow .bm-ic{width:17px;height:17px}
 .d-head h1{font-size:34px;margin-bottom:10px}
+.d-head h1.long{font-size:26px;line-height:1.15}
 .d-head .tag{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:34ch}
 /* .d-actions lives in styles.css (pill row shared with the map pages) */
 .d-quiet{display:flex;justify-content:space-between;margin-top:22px}

@@ -66,7 +66,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 - [x] **U4. Lists.** Category/school lists show each item's tagline and drop
       the meaningless 1–N numbering (numbers stay on results, where rank
       means something).
-- [ ] **U5. Detail pages aren't dead ends.** Bookmark and "Read on LOC ↗"
+- [x] **U5. Detail pages aren't dead ends.** Bookmark and "Read on LOC ↗"
       become labelled buttons; the ⓘ icon that silently left the site goes
       away; theory pages list the other theories in the same school.
 - [ ] **U6. Consistent wording.** "Browse the map" vs the list-icon "Browse"
