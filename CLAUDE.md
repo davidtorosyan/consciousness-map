@@ -34,8 +34,10 @@ Run both checks before committing. `deploy.sh` runs them too.
 ## Deploying
 
 `./deploy.sh "message"` runs the checks, writes a new build id to
-`version.json`, commits, and pushes to `main`. Only the owner deploys; agents
-work on branches.
+`version.json`, commits, and pushes to `main`. Agents have the owner's
+standing go-ahead to deploy without asking: commit on the working branch,
+fast-forward `main` to it, run `./deploy.sh` from `main` (it refuses if the
+checks fail), then fast-forward the branch to `main` again.
 
 Cache busting: GitHub Pages lets browsers cache every file for 10 minutes,
 `index.html` included. So `index.html` is a small loader: it fetches
