@@ -60,8 +60,11 @@
 }
 .big-start:active{transform:scale(.96)}
 .q-quiet{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--faint);text-decoration:none}
-.q-backrow{position:absolute;top:10px;right:12px;margin:0;z-index:2}
-.q-backrow .q-quiet{display:inline-block;margin-top:0;background:none;border:none;cursor:pointer;font:inherit;padding:8px 6px}
+.q-backrow{position:absolute;top:12px;right:12px;margin:0;z-index:2}
+.q-backbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(255,255,255,.04);color:var(--faint);font-size:21px;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 2px 3px 0}
+.q-backbtn:active{color:var(--text);border-color:var(--faint)}
 
 /* results: ranked names only */
 .r-head{padding:18px 4px 6px;position:relative}

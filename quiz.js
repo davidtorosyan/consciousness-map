@@ -381,7 +381,7 @@
       return '<button class="a-btn ' + base + picked + '" data-ans="' + ans + '"><span class="ic">' + ic + '</span><span class="lb">' + lb + "</span></button>";
     }
     var backRow = idx > 0
-      ? '<div class="q-backrow"><button class="q-quiet" data-act="qback" aria-label="Previous question">\u2039 Previous</button></div>'
+      ? '<div class="q-backrow"><button class="q-backbtn" data-act="qback" aria-label="Previous question">\u2039</button></div>'
       : "";
     return backRow +
       '<div class="q-qwrap"><div class="q-text">' + q.t + "</div></div>" +
