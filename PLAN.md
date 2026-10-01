@@ -18,7 +18,7 @@ Each item below is one commit (or a small group) on
       missing URLs, duplicate keys, quizzes over the question cap as a
       warning). `deploy.sh` runs it; the ad-hoc inline-script lint moves into
       it too.
-- [ ] **T3. Remove dead code.** `tools/build_data.py` (writes a file that no
+- [x] **T3. Remove dead code.** `tools/build_data.py` (writes a file that no
       longer exists, reads `~/workspace/...`), unused `version.json`, the V3
       territory palettes and other unreferenced CSS.
 - [ ] **T4. One shared core.** `core.js` owns everything the four scripts

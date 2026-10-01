@@ -23,7 +23,6 @@
 .q-dot.now{background:var(--text);transform:scale(1.25)}
 
 .q-qwrap{min-height:30dvh;display:flex;flex-direction:column;justify-content:center}
-.q-kicker{font-size:11px;letter-spacing:.22em;color:var(--acc);font-weight:700;margin-bottom:14px}
 .q-text{font-family:var(--serif);font-size:27px;line-height:1.32;letter-spacing:-.01em;margin-bottom:8px}
 .q-why{overflow:hidden;max-height:0;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease}
 .q-why.open{opacity:1;margin-top:14px}
@@ -102,8 +101,6 @@
 .d-head .tag{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:34ch}
 /* .d-actions lives in styles.css (pill row shared with the map pages) */
 .d-quiet{display:flex;justify-content:space-between;margin-top:22px}
-.drill-btn{width:100%;margin:2px 0 18px;cursor:pointer;font-family:inherit}
-/* .d-actions lives in styles.css (pill row shared with the map pages) */
 .d-link{font-size:14px;color:var(--faint);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px;padding:10px 4px}
 
 @media (prefers-reduced-motion:reduce){
@@ -134,4 +131,3 @@
 .wz-dotsrow{display:flex;align-items:center;justify-content:space-between}
 .q-count{font-size:11px;color:var(--faint);letter-spacing:.08em;flex:none}
 .r-note{font-size:12.5px;color:var(--muted);margin:0 2px 12px}
-.ext-note{font-size:11.5px;color:var(--faint);margin-top:8px;text-align:center}
