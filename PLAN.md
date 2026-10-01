@@ -38,7 +38,7 @@ Each item below is one commit (or a small group) on
       and the `pushState`/`replaceState`/`popstate` patches. The category page
       and its "browse" list become one page.
 - [ ] **T7. Escape everything.** All data-derived text goes through `esc()`.
-- [ ] **T8. Smoke test.** `tools/smoke.js` drives the site in headless
+- [x] **T8. Smoke test.** `tools/smoke.js` drives the site in headless
       Chromium (Playwright, if installed) through home → quiz → results →
       detail → back, every category/school/theory page, and fails on JS errors
       or horizontal overflow at phone width.
