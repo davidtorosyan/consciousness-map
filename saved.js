@@ -34,7 +34,7 @@
       h += '<p class="desc">' + favs.length + (favs.length === 1 ? " theory" : " theories") + " saved.</p></header>" +
         favs.map(cardHtml).join("");
     } else {
-      h += '<p class="desc">Nothing saved yet. Tap the bookmark on any theory and it will land here.</p></header>' +
+      h += '<p class="desc">Nothing saved yet. Tap Save on any theory and it will land here.</p></header>' +
         '<div class="d-actions"><a class="pill rise" style="--i:2" href="?path=quiz">' + I.search + "<span>Quiz</span></a></div>";
     }
     var app = document.getElementById("app");

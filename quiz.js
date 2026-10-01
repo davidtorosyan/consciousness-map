@@ -153,7 +153,7 @@
     document.title = "Results — Landscape of Consciousness";
     if (!r) {
       app.innerHTML = CM.frame(CM.trail([{ label: "Home", href: "./" }, { label: "Results" }]),
-        '<div class="q-start"><div class="eyebrow">SHARED RESULT</div>' +
+        '<div class="q-start"><div class="eyebrow">RESULTS</div>' +
         "<h1>That link didn’t work.</h1>" +
         '<p class="lede">It may be from an older version of the quiz.</p>' +
         '<a class="q-quiet" href="?path=quiz">Take the quiz instead</a></div>');

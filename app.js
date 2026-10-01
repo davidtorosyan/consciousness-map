@@ -18,7 +18,7 @@
       "Answer " + nq + " quick questions to see which sound closest to you.</p></div>" +
       '<div class="d-actions">' +
       '<a class="pill rise" style="--i:1" href="?path=quiz">' + I.search + "<span>Take the quiz</span></a>" +
-      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>Browse</span></a></div>" +
+      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>All categories</span></a></div>" +
       (nHist || nFav ? '<div class="d-actions">' +
         (nHist ? '<a class="pill rise" style="--i:3" href="?path=history">' + I.history + "<span>History</span></a>" : "") +
         (nFav ? '<a class="pill rise" style="--i:4" href="?path=saved">' + I.bookmark + "<span>Saved (" + nFav + ")</span></a>" : "") +
@@ -35,10 +35,10 @@
         '<span class="sub-tag">' + esc(c.tagline) + "</span></span>" +
         '<span class="chev">›</span></a>';
     }).join("");
-    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: "Browse" }]) +
-      '<header class="hero rise" style="--i:2"><div class="kicker">BROWSE</div>' +
+    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: "All categories" }]) +
+      '<header class="hero rise" style="--i:2"><div class="kicker">ALL CATEGORIES</div>' +
       "<h1>The eleven categories</h1>" +
-      '<p class="desc">Every family of theories on the map. Open one to take its quiz or browse its theories.</p></header>' +
+      '<p class="desc">Every family of theories on the map. Open one to see what\u2019s inside it or take its quiz.</p></header>' +
       rows;
   };
 

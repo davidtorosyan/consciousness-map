@@ -246,7 +246,7 @@
     return trailHtml +
       (opts.progress ? '<div class="wz-dotsrow"><div class="q-bar" aria-hidden="true"><span id="wz-bar"></span></div><span class="q-count" id="wz-count"></span></div>' : "") +
       '<div class="wz-window" id="wz-window">' + body + "</div>" +
-      '<footer class="wz-foot"><a href="./">Browse the map</a>' +
+      '<footer class="wz-foot"><a href="?path=browse">All categories</a>' +
       '<span aria-hidden="true">·</span>' +
       '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
   };
