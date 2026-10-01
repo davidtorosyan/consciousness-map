@@ -3,6 +3,7 @@
    contents transition between questions. The breadcrumb is the topmost element. */
 .wz-dotsrow{padding:2px 2px 14px}
 .wz-window{
+  position:relative;
   border:1px solid var(--line);border-radius:22px;
   background:linear-gradient(170deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
   box-shadow:0 18px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
@@ -59,8 +60,8 @@
 }
 .big-start:active{transform:scale(.96)}
 .q-quiet{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--faint);text-decoration:none}
-.q-backrow{margin:0 0 2px}
-.q-backrow .q-quiet{display:inline-block;margin-top:0;background:none;border:none;cursor:pointer;font:inherit;padding:4px 0}
+.q-backrow{position:absolute;top:10px;right:12px;margin:0;z-index:2}
+.q-backrow .q-quiet{display:inline-block;margin-top:0;background:none;border:none;cursor:pointer;font:inherit;padding:8px 6px}
 
 /* results: ranked names only */
 .r-head{padding:18px 4px 6px;position:relative}
