@@ -3,8 +3,8 @@
 :root{
   -webkit-tap-highlight-color:transparent;
   --text:#f2f5f9;
-  --muted:rgba(242,245,249,.64);
-  --faint:rgba(242,245,249,.38);
+  --muted:rgba(242,245,249,.72);
+  --faint:rgba(242,245,249,.56);  /* >= 4.5:1 (WCAG AA) on every background */
   --line:rgba(242,245,249,.10);
   --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
   --sans:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;

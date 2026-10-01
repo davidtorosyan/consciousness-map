@@ -71,7 +71,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
       away; theory pages list the other theories in the same school.
 - [x] **U6. Consistent wording.** "Browse the map" vs the list-icon "Browse"
       meant different things. One name per destination.
-- [ ] **U7. Contrast.** Raise the faint/muted greys to pass WCAG AA on the
+- [x] **U7. Contrast.** Raise the faint/muted greys to pass WCAG AA on the
       dark background.
 
 ## Later: product (not in this pass)
