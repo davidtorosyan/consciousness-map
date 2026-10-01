@@ -143,7 +143,38 @@ function pages(W) {
     if (!(await page.$(".r-row"))) fail("history", "history entry didn't open results");
   } catch (e) { fail("main quiz flow", e.message); }
 
-  /* 4. bookmarks: save a theory, see it on the saved page, remove it */
+  /* 4. a school's quiz: Previous, resume, results -> theory -> back to results */
+  try {
+    var school = "materialism-first-order", sq = W.QUIZ_DATA.drill[school];
+    await open("?path=materialism/first-order/quiz");
+    await page.click('[data-ans="no"]');
+    await page.waitForTimeout(300);
+    await page.click(".q-backbtn");
+    await page.waitForTimeout(300);
+    if (!(await page.$(".a-btn.picked-no"))) fail("school quiz", "Previous didn't show the earlier answer");
+    await page.click('[data-ans="yes"]');
+    await page.waitForTimeout(300);
+    await open("?path=materialism/first-order/quiz");      // reload mid-quiz
+    if (!(await page.$('[data-act="resume"]'))) fail("school quiz", "reload mid-quiz didn't offer to resume");
+    await page.click('[data-act="resume"]');
+    await page.waitForTimeout(300);
+    for (i = 1; i < sq.questions.length; i++) {
+      await page.click('[data-ans="skip"]');
+      await page.waitForTimeout(260);
+    }
+    await page.waitForSelector(".r-row", { timeout: 3000 });
+    if ((await page.$$(".r-row")).length !== sq.areas.length) fail("school quiz", "wrong number of result rows");
+    var top = sq.areas.filter(function (a) { return sq.questions[0].yes[a.key]; })[0];
+    if ((await page.innerText(".r-row .nm")).trim() !== top.name) fail("school quiz", "Yes to Q1 didn't rank " + top.name + " first");
+    await page.click(".r-row .r-open");
+    await page.waitForTimeout(400);
+    if (!(await page.$(".qa-sec"))) fail("school quiz", "theory opened from results doesn't show how you lined up");
+    await page.click("[data-back-results]");
+    await page.waitForTimeout(400);
+    if (!(await page.$(".r-row"))) fail("school quiz", "'Results' link didn't return to the results");
+  } catch (e) { fail("school quiz flow", e.message); }
+
+  /* 5. bookmarks: save a theory, see it on the saved page, remove it */
   try {
     var dk = "panpsychisms", t = W.QUIZ_DATA.drill[dk].areas[0];
     await open("?path=" + dk + "/" + t.key);
@@ -159,7 +190,7 @@ function pages(W) {
   await browser.close();
   server.close();
   failures.forEach(function (f) { console.log("FAIL: " + f); });
-  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 2 flows: " +
+  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 3 flows: " +
     (failures.length ? failures.length + " failure(s)" : "ok"));
   process.exit(failures.length ? 1 : 0);
 })().catch(function (e) { console.error(e); process.exit(1); });

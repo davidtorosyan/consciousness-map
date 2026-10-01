@@ -16,8 +16,8 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | --- | --- |
 | `index.html` | The only real page. Loads the data and scripts below, then `CM.start()`. |
 | `core.js` | Shared helpers, storage, share links, the category → school → theory tree, and the router. |
-| `app.js` | Home, category list, category page, debug page. |
-| `quiz.js` | Quizzes, results, theory/school detail, browse lists. |
+| `app.js` | Home, the category list, category/school pages, theory pages, debug page. |
+| `quiz.js` | Quizzes (in-page, one question at a time) and results. |
 | `saved.js`, `history.js` | Bookmarked theories and past quiz results (localStorage). |
 | `data/categories.js` | The 11 LOC categories: names, colors, taglines, URLs. |
 | `data/quiz-data.js` | Every quiz: the top-level one and one per category/school. |
@@ -35,12 +35,19 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | *(empty)* | Home |
 | `browse` | All 11 categories |
 | `quiz` | Top-level quiz |
-| `<cat>` | Category page |
-| `<cat>/quiz`, `<cat>/<school>/quiz` | A category's or school's quiz |
-| `<cat>/browse`, `<cat>/<school>/browse` | Its schools or theories |
+| `<cat>`, `<cat>/<school>` | A category or school: its quiz and what's inside it |
+| `<cat>/quiz`, `<cat>/<school>/quiz` | That category's or school's quiz |
 | `<cat>/<theory>`, `<cat>/<school>/<theory>` | A theory |
-| `share/<payload>` | Shared quiz result |
+| `results/<payload>` | Your result (where a finished quiz lands) |
+| `share/<payload>` | Someone's shared result |
 | `saved`, `history`, `debug` | Bookmarks, past results, quiz stats |
+
+Pages opened from a result carry it as `&r=<payload>` and show how your
+answers lined up. Every screen except the questions themselves is a real
+URL, so the browser's back button always does the obvious thing.
+
+Legacy forms still work: `<…>/browse` (same as without it), `?r=<payload>`,
+`#/category/<cat>`, `quiz.html`, `favorites.html`, `history.html`.
 
 ## Deploy
 

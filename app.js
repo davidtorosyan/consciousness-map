@@ -1,4 +1,4 @@
-/* Map pages: home, the category list, a category, and the debug page. */
+/* Map pages: home, the category list, category/school pages, theory pages, debug. */
 (function () {
   "use strict";
   var esc = CM.esc, I = CM.icons;
@@ -43,19 +43,56 @@
       rows;
   };
 
-  CM.views.category = function (route) {
-    var c = route.node;
-    var hasSchools = c.children.some(function (x) { return x.kind === "school"; });
-    CM.setAccent(c.color);
-    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: c.name }]) +
-      '<header class="hero rise" style="--i:2"><div class="kicker">CATEGORY</div>' +
-      '<a class="src-badge" href="' + esc(c.url) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + I.info + "</a>" +
-      "<h1>" + esc(c.name) + "</h1>" +
-      '<p class="desc">' + esc(c.tagline) + "</p></header>" +
-      '<div class="d-actions rise" style="--i:3">' +
-      '<a class="pill" href="' + CM.href(c, "quiz") + '">' + I.search + "<span>Quiz</span></a>" +
-      '<a class="pill icon" href="' + CM.href(c, "browse") + '" aria-label="' +
-      (hasSchools ? "Browse the schools" : "Browse the theories") + '">' + I.list + "</a></div>";
+  /* Home › Category › School › Theory, current page last and unlinked */
+  function nodeTrail(node) {
+    var chain = [];
+    for (var n = node; n; n = n.parent) chain.unshift(n);
+    return CM.trail([{ label: "Home", href: "./" }].concat(chain.map(function (n, i) {
+      return { label: n.name, href: i < chain.length - 1 ? CM.href(n) : null };
+    })));
+  }
+  function locBadge(url, name) {
+    return url ? '<a class="src-badge" href="' + esc(url) + '" target="_blank" rel="noopener" aria-label="Open ' +
+      esc(name) + ' on Landscape of Consciousness">' + I.info + "</a>" : "";
+  }
+  /* school pages without their own LOC entry link to their category's */
+  function locUrl(node) { return node.url || node.category.url; }
+  function render(node, body) {
+    CM.setAccent(node.color);
+    document.title = node.name + " — Landscape of Consciousness";
+    app.innerHTML = CM.frame(nodeTrail(node), body);
+    CM.bindBookmarks(app);
+    CM.bindBackToResults(app);
+  }
+
+  /* a category or school: its quiz and everything inside it */
+  CM.views.group = function (route) {
+    var node = route.node;
+    var hasSchools = node.children.some(function (x) { return x.kind === "school"; });
+    var rows = node.children.map(function (t, i) {
+      return '<div class="r-row" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
+        '<a class="r-open" href="' + CM.href(t) + '">' +
+        '<span class="rank">' + (i + 1) + "</span>" +
+        '<span class="nm">' + esc(t.name) + "</span></a>" +
+        (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
+    }).join("");
+    render(node, '<div class="d-head">' + locBadge(locUrl(node), node.name) +
+      '<div class="eyebrow">' + (node.kind === "school" ? "SCHOOL" : "CATEGORY") + "</div>" +
+      "<h1>" + esc(node.name) + "</h1>" +
+      (node.tagline ? '<p class="tag">' + esc(node.tagline) + "</p>" : "") + "</div>" +
+      (node.quiz ? '<div class="d-actions"><a class="pill" href="' + CM.href(node, "quiz") + '">' + I.search + "<span>Quiz</span></a></div>" : "") +
+      CM.answerRows(route.from, node.key) +
+      '<div class="r-head"><div class="eyebrow">' + node.children.length + (hasSchools ? " SCHOOLS" : " THEORIES") + "</div></div>" +
+      rows);
+  };
+
+  CM.views.theory = function (route) {
+    var node = route.node;
+    render(node, '<div class="d-head" style="--bm:' + esc(node.color) + '">' + locBadge(node.url, node.name) +
+      '<div class="eyebrow">THEORY' + CM.bookmarkButton(node) + "</div>" +
+      "<h1>" + esc(node.name) + "</h1>" +
+      (node.tagline ? '<p class="tag">' + esc(node.tagline) + "</p>" : "") + "</div>" +
+      CM.answerRows(route.from, node.key));
   };
 
   /* ---------- debug: quiz nesting + question counts ---------- */

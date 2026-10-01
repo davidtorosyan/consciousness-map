@@ -9,7 +9,7 @@
     catch (e) { return ""; }
   }
   function entryHtml(e, i) {
-    var href = "?path=share/" + CM.share.encode(e.q === "main" ? null : e.q, e.a || []);
+    var href = CM.resultsHref(CM.share.encode(e.q === "main" ? null : e.q, e.a || []));
     return '<a class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + ';text-decoration:none;color:inherit" href="' + esc(href) + '">' +
       '<div class="grow"><div class="fav-name">' + esc(CM.quizName(e.q)) + "</div>" +
       (e.top ? '<div class="fav-tag">Closest: ' + esc(e.top) + "</div>" : "") +

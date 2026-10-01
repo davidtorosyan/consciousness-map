@@ -1,558 +1,189 @@
-/* Landscape of Consciousness Quiz.
-   Persistent chrome (brand, dots, nav) + one "view window" card.
-   Only the window's contents transition between questions; the page stays put.
-   Answers: yes / no / not sure / don't get it. Minimal text by design. */
+/* Quizzes and their results.
+   A quiz runs in-page, one question at a time, inside a persistent card:
+   only the card's contents transition. Answers: yes / no / not sure, plus
+   "don't get it", which reveals the question's explanation. Finishing
+   records the result in history and replaces the quiz URL with the
+   results URL, so every screen after the questions is a real page. */
 (function () {
   "use strict";
-  var QD = window.QUIZ_DATA;
   var esc = CM.esc, I = CM.icons;
   var app = document.getElementById("app");
-  function pathForQuiz(key) { return CM.quizHref(key); }
-  function pathForBrowse(key) { return CM.href(CM.quizOwner(key), "browse"); }
-  function pathForCategory(id) { return CM.href(CM.node("category", id)); }
-  function pathForTheory(drillKey, tkey) {
-    var t = CM.node("theory", tkey) || CM.node("school", tkey);
-    return t ? CM.href(t) : pathForBrowse(drillKey);
-  }
 
-  /* one entry point for every quiz-owned view; the router picks it */
-  function start(route) {
-  var MODE = null, QKEY = null, TKEY = null, SHARE_R = null;
-  if (route.view === "quiz") { MODE = "quiz"; QKEY = route.quiz; }
-  else if (route.view === "list") { MODE = "browse"; QKEY = route.node.quiz; }
-  else if (route.view === "theory") { MODE = "theory"; QKEY = route.node.parent.quiz; TKEY = route.node.key; }
-  else if (route.view === "results") { MODE = "share"; SHARE_R = route.payload; }
-  document.title = "Landscape of Consciousness Quiz";
-  var SHARED = MODE === "share" ? CM.share.decode(SHARE_R) : null;
-  if (SHARED && SHARED.quiz.key) QKEY = SHARED.quiz.key;
-  var DRILL = QKEY ? QD.drill[QKEY] : null;
-  var QUIZ = DRILL || QD.top;
-  var LOC_URL = "https://loc.closertotruth.com/";
-  var BROWSE = MODE === "browse";
-  var SHARE_ANS = SHARED ? SHARED.answers : null, SHARE_BAD = MODE === "share" && !SHARED;
-  // the quiz wears its section's color (default blue only for the top-level quiz)
-  if (DRILL && DRILL.color) CM.setAccent(DRILL.color);
-  // a theory's own URL: title it with the theory's name
-  if (MODE === "theory") document.title = route.node.name;
-
-  /* ---------- in-progress answers (sessionStorage): survive reloads and Back ---------- */
-  function saveProgress() { if (S) CM.progress.set(QKEY, S.answers); }
-  function loadProgress() {
-    var a = CM.progress.get(QKEY);
-    if (Array.isArray(a) && a.length === QUIZ.questions.length &&
-        a.some(function (x) { return !!x; }) && a.some(function (x) { return !x; })) return a;
-    return null;
-  }
-  function clearProgress() { CM.progress.clear(QKEY); }
-
-  /* ---------- bookmarks + quiz history (localStorage, via CM) ---------- */
-  function saveHistory() {
-    if (!S || !S.answers.some(function (a) { return a === "yes" || a === "no"; })) return;
-    var sc = scores(), ts = targets().slice();
-    ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
-    CM.history.add({ q: QKEY || "main", t: Date.now(), a: S.answers.slice(), top: ts.length ? ts[0].name : "" });
-  }
-
-  /* targets: the 11 canonical categories, or a drill quiz's sub-areas */
-  function targets() {
-    if (!DRILL) return QD.order.map(function (id) {
-      var c = QD.cats[id];
-      return {
-        key: id, name: c.name, color: c.color, tagline: c.tagline,
-        url: c.url, mapUrl: pathForCategory(id),
-      };
-    });
-    return DRILL.areas.map(function (a) {
-      return {
-        key: a.key, name: a.name, color: DRILL.color, tagline: a.tagline || "",
-        url: a.url || "", sub: a.sub || "",
-        mapUrl: pathForCategory(DRILL.categoryId),
-      };
-    });
-  }
-
-  /* ---------- session state ---------- */
-  var S = null; // {answers: ["yes"|"no"|"skip"|null ...]}
-  function freshSession() {
-    var a = [];
-    for (var i = 0; i < QUIZ.questions.length; i++) a.push(null);
-    return { answers: a };
-  }
-  // answers behind the current view: a shared/history snapshot when the view
-  // carries one, otherwise the live session
-  function viewAnswers() {
-    if (typeof cur !== "undefined" && cur.answers) return cur.answers;
-    return S && S.answers;
-  }
-  function scores() {
-    var qs = QUIZ.questions, sc = {}, A = viewAnswers();
-    if (!A) return sc;
-    A.forEach(function (ans, i) {
-      if (ans !== "yes" && ans !== "no") return;
-      var pts = qs[i][ans] || {};
-      Object.keys(pts).forEach(function (k) { sc[k] = (sc[k] || 0) + pts[k]; });
-    });
-    return sc;
-  }
-
-  /* ---------- persistent chrome: brand, dots, window, footer ---------- */
-  app.innerHTML =
-    '<nav class="trail" id="wz-trail" aria-label="Where you are"></nav>' +
-    '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' +
-    '<main class="wz-window" id="wz-window"><div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="Previous question">\u2039</button></div><div class="wz-body" id="wz-body"></div></main>' +
-    '<footer class="wz-foot"><a href="./">Browse the map</a>' +
-    '<span aria-hidden="true">·</span>' +
-    '<a href="' + LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
-
-  var winBody = document.getElementById("wz-body");
-  var dotsEl = document.getElementById("wz-dots");
-  var backEl = document.getElementById("wz-back");
-  function showBack(b) { if (backEl) backEl.style.display = b ? "" : "none"; }
-  if (backEl) backEl.querySelector("button").addEventListener("click", function () { actGo("qback"); });
-
-  function renderDots(n, idx) {
-    var dots = "";
-    for (var i = 0; i < n; i++) {
-      dots += '<span class="q-dot' + (i < idx ? " done" : i === idx ? " now" : "") + '"></span>';
-    }
-    dotsEl.innerHTML = dots;
-    dotsEl.parentElement.style.display = n ? "" : "none";
-    var c = document.getElementById("wz-count");
-    if (c) c.textContent = (n && idx >= 0 && idx < n) ? (idx + 1) + " of " + n : "";
-  }
-
-  /* Swap only the window's content: quick fade/slide inside the card. */
-  var locked = false;
-  function setWindow(html, n, idx, back) {
-    renderDots(n, idx);
-    winBody.classList.add("wz-leave");
-    setTimeout(function () {
-      winBody.innerHTML = html;
-      showBack(!!back);
-      winBody.classList.remove("wz-leave");
-      winBody.classList.add("wz-enter");
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () { winBody.classList.remove("wz-enter"); });
-      });
-      bindWindow();
-      locked = false;
-    }, 100);
-  }
-
-  /* ---------- tiny router ---------- */
-  var hist = [];
-  /* breadcrumb: Map › Category › School › Theory, following the drill nesting */
-  function targetByKey(key) {
-    var found = null;
-    targets().forEach(function (x) { if (x.key === key) found = x; });
-    return found;
-  }
-  function trailHtml() {
+  /* breadcrumb for a quiz's pages: Home › Category › School › <label> */
+  function quizTrail(quiz, label, extra) {
     var segs = [{ label: "Home", href: "./" }];
-    var v = cur.name;
-    if (DRILL) {
-      var cat = QD.cats[DRILL.categoryId];
-      // the category crumb always links to the category page: it is the way back up
-      if (cat) segs.push({ label: cat.name, href: pathForCategory(DRILL.categoryId), sec: true });
-      if (QKEY !== DRILL.categoryId) {
-        // nested school drill: the school crumb links to the school's theory list,
-        // except on that list itself, where the school is where you are
-        segs.push({ label: DRILL.name, href: pathForBrowse(QKEY), sec: v !== "browse" });
-      }
-      if (v === "detail") {
-        var t = targetByKey(cur.key);
-        if (t) segs.push({ label: t.name });
-      }
-    } else if (v === "detail") {
-      var c = QD.cats[cur.key];
-      if (c) segs.push({ label: c.name });
-    } else {
-      // main quiz views: the trail should show where you are
-      segs.push({ label: "Quiz" });
-    }
-    var crumbs = '<span class="here-dot"></span>' + segs.map(function (s, i) {
-      var last = i === segs.length - 1;
-      var pre = i > 0 ? '<span class="sep">›</span>' : "";
-      var cls = "tseg" + (i === 0 ? " root" : "");
-      // section crumbs link to their section index even when last, so there is
-      // always a way back up; the true current view is never a link
-      var link = s.href && (!last || s.sec);
-      return pre + (link ? '<a class="' + cls + '" href="' + esc(s.href) + '">' + esc(s.label) + "</a>"
-                         : '<span class="' + cls + '">' + esc(s.label) + "</span>");
-    }).join("");
-    // results get a share button pinned to the top right
-    var shareBtn = v === "results"
-      ? '<button class="trail-share" id="wz-share" aria-label="Share results">' + I.share + "</button>"
-      : "";
-    return crumbs + shareBtn;
+    var chain = [];
+    for (var n = quiz.owner; n; n = n.parent) chain.unshift(n);
+    chain.forEach(function (n) { segs.push({ label: n.name, href: CM.href(n) }); });
+    segs.push({ label: label });
+    return CM.trail(segs, extra);
   }
 
-  var cur = { name: "start" };
-  function go(view, back) {
-    // no landing page: a quiz opens straight into its first question, with a fresh
-    // answer session (the old Start button used to create it). Saved progress still
-    // lands on the resume screen, so it can be resumed or discarded.
-    if (!back && view.name === "start" && !loadProgress()) { S = freshSession(); view = { name: "q", idx: 0 }; }
-    if (!back) hist.push(view); else hist.pop();
-    cur = view;
-    setTimeout(function () { locked = false; }, 1500); // backstop: never leave taps dead
-    var nq = QUIZ.questions.length, h, dn, di;
-    if (view.name === "start") { h = startView(); dn = 0; di = -1; }
-    else if (view.name === "q") { h = questionView(view.idx); dn = nq; di = view.idx; }
-    else if (view.name === "results") {
-      // snapshots (shared links, history, back-from-detail) don't clear the live
-      // progress and are never written back to history
-      if (!view.answers) clearProgress();
-      h = resultsView(); dn = nq; di = nq;
-      if (!view.answers && !view.shared) saveHistory();
-    }
-    else if (view.name === "badshare") { h = badShareView(); dn = 0; di = -1; }
-    else if (view.name === "browse") { h = browseView(); dn = 0; di = -1; }
-    else if (view.name === "detail") {
-      h = detailView(view.key); dn = 0; di = -1;
-      // the theory owns this URL now: tapping a theory puts it in the path
-      // (drill theories only — main-quiz category details stay on the quiz URL)
-      // preserve any pushed state (e.g. results-back) across the replace
-      if (!back && DRILL) {
-        try { history.replaceState(history.state, "", pathForTheory(QKEY, view.key)); } catch (e) {}
-      }
-    }
-    var backBtn = view.name === "q" && view.idx > 0;
-    var trailEl = document.getElementById("wz-trail");
-    if (trailEl) {
-      trailEl.innerHTML = trailHtml();
-      var shareBtn = document.getElementById("wz-share");
-      if (shareBtn) shareBtn.addEventListener("click", function () { shareResults(shareBtn); });
-    }
-    setWindow(h, dn, di, backBtn);
-  }
-  function backTo() {
-    var prev = hist.length > 1 ? hist[hist.length - 2] : { name: "start" };
-    go(prev, true);
-  }
-
-  /* ---------- window views ---------- */
-  function startView() {
-    var saved = loadProgress(), startBtn, underBtn;
-    var backLink = '<a class="q-quiet" href="./">' + esc(QUIZ.browse) + "</a>";
-    if (saved) {
-      var i = 0;
-      while (i < saved.length && saved[i]) i++;
-      startBtn = '<button class="big-start" data-act="resume">Resume — question ' + (i + 1) + " of " + saved.length + "</button>";
-      underBtn = '<div><button class="q-quiet" data-act="start" style="background:none;border:none;cursor:pointer;width:100%">Start over instead</button></div>';
-    } else {
-      startBtn = '<button class="big-start" data-act="start">Start</button>';
-      underBtn = "";
-    }
-    return '<div class="q-start">' +
-      '<div class="eyebrow">' + esc(QUIZ.kicker) + "</div>" +
-      "<h1>" + esc(QUIZ.title) + "</h1>" +
-      '<p class="lede">' + esc(QUIZ.intro) + "</p>" +
-      startBtn + underBtn +
-      "<div>" + backLink + "</div></div>";
-  }
-
-  function badShareView() {
-    var quizHref = pathForQuiz(QKEY);
-    return '<div class="q-start"><div class="eyebrow">SHARED RESULT</div>' +
-      "<h1>That link didn\u2019t work.</h1>" +
-      '<p class="lede">It may be from an older version of the quiz.</p>' +
-      '<div><a class="q-quiet" href="' + quizHref + '">Take the quiz instead</a></div></div>';
-  }
-
-  function questionView(idx) {
-    var q = QUIZ.questions[idx];
-    var whyBtn = q.why
-      ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">Don\u2019t get it</span></button>'
-      : "";
-    var whyHtml = q.why
-      ? '<div class="q-why" id="why"><div class="why-card">' + esc(q.why) + "</div></div>"
-      : "";
-    // undo: stepping back shows the answer already given, highlighted
-    var prev = (S && S.answers) ? S.answers[idx] : null;
-    function abtn(base, ans, ic, lb) {
-      var picked = prev === ans ? " picked-" + (ans === "skip" ? "skip" : ans) : "";
-      return '<button class="a-btn ' + base + picked + '" data-ans="' + ans + '"><span class="ic">' + ic + '</span><span class="lb">' + lb + "</span></button>";
-    }
-    return '<div class="q-qwrap"><div class="q-text">' + esc(q.t) + "</div></div>" +
-      '<div class="a-grid">' +
-      abtn("yes", "yes", "\u2713", "Yes") +
-      abtn("no", "no", "\u2717", "No") +
-      abtn("maybe", "skip", "?", "Not sure") +
-      whyBtn + "</div>" + whyHtml;
-  }
-
-  /* one listing row: rank, name, tier dot + bookmark tight on the right;
-     the row itself is lightly tinted with the theory's color (no separate color dot) */
-  function rowHtml(t, i, tier) {
-    var bm = "";
-    // bookmarks are theories only — schools keep their rows clean
-    if (DRILL && t.url && !t.sub) {
-      var fid = DRILL.categoryId + ":" + t.key, on = CM.favs.has(fid);
-      bm = '<button class="bm-btn sm' + (on ? " on" : "") + '" data-bm="' + esc(fid) +
-        '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + esc(t.name) + '" aria-pressed="' + on + '">' + I.bookmark + "</button>";
-    }
-    return '<div class="r-row' + (i === 0 && tier ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
-      '<button class="r-open" data-target="' + esc(t.key) + '" aria-label="View ' + esc(t.name) + '">' +
-      '<span class="rank">' + (i + 1) + "</span>" +
-      '<span class="nm">' + esc(t.name) + "</span>" +
-      (tier ? '<span class="tier ' + tier + '" aria-label="' +
-        (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + I.dot + "</span>" : "") +
-      "</button>" + bm + "</div>";
-  }
-
-  function browseView() {
-    var ts = targets();
-    var rows = ts.map(function (t, i) { return rowHtml(t, i, null); }).join("");
-    var name = DRILL ? DRILL.name : "All categories";
-    var kind = !DRILL ? "categories" : (ts.some(function (t) { return !!t.sub; }) ? "schools" : "theories");
-    var quizHref = pathForQuiz(QKEY);
-    // drill browse pages get an info badge for their category
-    var catBadge = "";
-    if (DRILL) {
-      var cu = QD.cats[DRILL.categoryId] && QD.cats[DRILL.categoryId].url;
-      if (cu) catBadge = '<a class="src-badge" href="' + esc(cu) + '" target="_blank" rel="noopener" aria-label="Open ' + esc(name) + ' on Landscape of Consciousness">' + I.info + "</a>";
-    }
-    return '<div class="r-head"><div class="eyebrow">BROWSE</div>' + catBadge +
-      "<h1>" + esc(name) + "</h1>" +
-      '<p class="lede">' + ts.length + " " + kind + " — tap one to open it.</p></div>" + rows +
-      '<div class="d-quiet">' +
-      '<a class="d-link" href="' + quizHref + '">Quiz</a>' +
-      '<a class="d-link" href="./">Browse the map</a></div>';
-  }
-
-  function resultsView() {
-    var sc = scores(), ts = targets().slice(), A = viewAnswers() || [];
-    ts.sort(function (a, b) { return (sc[b.key] || 0) - (sc[a.key] || 0); });
-    var nAnswered = 0;
-    A.forEach(function (a) { if (a === "yes" || a === "no") nAnswered++; });
-    var skipNote = nAnswered === 0
-      ? '<div class="r-note">You didn\u2019t answer Yes or No to anything \u2014 there\u2019s nothing to align yet.</div>'
-      : "";
-    // flat status dots: green = aligned, yellow = mixed, red = not aligned
-    var rows = ts.map(function (t, i) {
-      var s = sc[t.key] || 0;
-      // ternary, absolute: aligned = endorsed the core claim (3+), mixed = partial lean, lo = no signal
-      var tier = s >= 3 ? "hi" : s > 0 ? "mid" : "lo";
-      return rowHtml(t, i, tier);
-    }).join("");
-    var eyebrow = cur.shared ? "SHARED RESULT" : "YOUR ALIGNMENT";
-    return '<div class="r-head"><div class="eyebrow">' + eyebrow + "</div>" +
-      "<h1>Closest first.</h1>" +
-      '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div>' +
-      skipNote + "</div>" + rows +
-      '<div class="d-quiet"><a class="d-link" href="./">Browse the map</a>' +
-      '<button class="d-link" data-act="share" style="background:none;border:none;cursor:pointer;font:inherit">Share results</button></div>';
-  }
-
-  /* questions that moved the needle for one category, marked by the user's answer */
-  function answerRows(key) {
-    var A = viewAnswers();
-    if (!A || !A.some(function (a) { return !!a; })) return "";
-    var qs = QUIZ.questions, out = [];
-    qs.forEach(function (q, i) {
-      var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
-      if (!yp && !np) return;
-      var a = A[i], cls, mark, alabel;
-      if (a === "yes") { cls = yp > 0 ? "al" : "mis"; mark = yp > 0 ? "✓" : "✗"; alabel = "yes"; }
-      else if (a === "no") { cls = np > 0 ? "al" : "mis"; mark = np > 0 ? "✓" : "✗"; alabel = "no"; }
-      else { cls = "na"; mark = "–"; alabel = a === "skip" ? "not sure" : "–"; }
-      out.push('<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
-        '<span class="qa-q">' + esc(q.t) + '</span><span class="qa-a">' + alabel + "</span></div>");
+  /* ---------- the quiz ---------- */
+  CM.views.quiz = function (route) {
+    var quiz = CM.quiz(route.quiz);
+    var qs = quiz.questions, n = qs.length;
+    var answers = null, idx = 0, locked = false;
+    if (quiz.owner) CM.setAccent(quiz.owner.color);
+    document.title = (quiz.owner ? quiz.owner.name + " quiz" : "Quiz") + " — Landscape of Consciousness";
+    app.innerHTML = CM.frame(quizTrail(quiz, "Quiz"),
+      '<div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="Previous question">‹</button></div>' +
+      '<div class="wz-body" id="wz-body"></div>', { progress: true });
+    var body = document.getElementById("wz-body");
+    var backRow = document.getElementById("wz-back");
+    backRow.querySelector("button").addEventListener("click", function () {
+      if (idx > 0 && !locked) show(idx - 1);
     });
-    if (!out.length) return "";
-    return '<div class="qa-sec"><div class="eyebrow">HOW YOU LINED UP</div>' + out.join("") + "</div>";
-  }
 
-  function detailView(key) {
-    var t = null;
-    targets().forEach(function (x) { if (x.key === key) t = x; });
-    if (!t) return resultsView();
-    var tag = t.tagline ? '<p class="tag">' + esc(t.tagline) + "</p>" : "";
-    var subKey = DRILL ? t.sub : key;
-    // bookmark toggle lives on theory detail screens only — schools get the
-    // info badge, not a bookmark
-    var bmBtn = "";
-    if (DRILL && t.url && !t.sub) {
-      var fid = DRILL.categoryId + ":" + t.key;
-      var on = CM.favs.has(fid);
-      bmBtn = '<button class="bm-btn' + (on ? " on" : "") + '" data-bm="' + esc(fid) +
-        '" aria-label="' + (on ? "Remove bookmark: " : "Bookmark ") + esc(t.name) + '" aria-pressed="' + on + '">' + I.bookmark + "</button>";
+    function renderProgress(i) {
+      var dots = "";
+      for (var k = 0; k < n; k++) dots += '<span class="q-dot' + (k < i ? " done" : k === i ? " now" : "") + '"></span>';
+      document.getElementById("wz-dots").innerHTML = dots;
+      document.getElementById("wz-count").textContent = i >= 0 && i < n ? (i + 1) + " of " + n : "";
     }
-    // action pills: icons only — ? quiz, list browse, pin map. Source lives in the badge up top.
-    // schools without their own LOC overview page fall back to the category page
-    var infoUrl = t.url || (DRILL && QD.cats[DRILL.categoryId] && QD.cats[DRILL.categoryId].url);
-    var srcBadge = infoUrl
-      ? '<a class="src-badge" href="' + esc(infoUrl) + '" target="_blank" rel="noopener" aria-label="Open on Landscape of Consciousness">' + I.info + "</a>"
-      : "";
-    var pills = "";
-    if (subKey && QD.drill && QD.drill[subKey]) {
-      pills += '<button class="pill" data-drill="' + esc(subKey) + '">' + I.search + "<span>Quiz</span></button>" +
-               '<button class="pill icon" data-browse="' + esc(subKey) + '" aria-label="Browse the theories">' + I.list + "</button>";
+    /* swap the card's contents with a quick fade */
+    function setBody(html, after) {
+      body.classList.add("wz-leave");
+      setTimeout(function () {
+        body.innerHTML = html;
+        body.classList.remove("wz-leave");
+        body.classList.add("wz-enter");
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { body.classList.remove("wz-enter"); });
+        });
+        if (after) after();
+        locked = false;
+      }, 100);
     }
-    var actions = pills ? '<div class="d-actions">' + pills + "</div>" : "";
-    var eyebrowLabel = !DRILL ? "CATEGORY" : (t.sub ? "SCHOOL" : "THEORY");
-    var backRes = cur.from === "results"
-      ? '<div class="d-quiet"><button class="d-link" data-act="back-results" style="background:none;border:none;cursor:pointer;font:inherit">\u2039 Results</button></div>'
-      : "";
-    return '<div class="d-head" style="--bm:' + esc(t.color) + '">' + srcBadge +
-      '<div class="eyebrow">' + eyebrowLabel + bmBtn + "</div>" +
-      "<h1>" + esc(t.name) + "</h1>" + tag + "</div>" +
-      actions +
-      answerRows(key) +
-      backRes;
-  }
 
-  /* ---------- events ---------- */
-  function answer(idx, ans) {
-    if (locked) return;
-    if (ans === "why") {
-      var w = document.getElementById("why");
-      if (w) {
-        var willOpen = !w.classList.contains("open");
-        w.classList.toggle("open", willOpen);
-        // size to content so long explanations are never clipped mid-word
-        w.style.maxHeight = willOpen ? w.scrollHeight + "px" : "";
+    function questionHtml(i) {
+      var q = qs[i], prev = answers[i];
+      function btn(cls, ans, ic, label) {
+        var picked = prev === ans ? " picked-" + ans : "";
+        return '<button class="a-btn ' + cls + picked + '" data-ans="' + ans + '"><span class="ic">' + ic +
+          '</span><span class="lb">' + label + "</span></button>";
       }
-      return;
+      return '<div class="q-qwrap"><div class="q-text">' + esc(q.t) + "</div></div>" +
+        '<div class="a-grid">' +
+        btn("yes", "yes", "✓", "Yes") + btn("no", "no", "✗", "No") +
+        btn("maybe", "skip", "?", "Not sure") +
+        (q.why ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">Don’t get it</span></button>' : "") +
+        "</div>" +
+        (q.why ? '<div class="q-why" id="why"><div class="why-card">' + esc(q.why) + "</div></div>" : "");
     }
-    locked = true;
-    S.answers[idx] = ans;
-    saveProgress();
-    var btn = winBody.querySelector('[data-ans="' + ans + '"]');
-    if (btn) btn.classList.add(ans === "yes" ? "picked-yes" : ans === "no" ? "picked-no" : "picked-skip");
-    var n = QUIZ.questions.length;
-    setTimeout(function () {
-      if (idx + 1 < n) go({ name: "q", idx: idx + 1 });
-      else go({ name: "results" });
-    }, ans === "skip" ? 80 : 120);
-  }
+    function show(i) {
+      idx = i;
+      locked = true;
+      renderProgress(i);
+      backRow.style.display = i > 0 ? "" : "none";
+      setBody(questionHtml(i), function () {
+        body.querySelectorAll("[data-ans]").forEach(function (el) {
+          el.addEventListener("click", function () { answer(el.getAttribute("data-ans"), el); });
+        });
+      });
+    }
+    function answer(ans, el) {
+      if (locked) return;
+      if (ans === "why") {
+        var w = document.getElementById("why");
+        var open = !w.classList.contains("open");
+        w.classList.toggle("open", open);
+        w.style.maxHeight = open ? w.scrollHeight + "px" : "";   // size to content: never clip
+        return;
+      }
+      locked = true;
+      answers[idx] = ans;
+      CM.progress.set(quiz.key, answers);
+      el.classList.add("picked-" + ans);
+      setTimeout(function () {
+        if (idx + 1 < n) show(idx + 1);
+        else finish();
+      }, 120);
+    }
+    function finish() {
+      CM.progress.clear(quiz.key);
+      if (answers.some(function (a) { return a === "yes" || a === "no"; })) {
+        var top = CM.ranked(quiz, answers)[0];
+        CM.history.add({ q: quiz.key || "main", t: Date.now(), a: answers.slice(), top: top ? top.node.name : "" });
+      }
+      location.replace(CM.resultsHref(CM.share.encode(quiz.key, answers)));
+    }
 
-  /* shareable results link: quiz key + data version + answers, base64url'd */
-  function resultsShareUrl() {
-    var A = viewAnswers();
-    if (!A) return null;
-    var enc = CM.share.encode(QKEY, A);
-    if (!enc) return null;
-    var base = location.href.split("?")[0].split("#")[0];
-    return base + "?path=share/" + enc;
+    /* a half-finished quiz offers to resume; otherwise straight into Q1 */
+    function fresh() { var a = []; for (var k = 0; k < n; k++) a.push(null); return a; }
+    var saved = CM.progress.get(quiz.key);
+    var partial = Array.isArray(saved) && saved.length === n &&
+      saved.some(function (x) { return !!x; }) && saved.some(function (x) { return !x; });
+    if (!partial) { answers = fresh(); show(0); return; }
+    var resumeAt = 0;
+    while (resumeAt < n && saved[resumeAt]) resumeAt++;
+    renderProgress(-1);
+    setBody('<div class="q-start"><div class="eyebrow">' + esc(quiz.data.kicker) + "</div>" +
+      "<h1>" + esc(quiz.data.title) + "</h1>" +
+      '<button class="big-start" data-act="resume">Resume — question ' + (resumeAt + 1) + " of " + n + "</button>" +
+      '<button class="q-quiet" data-act="restart" style="width:100%">Start over instead</button></div>', function () {
+      body.querySelector('[data-act="resume"]').addEventListener("click", function () { answers = saved; show(resumeAt); });
+      body.querySelector('[data-act="restart"]').addEventListener("click", function () { answers = fresh(); show(0); });
+    });
+  };
+
+  /* ---------- results ---------- */
+  function shareUrl(payload) {
+    return location.href.split("?")[0].split("#")[0] + CM.resultsHref(payload, true);
   }
-  function shareResults(btn) {
-    var url = resultsShareUrl();
-    var isIcon = btn && btn.classList && btn.classList.contains("trail-share");
+  function share(btn, payload) {
     function done(ok) {
-      if (!btn) return;
-      if (isIcon) {
-        btn.classList.toggle("ok", !!ok);
-        setTimeout(function () { btn.classList.remove("ok"); }, 1600);
-      } else btn.textContent = ok ? "Copied" : "Couldn\u2019t copy";
+      btn.classList.toggle("ok", !!ok);
+      setTimeout(function () { btn.classList.remove("ok"); }, 1600);
     }
-    if (!url) { done(false); return; }
+    var url = shareUrl(payload);
     // native share sheet where available (iOS), clipboard everywhere else
     if (navigator.share) {
-      try {
-        navigator.share({ title: "My consciousness-map results", url: url })
-          .then(function () { done(true); }, function () { /* dismissed */ });
-        return;
-      } catch (e) { /* fall through to clipboard */ }
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.share({ title: "My consciousness-map results", url: url }).then(function () { done(true); }, function () { /* dismissed */ });
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
     } else done(false);
   }
 
-  function actGo(act, el) {
-    if (act === "start") { clearProgress(); S = freshSession(); go({ name: "q", idx: 0 }); }
-    else if (act === "resume") {
-      var saved = loadProgress(), i = 0;
-      if (saved) { S = { answers: saved }; while (i < saved.length && saved[i]) i++; }
-      else S = freshSession();
-      go({ name: "q", idx: i });
+  CM.views.results = function (route) {
+    var r = CM.share.decode(route.payload);
+    document.title = "Results — Landscape of Consciousness";
+    if (!r) {
+      app.innerHTML = CM.frame(CM.trail([{ label: "Home", href: "./" }, { label: "Results" }]),
+        '<div class="q-start"><div class="eyebrow">SHARED RESULT</div>' +
+        "<h1>That link didn’t work.</h1>" +
+        '<p class="lede">It may be from an older version of the quiz.</p>' +
+        '<a class="q-quiet" href="?path=quiz">Take the quiz instead</a></div>');
+      return;
     }
-    else if (act === "share") { shareResults(el); }
-    else if (act === "back-results") {
-      try { history.replaceState(null, "", pathForQuiz(QKEY)); } catch (e) {}
-      go({ name: "results", answers: cur.answers, shared: cur.shared });
-    }
-    else if (act === "restart") {
-      // always back to the start of the current mode — never a mode switch
-      clearProgress(); S = null;
-      if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
-      else go({ name: "start" });
-    }
-    else if (act === "back") {
-      if (cur.name === "browse") { location.href = pathForCategory(DRILL.categoryId); return; }
-      backTo();
-    }
-    else if (act === "qback") {
-      // undo: step to the previous question, keeping answers intact
-      if (cur.name === "q" && cur.idx > 0) go({ name: "q", idx: cur.idx - 1 }, true);
-    }
-  }
-
-  function bindWindow() {
-    winBody.querySelectorAll("[data-act]").forEach(function (el) {
-      el.addEventListener("click", function () { actGo(el.dataset.act, el); });
-    });
-    winBody.querySelectorAll("[data-ans]").forEach(function (el) {
-      el.addEventListener("click", function () { answer(cur.idx, el.dataset.ans); });
-    });
-    winBody.querySelectorAll("[data-target]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var t = targetByKey(el.dataset.target);
-        // rows tapped from a browse list get their own page — and their own
-        // history entry — so back returns to the list; everywhere else
-        // details stay in-page
-        if (t && DRILL && cur.name === "browse") { location.href = pathForTheory(QKEY, t.key); return; }
-        if (t && cur.name === "results") {
-          // push a real history entry for the theory/school so a swipe-back
-          // lands on the results instead of wherever the quiz was opened from
-          var dest = DRILL ? pathForTheory(QKEY, t.key) : pathForCategory(t.key);
-          try { history.pushState({ qm: "detail", key: t.key }, "", dest); } catch (e) {}
-        }
-        go({ name: "detail", key: el.dataset.target, from: cur.name, answers: viewAnswers(), shared: cur.shared });
-      });
-    });
-    winBody.querySelectorAll("[data-drill]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        location.href = pathForQuiz(el.dataset.drill);
-      });
-    });
-    winBody.querySelectorAll("[data-browse]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        location.href = pathForBrowse(el.dataset.browse);
-      });
-    });
-    winBody.querySelectorAll("[data-bm]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var fid = el.getAttribute("data-bm"), t = null;
-        targets().forEach(function (x) { if (DRILL.categoryId + ":" + x.key === fid) t = x; });
-        if (!t) return;
-        var nowOn = CM.favs.toggle(CM.node("theory", t.key));
-        el.classList.toggle("on", nowOn);
-        el.setAttribute("aria-pressed", nowOn ? "true" : "false");
-      });
-    });
-  }
-
-  // swipe-back from a theory/school opened off the results: the tap pushed a
-  // real history entry, so popstate restores the results in-page — and a
-  // swipe-forward re-opens the detail
-  window.addEventListener("popstate", function (ev) {
-    var st = ev.state || {};
-    if (st.qm === "detail") {
-      var t = targetByKey(st.key);
-      if (t) go({ name: "detail", key: st.key, from: "results", answers: viewAnswers(), shared: cur.shared });
-    } else if (cur.name === "detail" && cur.from === "results") {
-      go({ name: "results", answers: cur.answers, shared: cur.shared });
-    }
-  });
-  if (BROWSE) { S = freshSession(); go({ name: "browse" }); }
-  else if (SHARE_ANS) go({ name: "results", answers: SHARE_ANS, shared: true });
-  else if (SHARE_BAD) go({ name: "badshare" });
-  else if (MODE === "theory") go({ name: "detail", key: TKEY });
-  else go({ name: "start" });
-  }
-
-  CM.views.quiz = CM.views.list = CM.views.theory = CM.views.results = start;
+    var quiz = r.quiz, from = { payload: route.payload, shared: route.shared };
+    if (quiz.owner) CM.setAccent(quiz.owner.color);
+    var ranked = CM.ranked(quiz, r.answers);
+    var answered = r.answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
+    var rows = ranked.map(function (x, i) {
+      // aligned = endorsed the core claim (3+), mixed = partial lean, lo = no signal
+      var tier = x.score >= 3 ? "hi" : x.score > 0 ? "mid" : "lo";
+      var t = x.node;
+      return '<div class="r-row' + (i === 0 ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
+        '<a class="r-open" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
+        '<span class="rank">' + (i + 1) + "</span>" +
+        '<span class="nm">' + esc(t.name) + "</span>" +
+        '<span class="tier ' + tier + '" aria-label="' +
+        (tier === "hi" ? "aligned" : tier === "mid" ? "mixed" : "not aligned") + '">' + I.dot + "</span>" +
+        "</a>" + (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
+    }).join("");
+    var shareBtn = '<button class="trail-share" id="wz-share" aria-label="Share results">' + I.share + "</button>";
+    app.innerHTML = CM.frame(quizTrail(quiz, "Results", shareBtn),
+      '<div class="r-head"><div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR ALIGNMENT") + "</div>" +
+      "<h1>Closest first.</h1>" +
+      '<div class="tier-legend"><span class="lg hi">●</span> aligned <span class="lg mid">●</span> mixed <span class="lg lo">●</span> not aligned</div>' +
+      (answered ? "" : '<div class="r-note">You didn’t answer Yes or No to anything — there’s nothing to align yet.</div>') +
+      "</div>" + rows +
+      '<div class="d-quiet"><a class="d-link" href="./">Browse the map</a>' +
+      '<button class="d-link" data-share style="background:none;border:none;cursor:pointer;font:inherit">Share results</button></div>');
+    var btn = document.getElementById("wz-share");
+    btn.addEventListener("click", function () { share(btn, route.payload); });
+    app.querySelector("[data-share]").addEventListener("click", function () { share(btn, route.payload); });
+    CM.bindBookmarks(app);
+  };
 })();

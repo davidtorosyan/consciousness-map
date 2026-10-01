@@ -191,31 +191,124 @@
     return owner ? owner.name : "Main quiz";
   };
 
-  /* ---------- router: every view lives at / with ?path=<a/b/c> ---------- */
+  /* ---------- scoring ---------- */
+  CM.scores = function (quiz, answers) {
+    var sc = {};
+    answers.forEach(function (ans, i) {
+      if (ans !== "yes" && ans !== "no") return;
+      var pts = quiz.questions[i][ans] || {};
+      Object.keys(pts).forEach(function (k) { sc[k] = (sc[k] || 0) + pts[k]; });
+    });
+    return sc;
+  };
+  /* the quiz's targets, best first (stable: ties keep map order) */
+  CM.ranked = function (quiz, answers) {
+    var sc = CM.scores(quiz, answers);
+    return quiz.targets.map(function (node, i) { return { node: node, score: sc[node.key] || 0, i: i }; })
+      .sort(function (a, b) { return b.score - a.score || a.i - b.i; });
+  };
+
+  /* ---------- result links ----------
+     Own results live at ?path=results/<payload>, shared ones at share/<payload>.
+     Pages opened from a result carry it as &r=<payload> (&shared=1). */
+  CM.resultsHref = function (payload, shared) {
+    return "?path=" + (shared ? "share/" : "results/") + payload;
+  };
+  CM.fromResults = function (href, from) {
+    return from ? href + "&r=" + from.payload + (from.shared ? "&shared=1" : "") : href;
+  };
+  /* the questions that scored `key`, marked by how the user answered */
+  CM.answerRows = function (from, key) {
+    var r = from && CM.share.decode(from.payload);
+    if (!r) return "";
+    var rows = [];
+    r.quiz.questions.forEach(function (q, i) {
+      var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
+      if (!yp && !np) return;
+      var a = r.answers[i], cls, mark, label;
+      if (a === "yes" || a === "no") {
+        var hit = a === "yes" ? yp > 0 : np > 0;
+        cls = hit ? "al" : "mis"; mark = hit ? "\u2713" : "\u2717"; label = a;
+      } else { cls = "na"; mark = "\u2013"; label = a === "skip" ? "not sure" : "\u2013"; }
+      rows.push('<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
+        '<span class="qa-q">' + CM.esc(q.t) + '</span><span class="qa-a">' + label + "</span></div>");
+    });
+    if (!rows.length) return "";
+    return '<div class="qa-sec"><div class="eyebrow">HOW YOU LINED UP</div>' + rows.join("") + "</div>" +
+      '<div class="d-quiet"><a class="d-link" data-back-results href="' +
+      CM.esc(CM.resultsHref(from.payload, from.shared)) + '">\u2039 Results</a></div>';
+  };
+
+  /* ---------- page chrome ----------
+     trail on top, one card, footer. Quizzes add the progress row. */
+  CM.LOC_URL = "https://loc.closertotruth.com/";
+  CM.frame = function (trailHtml, body, opts) {
+    opts = opts || {};
+    return trailHtml +
+      (opts.progress ? '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' : "") +
+      '<div class="wz-window" id="wz-window">' + body + "</div>" +
+      '<footer class="wz-foot"><a href="./">Browse the map</a>' +
+      '<span aria-hidden="true">·</span>' +
+      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
+  };
+  /* bookmark toggles: <button data-bm="<theory key>"> */
+  CM.bookmarkButton = function (node, small) {
+    var on = CM.favs.has(CM.favId(node));
+    return '<button class="bm-btn' + (small ? " sm" : "") + (on ? " on" : "") + '" data-bm="' + CM.esc(node.key) +
+      '" aria-label="Bookmark ' + CM.esc(node.name) + '" aria-pressed="' + on + '">' + CM.icons.bookmark + "</button>";
+  };
+  CM.bindBookmarks = function (root) {
+    root.querySelectorAll("[data-bm]").forEach(function (el) {
+      el.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        var node = CM.node("theory", el.getAttribute("data-bm"));
+        if (!node) return;
+        var on = CM.favs.toggle(node);
+        el.classList.toggle("on", on);
+        el.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    });
+  };
+  /* "‹ Results" goes back in history when that's where we came from */
+  CM.bindBackToResults = function (root) {
+    var el = root.querySelector("[data-back-results]");
+    if (!el) return;
+    el.addEventListener("click", function (ev) {
+      var ref = document.referrer, want = el.getAttribute("href");
+      if (ref && ref.indexOf(location.origin) === 0 && ref.split("?")[1] === want.slice(1) && history.length > 1) {
+        ev.preventDefault();
+        history.back();
+      }
+    });
+  };
+
+  /* ---------- router: every view lives at / with ?path=<a/b/c> ----------
+     route.view is one of: home, browse, saved, history, debug, quiz,
+     results, group (a category or school), theory. */
+  function param(name) {
+    try { return new URLSearchParams(location.search).get(name); } catch (e) { return null; }
+  }
   function parse() {
-    var segs = [];
-    try { segs = (new URLSearchParams(location.search).get("path") || "").split("/").filter(Boolean); }
-    catch (e) { /* ignore */ }
+    var segs = (param("path") || "").split("/").filter(Boolean);
     var a = segs[0], n = segs.length;
     if (!n) {
-      var r = null;
-      try { r = new URLSearchParams(location.search).get("r"); } catch (e) { /* ignore */ }
+      var r = param("r");
       if (r) return { view: "results", payload: r, shared: true };          // legacy ?r=
       var m = /^#\/category\/([^\/]+)/.exec(location.hash || "");           // legacy hash URLs
       var c = m && CM.node("category", m[1]);
-      return c ? { view: "category", node: c } : { view: "home" };
+      return c ? { view: "group", node: c } : { view: "home" };
     }
     if (n === 1 && (a === "browse" || a === "saved" || a === "history" || a === "debug")) return { view: a };
     if (n === 1 && a === "quiz") return { view: "quiz", quiz: null };
-    if (n === 2 && a === "share") return { view: "results", payload: segs[1], shared: true };
+    if (n === 2 && (a === "share" || a === "results")) return { view: "results", payload: segs[1], shared: a === "share" };
     var last = segs[n - 1];
-    var mode = last === "quiz" || last === "browse" ? last : null;
+    var mode = last === "quiz" || last === "browse" ? last : null;   // "browse" is a legacy alias
     var node = CM.nodeAt((mode ? segs.slice(0, -1) : segs).join("/"));
     if (!node) return null;
     if (mode === "quiz") return node.quiz ? { view: "quiz", quiz: node.quiz } : null;
-    if (node.kind === "theory") return mode ? null : { view: "theory", node: node };
-    if (mode === "browse" || node.kind === "school") return { view: "list", node: node };
-    return { view: "category", node: node };
+    if (node.kind === "theory" && mode) return null;
+    var from = param("r") ? { payload: param("r"), shared: param("shared") === "1" } : null;
+    return { view: node.kind === "theory" ? "theory" : "group", node: node, from: from };
   }
   CM.views = {};
   CM.route = null;

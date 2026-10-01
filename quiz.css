@@ -74,7 +74,7 @@
   background:color-mix(in srgb,var(--tint) 9%,transparent);
   transition:border-color .15s ease;
 }
-.r-open{
+.r-open{text-decoration:none;
   flex:1;min-width:0;display:flex;align-items:center;gap:10px;text-align:left;
   background:none;border:none;color:inherit;font:inherit;cursor:pointer;
   padding:10px 6px;transition:transform .15s ease;

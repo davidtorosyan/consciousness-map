@@ -30,7 +30,7 @@ Each item below is one commit (or a small group) on
 - [x] **T5. One router.** `core.js` parses `?path=` once into a route object;
       `index.html` dispatches to exactly one view. Replaces the
       `window.CM_CLAIMED` "first script to recognise the URL wins" pattern.
-- [ ] **T6. One navigation model: every screen is a real URL.** Only the
+- [x] **T6. One navigation model: every screen is a real URL.** Only the
       question-by-question flow stays in-page. Results get their own URL
       (`?path=results/<payload>`); tapping a result opens the real
       category/school/theory page with the answers carried along (`&r=`), so
