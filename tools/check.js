@@ -20,11 +20,19 @@ function warn(msg) { warnings.push(msg); }
 /* ---------- 1 + 2: syntax ---------- */
 var html = fs.readdirSync(ROOT).filter(function (f) { return /\.html$/.test(f); });
 var indexHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
-// the scripts index.html loads, in order (the site's source of truth)
+// the scripts index.html's loader loads, in order (the site's source of truth)
 var scripts = [];
-indexHtml.replace(/<script src="([^"?]+)(?:\?[^"]*)?"><\/script>/g, function (_, src) {
-  scripts.push(src);
+var listMatch = /var JS = (\[[^\]]*\]);/.exec(indexHtml);
+if (!listMatch) err("index.html: couldn't find the loader's `var JS = [...]` script list");
+else scripts = JSON.parse(listMatch[1]);
+var cssMatch = /var CSS = (\[[^\]]*\]);/.exec(indexHtml);
+(cssMatch ? JSON.parse(cssMatch[1]) : []).forEach(function (f) {
+  if (!fs.existsSync(path.join(ROOT, f))) err("index.html loads missing stylesheet " + f);
 });
+try {
+  var ver = JSON.parse(fs.readFileSync(path.join(ROOT, "version.json"), "utf8"));
+  if (!ver.v) err("version.json has no \"v\"");
+} catch (e) { err("version.json is missing or not JSON: " + e.message); }
 scripts.forEach(function (f) {
   var p = path.join(ROOT, f);
   if (!fs.existsSync(p)) { err("index.html loads missing script " + f); return; }

@@ -81,7 +81,10 @@ function pages(W) {
   async function open(url) {
     jsErrors = [];
     await page.goto(base + url, { waitUntil: "load" });
-    await page.waitForTimeout(150);
+    // index.html loads its scripts after asking version.json for the build
+    try { await page.waitForFunction(function () { return window.CM_READY; }, null, { timeout: 5000 }); }
+    catch (e) { fail(url, "page never finished loading"); }
+    await page.waitForTimeout(100);
   }
   async function checkPage(where) {
     if (jsErrors.length) fail(where, "JS error: " + jsErrors.join(" | "));

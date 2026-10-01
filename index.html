@@ -8,19 +8,46 @@
 <meta name="theme-color" content="#04060a">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="styles.css?v=20260930-173801">
-<link rel="stylesheet" href="quiz.css?v=20260930-173801">
+<style>html,body{background:#04060a;margin:0}</style>
 </head>
 <body>
 <div class="bg" aria-hidden="true"><div class="dots"></div></div>
 <main id="app" class="wrap"></main>
-<script src="data/categories.js?v=20260930-173801"></script>
-<script src="data/quiz-data.js?v=20260930-173801"></script>
-<script src="core.js?v=20260930-173801"></script>
-<script src="app.js?v=20260930-173801"></script>
-<script src="quiz.js?v=20260930-173801"></script>
-<script src="saved.js?v=20260930-173801"></script>
-<script src="history.js?v=20260930-173801"></script>
-<script>CM.start();</script>
+<script>
+/* Cache-busting loader. GitHub Pages lets browsers cache every file,
+   this page included, for 10 minutes. So instead of stamping versions into
+   this file, ask version.json (bypassing the cache) which build is live and
+   load the assets with ?v=<build>. deploy.sh writes version.json; the
+   committed value "dev" means "never cache" (local work, unstamped pushes). */
+(function () {
+  "use strict";
+  var CSS = ["styles.css", "quiz.css"];
+  var JS = ["data/categories.js", "data/quiz-data.js", "core.js", "app.js", "quiz.js", "saved.js", "history.js"];
+  function load(build) {
+    window.CM_BUILD = build;
+    var q = "?v=" + encodeURIComponent(build === "dev" ? String(Date.now()) : build);
+    var pending = CSS.length + JS.length;
+    function done() { if (--pending === 0) { CM.start(); window.CM_READY = true; } }
+    CSS.forEach(function (href) {
+      var el = document.createElement("link");
+      el.rel = "stylesheet";
+      el.href = href + q;
+      el.onload = el.onerror = done;
+      document.head.appendChild(el);
+    });
+    JS.forEach(function (src) {
+      var el = document.createElement("script");
+      el.src = src + q;
+      el.async = false;   // run in list order
+      el.onload = done;
+      el.onerror = function () { document.getElementById("app").textContent = "Couldn’t load " + src + ". Try reloading."; };
+      document.body.appendChild(el);
+    });
+  }
+  fetch("version.json", { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (j) { load(String(j.v || "dev")); }, function () { load("dev"); });
+})();
+</script>
 </body>
 </html>

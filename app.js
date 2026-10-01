@@ -24,7 +24,8 @@
         (nFav ? '<a class="pill rise" style="--i:4" href="?path=saved">' + I.bookmark + "<span>Saved (" + nFav + ")</span></a>" : "") +
         "</div>" : "") +
       '<div class="foot rise" style="--i:5">Names and colors follow the official ' +
-      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></div>';
+      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
+      '<div class="build">build ' + esc(window.CM_BUILD || "dev") + "</div></div>";
   };
 
   CM.views.browse = function () {

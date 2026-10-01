@@ -33,6 +33,14 @@ Run both checks before committing. `deploy.sh` runs them too.
 
 ## Deploying
 
-`./deploy.sh "message"` stamps cache-busting `?v=` query strings onto asset
-URLs in the HTML files, commits, and pushes to `main`. Only the owner deploys;
-agents work on branches.
+`./deploy.sh "message"` runs the checks, writes a new build id to
+`version.json`, commits, and pushes to `main`. Only the owner deploys; agents
+work on branches.
+
+Cache busting: GitHub Pages lets browsers cache every file for 10 minutes,
+`index.html` included. So `index.html` is a small loader: it fetches
+`version.json` with the cache bypassed and loads every script and stylesheet
+as `?v=<build>`. New scripts or stylesheets go in its `JS`/`CSS` lists, not
+in `<script>`/`<link>` tags. The committed `version.json` says `"dev"`, which
+means "never cache" (handy locally; also the safe fallback). The home footer
+shows the build a device is running.

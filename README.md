@@ -14,7 +14,8 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The only real page. Loads the data and scripts below, then `CM.start()`. |
+| `index.html` | The only real page: a loader that reads `version.json` and loads the files below as `?v=<build>`, then calls `CM.start()`. |
+| `version.json` | The live build id, written by `deploy.sh` (`"dev"` = never cache). |
 | `core.js` | Shared helpers, storage, share links, the category → school → theory tree, and the router. |
 | `app.js` | Home, the category list, category/school pages, theory pages, debug page. |
 | `quiz.js` | Quizzes (in-page, one question at a time) and results. |
@@ -23,7 +24,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `data/quiz-data.js` | Every quiz: the top-level one and one per category/school. |
 | `styles.css`, `quiz.css` | All styling. |
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
-| `deploy.sh` | Check, cache-bust, commit and push to `main`. |
+| `deploy.sh` | Check, write a new build id, commit and push to `main`. |
 | `tools/check.js` | Syntax lint and quiz-data integrity checks. |
 | `tools/smoke.js` | Headless phone-size walk-through of every page. |
 | `archive/` | Data from earlier versions, kept for reference. Not loaded. |
