@@ -35,10 +35,9 @@
       if (idx > 0 && !locked) show(idx - 1);
     });
 
+    /* a bar, not one dot per question: 26 dots overflowed a phone */
     function renderProgress(i) {
-      var dots = "";
-      for (var k = 0; k < n; k++) dots += '<span class="q-dot' + (k < i ? " done" : k === i ? " now" : "") + '"></span>';
-      document.getElementById("wz-dots").innerHTML = dots;
+      document.getElementById("wz-bar").style.width = (i < 0 ? 0 : Math.round(100 * i / n)) + "%";
       document.getElementById("wz-count").textContent = i >= 0 && i < n ? (i + 1) + " of " + n : "";
     }
     /* swap the card's contents with a quick fade */

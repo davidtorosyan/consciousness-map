@@ -53,7 +53,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 
 ## UX
 
-- [ ] **U1. No horizontal scroll.** Progress dots become a progress bar
+- [x] **U1. No horizontal scroll.** Progress dots become a progress bar
       (26 dots pushed "1 of 26" off-screen); long breadcrumbs wrap.
 - [ ] **U2. Home.** One-sentence intro to what the Landscape of Consciousness
       is; History/Saved only shown once they have something in them; Debug

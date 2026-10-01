@@ -1,7 +1,7 @@
 /* Drill-down quiz — minimal text, phone-first. Extends styles.css.
    Persistent chrome: dots stay put; only the window card's
    contents transition between questions. The breadcrumb is the topmost element. */
-.wz-dotsrow{padding:2px 2px 14px}
+.wz-dotsrow{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 14px}
 .wz-window{
   position:relative;
   border:1px solid var(--line);border-radius:22px;
@@ -17,10 +17,9 @@
   padding:20px 0 10px;font-size:13.5px;color:var(--faint)}
 .wz-foot a{color:var(--faint);text-decoration:none}
 .wz-foot a:active{color:var(--acc)}
-.q-dots{display:flex;gap:7px;align-items:center}
-.q-dot{width:7px;height:7px;border-radius:50%;background:rgba(242,245,249,.18);transition:background .2s ease,transform .2s ease}
-.q-dot.done{background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.q-dot.now{background:var(--text);transform:scale(1.25)}
+.q-bar{flex:1;min-width:0;height:5px;border-radius:999px;background:rgba(242,245,249,.14);overflow:hidden;margin-right:14px}
+.q-bar span{display:block;height:100%;width:0;border-radius:inherit;background:var(--acc);
+  box-shadow:0 0 8px var(--acc);transition:width .25s ease}
 
 .q-qwrap{min-height:30dvh;display:flex;flex-direction:column;justify-content:center}
 .q-text{font-family:var(--serif);font-size:27px;line-height:1.32;letter-spacing:-.01em;margin-bottom:8px}
@@ -128,6 +127,5 @@
 .qa-a{flex:none;font-size:12px;color:var(--faint)}
 .tier-legend{font-size:11px;color:var(--faint);margin:4px 2px 12px;display:flex;gap:6px;align-items:center}
 .tier-legend .lg.hi{color:#3ad06e}.tier-legend .lg.mid{color:#f2b25c}.tier-legend .lg.lo{color:#ff5a5a}
-.wz-dotsrow{display:flex;align-items:center;justify-content:space-between}
 .q-count{font-size:11px;color:var(--faint);letter-spacing:.08em;flex:none}
 .r-note{font-size:12.5px;color:var(--muted);margin:0 2px 12px}

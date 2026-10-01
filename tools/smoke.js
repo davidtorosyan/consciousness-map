@@ -2,7 +2,8 @@
 /* Headless walk-through of the site at phone size: `node tools/smoke.js`.
    Serves the repo on a local port, opens every category and school page plus
    a sample of theory pages, takes the main quiz end to end, and fails on any
-   JS error, blank page or broken flow. Needs Playwright (resolved locally or
+   JS error, blank page, sideways
+   scrolling at phone width, or broken flow. Needs Playwright (resolved locally or
    from the global npm root); skips with exit 0 if it isn't installed.
    SMOKE_ALL_THEORIES=1 opens every theory page instead of a sample. */
 "use strict";
@@ -89,10 +90,12 @@ function pages(W) {
       return {
         text: app ? app.innerText.trim() : "",
         notFound: document.title.indexOf("Not found") === 0,
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       };
     });
     if (!info.text) fail(where, "blank page");
     if (info.notFound) fail(where, "rendered as not found");
+    if (info.overflow > 0) fail(where, "scrolls sideways by " + info.overflow + "px at phone width");
   }
 
   /* 1. every page renders */

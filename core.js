@@ -245,7 +245,7 @@
   CM.frame = function (trailHtml, body, opts) {
     opts = opts || {};
     return trailHtml +
-      (opts.progress ? '<div class="wz-dotsrow"><div class="q-dots" id="wz-dots" aria-hidden="true"></div><span class="q-count" id="wz-count"></span></div>' : "") +
+      (opts.progress ? '<div class="wz-dotsrow"><div class="q-bar" aria-hidden="true"><span id="wz-bar"></span></div><span class="q-count" id="wz-count"></span></div>' : "") +
       '<div class="wz-window" id="wz-window">' + body + "</div>" +
       '<footer class="wz-foot"><a href="./">Browse the map</a>' +
       '<span aria-hidden="true">·</span>' +
