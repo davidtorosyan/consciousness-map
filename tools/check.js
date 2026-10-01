@@ -1,0 +1,133 @@
+#!/usr/bin/env node
+/* Pre-deploy checks. No dependencies: `node tools/check.js`.
+   1. Every script parses (standalone .js and inline <script> blocks).
+   2. No line holding only `return` (ASI makes it return undefined).
+   3. The quiz data is internally consistent.
+   Exits non-zero on any error; warnings are printed but don't fail. */
+"use strict";
+var fs = require("fs");
+var path = require("path");
+var vm = require("vm");
+var childProcess = require("child_process");
+
+var ROOT = path.resolve(__dirname, "..");
+var QUIZ_CAP = 12;
+var errors = [];
+var warnings = [];
+function err(msg) { errors.push(msg); }
+function warn(msg) { warnings.push(msg); }
+
+/* ---------- 1 + 2: syntax ---------- */
+var html = fs.readdirSync(ROOT).filter(function (f) { return /\.html$/.test(f); });
+var indexHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+// the scripts index.html loads, in order (the site's source of truth)
+var scripts = [];
+indexHtml.replace(/<script src="([^"?]+)(?:\?[^"]*)?"><\/script>/g, function (_, src) {
+  scripts.push(src);
+});
+scripts.forEach(function (f) {
+  var p = path.join(ROOT, f);
+  if (!fs.existsSync(p)) { err("index.html loads missing script " + f); return; }
+  try { childProcess.execFileSync(process.execPath, ["--check", p], { stdio: "pipe" }); }
+  catch (e) { err("syntax error in " + f + ":\n" + String(e.stderr)); }
+  fs.readFileSync(p, "utf8").split("\n").forEach(function (line, i) {
+    if (/^\s*return\s*$/.test(line)) err(f + ":" + (i + 1) + ": lone `return` (ASI returns undefined)");
+  });
+});
+html.forEach(function (f) {
+  var src = fs.readFileSync(path.join(ROOT, f), "utf8");
+  var re = /<script>([\s\S]*?)<\/script>/g, m, n = 0;
+  while ((m = re.exec(src))) {
+    n++;
+    try { new vm.Script(m[1], { filename: f + " inline script " + n }); }
+    catch (e) { err("syntax error in " + f + " inline script " + n + ": " + e.message); }
+  }
+});
+
+/* ---------- 3: data ---------- */
+var sandbox = { window: {} };
+vm.createContext(sandbox);
+["data/categories.js", "data/quiz-data.js"].forEach(function (f) {
+  try { vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), sandbox, { filename: f }); }
+  catch (e) { err("could not load " + f + ": " + e.message); }
+});
+var W = sandbox.window;
+var CATS = W.LOC_CATEGORIES || [];
+var QD = W.QUIZ_DATA || {};
+var DRILL = QD.drill || {};
+
+if (!W.QUIZ_DATA_VERSION) err("QUIZ_DATA_VERSION is not set");
+if (CATS.length !== 11) err("expected 11 LOC categories, found " + CATS.length);
+
+var catIds = {};
+CATS.forEach(function (c) {
+  ["id", "name", "color", "tagline", "url"].forEach(function (k) {
+    if (!c[k]) err("category " + (c.id || "?") + " has no " + k);
+  });
+  if (catIds[c.id]) err("duplicate category id " + c.id);
+  catIds[c.id] = true;
+  if (!DRILL[c.id]) err("category " + c.id + " has no quiz (QUIZ_DATA.drill." + c.id + ")");
+});
+
+function checkQuestions(label, questions, validKeys) {
+  if (!questions || !questions.length) { err(label + ": no questions"); return; }
+  if (questions.length > QUIZ_CAP) warn(label + ": " + questions.length + " questions (cap " + QUIZ_CAP + ")");
+  questions.forEach(function (q, i) {
+    var where = label + " question " + (i + 1);
+    if (!q.t) err(where + ": no text");
+    ["yes", "no"].forEach(function (a) {
+      Object.keys(q[a] || {}).forEach(function (k) {
+        if (!validKeys[k]) err(where + ": '" + a + "' scores unknown key " + k);
+        if (typeof q[a][k] !== "number") err(where + ": '" + a + "." + k + "' is not a number");
+      });
+    });
+  });
+}
+
+if (!QD.top) err("QUIZ_DATA.top (the main quiz) is missing");
+else checkQuestions("main quiz", QD.top.questions, catIds);
+
+var theoryHome = {};   // theory key -> drill key that lists it
+var subParent = {};    // sub drill key -> parent drill key
+Object.keys(DRILL).forEach(function (dk) {
+  var d = DRILL[dk], label = "quiz " + dk;
+  if (!catIds[d.categoryId]) err(label + ": unknown categoryId " + d.categoryId);
+  if (!d.name) err(label + ": no name");
+  if (!d.areas || !d.areas.length) { err(label + ": no areas"); return; }
+  var keys = {};
+  d.areas.forEach(function (a) {
+    if (!a.key) { err(label + ": area without a key"); return; }
+    if (keys[a.key]) err(label + ": duplicate area " + a.key);
+    keys[a.key] = true;
+    if (!a.name) err(label + ": area " + a.key + " has no name");
+    if (!a.tagline) warn(label + ": area " + a.key + " has no tagline");
+    if (a.sub) {
+      if (a.sub !== a.key) err(label + ": school " + a.key + " has sub " + a.sub + " (expected the same key)");
+      if (!DRILL[a.sub]) err(label + ": school " + a.key + " has no quiz");
+      else if (DRILL[a.sub].categoryId !== d.categoryId) err(label + ": school " + a.sub + " is in a different category");
+      if (subParent[a.sub]) err("school " + a.sub + " is listed by both " + subParent[a.sub] + " and " + dk);
+      subParent[a.sub] = dk;
+      if (a.key.indexOf(d.categoryId + "-") !== 0) err(label + ": school key " + a.key + " must start with '" + d.categoryId + "-'");
+    } else {
+      if (!a.url) err(label + ": theory " + a.key + " has no LOC url");
+      if (theoryHome[a.key]) err("theory " + a.key + " is listed by both " + theoryHome[a.key] + " and " + dk);
+      theoryHome[a.key] = dk;
+      if (DRILL[d.categoryId + "-" + a.key]) err("theory " + a.key + " collides with school quiz " + d.categoryId + "-" + a.key);
+    }
+    if (a.url && !/^https:\/\/loc\.closertotruth\.com\//.test(a.url)) warn(label + ": area " + a.key + " links outside LOC: " + a.url);
+  });
+  checkQuestions(label, d.questions, keys);
+});
+Object.keys(DRILL).forEach(function (dk) {
+  if (dk !== DRILL[dk].categoryId && !subParent[dk]) err("school quiz " + dk + " isn't listed by any parent");
+  if (dk === DRILL[dk].categoryId && !catIds[dk]) err("quiz " + dk + " isn't a category or a school");
+});
+
+/* ---------- report ---------- */
+warnings.forEach(function (w) { console.log("warn: " + w); });
+errors.forEach(function (e) { console.log("ERROR: " + e); });
+console.log(scripts.length + " scripts, " + html.length + " html files, " +
+  Object.keys(DRILL).length + " quizzes, " + Object.keys(theoryHome).length + " theories: " +
+  (errors.length ? errors.length + " error(s)" : "ok") +
+  (warnings.length ? ", " + warnings.length + " warning(s)" : ""));
+process.exit(errors.length ? 1 : 0);

@@ -11,28 +11,9 @@ cd "$(dirname "$0")"
 MSG="${1:-Site update}"
 V="$(date +%Y%m%d-%H%M%S)"
 
-# pre-deploy lint: every standalone .js file and every inline <script> block
-# must parse. (A single syntax error in an inline script blanks the whole page.)
-for f in app.js quiz.js saved.js history.js data/categories.js data/quiz-data.js; do
-  node --check "$f" || { echo "LINT FAIL: $f"; exit 1; }
-done
-for f in index.html quiz.html favorites.html history.html; do
-  python3 - "$f" <<'PYEOF' > /tmp/inline-check.js
-import re, sys
-html = open(sys.argv[1]).read()
-blocks = [m.group(1) for m in re.finditer(r'<script>(.*?)</script>', html, re.S)]
-print("\n".join(blocks))
-PYEOF
-  [ -s /tmp/inline-check.js ] || continue
-  node --check /tmp/inline-check.js || { echo "LINT FAIL: inline script in $f"; exit 1; }
-done
-echo "lint ok"
-
-# ASI hazard lint: a line containing only `return` (value on the next line)
-# silently returns undefined. node --check cannot catch this.
-if grep -rln --include='*.js' -E '^\s*return\s*$' app.js quiz.js saved.js history.js data/categories.js data/quiz-data.js; then
-  echo "LINT FAIL: lone 'return' line (ASI returns undefined) in the files above"; exit 1
-fi
+# pre-deploy checks: every script parses, no ASI-prone lone `return`,
+# and the quiz data is internally consistent. See tools/check.js.
+node tools/check.js
 
 for f in index.html quiz.html favorites.html history.html; do
   # strip any previous stamp

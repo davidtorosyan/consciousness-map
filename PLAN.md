@@ -9,10 +9,10 @@ Each item below is one commit (or a small group) on
 
 ## Technical
 
-- [ ] **T1. Docs.** This plan, a `CLAUDE.md` with conventions for agents, and a
+- [x] **T1. Docs.** This plan, a `CLAUDE.md` with conventions for agents, and a
       README that describes the current site (it still describes V3: six
       territory cards, `map-data.js`, `build_data.py`).
-- [ ] **T2. Data checks.** `tools/check.js`: one Node script, no dependencies,
+- [x] **T2. Data checks.** `tools/check.js`: one Node script, no dependencies,
       that loads the data the way the browser does and fails on broken
       references (scored keys that aren't areas, schools without a quiz,
       missing URLs, duplicate keys, quizzes over the question cap as a
