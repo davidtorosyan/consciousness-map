@@ -28,6 +28,12 @@ PYEOF
 done
 echo "lint ok"
 
+# ASI hazard lint: a line containing only `return` (value on the next line)
+# silently returns undefined. node --check cannot catch this.
+if grep -rln --include='*.js' -E '^\s*return\s*$' app.js quiz.js saved.js history.js data/categories.js data/quiz-data.js; then
+  echo "LINT FAIL: lone 'return' line (ASI returns undefined) in the files above"; exit 1
+fi
+
 for f in index.html quiz.html favorites.html history.html; do
   # strip any previous stamp
   sed -i -E 's/\?v=[0-9]{8}-[0-9]{6}//g' "$f"
