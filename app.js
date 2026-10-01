@@ -94,15 +94,13 @@
       listRows(node.children));
   };
 
-  /* a theory: save it, read it on LOC, or look at its neighbours */
+  /* a theory: save it, read it on LOC, or go back up to its school/category */
   CM.views.theory = function (route) {
     var node = route.node, parent = node.parent;
-    var siblings = parent.children.filter(function (x) { return x !== node; });
     render(node, '<div style="--bm:' + esc(node.color) + '">' + head(node, "THEORY") +
       '<div class="d-actions">' + CM.bookmarkButton(node, false, true) + locPill(node) + "</div></div>" +
       CM.answerRows(route.from, node.key) +
-      (siblings.length ? '<div class="r-head"><div class="eyebrow">MORE IN ' + esc(parent.name.toUpperCase()) + "</div></div>" +
-        listRows(siblings) : ""));
+      '<div class="d-quiet"><a class="d-link" href="' + CM.href(parent) + '">\u2039 Back to ' + esc(parent.name) + "</a></div>");
   };
 
   /* ---------- debug: quiz nesting + question counts ---------- */

@@ -67,6 +67,12 @@
 /* results: ranked names only */
 .r-head{padding:18px 4px 6px;position:relative}
 .r-head h1{font-size:30px;margin-bottom:4px}
+/* results: share sits top-right of the header, visible without scrolling */
+.head-share{position:absolute;top:10px;right:0;display:inline-flex;align-items:center;gap:6px;
+  padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+  font-size:13.5px;font-weight:600;color:var(--text);cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+.head-share .ic{width:16px;height:16px;flex:none}
+.head-share:active{transform:scale(.94);border-color:var(--acc)}
 .r-row{
   width:100%;display:flex;align-items:center;gap:2px;
   border:1px solid var(--line);border-radius:16px;padding:3px 3px 3px 4px;margin-bottom:9px;

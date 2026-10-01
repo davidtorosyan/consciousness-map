@@ -132,6 +132,9 @@ function pages(W) {
     await page.waitForSelector(".r-row", { timeout: 3000 });
     var rows = await page.$$(".r-row");
     if (rows.length !== W.LOC_CATEGORIES.length) fail("main quiz", "expected " + W.LOC_CATEGORIES.length + " result rows, got " + rows.length);
+    var shareBox = await (await page.$("[data-share]")).boundingBox();
+    var viewH = page.viewportSize().height;
+    if (!shareBox || shareBox.y + shareBox.height > viewH) fail("main quiz", "Share button isn't visible without scrolling");
     var firstName = (await page.innerText(".r-row .nm")).trim();
     await page.click(".r-row .r-open");
     await page.waitForTimeout(400);

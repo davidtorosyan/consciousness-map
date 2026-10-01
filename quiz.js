@@ -184,15 +184,15 @@
         : '<a class="pill wide" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
     }
     app.innerHTML = CM.frame(quizTrail(quiz, "Results"),
-      '<div class="r-head"><div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
+      '<div class="r-head"><button class="head-share" data-share>' + I.share + "<span>Share</span></button>" +
+      '<div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
       "<h1>Closest first.</h1>" +
       '<div class="tier-legend">' + ["hi", "mid", "lo"].map(function (k) {
         return '<span class="lg ' + k + '">\u25CF</span> ' + TIERS[k].replace(" match", "").replace("no", "none");
       }).join(" ") + "</div>" +
       (answered ? "" : '<div class="r-note">You didn\u2019t answer Yes or No to anything, so nothing stands out yet.</div>') +
       "</div>" + rows +
-      '<div class="d-actions">' + next +
-      '<button class="pill" data-share>' + I.share + "<span>Share</span></button></div>");
+      (next ? '<div class="d-actions">' + next + "</div>" : ""));
     var btn = app.querySelector("[data-share]");
     btn.addEventListener("click", function () { share(btn, route.payload); });
     CM.bindBookmarks(app);
