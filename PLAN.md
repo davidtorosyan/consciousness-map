@@ -7,6 +7,8 @@ repo review. Product work (quiz redesign, scoring, theory content) is
 Each item below is one commit (or a small group) on
 `claude/repo-review-feedback-93q9gm`. Tick items off as they land.
 
+**Status:** all technical and UX items have landed. Product is next.
+
 ## Technical
 
 - [x] **T1. Docs.** This plan, a `CLAUDE.md` with conventions for agents, and a
