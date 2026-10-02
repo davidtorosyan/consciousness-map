@@ -26,9 +26,11 @@ if [ -n "$UNTRACKED" ]; then
   exit 1
 fi
 
-# Checks: every script parses, the quiz data is consistent, and (when
-# Playwright is installed) every page renders and the main flows work.
+# Checks: every script parses, the quiz data is consistent, every family's
+# ideal respondent lands on that family, and (when Playwright is installed)
+# every page renders and the main flows work.
 node tools/check.js
+node tools/eval-quiz.js > /dev/null || { echo "deploy: tools/eval-quiz.js failed; run it to see why" >&2; exit 1; }
 node tools/smoke.js
 
 printf '{"v":"%s"}\n' "$V" > version.json

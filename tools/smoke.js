@@ -43,7 +43,7 @@ function serve() {
 function loadData() {
   var sb = { window: {} };
   vm.createContext(sb);
-  ["data/categories.js", "data/quiz-data.js"].forEach(function (f) {
+  ["data/categories.js", "data/quiz-data.js", "data/main-quiz.js"].forEach(function (f) {
     vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), sb);
   });
   return sb.window;

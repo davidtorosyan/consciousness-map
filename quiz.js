@@ -144,9 +144,9 @@
       navigator.clipboard.writeText(url).then(function () { done("Link copied"); }, function () { done("Couldn\u2019t copy"); });
     } else done("Couldn\u2019t copy");
   }
-  /* strong = agreed with its core claim, partial = some lean, none = it
-     didn't come up or you passed (scores are never negative) */
-  var TIERS = { hi: "strong match", mid: "partial match", lo: "no match" };
+  /* tiers come from CM.ranked: strong / partial / none, plus "against" on
+     axis quizzes, where a family can hold the opposite of your views */
+  var LEGEND = { strong: "strong", partial: "partial", none: "none", against: "opposite" };
 
   CM.views.results = function (route) {
     var r = CM.share.decode(route.payload);
@@ -163,22 +163,35 @@
     if (quiz.owner) CM.setAccent(quiz.owner.color);
     var ranked = CM.ranked(quiz, r.answers);
     var answered = r.answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
+    var conflicts = CM.conflicts(quiz, r.answers), summary = CM.summary(quiz, r.answers);
     var rows = ranked.map(function (x, i) {
-      var tier = x.score >= 3 ? "hi" : x.score > 0 ? "mid" : "lo";
-      var t = x.node;
-      return '<div class="r-row' + (i === 0 && x.score > 0 ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
+      var t = x.node, matched = x.tier === "strong" || x.tier === "partial";
+      return '<div class="r-row' + (i === 0 && matched ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
         '<a class="r-open" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
         '<span class="nm">' + esc(t.name) + "</span>" +
-        '<span class="tier ' + tier + '" aria-label="' + TIERS[tier] + '">' + I.dot + "</span>" +
+        '<span class="tier ' + x.tier + '" aria-label="' + CM.TIERS[x.tier] + '">' + I.dot + "</span>" +
         "</a>" + (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
     }).join("");
+    var legend = ["strong", "partial", "none", "against"].filter(function (k) {
+      return k !== "against" || ranked.some(function (x) { return x.tier === "against"; });
+    });
+    var lopsided = CM.lopsided(quiz, r.answers);
+    var notes = !answered
+      ? "You didn\u2019t answer Yes or No to anything, so nothing stands out yet."
+      : lopsided
+        ? "You answered " + (lopsided === "yes" ? "Yes" : "No") + " to almost everything, but the statements point in different directions, so this is only a rough guide."
+      : conflicts.length
+        ? "Some of your answers point in opposite directions (questions " + conflicts.map(function (p) {
+            return (p[0] + 1) + " and " + (p[1] + 1);
+          }).join("; ") + "), so read this as a rough guide."
+        : "";
     // one obvious next step: someone else's result -> take it yourself;
     // your own -> go deeper into your top match
     var top = ranked[0], next = "";
     if (route.shared) {
       next = '<a class="pill wide" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>Take this quiz yourself</span></a>";
-    } else if (top && top.score > 0) {
+    } else if (top && (top.tier === "strong" || top.tier === "partial")) {
       next = top.node.quiz
         ? '<a class="pill wide" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>Take the " + esc(top.node.name) + " quiz</span></a>"
         : '<a class="pill wide" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
@@ -187,10 +200,11 @@
       '<div class="r-head"><button class="head-share" data-share>' + I.share + "<span>Share</span></button>" +
       '<div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
       "<h1>Closest first.</h1>" +
-      '<div class="tier-legend">' + ["hi", "mid", "lo"].map(function (k) {
-        return '<span class="lg ' + k + '">\u25CF</span> ' + TIERS[k].replace(" match", "").replace("no", "none");
+      (summary ? '<p class="r-summary">' + esc(route.shared ? summary.replace(/^You think/, "They think") : summary) + "</p>" : "") +
+      '<div class="tier-legend">' + legend.map(function (k) {
+        return '<span class="lg ' + k + '">\u25CF</span> ' + LEGEND[k];
       }).join(" ") + "</div>" +
-      (answered ? "" : '<div class="r-note">You didn\u2019t answer Yes or No to anything, so nothing stands out yet.</div>') +
+      (notes ? '<div class="r-note">' + notes + "</div>" : "") +
       "</div>" + rows +
       (next ? '<div class="d-actions">' + next + "</div>" : ""));
     var btn = app.querySelector("[data-share]");

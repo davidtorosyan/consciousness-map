@@ -7,7 +7,7 @@ repo review. Product work (quiz redesign, scoring, theory content) is
 Each item below is one commit (or a small group) on
 `claude/repo-review-feedback-93q9gm`. Tick items off as they land.
 
-**Status:** all technical and UX items have landed. Product is next.
+**Status:** technical and UX items have landed; product work is under way.
 
 ## Technical
 
@@ -76,15 +76,19 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 - [x] **U7. Contrast.** Raise the faint/muted greys to pass WCAG AA on the
       dark background.
 
-## Later: product (not in this pass)
+## Product
 
-- Rebuild the top-level quiz around trade-off questions that actually split
-  people; today every question scores exactly one target on "Yes".
-- "No" answers that push you *toward* a view you just rejected
-  (all-No → Dualisms ranks #2).
-- Sub-quizzes over the 12-question cap (Idealisms 26, Dualisms 23,
-  Anomalous 23, Challenge 21, …) and the one-question Phenomenology quiz.
-- Real content on theory/school pages (descriptions, objections, who holds it).
-- "Don't get it" text that explains rather than argues.
-- Quantum & Dimensions school names are ours, not LOC's; label or realign.
-- A one-sentence results summary.
+- [x] **P1. Rebuild the main quiz around positions, not claims.** Questions
+      measure where you stand on 13 underlying questions ("axes"); each family
+      has a position on them; your match is how closely they agree.
+      `data/main-quiz.js`, scored in `core.js`, checked by
+      `tools/eval-quiz.js` (synthetic respondents) and a blind role-play of
+      33 thinkers LOC files under the 11 families. Fixes "No" pushing you
+      toward views you rejected, adds a one-line summary, an "opposite view"
+      tier, and flags contradictory or all-Yes/all-No answers.
+- [ ] Apply the same approach to the category and school quizzes, and bring
+      them under the 12-question cap (Idealisms 26, Dualisms 23, Anomalous
+      23, Challenge 21, …; Phenomenology has one question).
+- [ ] Real content on theory/school pages (descriptions, objections, who holds it).
+- [ ] "Don't get it" text in the category quizzes that explains rather than argues.
+- [ ] Quantum & Dimensions school names are ours, not LOC's; label or realign.

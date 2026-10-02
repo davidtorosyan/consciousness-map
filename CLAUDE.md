@@ -28,11 +28,19 @@ See `README.md` for the file layout and `PLAN.md` for work in progress.
 
 ```sh
 node tools/check.js          # data integrity + syntax lint (no dependencies)
+node tools/eval-quiz.js      # does the main quiz sort people correctly?
 node tools/smoke.js          # headless browser walk-through (needs Playwright)
 python3 -m http.server 8765  # then open http://localhost:8765/
 ```
 
-Run both checks before committing. `deploy.sh` runs them too.
+Run the checks before committing. `deploy.sh` runs them too.
+
+The main quiz (`data/main-quiz.js`) scores by axes: questions measure
+positions on a few underlying questions, families have positions on them,
+and a family's match is cosine similarity. Keep each question on one axis
+(two-axis questions pushed No-answerers the wrong way). After changing
+questions or positions, run `tools/eval-quiz.js`; every family's ideal
+respondent must still rank first.
 
 ## Deploying
 

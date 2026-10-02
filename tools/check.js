@@ -55,7 +55,7 @@ html.forEach(function (f) {
 /* ---------- 3: data ---------- */
 var sandbox = { window: {} };
 vm.createContext(sandbox);
-["data/categories.js", "data/quiz-data.js"].forEach(function (f) {
+["data/categories.js", "data/quiz-data.js", "data/main-quiz.js"].forEach(function (f) {
   try { vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), sandbox, { filename: f }); }
   catch (e) { err("could not load " + f + ": " + e.message); }
 });
@@ -92,8 +92,41 @@ function checkQuestions(label, questions, validKeys) {
   });
 }
 
+/* the main quiz is an axis quiz (data/main-quiz.js): questions measure axes,
+   families have positions on them */
 if (!QD.top) err("QUIZ_DATA.top (the main quiz) is missing");
-else checkQuestions("main quiz", QD.top.questions, catIds);
+else (function (T) {
+  var axisKeys = {};
+  (T.axes || []).forEach(function (x) {
+    if (axisKeys[x.key]) err("main quiz: duplicate axis " + x.key);
+    axisKeys[x.key] = 0;
+    ["claim", "yes", "no"].forEach(function (k) { if (!x[k]) err("main quiz: axis " + x.key + " has no " + k); });
+  });
+  if (!T.questions || !T.questions.length) err("main quiz: no questions");
+  else if (T.questions.length > QUIZ_CAP + 1) warn("main quiz: " + T.questions.length + " questions (cap " + QUIZ_CAP + ")");
+  (T.questions || []).forEach(function (q, i) {
+    var where = "main quiz question " + (i + 1);
+    if (!q.t) err(where + ": no text");
+    if (!q.why) warn(where + ": no \"Don't get it\" explanation");
+    var keys = Object.keys(q.axes || {});
+    if (!keys.length) err(where + ": measures no axis");
+    keys.forEach(function (k) {
+      if (!(k in axisKeys)) err(where + ": unknown axis " + k);
+      else axisKeys[k]++;
+      if (typeof q.axes[k] !== "number" || !q.axes[k]) err(where + ": axis " + k + " needs a non-zero number");
+    });
+  });
+  Object.keys(axisKeys).forEach(function (k) { if (!axisKeys[k]) err("main quiz: no question measures axis " + k); });
+  Object.keys(catIds).forEach(function (c) {
+    var p = (T.profiles || {})[c];
+    if (!p) { err("main quiz: no profile for " + c); return; }
+    Object.keys(p).forEach(function (k) {
+      if (!(k in axisKeys)) err("main quiz: " + c + " has a position on unknown axis " + k);
+      if ([-2, -1, 1, 2].indexOf(p[k]) < 0) err("main quiz: " + c + "." + k + " must be -2, -1, 1 or 2");
+    });
+  });
+  Object.keys(T.profiles || {}).forEach(function (c) { if (!catIds[c]) err("main quiz: profile for unknown family " + c); });
+})(QD.top);
 
 var theoryHome = {};   // theory key -> drill key that lists it
 var subParent = {};    // sub drill key -> parent drill key

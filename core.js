@@ -190,8 +190,44 @@
     return owner ? owner.name : "Main quiz";
   };
 
-  /* ---------- scoring ---------- */
-  CM.scores = function (quiz, answers) {
+  /* ---------- scoring ----------
+     Two kinds of quiz:
+     - axis quizzes (the main quiz, data/main-quiz.js): answers place you on
+       underlying axes; a family's score is the cosine similarity between your
+       positions and its profile, from -1 (opposite) to 1 (same).
+     - point quizzes (category/school quizzes): each answer adds points to
+       areas; the score is the point total.
+     CM.ranked returns [{node, score, tier}] best first, tier one of
+     strong / partial / none / against, for either kind. */
+  function isAxisQuiz(quiz) { return !!(quiz.data && quiz.data.axes); }
+  /* your position on each axis you answered something about, -1..1 */
+  CM.positions = function (quiz, answers) {
+    var sum = {}, weight = {};
+    answers.forEach(function (ans, i) {
+      if (ans !== "yes" && ans !== "no") return;
+      var w = quiz.questions[i].axes || {}, sign = ans === "yes" ? 1 : -1;
+      Object.keys(w).forEach(function (k) {
+        sum[k] = (sum[k] || 0) + sign * w[k];
+        weight[k] = (weight[k] || 0) + Math.abs(w[k]);
+      });
+    });
+    var pos = {};
+    Object.keys(sum).forEach(function (k) { if (weight[k]) pos[k] = sum[k] / weight[k]; });
+    return pos;
+  };
+  CM.TIERS = { strong: "strong match", partial: "partial match", none: "no match", against: "opposite view" };
+  function axisScores(quiz, answers) {
+    var pos = CM.positions(quiz, answers), keys = quiz.data.axes.map(function (x) { return x.key; });
+    var un = Math.sqrt(keys.reduce(function (t, k) { return t + Math.pow(pos[k] || 0, 2); }, 0));
+    var sc = {};
+    quiz.targets.forEach(function (node) {
+      var p = quiz.data.profiles[node.key] || {}, dot = 0, pn = 0;
+      keys.forEach(function (k) { dot += (pos[k] || 0) * (p[k] || 0); pn += Math.pow(p[k] || 0, 2); });
+      sc[node.key] = un && pn ? dot / (un * Math.sqrt(pn)) : 0;
+    });
+    return sc;
+  }
+  function pointScores(quiz, answers) {
     var sc = {};
     answers.forEach(function (ans, i) {
       if (ans !== "yes" && ans !== "no") return;
@@ -199,12 +235,57 @@
       Object.keys(pts).forEach(function (k) { sc[k] = (sc[k] || 0) + pts[k]; });
     });
     return sc;
-  };
-  /* the quiz's targets, best first (stable: ties keep map order) */
+  }
   CM.ranked = function (quiz, answers) {
-    var sc = CM.scores(quiz, answers);
-    return quiz.targets.map(function (node, i) { return { node: node, score: sc[node.key] || 0, i: i }; })
-      .sort(function (a, b) { return b.score - a.score || a.i - b.i; });
+    var axis = isAxisQuiz(quiz), sc = axis ? axisScores(quiz, answers) : pointScores(quiz, answers);
+    // a "strong" match needs evidence: at least half the questions answered
+    var answered = answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
+    // and no answers that contradict each other
+    var enough = answered * 2 >= quiz.questions.length &&
+      !CM.conflicts(quiz, answers).length && !CM.lopsided(quiz, answers);
+    return quiz.targets.map(function (node, i) {
+      var s = sc[node.key] || 0, tier;
+      // thresholds from tools/eval-quiz.js score distributions: a typical
+      // result has one or two strong matches
+      if (axis) tier = s >= 0.55 ? (enough ? "strong" : "partial") : s >= 0.25 ? "partial" : s > -0.25 ? "none" : "against";
+      else tier = s >= 3 ? "strong" : s > 0 ? "partial" : "none";
+      return { node: node, score: s, tier: tier, i: i };
+    }).sort(function (a, b) { return b.score - a.score || a.i - b.i; });
+  };
+  /* pairs of answers that contradict each other: two questions asking
+     opposite things, answered the same way (axis quizzes) */
+  CM.conflicts = function (quiz, answers) {
+    if (!isAxisQuiz(quiz)) return [];
+    var out = [], qs = quiz.questions;
+    for (var i = 0; i < qs.length; i++) for (var j = i + 1; j < qs.length; j++) {
+      if (answers[i] !== answers[j] || (answers[i] !== "yes" && answers[i] !== "no")) continue;
+      // only exact opposites: same axes, every weight reversed
+      var ki = Object.keys(qs[i].axes), kj = Object.keys(qs[j].axes);
+      var clash = ki.length === kj.length && ki.every(function (k) { return qs[j].axes[k] && qs[i].axes[k] * qs[j].axes[k] < 0; });
+      if (clash) out.push([i, j]);
+    }
+    return out;
+  };
+  /* answered (nearly) everything the same way: "yes" or "no", else "".
+     The statements point in different directions, so that's not a view. */
+  CM.lopsided = function (quiz, answers) {
+    if (!isAxisQuiz(quiz)) return "";
+    var y = 0, n = 0;
+    answers.forEach(function (a) { if (a === "yes") y++; else if (a === "no") n++; });
+    if (y + n < 8) return "";
+    return y >= 0.85 * (y + n) ? "yes" : n >= 0.85 * (y + n) ? "no" : "";
+  };
+  /* "You think X, Y and Z." from your strongest positions (axis quizzes) */
+  CM.summary = function (quiz, answers) {
+    if (!isAxisQuiz(quiz) || CM.lopsided(quiz, answers)) return "";
+    var pos = CM.positions(quiz, answers);
+    var strong = quiz.data.axes.filter(function (x) { return Math.abs(pos[x.key] || 0) >= 0.5; })
+      .sort(function (a, b) { return Math.abs(pos[b.key]) - Math.abs(pos[a.key]); })
+      .slice(0, 3)
+      .map(function (x) { return pos[x.key] > 0 ? x.yes : x.no; });
+    if (!strong.length) return "";
+    var last = strong.pop();
+    return "You think " + (strong.length ? strong.join(", ") + " and " : "") + last + ".";
   };
 
   /* ---------- result links ----------
@@ -216,24 +297,43 @@
   CM.fromResults = function (href, from) {
     return from ? href + "&r=" + from.payload + (from.shared ? "&shared=1" : "") : href;
   };
-  /* the questions that scored `key`, marked by how the user answered */
+  /* why a result scored the way it did, for the family/area `key`:
+     axis quizzes list the family's stands next to your positions; point
+     quizzes list the questions that scored it, marked by your answer */
+  function row(cls, mark, text, label) {
+    return '<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
+      '<span class="qa-q">' + CM.esc(text) + '</span><span class="qa-a">' + label + "</span></div>";
+  }
   CM.answerRows = function (from, key) {
     var r = from && CM.share.decode(from.payload);
     if (!r) return "";
     var rows = [];
-    r.quiz.questions.forEach(function (q, i) {
-      var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
-      if (!yp && !np) return;
-      var a = r.answers[i], cls, mark, label;
-      if (a === "yes" || a === "no") {
-        var hit = a === "yes" ? yp > 0 : np > 0;
-        cls = hit ? "al" : "mis"; mark = hit ? "\u2713" : "\u2717"; label = a;
-      } else { cls = "na"; mark = "\u2013"; label = a === "skip" ? "not sure" : "\u2013"; }
-      rows.push('<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
-        '<span class="qa-q">' + CM.esc(q.t) + '</span><span class="qa-a">' + label + "</span></div>");
-    });
+    if (isAxisQuiz(r.quiz)) {
+      var pos = CM.positions(r.quiz, r.answers), p = r.quiz.data.profiles[key] || {};
+      r.quiz.data.axes.forEach(function (x) {
+        if (!p[x.key]) return;
+        // the family's stand, in the words of that side of the axis
+        var claim = p[x.key] > 0 ? x.yes : x.no;
+        claim = claim.charAt(0).toUpperCase() + claim.slice(1);
+        var u = pos[x.key];
+        if (u === undefined || Math.abs(u) < 0.25) rows.push(row("na", "\u2013", claim, "unsure"));
+        else if (u * p[x.key] > 0) rows.push(row("al", "\u2713", claim, "you agree"));
+        else rows.push(row("mis", "\u2717", claim, "you disagree"));
+      });
+    } else {
+      r.quiz.questions.forEach(function (q, i) {
+        var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
+        if (!yp && !np) return;
+        var a = r.answers[i];
+        if (a === "yes" || a === "no") {
+          var hit = a === "yes" ? yp > 0 : np > 0;
+          rows.push(row(hit ? "al" : "mis", hit ? "\u2713" : "\u2717", q.t, a));
+        } else rows.push(row("na", "\u2013", q.t, a === "skip" ? "not sure" : "\u2013"));
+      });
+    }
     if (!rows.length) return "";
-    return '<div class="qa-sec"><div class="eyebrow">HOW YOU LINED UP</div>' + rows.join("") + "</div>" +
+    return '<div class="qa-sec"><div class="eyebrow">' + (isAxisQuiz(r.quiz) ? "WHERE IT STANDS VS. YOU" : "HOW YOU LINED UP") + "</div>" +
+      rows.join("") + "</div>" +
       '<div class="d-quiet"><a class="d-link" data-back-results href="' +
       CM.esc(CM.resultsHref(from.payload, from.shared)) + '">\u2039 Results</a></div>';
   };
