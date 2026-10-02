@@ -1,0 +1,212 @@
+/* The Challenge quiz: an axis quiz, like data/quiz-idealisms.js.
+   21 theories LOC lists under Challenge: views that doubt the project of
+   explaining consciousness, or reframe it. LOC lists them flat, so there are
+   no invented sub-schools; instead 13 axes cover the field's real divides:
+   will science explain it, is the hard problem a confusion, is the brain
+   the whole story, does brain science settle anything, should we stay
+   uncommitted, does consciousness matter to the cosmos, plus signatures
+   (mind beyond brains, art and play, no bottom level, fine-tuning, an
+   eternal mind, self-explanation, feelings as primitives). Profiles carry
+   each theory's justified rejections as well as its signature. Checked by
+   tools/eval-quiz.js and a blind role-play of named proponents
+   (tools/eval-thinkers-challenge.json). */
+(function () {
+  "use strict";
+  var axes = [
+    { key: "solvable", claim: "Science will one day explain consciousness",
+      yes: "science will one day explain consciousness", no: "consciousness may stay unexplained forever" },
+    { key: "dissolve", claim: "The hard problem comes from confused concepts",
+      yes: "the hard problem is a confusion of concepts", no: "the hard problem is a real problem" },
+    { key: "brain", claim: "Consciousness is something the brain does",
+      yes: "consciousness is something the brain does", no: "there’s more to consciousness than brain activity" },
+    { key: "neutral", claim: "Brain science can’t settle what consciousness is",
+      yes: "brain findings fit any worldview", no: "brain findings point to one answer" },
+    { key: "open", claim: "Best to commit to no theory of consciousness",
+      yes: "keep every possibility open", no: "some answers are better than others, so take a stand" },
+    { key: "cosmic", claim: "Consciousness plays a fundamental role in the universe",
+      yes: "consciousness matters to the whole universe", no: "consciousness is a local side effect" },
+    { key: "beyond", claim: "Minds exist beyond brains, in cells and machines",
+      yes: "minds exist in cells, tissues and machines", no: "minds belong to brains and persons" },
+    { key: "art", claim: "Art and metaphor reveal consciousness better than theories",
+      yes: "art and metaphor show what consciousness is", no: "theory and experiment are the way in" },
+    { key: "bottom", claim: "Reality might have no bottom level",
+      yes: "reality may have no bottom level", no: "reality rests on something fundamental" },
+    { key: "finetune", claim: "Your consciousness needed the whole universe to go just so",
+      yes: "your consciousness needed the whole universe to go just so", no: "your consciousness is no cosmic achievement" },
+    { key: "minded", claim: "Whatever always existed must have a mind",
+      yes: "whatever always existed has a mind", no: "mind came late, from mindless beginnings" },
+    { key: "selfexplain", claim: "Consciousness is the mind’s explaining turned on itself",
+      yes: "consciousness is the mind explaining itself", no: "consciousness is more than self-explanation" },
+    { key: "primitive", claim: "Feelings are basic building blocks",
+      yes: "feelings are basic building blocks", no: "feelings are made of something more basic" },
+  ];
+
+  var profiles = {
+    "akselruds-explanatory-faculty-consciousness-as-internalized-explanation": { solvable: -1, dissolve: -1, open: -1, selfexplain: 2, primitive: -2 },
+    "crow-s-funhouse-of-consciousness":                     { solvable: -1, open: 1, art: 2 },
+    "champagne-s-semiotic-account":                         { dissolve: 2, open: -1, primitive: -1 },
+    "cohen-s-ultra-fine-tuned-personal-consciousness":      { dissolve: -1, cosmic: 1, finetune: 2 },
+    "davies-s-consciousness-in-the-cosmos":                 { solvable: 1, dissolve: -1, open: -1, cosmic: 2 },
+    "delaflors-model-dependent-ontology":                   { dissolve: 2, brain: -1, open: 1, selfexplain: 1, primitive: -1 },
+    "eagleman-s-possibilianism":                            { solvable: 1, neutral: 1, open: 2 },
+    "hartford-s-minded-eternal-conjecture":                 { brain: -1, open: -1, cosmic: 2, minded: 2 },
+    "levin-s-technological-approach-to-mind-everywhere":    { solvable: 1, brain: -1, open: -1, beyond: 2, art: -1 },
+    "mcginn-s-ultimate-mystery-mysterianism":               { solvable: -2, dissolve: -1, brain: 1, open: -1, minded: -1, primitive: -1 },
+    "merriam-s-calculus-of-qualia-as-logical-primitives":   { solvable: -1, dissolve: -1, open: -1, selfexplain: -1, primitive: 2 },
+    "musser-s-is-it-really-so-hard":                        { solvable: 2, dissolve: 1, cosmic: 1, beyond: 1 },
+    "nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe": { solvable: -1, dissolve: -1, open: 1, bottom: 2 },
+    "nagel-s-mind-and-cosmos":                              { solvable: -1, dissolve: -2, brain: -2, open: -1, cosmic: 2, minded: -1 },
+    "owen-s-mind-body-powers-ncc-are-philosophically-and-religiously-neutral": { solvable: 1, brain: -1, neutral: 2, open: -1 },
+    "rlk-reflections":                                      { dissolve: -1, open: 2 },
+    "raman-s-cosmic-significance":                          { dissolve: -1, brain: 1, cosmic: 2, minded: -1 },
+    "s-harris-s-mystery-of-consciousness":                  { solvable: -1, dissolve: -2, brain: -1, neutral: 1, selfexplain: -1, primitive: 1 },
+    "shermer-s-known-unknown-and-possibly-unknowable":      { solvable: -1, brain: 2, neutral: -1, cosmic: -1, finetune: -1, minded: -2 },
+    "silers-art-consciousness":                             { open: -1, art: 2 },
+    "tallis-s-anti-neuromania-skepticism":                  { solvable: -1, dissolve: -1, brain: -2, neutral: 1, open: -1, beyond: -1, minded: -1 },
+  };
+
+  var questions = [
+    {
+      t: "Science will one day explain how consciousness comes about.",
+      why: "Yes means the gap will close, however long it takes. No means consciousness may stay unexplained forever, however much we learn.",
+      axes: { solvable: 1 },
+    },
+    {
+      t: "The hard problem of consciousness comes from confused concepts or misleading words. Think it through clearly and it goes away.",
+      why: "The hard problem asks why any physical process feels like anything. Yes means the puzzle is an artefact of how we frame it. No means it’s a real problem about the world.",
+      axes: { dissolve: 1 },
+    },
+    {
+      t: "Consciousness is something the brain does.",
+      why: "Yes means experience is produced by brain activity, even if we don’t yet know how. No means there’s more to consciousness than what the brain does.",
+      axes: { brain: 1 },
+    },
+    {
+      t: "Mapping which brain activity goes with which experience can’t tell us what consciousness ultimately is.",
+      why: "Yes means such findings fit any worldview, whether materialist, dualist or religious. No means the findings are evidence for one answer over the others.",
+      axes: { neutral: 1 },
+    },
+    {
+      t: "On consciousness, the wisest stance is to commit to no theory and keep every possibility open.",
+      why: "Yes means holding the options lightly is the honest position. No means some answers are better supported than others, and it’s right to take a stand.",
+      axes: { open: 1 },
+    },
+    {
+      t: "Consciousness plays a fundamental role in the universe. It isn’t a minor local side effect.",
+      why: "Yes means mind matters to the cosmos as a whole, not just to the creatures that have it. No means it’s a small, late development in one corner of the universe.",
+      axes: { cosmic: 1 },
+    },
+    {
+      t: "Minds aren’t found only in brains. Cells, tissues and even machines can think in their own ways.",
+      why: "Yes means intelligence comes in degrees and shows up in unexpected places. No means minds belong to brains, or to whole persons.",
+      axes: { beyond: 1 },
+    },
+    {
+      t: "Art, metaphor and play can show what consciousness is better than theories can.",
+      why: "Yes means some things are better shown than described. No means careful theory and experiment are the way to understand it.",
+      axes: { art: 1 },
+    },
+    {
+      t: "Reality might have no bottom level: every part made of smaller parts, forever.",
+      why: "Yes means there may be no most basic stuff for any theory to build on. No means reality must rest on something fundamental.",
+      axes: { bottom: 1 },
+    },
+    {
+      t: "For you to be conscious right now, the whole history of the universe had to go exactly as it did.",
+      why: "From the laws of physics to the meeting of your parents, every condition had to be just so. No means your consciousness is no special cosmic achievement.",
+      axes: { finetune: 1 },
+    },
+    {
+      t: "Whatever has always existed must itself have a mind.",
+      why: "Yes means mind can’t come from something wholly mindless, so the eternal source of things is minded. No means mind came late, from mindless beginnings.",
+      axes: { minded: 1 },
+    },
+    {
+      t: "Consciousness is the mind’s power to explain things, turned back on itself.",
+      why: "Yes means experience is what happens when the mind’s explaining is aimed at its own workings. No means consciousness is more than any kind of self-explanation.",
+      axes: { selfexplain: 1 },
+    },
+    {
+      t: "Feelings like the redness of red are basic building blocks, not made of anything simpler.",
+      why: "Yes means such feelings can only be pointed at, not broken down. No means they are made of, or built from, something more basic.",
+      axes: { primitive: 1 },
+    },
+  ];
+
+  window.QUIZ_DATA.drill["challenge"] = {
+    name: "Challenge",
+    color: "#C6C6DA",
+    categoryId: "challenge",
+    kicker: "A QUIZ · CHALLENGE",
+    title: "Which kind fits you?",
+    intro: questions.length + " questions, all inside Challenge.",
+    areas: [
+    { key: "akselruds-explanatory-faculty-consciousness-as-internalized-explanation", name: "Akselrud's Explanatory Faculty: Consciousness as Internalized Explanation",
+      tagline: "Consciousness is your explaining-power turned on itself.",
+      url: "https://loc.closertotruth.com/theory/akselruds-explanatory-faculty-consciousness-as-internalized-explanation" },
+    { key: "crow-s-funhouse-of-consciousness", name: "CROW’s Funhouse of Consciousness",
+      tagline: "The mystery is a funhouse to wander, not a puzzle to solve.",
+      url: "https://loc.closertotruth.com/theory/crow-s-funhouse-of-consciousness" },
+    { key: "champagne-s-semiotic-account", name: "Champagne’s Semiotic Account",
+      tagline: "The hard problem is a trick of language.",
+      url: "https://loc.closertotruth.com/theory/champagne-s-semiotic-account" },
+    { key: "cohen-s-ultra-fine-tuned-personal-consciousness", name: "Cohen’s Ultra-Fine-Tuned Personal Consciousness",
+      tagline: "Your existence needed the universe finely tuned.",
+      url: "https://loc.closertotruth.com/theory/cohen-s-ultra-fine-tuned-personal-consciousness" },
+    { key: "davies-s-consciousness-in-the-cosmos", name: "Davies’s Consciousness in the Cosmos",
+      tagline: "Consciousness has a starring role in the universe.",
+      url: "https://loc.closertotruth.com/theory/davies-s-consciousness-in-the-cosmos" },
+    { key: "delaflors-model-dependent-ontology", name: "Delaflor's Model Dependent Ontology",
+      tagline: "Drop the matter-vs-mind framing entirely.",
+      url: "https://loc.closertotruth.com/theory/delaflors-model-dependent-ontology" },
+    { key: "eagleman-s-possibilianism", name: "Eagleman’s Possibilianism",
+      tagline: "Stay open — commit to possibilities, not stories.",
+      url: "https://loc.closertotruth.com/theory/eagleman-s-possibilianism" },
+    { key: "hartford-s-minded-eternal-conjecture", name: "Hartford’s Eternal Conjecture",
+      tagline: "Whatever always existed must itself be minded.",
+      url: "https://loc.closertotruth.com/theory/hartford-s-minded-eternal-conjecture" },
+    { key: "levin-s-technological-approach-to-mind-everywhere", name: "Levin’s Technological Approach to Mind Everywhere",
+      tagline: "Look for thinking in cells, tissues, and machines.",
+      url: "https://loc.closertotruth.com/theory/levin-s-technological-approach-to-mind-everywhere" },
+    { key: "mcginn-s-ultimate-mystery-mysterianism", name: "McGinn’s Ultimate Mystery (Mysterianism)",
+      tagline: "The mind-brain link is a mystery we’ll never solve.",
+      url: "https://loc.closertotruth.com/theory/mcginn-s-ultimate-mystery-mysterianism" },
+    { key: "merriam-s-calculus-of-qualia-as-logical-primitives", name: "Merriam’s Calculus of Qualia as Logical Primitives",
+      tagline: "Feels are basic atoms — pointed at, never explained.",
+      url: "https://loc.closertotruth.com/theory/merriam-s-calculus-of-qualia-as-logical-primitives" },
+    { key: "musser-s-is-it-really-so-hard", name: "Musser’s “Is It Really So Hard?”",
+      tagline: "Maybe studying mind is how physics understands the universe.",
+      url: "https://loc.closertotruth.com/theory/musser-s-is-it-really-so-hard" },
+    { key: "nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe", name: "Nagasawa’s Mind-Body Problem in an Infinitely Decomposable Universe",
+      tagline: "If there’s no bottom level, every theory falls apart.",
+      url: "https://loc.closertotruth.com/theory/nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe" },
+    { key: "nagel-s-mind-and-cosmos", name: "Nagel’s Mind and Cosmos",
+      tagline: "We don’t even know what an explanation would look like.",
+      url: "https://loc.closertotruth.com/theory/nagel-s-mind-and-cosmos" },
+    { key: "owen-s-mind-body-powers-ncc-are-philosophically-and-religiously-neutral", name: "Owen’s Mind-Body Powers: NCC are Philosophically and Religiously Neutral",
+      tagline: "Hunting brain correlates threatens no worldview.",
+      url: "https://loc.closertotruth.com/theory/owen-s-mind-body-powers-ncc-are-philosophically-and-religiously-neutral" },
+    { key: "rlk-reflections", name: "RLK Reflections",
+      tagline: "Kuhn’s own shrug: nobody knows.",
+      url: "https://loc.closertotruth.com/theory/rlk-reflections" },
+    { key: "raman-s-cosmic-significance", name: "Raman’s Cosmic Significance",
+      tagline: "Awareness is what lights up the universe.",
+      url: "https://loc.closertotruth.com/theory/raman-s-cosmic-significance" },
+    { key: "s-harris-s-mystery-of-consciousness", name: "S. Harris’s Mystery of Consciousness",
+      tagline: "No trace of consciousness exists in the physical world.",
+      url: "https://loc.closertotruth.com/theory/s-harris-s-mystery-of-consciousness" },
+    { key: "shermer-s-known-unknown-and-possibly-unknowable", name: "Shermer’s Known Unknown…and Possibly Unknowable",
+      tagline: "What it’s like to be your neurons is unanswerable.",
+      url: "https://loc.closertotruth.com/theory/shermer-s-known-unknown-and-possibly-unknowable" },
+    { key: "silers-art-consciousness", name: "Siler's Art of Consciousness",
+      tagline: "Art and metaphor reveal what consciousness is.",
+      url: "https://loc.closertotruth.com/theory/silers-art-consciousness" },
+    { key: "tallis-s-anti-neuromania-skepticism", name: "Tallis’s Anti-Neuromania Skepticism",
+      tagline: "The brain-scan fashion is mostly hype.",
+      url: "https://loc.closertotruth.com/theory/tallis-s-anti-neuromania-skepticism" }
+    ],
+    axes: axes,
+    profiles: profiles,
+    questions: questions,
+  };
+})();
