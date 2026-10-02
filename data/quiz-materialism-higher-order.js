@@ -8,8 +8,8 @@
    whether experience's magic is the brain's own show, whether the mind is
    layers of simpler sub-systems, and whether competing, bound
    representations make experience. Profiles carry each theory's justified
-   rejections as well as its signature. Checked by tools/eval-quiz.js. No blind role-play yet (tools/
-   eval-thinkers-materialism-higher-order.json would hold one). */
+   rejections as well as its signature. Checked by tools/eval-quiz.js. Blind role-play of its proponents:
+   tools/eval-thinkers-materialism-higher-order.json. */
 (function () {
   "use strict";
   var axes = [

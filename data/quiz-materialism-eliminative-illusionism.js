@@ -6,8 +6,8 @@
    of attention, the self as a simulation, experience as prediction, and
    whether looking closely at experience exposes the illusion. Profiles
    carry each theory's justified rejections as well as its signature.
-   Checked by tools/eval-quiz.js. No blind role-play yet (tools/
-   eval-thinkers-materialism-eliminative-illusionism.json would hold one). */
+   Checked by tools/eval-quiz.js. Blind role-play of its proponents:
+   tools/eval-thinkers-materialism-eliminative-illusionism.json. */
 (function () {
   "use strict";
   var axes = [

@@ -7,8 +7,8 @@
    intentions make a physical difference, whether awareness is built from
    symbols, whether first-person study is essential, and mind as the gap
    between actual and possible. Profiles carry each theory's justified
-   rejections as well as its signature. Checked by tools/eval-quiz.js. No blind role-play yet (tools/
-   eval-thinkers-materialism-embodied-enactive.json would hold one). */
+   rejections as well as its signature. Checked by tools/eval-quiz.js. Blind role-play of its proponents:
+   tools/eval-thinkers-materialism-embodied-enactive.json. */
 (function () {
   "use strict";
   var axes = [

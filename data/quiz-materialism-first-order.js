@@ -6,8 +6,8 @@
    seeing made conscious in the sensory brain itself, experience existing
    only for the system that has it, and mind-brain identity as a local fact
    rather than a necessary one. Profiles carry each theory's justified
-   rejections as well as its signature. Checked by tools/eval-quiz.js. No blind role-play yet (tools/
-   eval-thinkers-materialism-first-order.json would hold one). */
+   rejections as well as its signature. Checked by tools/eval-quiz.js. Blind role-play of its proponents:
+   tools/eval-thinkers-materialism-first-order.json. */
 (function () {
   "use strict";
   var axes = [
