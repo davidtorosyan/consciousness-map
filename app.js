@@ -86,12 +86,16 @@
   CM.views.group = function (route) {
     var node = route.node, n = node.children.length;
     var kind = node.children.some(function (x) { return x.kind === "school"; }) ? "schools" : "theories";
-    var open = route.expand || !node.quiz;
+    var open = route.expand || (!node.quiz && n > 1);
     var nq = node.quiz ? CM.quiz(node.quiz).questions.length : 0;
     render(node, head(node, node.kind === "school" ? "SCHOOL" : "CATEGORY") +
       (node.quiz ? '<a class="big-start cta" href="' + CM.href(node, "quiz") + '">' +
         "<span>Take the " + esc(node.name) + " quiz</span>" +
-        '<span class="cta-sub">' + nq + (nq === 1 ? " question" : " questions") + "</span></a>" : "") +
+        '<span class="cta-sub">' + nq + (nq === 1 ? " question" : " questions") + "</span></a>"
+        // a one-theory category has no quiz: lead straight to the theory
+        : n === 1 ? '<a class="big-start cta" href="' + CM.href(node.children[0]) + '">' +
+          "<span>Read about " + esc(node.children[0].name) + "</span>" +
+          '<span class="cta-sub">the one theory LOC lists here</span></a>' : "") +
       CM.answerRows(route.from, node.key) +
       '<div class="d-quiet secondary">' +
       (node.quiz ? '<button class="d-link" data-browse aria-expanded="' + open + '" aria-controls="kids">' +

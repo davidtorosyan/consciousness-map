@@ -189,9 +189,12 @@
     if (route.shared) {
       next = '<a class="pill wide" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>Take this quiz yourself</span></a>";
     } else if (top && (top.tier === "strong" || top.tier === "partial")) {
+      var only = !top.node.quiz && top.node.children.length === 1 ? top.node.children[0] : null;
       next = top.node.quiz
         ? '<a class="pill wide" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>Take the " + esc(top.node.name) + " quiz</span></a>"
-        : '<a class="pill wide" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
+        : only
+          ? '<a class="pill wide" href="' + CM.href(only) + '">' + I.list + "<span>Read about " + esc(only.name) + "</span></a>"
+          : '<a class="pill wide" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
     }
     app.innerHTML = CM.frame(quizTrail(quiz, "Results"),
       '<div class="r-head"><button class="head-share" data-share>' + I.share + "<span>Share</span></button>" +

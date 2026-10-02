@@ -78,7 +78,7 @@ CATS.forEach(function (c) {
   });
   if (catIds[c.id]) err("duplicate category id " + c.id);
   catIds[c.id] = true;
-  if (!DRILL[c.id]) err("category " + c.id + " has no quiz (QUIZ_DATA.drill." + c.id + ")");
+  if (!DRILL[c.id]) err("category " + c.id + " has no entry (QUIZ_DATA.drill." + c.id + ")");
 });
 
 function checkQuestions(label, questions, validKeys) {
@@ -165,6 +165,10 @@ Object.keys(DRILL).forEach(function (dk) {
     if (a.url && !/^https:\/\/loc\.closertotruth\.com\//.test(a.url)) warn(label + ": area " + a.key + " links outside LOC: " + a.url);
   });
   if (d.axes) checkAxisQuiz(label, d, keys);
+  else if (!d.questions || !d.questions.length) {
+    // no quiz: only for a single theory, whose page the category leads to
+    if (d.areas.length !== 1) err(label + ": no questions (only a one-theory entry may skip the quiz)");
+  }
   else checkQuestions(label, d.questions, keys);
 });
 Object.keys(DRILL).forEach(function (dk) {

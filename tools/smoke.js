@@ -56,10 +56,11 @@ function loadData() {
 }
 function pages(W) {
   var D = W.QUIZ_DATA.drill, out = ["", "browse", "quiz", "saved", "history", "debug"];
-  W.LOC_CATEGORIES.forEach(function (c) { out.push(c.id, c.id + "/quiz"); });
+  function hasQuiz(k) { return D[k].questions && D[k].questions.length; }
+  W.LOC_CATEGORIES.forEach(function (c) { out.push(c.id); if (hasQuiz(c.id)) out.push(c.id + "/quiz"); });
   Object.keys(D).forEach(function (k) {
     var d = D[k], base = k === d.categoryId ? k : d.categoryId + "/" + k.slice(d.categoryId.length + 1);
-    if (k !== d.categoryId) out.push(base, base + "/quiz");
+    if (k !== d.categoryId) { out.push(base); if (hasQuiz(k)) out.push(base + "/quiz"); }
     out.push(base + "/browse");
     var leaves = d.areas.filter(function (a) { return !a.sub; });
     if (!process.env.SMOKE_ALL_THEORIES) leaves = leaves.slice(0, 1);

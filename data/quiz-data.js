@@ -295,27 +295,18 @@ window.QUIZ_DATA.drill["information"] = {
   ]
 };
 
+/* Phenomenology has a single theory on LOC, so it has no quiz: its page
+   leads straight to the theory. The entry stays for the map tree. */
 window.QUIZ_DATA.drill["phenomenology"] = {
   name: "Phenomenology",
   color: "#FF5733",
   categoryId: "phenomenology",
-  kicker: "A QUIZ · PHENOMENOLOGY",
-  title: "Which kind fits you?",
-  intro: "One question, on phenomenology.",
-  browse: "or browse the map instead",
   areas: [
-    { key: "varela-s-neurophenomenology", name: "Varela’s Neurophenomenology",
+    { key: "varela-s-neurophenomenology", name: "Varela\u2019s Neurophenomenology",
       tagline: "First-person reports guide brain science.",
       url: "https://loc.closertotruth.com/theory/varela-s-neurophenomenology" }
   ],
-  questions: [
-    {
-      t: "To study consciousness, disciplined first-person reports must guide brain science.",
-      why: "Varela’s neurophenomenology pairs careful description of lived experience with neuroscience, so each side keeps the other honest.",
-      yes: { "varela-s-neurophenomenology": 3 },
-      no: {}
-    }
-  ]
+  questions: []
 };
 /* Idealisms + Dualisms drills. Same answer rules as the top level.
    One question per verified theory; no-maps left empty except where a

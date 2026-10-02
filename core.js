@@ -137,7 +137,8 @@
   function add(node) { byPath[node.path] = node; byKey[node.kind + ":" + node.key] = node; return node; }
   function grow(node, drillKey) {
     var d = DRILL[drillKey];
-    node.quiz = d ? drillKey : null;
+    // an entry without questions (a one-theory category) is part of the map, not a quiz
+    node.quiz = d && d.questions && d.questions.length ? drillKey : null;
     node.children = !d ? [] : d.areas.map(function (a) {
       var school = !!a.sub;
       var seg = school ? a.key.slice(node.category.key.length + 1) : a.key;
