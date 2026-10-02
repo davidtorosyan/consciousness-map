@@ -87,9 +87,9 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
       toward views you rejected, adds a one-line summary, an "opposite view"
       tier, and flags contradictory or all-Yes/all-No answers.
 - [ ] Apply the same approach to the category and school quizzes, and bring
-      them under the 12-question cap. **Pilot done: Panpsychisms**
-      (`data/quiz-panpsychisms.js`, 12 axes, 12 questions, 16 theories).
-      Remaining (Idealisms 26, Dualisms 23, Anomalous
+      them under the 12-question cap. **Done: Panpsychisms** (12 axes, 16 theories) **and Idealisms** (13 axes,
+      26 theories; was 26 questions).
+      Remaining (Dualisms 23, Anomalous
       23, Challenge 21, …; Phenomenology has one question).
 - [ ] Real content on theory/school pages (descriptions, objections, who holds it).
 - [ ] "Don't get it" text in the category quizzes that explains rather than argues.

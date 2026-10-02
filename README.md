@@ -22,7 +22,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `saved.js`, `history.js` | Bookmarked theories and past quiz results (localStorage). |
 | `data/categories.js` | The 11 LOC categories: names, colors, taglines, URLs. |
 | `data/main-quiz.js` | The main quiz: the axes families disagree on, each family's position on them, and the questions. |
-| `data/quiz-panpsychisms.js` | The Panpsychisms quiz, rebuilt as an axis quiz like the main quiz. |
+| `data/quiz-panpsychisms.js`, `data/quiz-idealisms.js` | Category quizzes rebuilt as axis quizzes like the main quiz. |
 | `data/quiz-data.js` | The remaining category and school quizzes (point-scored), plus `QUIZ_DATA_VERSION`. |
 | `styles.css`, `quiz.css` | All styling. |
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
