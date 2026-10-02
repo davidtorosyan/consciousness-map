@@ -1,0 +1,44 @@
+[
+ {
+  "name": "Daniel Dennett",
+  "family": "dennett-s-evolution-of-minds",
+  "answers": "nsysyynnyys",
+  "notes": "Q4: rejects the experience vs brain-activity distinction. Q3/Q5: human consciousness is a culturally evolved user-illusion built by communication."
+ },
+ {
+  "name": "Todd Feinberg & Jon Ma",
+  "family": "feinberg-and-mallatt-s-ancient-origins-of-consciousness",
+  "answers": "nynynysynys",
+  "notes": "Q7: affect and image-based consciousness arose together in the Cambrian. Q9: specific neural criteria met at a particular stage. Q6: they claim the gap is naturally explained."
+ },
+ {
+  "name": "Joseph LeDoux",
+  "family": "ledoux-s-deep-roots-of-consciousness",
+  "answers": "nnysnnnnsns",
+  "notes": "Q4: survival circuits do the work, feelings are cognitive constructions. Q10: insists on starting from human report."
+ },
+ {
+  "name": "Arthur Reber",
+  "family": "reber-s-cellular-basis-of-consciousness",
+  "answers": "yynynyynnys",
+  "notes": "Q9: consciousness starts with the first cell, a definite point. Q6: says the hard problem dissolves once mind starts with life."
+ },
+ {
+  "name": "Axel Cleeremans",
+  "family": "cleeremans-and-tallon-baudry-s-functional-value",
+  "answers": "nssysnsnyys",
+  "notes": "Q3: consciousness is learned metarepresentation; unsure how widespread. Q5: social learning matters but not the main evolutionary purpose."
+ },
+ {
+  "name": "Kristin Andrews",
+  "family": "andrews-consciousness-without-complex-brains",
+  "answers": "synynnsssys",
+  "notes": "Q2: NY Declaration says realistic possibility for insects. Q10: argues against human-centred starting point."
+ },
+ {
+  "name": "Peter Halligan & David",
+  "family": "halligan-and-oakley-s-species-enhancing-epiphenomenalism",
+  "answers": "nssnysnnsns",
+  "notes": "Q4: personal awareness is a passive by-product. Q5: its function is social broadcasting of internal content."
+ }
+]

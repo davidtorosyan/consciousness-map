@@ -38,7 +38,7 @@
     "zhang-s-long-distance-light-speed-telecommunications":   { speed: 2, sync: 2, field: 1, feedback: 1, local: -1 },
     "ambron-s-local-field-potentials-and-electromagnetic-waves": { local: 2, field: 1, sync: -1 },
     "hunt-and-schooler-s-general-resonance-theory":           { beyond: 2, sync: 2, field: 1, pattern: -1 },
-    "jones-s-electromagnetic-fields":                         { field: 2, machine: 1, local: -1 },
+    "jones-s-electromagnetic-fields":                         { field: 2, machine: 1, local: 1, sync: -1 },
     "llinas-s-mindness-state-of-oscillations":                { rhythm: 2, sync: 1, field: -1, beyond: -2, causal: 1 },
     "mcfadden-s-conscious-electromagnetic-information-theory": { field: 2, feedback: 2, causal: 2, machine: 2, beyond: -1, speed: 1 },
     "pockett-s-conscious-and-non-conscious-patterns":         { pattern: 2, field: 2, causal: -2, beyond: -1, machine: 1 },

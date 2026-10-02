@@ -91,7 +91,8 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
       axis quizzes now (Phenomenology, with one theory, has none). Blind
       role-plays exist for Panpsychisms, Idealisms, Challenge, Neutral Monism,
       Non-Reductive Physicalism, Dualisms, Anomalous and Quantum Machinery.
-- [ ] Blind role-plays for the Materialism school quizzes.
+- [x] Blind role-plays for the Materialism school quizzes (all but Philosophical,
+      whose areas are mostly not named after one well-known proponent).
 - [ ] Real content on theory/school pages (descriptions, objections, who holds it).
 - [ ] "Don't get it" text in the category quizzes that explains rather than argues.
 - [ ] Quantum & Dimensions school names are ours, not LOC's; label or realign.

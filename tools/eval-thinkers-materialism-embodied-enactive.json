@@ -1,0 +1,32 @@
+[
+ {
+  "name": "Francisco Varela",
+  "family": "enactivism",
+  "answers": "yyyysnys",
+  "notes": "Q5: neurophenomenology posits reciprocal constraints, not physics-violating causation. Q4: compatible with sensorimotor view."
+ },
+ {
+  "name": "Alva Noe",
+  "family": "noe-s-out-of-our-heads-theory",
+  "answers": "yysysnss",
+  "notes": "Q3: does not commit to life-mind continuity. Q7: wary of introspective reports."
+ },
+ {
+  "name": "Evan Thompson",
+  "family": "thompson-s-mind-in-life",
+  "answers": "yyyysnys",
+  "notes": "Q4: accepts sensorimotor skill but folds it into autonomy. Q2: rejects representation in the classic sense."
+ },
+ {
+  "name": "James J. Gibson",
+  "family": "gibson-s-ecological-psychology",
+  "answers": "yysysnns",
+  "notes": "Q1: frames perception, not 'consciousness', as organism-environment activity. Q7: rejects introspection as method."
+ },
+ {
+  "name": "Tom Froese",
+  "family": "froese-s-irruption-theory",
+  "answers": "yyyyynys",
+  "notes": "Q5: irruption theory: subjective involvement makes an underdetermined material difference. Q8: unsure if his view matches 'tension' framing."
+ }
+]

@@ -1,0 +1,50 @@
+[
+ {
+  "name": "Antonio Damasio",
+  "family": "damasio-s-homeostatic-feelings-and-emergence-of-consciousness",
+  "answers": "ysysssnsnnyn",
+  "notes": "Q6 s: homeostasis is the root but a self needs the brain's body maps. Q7 n: core consciousness is about the here-and-now; autobiographical extension comes later. Q12 n, despite his 'feeling machines' paper."
+ },
+ {
+  "name": "Karl Friston",
+  "family": "friston-s-free-energy-principle-and-active-inference",
+  "answers": "syynsyyysssy",
+  "notes": "Q4 n: free energy is information-theoretic, not physical. Q7 y: consciousness tied to temporal depth and planning."
+ },
+ {
+  "name": "Anil Seth",
+  "family": "seth-s-beast-machine-theory",
+  "answers": "syyssynsnnsn",
+  "notes": "Q1 s: perception in general is rooted in body regulation, but he doesn't say all experience is feeling. Q12 n: being alive may matter."
+ },
+ {
+  "name": "Mark Solms",
+  "family": "solms-s-affect-as-the-hidden-spring-of-consciousness",
+  "answers": "yyynsynsysyy",
+  "notes": "Q9 y: consciousness as felt uncertainty; automatised processes run unconsciously. Q12 y: he is trying to build an artificial feeler."
+ },
+ {
+  "name": "Robin Carhart-Harris",
+  "family": "carhart-harris-s-entropic-brain-hypothesis",
+  "answers": "sysssyssssys",
+  "notes": "Q11 y: primary vs secondary consciousness in the entropic brain hypothesis."
+ },
+ {
+  "name": "György Buzsáki",
+  "family": "buzsaki-s-neural-syntax-and-self-caused-rhythms",
+  "answers": "sysssssyssss",
+  "notes": "Q8 y: the brain works from the inside out; Q2 y is an approximation of that view."
+ },
+ {
+  "name": "Warren Mansell",
+  "family": "mansell-s-perceptual-control-theory",
+  "answers": "snsnssnsyssy",
+  "notes": "Q2 n: in PCT perception is controlled, not predicted. Q9 y: reorganisation driven by persistent error."
+ },
+ {
+  "name": "Andrew Budson",
+  "family": "budsons-consciousness-as-a-memory-system",
+  "answers": "nssssysnssss",
+  "notes": "Q7 y: consciousness evolved as a memory system for remembering and imagining."
+ }
+]

@@ -2,7 +2,7 @@
    The main quiz lives in data/main-quiz.js (loaded after this file). */
 // Bump this whenever quiz questions change: shared result links carry the
 // version they were made with, and links from a different version are rejected.
-window.QUIZ_DATA_VERSION = "20261002e";
+window.QUIZ_DATA_VERSION = "20261002f";
 (function () {
   "use strict";
   var cats = {};

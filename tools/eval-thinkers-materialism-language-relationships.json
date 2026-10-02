@@ -1,0 +1,32 @@
+[
+ {
+  "name": "Noam Chomsky",
+  "family": "chomsky-s-language-and-consciousness",
+  "answers": "nynnnysnnny",
+  "notes": "Q6: language is primarily an instrument of thought. Q8: Merge appeared suddenly. Q11: classic mysterian."
+ },
+ {
+  "name": "John Searle",
+  "family": "searle-s-language-and-consciousness",
+  "answers": "nsnnnnysnnn",
+  "notes": "Q7: intentionality and experience are biologically prior to language. Q6: language is for speech acts/communication."
+ },
+ {
+  "name": "Christof Koch",
+  "family": "koch-s-consciousness-does-not-depend-on-language",
+  "answers": "nnnnnsynsnn",
+  "notes": "Q5: consciousness without report is possible (IIT)."
+ },
+ {
+  "name": "Julian Jaynes",
+  "family": "jaynes-s-breakdown-of-the-bicameral-mind",
+  "answers": "yyyysnnnsnn",
+  "notes": "Q1: animals see and feel, but 'consciousness' in his sense needs language/metaphor; the clarification forces a yes that misstates him on sensation. Q8: language came first."
+ },
+ {
+  "name": "John Parrington",
+  "family": "parrington-s-language-and-tool-driven-consciousness",
+  "answers": "nynynnnyynn",
+  "notes": "Q9: tools and language co-shaped human consciousness (Vygotskian)."
+ }
+]

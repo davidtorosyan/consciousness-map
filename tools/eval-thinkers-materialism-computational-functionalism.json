@@ -1,0 +1,26 @@
+[
+ {
+  "name": "Marvin Minsky",
+  "family": "minsky-s-society-of-mind",
+  "answers": "ynysnnnssyyn",
+  "notes": "Q3: self-models central in Emotion Machine. Q10: 'consciousness' involves records of recent mental activity."
+ },
+ {
+  "name": "Stephen Grossberg",
+  "family": "grossberg-s-adaptive-resonance-theory",
+  "answers": "ynnynnssysys",
+  "notes": "Q9: adaptive resonance is his signature. Q12: stability-plasticity dilemma is about learning, not regulation."
+ },
+ {
+  "name": "Karl Pribram",
+  "family": "pribram-s-holonomic-brain-theory",
+  "answers": "snnyyyysssys",
+  "notes": "Q6: holonomic brain theory. Q7: dual-aspect neutral monism."
+ },
+ {
+  "name": "Manuel & Lenore Blum",
+  "family": "blums-conscious-turing-machine",
+  "answers": "yyyynnnnsssn",
+  "notes": "Q2: the CTM has a stage for broadcast but no homunculus manager. Q3: world model includes model of self."
+ }
+]

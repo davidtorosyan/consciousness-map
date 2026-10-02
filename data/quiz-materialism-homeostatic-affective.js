@@ -41,11 +41,11 @@
   var profiles = {
     "budsons-consciousness-as-a-memory-system":                         { affect: -1, memory: 2, control: -1 },
     "buzsaki-s-neural-syntax-and-self-caused-rhythms":                  { predict: 1, memory: 1, rhythms: 2 },
-    "carhart-harris-s-entropic-brain-hypothesis":                       { predict: 1, entropy: 2 },
+    "carhart-harris-s-entropic-brain-hypothesis":                       { predict: 1, entropy: 2, layers: 1 },
     "damasio-s-homeostatic-feelings-and-emergence-of-consciousness":    { affect: 2, body: 2, selforg: 1, layers: 1, machine: -1 },
     "deacon-s-self-organized-constraint-and-emergence-of-self":         { selforg: 2, machine: -1 },
     "entropic-theories":                                                { energy: 2, entropy: 1, selforg: 1 },
-    "friston-s-free-energy-principle-and-active-inference":             { predict: 2, entropy: -1, selforg: 2 },
+    "friston-s-free-energy-principle-and-active-inference":             { predict: 2, entropy: -1, selforg: 2, energy: -1, machine: 1 },
     "mansell-s-perceptual-control-theory":                              { predict: -1, control: 2 },
     "marchetti-s-attention-based-theory-of-consciousness":              { energy: 1, attention: 2 },
     "pepperell-s-organization-of-energy":                               { predict: -1, energy: 2, machine: -2 },
@@ -78,7 +78,7 @@
       axes: { energy: 1 },
     },
     {
-      t: "The richness of your experience tracks how free and disorderly your brain activity is.",
+      t: "The richness of your experience tracks how varied and unconstrained your brain activity is.",
       why: "Yes means looser, more varied brain activity gives a richer, more flexible mind, as in dreams or psychedelic states. No means richer experience comes from more ordered activity.",
       axes: { entropy: 1 },
     },
