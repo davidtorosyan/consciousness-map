@@ -141,7 +141,7 @@ function pages(W) {
     var shareBox = await (await page.$("[data-share]")).boundingBox();
     var viewH = page.viewportSize().height;
     if (!shareBox || shareBox.y + shareBox.height > viewH) fail("main quiz", "Share button isn't visible without scrolling");
-    var firstName = (await page.innerText(".r-row .nm")).trim();
+    var firstName = (await page.$eval(".r-row .nm", function (el) { return el.firstChild.textContent; })).trim();
     await page.click(".r-row .r-open");
     await page.waitForTimeout(400);
     var h1 = (await page.innerText("h1")).trim();
@@ -180,7 +180,7 @@ function pages(W) {
     await page.waitForSelector(".r-row", { timeout: 3000 });
     if ((await page.$$(".r-row")).length !== sq.areas.length) fail("school quiz", "wrong number of result rows");
     var top = sq.areas.filter(function (a) { return sq.questions[0].yes[a.key]; })[0];
-    if ((await page.innerText(".r-row .nm")).trim() !== top.name) fail("school quiz", "Yes to Q1 didn't rank " + top.name + " first");
+    if ((await page.$eval(".r-row .nm", function (el) { return el.firstChild.textContent; })).trim() !== top.name) fail("school quiz", "Yes to Q1 didn't rank " + top.name + " first");
     await page.click(".r-row .r-open");
     await page.waitForTimeout(400);
     if (!(await page.$(".qa-sec"))) fail("school quiz", "theory opened from results doesn't show how you lined up");
