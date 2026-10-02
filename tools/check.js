@@ -25,6 +25,10 @@ var scripts = [];
 var listMatch = /var JS = (\[[^\]]*\]);/.exec(indexHtml);
 if (!listMatch) err("index.html: couldn't find the loader's `var JS = [...]` script list");
 else scripts = JSON.parse(listMatch[1]);
+// EXTRA_DATA=data/quiz-x.js,...: check quiz files not yet in index.html
+(process.env.EXTRA_DATA || "").split(",").filter(Boolean).forEach(function (f) {
+  scripts.splice(scripts.indexOf("core.js"), 0, f);
+});
 var cssMatch = /var CSS = (\[[^\]]*\]);/.exec(indexHtml);
 (cssMatch ? JSON.parse(cssMatch[1]) : []).forEach(function (f) {
   if (!fs.existsSync(path.join(ROOT, f))) err("index.html loads missing stylesheet " + f);

@@ -28,7 +28,9 @@ var ROOT = path.resolve(__dirname, "..");
 function dataFiles() {
   var html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
   var m = /var JS = (\[[^\]]*\]);/.exec(html);
-  return JSON.parse(m[1]).filter(function (f) { return f.indexOf("data/") === 0; });
+  var files = JSON.parse(m[1]).filter(function (f) { return f.indexOf("data/") === 0; });
+  // EXTRA_DATA=data/quiz-x.js,...: try quiz files not yet in index.html
+  return files.concat((process.env.EXTRA_DATA || "").split(",").filter(Boolean));
 }
 var sb = { console: console, btoa: function (s) { return Buffer.from(s, "binary").toString("base64"); },
   atob: function (s) { return Buffer.from(s, "base64").toString("binary"); } };
