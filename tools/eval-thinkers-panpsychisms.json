@@ -1,0 +1,56 @@
+[
+ {
+  "name": "Galen Strawson",
+  "family": "strawson",
+  "answers": "yysynnnsnnyy",
+  "notes": "Q3 s: open to 'stuff monism' / only one ultimate; Q8 s: treats objects as processes but not Whiteheadian occasions."
+ },
+ {
+  "name": "Philip Goff",
+  "family": "goff",
+  "answers": "snyynnnnnnys",
+  "notes": "Q1 s: earlier micropsychist, now priority cosmopsychist; Q12 s: consciousness is the intrinsic nature of the physical but outside what physical science (quantitative) captures."
+ },
+ {
+  "name": "David Chalmers",
+  "family": "chalmers",
+  "answers": "sssysnnnsnsn",
+  "notes": "Q4 y: accepts physics is structural and finds Russellian monism attractive without committing; Q9 s: Chalmers-McQueen collapse interactionism; Q12 n: naturalistic dualism."
+ },
+ {
+  "name": "Michael Tye",
+  "family": "tye",
+  "answers": "ysnnnnnnnnyy",
+  "notes": "Q11 y is his core thesis (no vague consciousness); Q2 s: unsure how he relates macro to micro consciousness; Q4 n: representationalist physicalist, not Russellian."
+ },
+ {
+  "name": "Sam Coleman",
+  "family": "panqualityism",
+  "answers": "nnnyynnnnnsy",
+  "notes": "Q2 n: mind combines subjectless qualities, not smaller experiences; Q12 y: Russellian monism as a form of physicalism."
+ },
+ {
+  "name": "Rupert Sheldrake",
+  "family": "sheldrake",
+  "answers": "ysssnyyssnss",
+  "notes": "Q6 y and Q7 y are his clearest commitments; Q3 s: speculates the sun and galaxies are conscious, not committed to one cosmic mind; Q9 s: morphic fields are causal, but not identified with consciousness."
+ },
+ {
+  "name": "Alfred North Whitehead",
+  "family": "whitehead",
+  "answers": "yynynnyynnss",
+  "notes": "Q5 n: eternal objects are unexperienced potentials, but qualities are only actual in occasions; Q7 y: only true organisms/societies with a dominant occasion, not aggregates."
+ },
+ {
+  "name": "Annaka Harris",
+  "family": "harris-field",
+  "answers": "sssyssnsnnsy",
+  "notes": "Open to consciousness being fundamental but uncommitted; Q5 s: argues experience needs no self, which is not quite subjectless qualities; Q6 s: no clear receiver endorsement; Q12 y: frames it as a question for fundamental physics."
+ },
+ {
+  "name": "Itay Shani",
+  "family": "cosmopsychism",
+  "answers": "nnyynynnnnsy",
+  "notes": "Q6 y: with Keppler, brains resonate with/tap into a ubiquitous consciousness-bearing field (ZPF); Q12 y: that field is physical."
+ }
+]
