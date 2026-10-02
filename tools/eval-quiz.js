@@ -9,7 +9,12 @@
    3. Edge cases: all Yes, all No, all skipped, and others.
    4. Coverage: questions per axis.
    Pass a JSON file of {name, family, answers: "ynsy..."} as the first
-   argument to also score real or role-played respondents. */
+   argument to also score real or role-played respondents.
+   tools/eval-thinkers.json holds a blind role-play: an agent that never saw
+   the scoring answered as 33 thinkers LOC files under the 11 families
+   (round 3, 13 questions, 20/33 first and 30/33 in the top 3). Answers
+   are tied to the question wording: re-run the role-play after changing
+   questions, since stale answers are skipped. */
 "use strict";
 var fs = require("fs");
 var path = require("path");
@@ -122,6 +127,8 @@ if (process.argv[2]) {
   var people = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
   console.log("\n5. ROLE-PLAYED RESPONDENTS");
   var hit1 = 0, hit3 = 0;
+  people = people.filter(function (p) { return p.answers.length === Q.length; });
+  if (!people.length) console.log("  (answers don't match the current " + Q.length + " questions; re-run the role-play)");
   people.forEach(function (p) {
     var r = CM.ranked(quiz, unpack(p.answers)), order = r.map(function (x) { return x.node.key; });
     var rank = order.indexOf(p.family) + 1;
@@ -132,7 +139,7 @@ if (process.argv[2]) {
         return name[x.node.key] + " " + x.score.toFixed(2);
       }).join(", "));
   });
-  console.log("  top-1 " + hit1 + "/" + people.length + ", top-3 " + hit3 + "/" + people.length);
+  if (people.length) console.log("  top-1 " + hit1 + "/" + people.length + ", top-3 " + hit3 + "/" + people.length);
 }
 
 console.log(failures ? "\nFAIL: " + failures + " problem(s)" : "\nok");

@@ -1,0 +1,200 @@
+[
+ {
+  "name": "Anil Seth",
+  "family": "materialism",
+  "answers": "nynnnnnynnnsn",
+  "notes": "Q4 n: decisions are real brain processes, but no causal power beyond them; Q12 s: values phenomenology but builds from mechanisms"
+ },
+ {
+  "name": "Patricia Churchland",
+  "family": "materialism",
+  "answers": "nynnnsnynnnnn",
+  "notes": "Q6 s: open to it in principle but stresses neurobiological detail"
+ },
+ {
+  "name": "Keith Frankish",
+  "family": "materialism",
+  "answers": "nynnnynynnnnn",
+  "notes": ""
+ },
+ {
+  "name": "George Ellis",
+  "family": "non-reductive-physicalism",
+  "answers": "ynnynsnysnsnn",
+  "notes": "Q2 n via strong emergence and Platonic/moral realms; Q9 s: Christian but no explicit view"
+ },
+ {
+  "name": "Georg Northoff",
+  "family": "non-reductive-physicalism",
+  "answers": "nsnsnnsynnnsn",
+  "notes": "Rejects the mind-body framing (world-brain problem), so Q2/Q4/Q7 resist yes/no"
+ },
+ {
+  "name": "Nancey Murphy",
+  "family": "non-reductive-physicalism",
+  "answers": "nynynsnynnnnn",
+  "notes": "Q4 y is the core of her nonreductive physicalism; Q9 n: resurrection of the body, not a soul"
+ },
+ {
+  "name": "Roger Penrose (with St",
+  "family": "quantum-dimensions",
+  "answers": "yyyyynsysysnn",
+  "notes": "Q2 y (physical, but noncomputable new physics); Q5 y driven by Hameroff's proto-conscious OR events; Penrose alone would be s"
+ },
+ {
+  "name": "Henry Stapp",
+  "family": "quantum-dimensions",
+  "answers": "ynyysnsyyyynn",
+  "notes": "Q5/Q7 s: Whiteheadian event ontology vs interactionist dualism; Q9/Q11 y from his survival and psi papers"
+ },
+ {
+  "name": "David Bohm",
+  "family": "quantum-dimensions",
+  "answers": "ynsyynyynysnn",
+  "notes": "Q3 s: consciousness grounded in implicate order rather than fundamental itself"
+ },
+ {
+  "name": "Giulio Tononi",
+  "family": "information",
+  "answers": "ssyyynnynnnyn",
+  "notes": "Q2 s: IIT 4.0's intrinsic-existence ontology is not straightforward physicalism; Q5 y for simple systems, though IIT denies aggregates"
+ },
+ {
+  "name": "Adam Safron",
+  "family": "information",
+  "answers": "nynsnynynnnnn",
+  "notes": "Q4 s: defends agency/free will in a compatibilist, FEP sense"
+ },
+ {
+  "name": "Christopher Langan",
+  "family": "information",
+  "answers": "ynyysnysysnsn",
+  "notes": "Q8 s: CTMU reality is self-perceiving and theological, so 'setting God aside' breaks the frame"
+ },
+ {
+  "name": "Philip Goff",
+  "family": "panpsychisms",
+  "answers": "ynyyynnynnnsn",
+  "notes": "Q12 s: argues from introspective knowledge but not a phenomenology-first method"
+ },
+ {
+  "name": "Galen Strawson",
+  "family": "panpsychisms",
+  "answers": "yyynysnynnnsn",
+  "notes": "Q1 y and Q2 y together: physics captures only structure, yet experience is physical; Q4 n given his anti-free-will stance"
+ },
+ {
+  "name": "David Chalmers",
+  "family": "panpsychisms",
+  "answers": "ynysssyysnnsn",
+  "notes": "Q7 s: sympathetic to Russellian monism without committing; Q10 n despite his collapse-theory exploration"
+ },
+ {
+  "name": "Bertrand Russell",
+  "family": "neutral-monism",
+  "answers": "ynnsssyynnnnn",
+  "notes": "Q3 n: neutral events, not experience, are basic"
+ },
+ {
+  "name": "Max Velmans",
+  "family": "neutral-monism",
+  "answers": "ynysynyynnsyn",
+  "notes": "Q4 s: argues conscious causation is real but works via preconscious processing"
+ },
+ {
+  "name": "Harald Atmanspacher",
+  "family": "neutral-monism",
+  "answers": "ynnsnnyynssnn",
+  "notes": "Q10 s: uses generalized quantum formalism, not new physics of brain"
+ },
+ {
+  "name": "Richard Swinburne",
+  "family": "dualisms",
+  "answers": "ynyynnnyynsnn",
+  "notes": "Q3 y: souls are basic substances; Q12 n though he leans on introspection"
+ },
+ {
+  "name": "Edward Feser",
+  "family": "dualisms",
+  "answers": "ynnynnnyynsnn",
+  "notes": "Q9 y: intellectual soul subsists after death, though incomplete; Q3 n: hylomorphism, not experience-as-fundamental"
+ },
+ {
+  "name": "J. P. Moreland",
+  "family": "dualisms",
+  "answers": "ynyynnnyynysn",
+  "notes": "Q12 s: relies on introspection as philosophical, not scientific, method"
+ },
+ {
+  "name": "Bernardo Kastrup",
+  "family": "idealisms",
+  "answers": "ynyynnnnynsnn",
+  "notes": "Q5 n: rejects panpsychism; Q11 s: cites NDE/psychedelic data but cautious on psi"
+ },
+ {
+  "name": "Donald Hoffman",
+  "family": "idealisms",
+  "answers": "ynyysnnnyysnn",
+  "notes": "Q5 s: atoms are interface icons, so the question misframes; Q10 y: physics beyond spacetime"
+ },
+ {
+  "name": "Deepak Chopra",
+  "family": "idealisms",
+  "answers": "ynyyynnnyyyyn",
+  "notes": "Q7 n: mind is fundamental, not a neutral substrate"
+ },
+ {
+  "name": "Francisco Varela",
+  "family": "phenomenology",
+  "answers": "ssnynnssnnnyn",
+  "notes": "Q1/Q2 s: rejects both the hard-problem framing and reductive physicalism"
+ },
+ {
+  "name": "Evan Thompson",
+  "family": "phenomenology",
+  "answers": "snsynnssnnnyn",
+  "notes": "Q2 n given 'Blind Spot' anti-physicalism; Q8 s: enactivist co-dependence of world and mind"
+ },
+ {
+  "name": "Edmund Husserl",
+  "family": "phenomenology",
+  "answers": "ynyynnnnynnyn",
+  "notes": "Q8 n and Q9 y from Ideas I's world-annihilation argument"
+ },
+ {
+  "name": "Dean Radin",
+  "family": "anomalous-altered-states",
+  "answers": "ynyyynssyyynn",
+  "notes": "Q7 s: drifts between dual-aspect and idealist language"
+ },
+ {
+  "name": "Carl Jung",
+  "family": "anomalous-altered-states",
+  "answers": "ynysnnysssyys",
+  "notes": "Q7 y: unus mundus/psychoid; Q13 s: psyche cannot fully objectify itself"
+ },
+ {
+  "name": "Bruce Greyson",
+  "family": "anomalous-altered-states",
+  "answers": "ynsynnsyysynn",
+  "notes": "Q3 s: argues mind not produced by brain but does not claim fundamentality"
+ },
+ {
+  "name": "Colin McGinn",
+  "family": "challenge",
+  "answers": "yynsnssynsnny",
+  "notes": "Q1 y as cognitive closure, though he holds the answer is natural; Q2 y"
+ },
+ {
+  "name": "Thomas Nagel",
+  "family": "challenge",
+  "answers": "ynssnnyynsnns",
+  "notes": "Q7 y per Mind and Cosmos dual-aspect leaning; Q13 s: thinks conceptual revolution may be needed"
+ },
+ {
+  "name": "Michael Shermer",
+  "family": "challenge",
+  "answers": "nynnnynynnnny",
+  "notes": "Q13 y per his 2018 'final mysterian' column"
+ }
+]
