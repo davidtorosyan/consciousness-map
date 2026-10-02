@@ -19,11 +19,11 @@
   "use strict";
   var axes = [
     { key: "physical", claim: "The mind is entirely physical",
-      yes: "the mind is entirely physical", no: "the mind isn\u2019t just physical" },
+      yes: "the mind is entirely physical", no: "something about the mind is non-physical" },
     { key: "mind", claim: "Experience is a basic ingredient of reality",
       yes: "experience is one of reality\u2019s basic ingredients", no: "experience is built from something more basic" },
     { key: "deeper", claim: "Mind and matter are two sides of something deeper",
-      yes: "mind and matter share a deeper source", no: "there\u2019s no deeper stuff behind mind and matter" },
+      yes: "mind and matter share a deeper source", no: "mind or matter is the bottom layer" },
     { key: "independent", claim: "The physical world exists independently of minds",
       yes: "the world exists without minds", no: "the world depends on mind" },
     { key: "causal", claim: "Thoughts cause things in their own right",
@@ -33,7 +33,7 @@
     { key: "wide", claim: "Experience reaches all the way down to simple things",
       yes: "experience reaches down to atoms", no: "experience belongs to complex systems" },
     { key: "medium", claim: "The right program would be conscious in any material",
-      yes: "a machine could be conscious", no: "a machine couldn\u2019t be conscious" },
+      yes: "a machine could be conscious", no: "consciousness takes more than the right program" },
     { key: "separate", claim: "The mind could exist without a body",
       yes: "the mind could exist without a body", no: "the mind needs a body" },
     { key: "physics", claim: "Consciousness needs new physics",

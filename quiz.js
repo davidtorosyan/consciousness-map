@@ -146,7 +146,7 @@
   }
   /* tiers come from CM.ranked: strong / partial / none, plus "against" on
      axis quizzes, where a family can hold the opposite of your views */
-  var LEGEND = { strong: "strong", partial: "partial", none: "none", against: "opposite" };
+  var LEGEND = { strong: "strong match", partial: "partial", none: "", against: "opposite" };
 
   CM.views.results = function (route) {
     var r = CM.share.decode(route.payload);
@@ -169,13 +169,10 @@
       return '<div class="r-row' + (i === 0 && matched ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
         '<a class="r-open" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
-        '<span class="nm">' + esc(t.name) + "</span>" +
-        '<span class="tier ' + x.tier + '" aria-label="' + CM.TIERS[x.tier] + '">' + I.dot + "</span>" +
+        '<span class="nm">' + esc(t.name) +
+        (x.tier === "none" ? "" : '<span class="tier ' + x.tier + '">' + LEGEND[x.tier] + "</span>") + "</span>" +
         "</a>" + (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
     }).join("");
-    var legend = ["strong", "partial", "none", "against"].filter(function (k) {
-      return k !== "against" || ranked.some(function (x) { return x.tier === "against"; });
-    });
     var lopsided = CM.lopsided(quiz, r.answers);
     var notes = !answered
       ? "You didn\u2019t answer Yes or No to anything, so nothing stands out yet."
@@ -201,9 +198,6 @@
       '<div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
       "<h1>Closest first.</h1>" +
       (summary ? '<p class="r-summary">' + esc(route.shared ? summary.replace(/^You think/, "They think") : summary) + "</p>" : "") +
-      '<div class="tier-legend">' + legend.map(function (k) {
-        return '<span class="lg ' + k + '">\u25CF</span> ' + LEGEND[k];
-      }).join(" ") + "</div>" +
       (notes ? '<div class="r-note">' + notes + "</div>" : "") +
       "</div>" + rows +
       (next ? '<div class="d-actions">' + next + "</div>" : ""));

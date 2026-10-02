@@ -297,45 +297,68 @@
   CM.fromResults = function (href, from) {
     return from ? href + "&r=" + from.payload + (from.shared ? "&shared=1" : "") : href;
   };
-  /* why a result scored the way it did, for the family/area `key`:
-     axis quizzes list the family's stands next to your positions; point
-     quizzes list the questions that scored it, marked by your answer */
+  /* why a result scored the way it did, for the family/area `key` */
   function row(cls, mark, text, label) {
     return '<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
       '<span class="qa-q">' + CM.esc(text) + '</span><span class="qa-a">' + label + "</span></div>";
   }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function backToResults(from) {
+    return '<div class="d-quiet"><a class="d-link" data-back-results href="' +
+      CM.esc(CM.resultsHref(from.payload, from.shared)) + '">\u2039 Results</a></div>';
+  }
+  /* axis quizzes: this target's stands, grouped by how your answers relate:
+     agree (stated once), differ (both sides, so nothing is negated), not
+     sure. Strongest stands first. */
+  function compareHtml(r, key, from) {
+    var pos = CM.positions(r.quiz, r.answers), p = r.quiz.data.profiles[key] || {};
+    var agree = [], differ = [], unsure = [];
+    r.quiz.data.axes.filter(function (x) { return p[x.key]; })
+      .sort(function (a, b) { return Math.abs(p[b.key]) - Math.abs(p[a.key]); })
+      .forEach(function (x) {
+        var theirs = p[x.key] > 0 ? x.yes : x.no, u = pos[x.key];
+        if (u === undefined || Math.abs(u) < 0.25) unsure.push(theirs);
+        else if (u * p[x.key] > 0) agree.push(theirs);
+        else differ.push({ theirs: theirs, yours: u > 0 ? x.yes : x.no });
+      });
+    var total = agree.length + differ.length + unsure.length;
+    if (!total) return "";
+    var e = CM.esc;
+    function group(cls, title, n, items) {
+      return n ? '<div class="cmp-group ' + cls + '"><div class="cmp-title">' + title + " (" + n + ")</div>" + items + "</div>" : "";
+    }
+    var head = agree.length === total ? "You agree on all " + total + " of its points."
+      : !agree.length ? "You don\u2019t share any of its " + total + " points."
+      : "You agree on " + agree.length + " of its " + total + " points.";
+    return '<div class="qa-sec cmp"><div class="eyebrow">COMPARED WITH YOUR ANSWERS</div>' +
+      '<p class="cmp-head">' + head + "</p>" +
+      group("agree", "\u2713 Where you agree", agree.length,
+        "<ul>" + agree.map(function (t) { return "<li>" + e(cap(t)) + "</li>"; }).join("") + "</ul>") +
+      group("differ", "\u2717 Where you differ", differ.length, differ.map(function (d) {
+        return '<div class="cmp-pair"><div><span class="who">This view</span>' + e(cap(d.theirs)) + "</div>" +
+          '<div><span class="who">You</span>' + e(cap(d.yours)) + "</div></div>";
+      }).join("")) +
+      group("unsure", "? Where you weren\u2019t sure", unsure.length,
+        "<ul>" + unsure.map(function (t) { return "<li>This view: " + e(t) + "</li>"; }).join("") + "</ul>") +
+      "</div>" + backToResults(from);
+  }
   CM.answerRows = function (from, key) {
     var r = from && CM.share.decode(from.payload);
     if (!r) return "";
+    if (isAxisQuiz(r.quiz)) return compareHtml(r, key, from);
+    // point quizzes: the questions that scored this area, marked by your answer
     var rows = [];
-    if (isAxisQuiz(r.quiz)) {
-      var pos = CM.positions(r.quiz, r.answers), p = r.quiz.data.profiles[key] || {};
-      r.quiz.data.axes.forEach(function (x) {
-        if (!p[x.key]) return;
-        // the family's stand, in the words of that side of the axis
-        var claim = p[x.key] > 0 ? x.yes : x.no;
-        claim = claim.charAt(0).toUpperCase() + claim.slice(1);
-        var u = pos[x.key];
-        if (u === undefined || Math.abs(u) < 0.25) rows.push(row("na", "\u2013", claim, "unsure"));
-        else if (u * p[x.key] > 0) rows.push(row("al", "\u2713", claim, "you agree"));
-        else rows.push(row("mis", "\u2717", claim, "you disagree"));
-      });
-    } else {
-      r.quiz.questions.forEach(function (q, i) {
-        var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
-        if (!yp && !np) return;
-        var a = r.answers[i];
-        if (a === "yes" || a === "no") {
-          var hit = a === "yes" ? yp > 0 : np > 0;
-          rows.push(row(hit ? "al" : "mis", hit ? "\u2713" : "\u2717", q.t, a));
-        } else rows.push(row("na", "\u2013", q.t, a === "skip" ? "not sure" : "\u2013"));
-      });
-    }
+    r.quiz.questions.forEach(function (q, i) {
+      var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
+      if (!yp && !np) return;
+      var a = r.answers[i];
+      if (a === "yes" || a === "no") {
+        var hit = a === "yes" ? yp > 0 : np > 0;
+        rows.push(row(hit ? "al" : "mis", hit ? "\u2713" : "\u2717", q.t, a));
+      } else rows.push(row("na", "\u2013", q.t, a === "skip" ? "not sure" : "\u2013"));
+    });
     if (!rows.length) return "";
-    return '<div class="qa-sec"><div class="eyebrow">' + (isAxisQuiz(r.quiz) ? "WHERE IT STANDS VS. YOU" : "HOW YOU LINED UP") + "</div>" +
-      rows.join("") + "</div>" +
-      '<div class="d-quiet"><a class="d-link" data-back-results href="' +
-      CM.esc(CM.resultsHref(from.payload, from.shared)) + '">\u2039 Results</a></div>';
+    return '<div class="qa-sec"><div class="eyebrow">HOW YOU LINED UP</div>' + rows.join("") + "</div>" + backToResults(from);
   };
 
   /* ---------- page chrome ----------
