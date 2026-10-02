@@ -46,6 +46,8 @@ swamped. After changing questions or positions, run `tools/eval-quiz.js`;
 every target's ideal respondent must still rank first. Re-run the blind
 role-play (`tools/eval-thinkers*.json`) after changing question wording.
 New quiz files go in `index.html`'s loader list; the tools read it.
+`tools/scaffold-axis-quiz.js <key>` starts one from a quiz's theory list and
+`tools/integrate-quiz.js <key>` swaps a finished file into the site.
 
 ## Deploying
 

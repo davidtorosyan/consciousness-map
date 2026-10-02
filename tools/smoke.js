@@ -180,8 +180,17 @@ function pages(W) {
     }
     await page.waitForSelector(".r-row", { timeout: 3000 });
     if ((await page.$$(".r-row")).length !== sq.areas.length) fail("school quiz", "wrong number of result rows");
-    var top = sq.areas.filter(function (a) { return sq.questions[0].yes[a.key]; })[0];
-    if ((await page.$eval(".r-row .nm", function (el) { return el.firstChild.textContent; })).trim() !== top.name) fail("school quiz", "Yes to Q1 didn't rank " + top.name + " first");
+    // Yes to Q1 alone: the best match leans furthest that way on Q1's axis
+    // (cosine with a one-axis answer); ties allowed
+    var ax = Object.keys(sq.questions[0].axes)[0], sign = sq.questions[0].axes[ax];
+    var fit = sq.areas.map(function (a) {
+      var p = sq.profiles[a.key], n = Math.sqrt(Object.keys(p).reduce(function (s, k) { return s + p[k] * p[k]; }, 0));
+      return { name: a.name, v: (p[ax] || 0) * sign / n };
+    });
+    var best = Math.max.apply(null, fit.map(function (f) { return f.v; }));
+    var tops = fit.filter(function (f) { return f.v > best - 1e-9; }).map(function (f) { return f.name; });
+    var got = (await page.$eval(".r-row .nm", function (el) { return el.firstChild.textContent; })).trim();
+    if (tops.indexOf(got) < 0) fail("school quiz", "Yes to Q1 ranked " + got + " first, expected " + tops.join(" or "));
     await page.click(".r-row .r-open");
     await page.waitForTimeout(400);
     if (!(await page.$(".qa-sec"))) fail("school quiz", "theory opened from results doesn't show how you lined up");

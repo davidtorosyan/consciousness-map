@@ -42,7 +42,7 @@
   ];
 
   var profiles = {
-    "grinberg-s-syntergic-neuronal-field-theory":        { brain: 2, survival: -1, ground: -1, dualism: -1, physics: 1, psi: 1, states: 1 },
+    "grinberg-s-syntergic-neuronal-field-theory":        { psi: 2, physics: 2, states: 2, pure: 1, survival: -1, dualism: -1 },
     "josephson-s-psi-informed-models":                    { psi: 2, physics: 2, meaning: 1, brain: -1 },
     "jung-s-collective-unconscious-and-synchronicity":    { shared: 2, meaning: 2, psi: 1, states: 1, physics: 1, brain: -1, pure: -1 },
     "wilber-s-integral-theory":                           { evolve: 2, pure: 2, states: 2, ground: 2, dualism: -2, physics: -1, shared: 1, psi: 1 },
@@ -55,7 +55,7 @@
     "hiller-s-eternal-discarnate-consciousness":          { survival: 2, dualism: 1, shared: 1, brain: -1 },
     "johnson-and-debold-s-urantia-theocosmic-cosmopsychism": { god: 2, ground: 2, evolve: 1, survival: 1, pure: -1 },
     "khasho-s-nde-enabled-unified-field-level-model":     { brain: -2, survival: 1, ground: 1, physics: 1, states: 1 },
-    "mossbridge-s-informational-substrate-as-collective-unconscious": { shared: 2, pure: 2, psi: 2, time: 1, ground: 1 },
+    "mossbridge-s-informational-substrate-as-collective-unconscious": { shared: 2, pure: 1, psi: 2, time: 2, ground: 1 },
     "near-death-experiences-survival-past-lives":         { survival: 2, brain: -2, dualism: 2, states: 1 },
     "no-l-s-nested-field-theory":                         { psi: 2, physics: 2, brain: -1, dualism: -1, shared: 1 },
     "radin-s-challenge-to-materialism":                   { psi: 2, brain: -1, ground: 1, physics: 1, time: 1 },

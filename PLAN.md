@@ -86,11 +86,12 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
       33 thinkers LOC files under the 11 families. Fixes "No" pushing you
       toward views you rejected, adds a one-line summary, an "opposite view"
       tier, and flags contradictory or all-Yes/all-No answers.
-- [ ] Apply the same approach to the category and school quizzes, and bring
-      them under the 12-question cap. **Done: Panpsychisms** (12 axes, 16 theories) **and Idealisms** (13 axes,
-      26 theories; was 26 questions).
-      Remaining (Dualisms 23, Anomalous
-      23, Challenge 21, …; Phenomenology has one question).
+- [x] Apply the same approach to the category and school quizzes, and bring
+      them under the 12-question cap. All 27 category and school quizzes are
+      axis quizzes now (Phenomenology, with one theory, has none). Blind
+      role-plays exist for Panpsychisms, Idealisms, Challenge, Neutral Monism,
+      Non-Reductive Physicalism, Dualisms, Anomalous and Quantum Machinery.
+- [ ] Blind role-plays for the Materialism school quizzes.
 - [ ] Real content on theory/school pages (descriptions, objections, who holds it).
 - [ ] "Don't get it" text in the category quizzes that explains rather than argues.
 - [ ] Quantum & Dimensions school names are ours, not LOC's; label or realign.

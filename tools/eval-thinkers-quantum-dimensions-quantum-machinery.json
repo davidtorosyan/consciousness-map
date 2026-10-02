@@ -1,0 +1,20 @@
+[
+ {
+  "name": "Roger Penrose & Stuart",
+  "family": "penrose-hameroff-s-orchestrated-objective-reduction",
+  "answers": "nyynnnynnsn",
+  "notes": "Q7 yes for Turing computers, but an OR-based device might count; Q10 entanglement helps binding, but non-computability is the main point."
+ },
+ {
+  "name": "John Eccles & Friedric",
+  "family": "beck-eccles-s-quantum-processes-in-the-synapse",
+  "answers": "ynnynnynnnn",
+  "notes": "Q2 no: psychons shift exocytosis probabilities, not every moment of awareness collapsing; Q3 no: they claim no new physics is needed."
+ },
+ {
+  "name": "Matthew Fisher",
+  "family": "fisher-s-quantum-cognition",
+  "answers": "nnnnynsnssn",
+  "notes": "Q4 no: Posner molecules, not synapses as such; he is silent on Q7, Q9 and Q10."
+ }
+]
