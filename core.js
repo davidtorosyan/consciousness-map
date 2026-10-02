@@ -309,13 +309,13 @@
     if (n === 1 && a === "quiz") return { view: "quiz", quiz: null };
     if (n === 2 && (a === "share" || a === "results")) return { view: "results", payload: segs[1], shared: a === "share" };
     var last = segs[n - 1];
-    var mode = last === "quiz" || last === "browse" ? last : null;   // "browse" is a legacy alias
+    var mode = last === "quiz" || last === "browse" ? last : null;   // "browse": list opened
     var node = CM.nodeAt((mode ? segs.slice(0, -1) : segs).join("/"));
     if (!node) return null;
     if (mode === "quiz") return node.quiz ? { view: "quiz", quiz: node.quiz } : null;
     if (node.kind === "theory" && mode) return null;
     var from = param("r") ? { payload: param("r"), shared: param("shared") === "1" } : null;
-    return { view: node.kind === "theory" ? "theory" : "group", node: node, from: from };
+    return { view: node.kind === "theory" ? "theory" : "group", node: node, from: from, expand: mode === "browse" };
   }
   CM.views = {};
   CM.route = null;

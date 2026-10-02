@@ -183,7 +183,24 @@ function pages(W) {
     if (!(await page.$(".r-row"))) fail("school quiz", "'Results' link didn't return to the results");
   } catch (e) { fail("school quiz flow", e.message); }
 
-  /* 5. bookmarks: save a theory, see it on the saved page, remove it */
+  /* 5. a category page has one clear call to action: its quiz, above the
+        fold; the schools stay folded until Browse is tapped */
+  try {
+    await open("?path=materialism");
+    var cta = await page.$("a.cta");
+    var box = cta && await cta.boundingBox();
+    if (!box || box.y + box.height > page.viewportSize().height) fail("category page", "quiz button isn't visible without scrolling");
+    if (await page.isVisible("#kids .r-row")) fail("category page", "the list should start folded");
+    await page.click("[data-browse]");
+    if (!(await page.isVisible("#kids .r-row"))) fail("category page", "Browse didn't open the list");
+    await page.click("#kids .r-open");
+    await page.waitForTimeout(300);
+    await page.goBack();
+    await page.waitForFunction(function () { return window.CM_READY; });
+    if (!(await page.isVisible("#kids .r-row"))) fail("category page", "coming back from a school folded the list again");
+  } catch (e) { fail("category page flow", e.message); }
+
+  /* 6. bookmarks: save a theory, see it on the saved page, remove it */
   try {
     var dk = "panpsychisms", t = W.QUIZ_DATA.drill[dk].areas[0];
     await open("?path=" + dk + "/" + t.key);
@@ -199,7 +216,7 @@ function pages(W) {
   await browser.close();
   server.close();
   failures.forEach(function (f) { console.log("FAIL: " + f); });
-  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 3 flows: " +
+  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 4 flows: " +
     (failures.length ? failures.length + " failure(s)" : "ok"));
   process.exit(failures.length ? 1 : 0);
 })().catch(function (e) { console.error(e); process.exit(1); });

@@ -57,6 +57,14 @@
   transition:transform .15s ease;
 }
 .big-start:active{transform:scale(.96)}
+/* category/school pages: the quiz is the one primary action */
+a.big-start{display:block;text-align:center;text-decoration:none;color:var(--text);margin-top:18px}
+.big-start .cta-sub{display:block;margin-top:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.d-quiet.secondary{margin-top:10px}
+button.d-link{background:none;border:none;cursor:pointer;font:inherit;font-size:14px}
+.d-link .caret{display:inline-block;transition:transform .2s ease}
+.d-link[aria-expanded="true"] .caret{transform:rotate(180deg)}
+#kids{margin-top:16px}
 .q-quiet{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--faint);text-decoration:none}
 .q-backrow{position:absolute;top:12px;right:12px;margin:0;z-index:2}
 .q-backbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);

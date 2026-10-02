@@ -12,6 +12,9 @@ See `README.md` for the file layout and `PLAN.md` for work in progress.
 - **Every view lives at `/` with `?path=a/b/c`.** Old URLs (`quiz.html`,
   `favorites.html`, `history.html`, `?r=`, `#/category/…`) must keep working;
   they are in shared links and people's bookmarks.
+- **Every page has one clear call to action**, visible without scrolling.
+  Category/school pages: take the quiz (browsing is a quiet secondary link).
+  Results: go deeper. Secondary actions are visually quieter than the primary.
 - **Escape data in HTML.** Views are built from strings; anything that comes
   from data or storage goes through `esc()`.
 - **LOC names are canonical.** Category names, colors and theory names follow

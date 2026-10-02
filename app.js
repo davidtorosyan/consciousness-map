@@ -81,17 +81,33 @@
     CM.bindBackToResults(app);
   }
 
-  /* a category or school: its quiz and everything inside it */
+  /* a category or school. One clear call to action: take its quiz.
+     Its schools/theories stay folded behind a secondary Browse button. */
   CM.views.group = function (route) {
-    var node = route.node;
-    var hasSchools = node.children.some(function (x) { return x.kind === "school"; });
+    var node = route.node, n = node.children.length;
+    var kind = node.children.some(function (x) { return x.kind === "school"; }) ? "schools" : "theories";
+    var open = route.expand || !node.quiz;
+    var nq = node.quiz ? CM.quiz(node.quiz).questions.length : 0;
     render(node, head(node, node.kind === "school" ? "SCHOOL" : "CATEGORY") +
-      '<div class="d-actions">' +
-      (node.quiz ? '<a class="pill" href="' + CM.href(node, "quiz") + '">' + I.search + "<span>Take the quiz</span></a>" : "") +
-      locPill(node) + "</div>" +
+      (node.quiz ? '<a class="big-start cta" href="' + CM.href(node, "quiz") + '">' +
+        "<span>Take the " + esc(node.name) + " quiz</span>" +
+        '<span class="cta-sub">' + nq + (nq === 1 ? " question" : " questions") + "</span></a>" : "") +
       CM.answerRows(route.from, node.key) +
-      '<div class="r-head"><div class="eyebrow">' + node.children.length + (hasSchools ? " SCHOOLS" : " THEORIES") + "</div></div>" +
-      listRows(node.children));
+      '<div class="d-quiet secondary">' +
+      (node.quiz ? '<button class="d-link" data-browse aria-expanded="' + open + '" aria-controls="kids">' +
+        "Browse " + n + " " + kind + ' <span class="caret" aria-hidden="true">\u25BE</span></button>' : "<span></span>") +
+      '<a class="d-link" href="' + esc(node.url || node.category.url) + '" target="_blank" rel="noopener">Read on LOC \u2197</a></div>' +
+      '<div id="kids"' + (open ? "" : " hidden") + ">" + listRows(node.children) + "</div>");
+    var btn = app.querySelector("[data-browse]");
+    if (btn) btn.addEventListener("click", function () {
+      var nowOpen = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(nowOpen));
+      document.getElementById("kids").hidden = !nowOpen;
+      // remember it in the URL, so coming back from a school or theory
+      // lands on the open list
+      try { history.replaceState(history.state, "", CM.href(node, nowOpen ? "browse" : "") + location.search.replace(/^\?path=[^&]*/, "")); }
+      catch (e) { /* ignore */ }
+    });
   };
 
   /* a theory: save it, read it on LOC, or go back up to its school/category */
