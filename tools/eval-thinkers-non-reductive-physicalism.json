@@ -1,0 +1,32 @@
+[
+ {
+  "name": "George Ellis",
+  "family": "ellis-s-strong-emergence-and-top-down-causation",
+  "answers": "ysnsynssns",
+  "notes": "Top-down causation and causally effective abstract entities; Q2 unclear whether higher-level principles count as 'new basic'."
+ },
+ {
+  "name": "Nancey Murphy",
+  "family": "murphy-s-non-reductive-physicalism",
+  "answers": "ynnssyssny",
+  "notes": "Downward causation, Christian physicalist with bodily resurrection; Q4/Q5 unsettled in her work."
+ },
+ {
+  "name": "Yujin Nagasawa",
+  "family": "nagasawa-s-nontheoretical-physicalism",
+  "answers": "snysnnssss",
+  "notes": "Defends physicalism surviving knowledge/zombie arguments without an explanation (Q3 y)."
+ },
+ {
+  "name": "Georg Northoff",
+  "family": "northoff-s-non-reductive-neurophilosophy",
+  "answers": "snnnnyysnn",
+  "notes": "Spontaneous activity view (Q7 y); rejects mind-brain framing, so Q1 s."
+ },
+ {
+  "name": "Peter van Inwagen",
+  "family": "van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead",
+  "answers": "snysnnsssy",
+  "notes": "Platonist but abstracta are causally inert (Q5 n); mysterian about thinking matter (Q3 y); resurrection (Q10 y)."
+ }
+]

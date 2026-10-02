@@ -8,9 +8,8 @@
    "is it experience?" depends on a point of view, whether the world we see
    is an interface, whether experience needs a subject, and whether physics
    and neuroscience leave nothing over. Profiles carry each theory's
-   justified rejections as well as its signature. Checked by
-   tools/eval-quiz.js and a blind role-play of named proponents
-   (tools/eval-thinkers-materialism-relational.json). */
+   justified rejections as well as its signature. Checked by tools/eval-quiz.js. No blind role-play yet (tools/
+   eval-thinkers-materialism-relational.json would hold one). */
 (function () {
   "use strict";
   var axes = [

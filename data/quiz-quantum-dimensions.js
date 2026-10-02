@@ -6,8 +6,7 @@
    whether consciousness is part of the cosmos from the start, whether
    everything exists only in relation, and whether mind is more than
    matter. Profiles carry each school's justified rejections as well as its
-   signature. Checked by tools/eval-quiz.js and a blind role-play of named
-   proponents (tools/eval-thinkers-quantum-dimensions.json). */
+   signature. Checked by tools/eval-quiz.js (no blind role-play yet). */
 (function () {
   "use strict";
   var axes = [

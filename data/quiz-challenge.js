@@ -46,7 +46,7 @@
     "crow-s-funhouse-of-consciousness":                     { solvable: -1, open: 1, art: 2 },
     "champagne-s-semiotic-account":                         { dissolve: 2, open: -1, primitive: -1 },
     "cohen-s-ultra-fine-tuned-personal-consciousness":      { dissolve: -1, cosmic: 1, finetune: 2 },
-    "davies-s-consciousness-in-the-cosmos":                 { solvable: 1, dissolve: -1, open: -1, cosmic: 2 },
+    "davies-s-consciousness-in-the-cosmos":                 { solvable: 1, dissolve: -1, open: -1, cosmic: 2, finetune: 1 },
     "delaflors-model-dependent-ontology":                   { dissolve: 2, brain: -1, open: 1, selfexplain: 1, primitive: -1 },
     "eagleman-s-possibilianism":                            { solvable: 1, neutral: 1, open: 2 },
     "hartford-s-minded-eternal-conjecture":                 { brain: -1, open: -1, cosmic: 2, minded: 2 },
@@ -82,8 +82,8 @@
       axes: { brain: 1 },
     },
     {
-      t: "Mapping which brain activity goes with which experience can’t tell us what consciousness ultimately is.",
-      why: "Yes means such findings fit any worldview, whether materialist, dualist or religious. No means the findings are evidence for one answer over the others.",
+      t: "Findings about which brain activity goes with which experience fit any worldview equally well, whether materialist, dualist or religious.",
+      why: "Yes means such findings can\u2019t decide between worldviews, however detailed they get. No means they count as evidence for one answer over the others.",
       axes: { neutral: 1 },
     },
     {

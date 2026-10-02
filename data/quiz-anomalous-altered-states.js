@@ -9,8 +9,7 @@
    layer of minds, meaning built into reality, new physics, altered states as
    a window, a cosmos evolving toward mind, minds and time). Profiles carry
    each theory's justified rejections as well as its signature. Checked by
-   tools/eval-quiz.js and a blind role-play of named proponents
-   (tools/eval-thinkers-anomalous-altered-states.json). */
+   tools/eval-quiz.js (no blind role-play yet). */
 (function () {
   "use strict";
   var axes = [
@@ -57,7 +56,7 @@
     "johnson-and-debold-s-urantia-theocosmic-cosmopsychism": { god: 2, ground: 2, evolve: 1, survival: 1, pure: -1 },
     "khasho-s-nde-enabled-unified-field-level-model":     { brain: -2, survival: 1, ground: 1, physics: 1, states: 1 },
     "mossbridge-s-informational-substrate-as-collective-unconscious": { shared: 2, pure: 2, psi: 2, time: 1, ground: 1 },
-    "near-death-experiences-survival-past-lives":         { survival: 2, brain: -2, dualism: 1, states: 1, psi: 1 },
+    "near-death-experiences-survival-past-lives":         { survival: 2, brain: -2, dualism: 2, states: 1 },
     "no-l-s-nested-field-theory":                         { psi: 2, physics: 2, brain: -1, dualism: -1, shared: 1 },
     "radin-s-challenge-to-materialism":                   { psi: 2, brain: -1, ground: 1, physics: 1, time: 1 },
     "schlitz-s-theory-of-mind":                           { psi: 2, states: 1, brain: -1, pure: -1, shared: 1 },

@@ -37,7 +37,7 @@
   ];
 
   var profiles = {
-    "andrews-consciousness-without-complex-brains": { simple: 2, late: -2, compare: 2, gradual: 1 },
+    "andrews-consciousness-without-complex-brains": { simple: 2, late: -2, compare: 2 },
     "cabral-calderin-hechavarria-and-melloni-s-neuroethological-approach": { compare: 2, late: -1 },
     "cleeremans-and-tallon-baudry-s-functional-value": { causal: 2, affect: 1, late: 1, cells: -2 },
     "dennett-s-evolution-of-minds": { nomystery: 2, gradual: 2, late: 2, causal: 1, social: 1, cells: -1, simple: -1, affect: -1 },

@@ -5,8 +5,7 @@
    physically, whether the brain is where the deeper level matters, psychic
    phenomena, repeating layers, and whether quantum physics is the way in.
    Profiles carry each theory's justified rejections as well as its
-   signature. Checked by tools/eval-quiz.js and a blind role-play of named
-   proponents (tools/eval-thinkers-quantum-dimensions-hidden-orders.json). */
+   signature. Checked by tools/eval-quiz.js (no blind role-play yet). */
 (function () {
   "use strict";
   var axes = [

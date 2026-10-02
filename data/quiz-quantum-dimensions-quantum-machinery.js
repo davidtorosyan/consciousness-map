@@ -7,9 +7,7 @@
    computable, whether mind reaches outside the body, whether experience
    builds up level by level, what the quantum effect is for (binding), and
    whether the experienced world is the brain's own creation. Profiles carry
-   each theory's justified rejections as well as its signature. Checked by
-   tools/eval-quiz.js and a blind role-play of named proponents
-   (tools/eval-thinkers-quantum-dimensions-quantum-machinery.json). */
+   each theory's justified rejections as well as its signature. Checked by tools/eval-quiz.js (no blind role-play yet). */
 (function () {
   "use strict";
   var axes = [
