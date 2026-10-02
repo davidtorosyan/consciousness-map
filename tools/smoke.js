@@ -39,11 +39,17 @@ function serve() {
   });
 }
 
+/* the data files index.html's loader loads, in order */
+function dataFiles() {
+  var html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+  var m = /var JS = (\[[^\]]*\]);/.exec(html);
+  return JSON.parse(m[1]).filter(function (f) { return f.indexOf("data/") === 0; });
+}
 /* the data, loaded the way the browser loads it, to enumerate pages */
 function loadData() {
   var sb = { window: {} };
   vm.createContext(sb);
-  ["data/categories.js", "data/quiz-data.js", "data/main-quiz.js"].forEach(function (f) {
+  dataFiles().forEach(function (f) {
     vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), sb);
   });
   return sb.window;

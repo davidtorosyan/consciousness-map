@@ -55,7 +55,7 @@ html.forEach(function (f) {
 /* ---------- 3: data ---------- */
 var sandbox = { window: {} };
 vm.createContext(sandbox);
-["data/categories.js", "data/quiz-data.js", "data/main-quiz.js"].forEach(function (f) {
+scripts.filter(function (f) { return f.indexOf("data/") === 0; }).forEach(function (f) {
   try { vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), sandbox, { filename: f }); }
   catch (e) { err("could not load " + f + ": " + e.message); }
 });
@@ -92,41 +92,44 @@ function checkQuestions(label, questions, validKeys) {
   });
 }
 
-/* the main quiz is an axis quiz (data/main-quiz.js): questions measure axes,
-   families have positions on them */
-if (!QD.top) err("QUIZ_DATA.top (the main quiz) is missing");
-else (function (T) {
+/* axis quizzes (the main quiz, and category/school quizzes with `axes`):
+   questions measure axes, targets have positions on them */
+function checkAxisQuiz(label, T, targetKeys) {
   var axisKeys = {};
   (T.axes || []).forEach(function (x) {
-    if (axisKeys[x.key]) err("main quiz: duplicate axis " + x.key);
+    if (axisKeys[x.key]) err(label + ": duplicate axis " + x.key);
     axisKeys[x.key] = 0;
-    ["claim", "yes", "no"].forEach(function (k) { if (!x[k]) err("main quiz: axis " + x.key + " has no " + k); });
+    ["claim", "yes", "no"].forEach(function (k) { if (!x[k]) err(label + ": axis " + x.key + " has no " + k); });
   });
-  if (!T.questions || !T.questions.length) err("main quiz: no questions");
-  else if (T.questions.length > QUIZ_CAP + 1) warn("main quiz: " + T.questions.length + " questions (cap " + QUIZ_CAP + ")");
+  if (!T.questions || !T.questions.length) err(label + ": no questions");
+  else if (T.questions.length > QUIZ_CAP + 1) warn(label + ": " + T.questions.length + " questions (cap " + QUIZ_CAP + ")");
   (T.questions || []).forEach(function (q, i) {
-    var where = "main quiz question " + (i + 1);
+    var where = label + " question " + (i + 1);
     if (!q.t) err(where + ": no text");
     if (!q.why) warn(where + ": no \"Don't get it\" explanation");
     var keys = Object.keys(q.axes || {});
-    if (!keys.length) err(where + ": measures no axis");
+    if (keys.length !== 1) err(where + ": must measure exactly one axis (see CLAUDE.md)");
     keys.forEach(function (k) {
       if (!(k in axisKeys)) err(where + ": unknown axis " + k);
       else axisKeys[k]++;
       if (typeof q.axes[k] !== "number" || !q.axes[k]) err(where + ": axis " + k + " needs a non-zero number");
     });
   });
-  Object.keys(axisKeys).forEach(function (k) { if (!axisKeys[k]) err("main quiz: no question measures axis " + k); });
-  Object.keys(catIds).forEach(function (c) {
+  Object.keys(axisKeys).forEach(function (k) { if (!axisKeys[k]) err(label + ": no question measures axis " + k); });
+  Object.keys(targetKeys).forEach(function (c) {
     var p = (T.profiles || {})[c];
-    if (!p) { err("main quiz: no profile for " + c); return; }
+    if (!p) { err(label + ": no profile for " + c); return; }
+    if (!Object.keys(p).length) err(label + ": empty profile for " + c);
     Object.keys(p).forEach(function (k) {
-      if (!(k in axisKeys)) err("main quiz: " + c + " has a position on unknown axis " + k);
-      if ([-2, -1, 1, 2].indexOf(p[k]) < 0) err("main quiz: " + c + "." + k + " must be -2, -1, 1 or 2");
+      if (!(k in axisKeys)) err(label + ": " + c + " has a position on unknown axis " + k);
+      if ([-2, -1, 1, 2].indexOf(p[k]) < 0) err(label + ": " + c + "." + k + " must be -2, -1, 1 or 2");
     });
   });
-  Object.keys(T.profiles || {}).forEach(function (c) { if (!catIds[c]) err("main quiz: profile for unknown family " + c); });
-})(QD.top);
+  Object.keys(T.profiles || {}).forEach(function (c) { if (!targetKeys[c]) err(label + ": profile for unknown target " + c); });
+}
+if (!QD.top) err("QUIZ_DATA.top (the main quiz) is missing");
+else if (!QD.top.axes) err("the main quiz should be an axis quiz");
+else checkAxisQuiz("main quiz", QD.top, catIds);
 
 var theoryHome = {};   // theory key -> drill key that lists it
 var subParent = {};    // sub drill key -> parent drill key
@@ -157,7 +160,8 @@ Object.keys(DRILL).forEach(function (dk) {
     }
     if (a.url && !/^https:\/\/loc\.closertotruth\.com\//.test(a.url)) warn(label + ": area " + a.key + " links outside LOC: " + a.url);
   });
-  checkQuestions(label, d.questions, keys);
+  if (d.axes) checkAxisQuiz(label, d, keys);
+  else checkQuestions(label, d.questions, keys);
 });
 Object.keys(DRILL).forEach(function (dk) {
   if (dk !== DRILL[dk].categoryId && !subParent[dk]) err("school quiz " + dk + " isn't listed by any parent");

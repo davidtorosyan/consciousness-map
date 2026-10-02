@@ -22,13 +22,14 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `saved.js`, `history.js` | Bookmarked theories and past quiz results (localStorage). |
 | `data/categories.js` | The 11 LOC categories: names, colors, taglines, URLs. |
 | `data/main-quiz.js` | The main quiz: the axes families disagree on, each family's position on them, and the questions. |
-| `data/quiz-data.js` | The category and school quizzes (point-scored), plus `QUIZ_DATA_VERSION`. |
+| `data/quiz-panpsychisms.js` | The Panpsychisms quiz, rebuilt as an axis quiz like the main quiz. |
+| `data/quiz-data.js` | The remaining category and school quizzes (point-scored), plus `QUIZ_DATA_VERSION`. |
 | `styles.css`, `quiz.css` | All styling. |
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
 | `deploy.sh` | Check, write a new build id, commit and push to `main`. |
 | `tools/check.js` | Syntax lint and quiz-data integrity checks. |
 | `tools/smoke.js` | Headless phone-size walk-through of every page. |
-| `tools/eval-quiz.js` | Checks the main quiz sorts people correctly: ideal and noisy synthetic respondents, edge cases, and (given a JSON file) role-played thinkers. |
+| `tools/eval-quiz.js` | Checks every axis quiz sorts people correctly: ideal and noisy synthetic respondents, edge cases, and role-played thinkers (`tools/eval-thinkers*.json`). |
 | `archive/` | Data from earlier versions, kept for reference. Not loaded. |
 
 ## URLs

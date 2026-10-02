@@ -28,19 +28,24 @@ See `README.md` for the file layout and `PLAN.md` for work in progress.
 
 ```sh
 node tools/check.js          # data integrity + syntax lint (no dependencies)
-node tools/eval-quiz.js      # does the main quiz sort people correctly?
+node tools/eval-quiz.js      # do the axis quizzes sort people correctly?
 node tools/smoke.js          # headless browser walk-through (needs Playwright)
 python3 -m http.server 8765  # then open http://localhost:8765/
 ```
 
 Run the checks before committing. `deploy.sh` runs them too.
 
-The main quiz (`data/main-quiz.js`) scores by axes: questions measure
-positions on a few underlying questions, families have positions on them,
-and a family's match is cosine similarity. Keep each question on one axis
-(two-axis questions pushed No-answerers the wrong way). After changing
-questions or positions, run `tools/eval-quiz.js`; every family's ideal
-respondent must still rank first.
+Axis quizzes: the main quiz (`data/main-quiz.js`) and, as they're rebuilt,
+category quizzes (`data/quiz-<key>.js`, e.g. Panpsychisms) score by axes:
+questions measure positions on a few underlying questions, targets
+(families or theories) have positions on them, and a match is cosine
+similarity. Each question measures exactly one axis (two-axis questions
+pushed No-answerers the wrong way; `check.js` enforces it). Give targets
+their justified rejections, not just their signature, or sparse profiles get
+swamped. After changing questions or positions, run `tools/eval-quiz.js`;
+every target's ideal respondent must still rank first. Re-run the blind
+role-play (`tools/eval-thinkers*.json`) after changing question wording.
+New quiz files go in `index.html`'s loader list; the tools read it.
 
 ## Deploying
 
