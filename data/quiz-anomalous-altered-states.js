@@ -129,7 +129,7 @@
       axes: { evolve: 1 },
     },
     {
-      t: "Consciousness is bound up with the flow of time; it doesn’t stand outside time.",
+      t: "The way minds move through time holds a key to consciousness that physics has missed.",
       why: "Yes means lived time, the flow of past, present and future, is central to what consciousness is. No means true awareness stands outside time altogether.",
       axes: { time: 1 },
     },
