@@ -11,7 +11,7 @@
   "use strict";
   var axes = [
     { key: "irreducible", claim: "Experience is a new property that can’t be reduced to its parts",
-      yes: "experience is a genuinely new, irreducible property", no: "experience reduces to what brain cells do" },
+      yes: "experience is a genuinely new, irreducible property", no: "experience reduces to physical processes" },
     { key: "role", claim: "A mental state is defined by its job, not its stuff",
       yes: "a mind is defined by what it does", no: "what a mind is made of matters" },
     { key: "limit", claim: "Science will never fully capture experience",
@@ -29,10 +29,10 @@
   ];
 
   var profiles = {
-    "emergence":                                            { irreducible: 2, power: 1, illusion: -1, missing: -1 },
-    "flanagan-s-constructive-naturalism":                   { power: 2, limit: -2, illusion: 1, irreducible: -1, questions: 1 },
-    "functionalism":                                        { role: 2, irreducible: -1, limit: -1, missing: -1 },
-    "goldstein-s-mind-body-problem":                        { limit: 2, irreducible: 1, illusion: -1, role: -1 },
+    "emergence":                                            { irreducible: 2, power: 1, illusion: -1 },
+    "flanagan-s-constructive-naturalism":                   { power: 2, limit: -2, illusion: 1, questions: 1 },
+    "functionalism":                                        { role: 2, limit: -1, missing: -1 },
+    "goldstein-s-mind-body-problem":                        { limit: 2, irreducible: 1, illusion: -1 },
     "hardcastle-s-argument-against-materialism-skeptics":   { illusion: 2, limit: -2, irreducible: -2, missing: -1, role: -1 },
     "mitchell-s-15-questions":                              { questions: 2, power: 2, irreducible: 1, limit: -1 },
     "philosophical-history-of-materialism":                 { ancient: 2, irreducible: -1, limit: -1 },
@@ -42,7 +42,7 @@
   var questions = [
     {
       t: "Experience is a genuinely new property that appears when matter is organised the right way, and it can’t be reduced to what the parts do.",
-      why: "Yes means the whole has something the parts, even fully understood, don’t explain. No means experience comes down to what brain cells do.",
+      why: "Yes means the whole has something the parts, even fully understood, don’t explain. No means experience comes down to physical processes, such as what brain cells do.",
       axes: { irreducible: 1 },
     },
     {

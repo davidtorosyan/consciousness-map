@@ -19,8 +19,8 @@
       yes: "consciousness needs physics we don’t have yet", no: "today’s quantum physics is enough" },
     { key: "synapse", claim: "The key quantum events happen at synapses",
       yes: "the key quantum events happen where neurons connect", no: "the key quantum events happen elsewhere in the brain" },
-    { key: "spin", claim: "Atomic nuclei hold the brain’s quantum information",
-      yes: "spinning atomic nuclei hold the brain’s quantum information", no: "something other than nuclear spins carries it" },
+    { key: "spin", claim: "Particle spins hold the brain’s quantum information",
+      yes: "particle spins hold the brain’s quantum information", no: "something other than spins carries it" },
     { key: "field", claim: "The whole brain acts as one quantum field",
       yes: "the whole brain acts as one quantum field", no: "the quantum work happens in specific spots" },
     { key: "computer", claim: "No computer could be conscious",
@@ -37,13 +37,13 @@
 
   var profiles = {
     "beck-eccles-s-quantum-processes-in-the-synapse":             { mind: 2, collapse: 1, newphysics: -1, synapse: 2, computer: 1, ladder: -2, world: -1 },
-    "caveliers-entangled-spins-at-the-nmda-receptor":             { mind: -1, newphysics: -1, synapse: 1, spin: 2, field: -1, ladder: 2 },
-    "fisher-s-quantum-cognition":                                 { mind: -2, collapse: -1, newphysics: -1, spin: 2, computer: -1, psi: -2 },
+    "caveliers-entangled-spins-at-the-nmda-receptor":             { mind: -1, newphysics: -1, synapse: 1, field: -1, ladder: 2, spin: 2 },
+    "fisher-s-quantum-cognition":                                 { mind: -2, collapse: -1, newphysics: -1, spin: 2, psi: -2 },
     "globus-s-quantum-thermofield-brain-dynamics":                { mind: -1, collapse: -1, field: 2, spin: -1, world: 2 },
     "penrose-hameroff-s-orchestrated-objective-reduction":        { mind: -1, collapse: 2, newphysics: 2, synapse: -1, spin: -1, computer: 2, ladder: -1, binding: 1 },
     "rourk-s-catecholaminergic-neuron-electron-transport-theory": { newphysics: -1, spin: -1, field: -1, psi: -1, ladder: 1, binding: 2 },
-    "morrison-s-position-selecting-interactionism":               { mind: 2, collapse: 1, synapse: -1, field: -2, computer: 1, psi: -1, ladder: -1 },
-    "shiah-s-cryptochrome-theory":                                { mind: 2, newphysics: -1, synapse: -1, field: -1, computer: 1, psi: 2, ladder: -1 },
+    "morrison-s-position-selecting-interactionism":               { collapse: 1, synapse: -1, field: -2, computer: 1, psi: -1, ladder: -1 },
+    "shiah-s-cryptochrome-theory":                                { mind: 2, newphysics: -1, synapse: -1, field: -1, computer: 1, psi: 2, ladder: -1, spin: 1 },
     "poznanski-s-dynamic-organicity-theory":                      { mind: -2, synapse: -1, field: 1, computer: 1, psi: -1, ladder: 1 },
   };
 
@@ -69,8 +69,8 @@
       axes: { synapse: 1 },
     },
     {
-      t: "The brain stores quantum information in the spin of atomic nuclei, which are well shielded from the brain’s warm, noisy chemistry.",
-      why: "A spinning nucleus can hold a quantum state far longer than most things in a warm cell. No means something other than nuclear spins carries the brain’s quantum states.",
+      t: "The brain holds quantum information in the spins of particles, such as atomic nuclei or paired electrons, shielded from its warm, noisy chemistry.",
+      why: "A particle’s spin can hold a quantum state far longer than most things in a warm cell. No means something other than spins carries the brain’s quantum states.",
       axes: { spin: 1 },
     },
     {

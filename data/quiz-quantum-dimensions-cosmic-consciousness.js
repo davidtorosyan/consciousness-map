@@ -30,7 +30,7 @@
     "hameroff-s-consciousness-came-before-life":    { before: 2, cell: -1, computation: -2, quantum: 2, choice: 1 },
     "keppler-s-zero-point-field":                   { before: 1, cell: -1, computation: -1, field: 2, quantum: 2 },
     "king-s-symbiotic-existential-cosmology":       { cell: 2, computation: -1, quantum: 1, choice: 2 },
-    "torday-s-cellular-and-cosmic-consciousness":   { before: -1, cell: 2, field: -1, quantum: 1 },
+    "torday-s-cellular-and-cosmic-consciousness":   { cell: 2, quantum: 1 },
     "wolfram-s-consciousness-in-the-ruliad":        { before: -1, cell: -1, computation: 2, field: -1, quantum: -1, choice: -1, slice: 2 },
   };
 

@@ -33,8 +33,8 @@
 
   var profiles = {
     "deacon-s-symbolic-communication-human-consciousness":          { self: -1, symbol: 2 },
-    "humphrey-s-mental-representations-and-brain-attractors":       { higher: 1, symbol: -1, show: 2 },
-    "lau-s-perceptual-reality-monitoring-theory":                   { higher: 2, reality: 2, show: -1 },
+    "humphrey-s-mental-representations-and-brain-attractors":       { higher: 1, symbol: -1, show: 2, self: 1 },
+    "lau-s-perceptual-reality-monitoring-theory":                   { higher: 2, reality: 2 },
     "ledoux-s-higher-order-theory-of-emotional-consciousness":      { higher: 2, emotion: 2, symbol: 1 },
     "lycan-s-homuncular-functionalism":                             { higher: 2, symbol: -1, show: -1, layers: 2 },
     "metzinger-s-no-self-representational-theory-of-subjectivity":  { self: 2, symbol: -1, show: 1 },

@@ -36,15 +36,15 @@
   ];
 
   var profiles = {
-    "atmanspacher-s-dual-aspect-monism":                { aspects: 2, physical: -1, inner: 1, newphysics: 1, quantum: 2, laws: -1 },
-    "davidson-s-anomalous-monism":                      { physical: 2, laws: -2, inner: -1, everywhere: -1, newphysics: -1, evolve: -1 },
-    "leslie-s-consciousness-inside-an-infinite-mind":   { aspects: -1, physical: -2, inner: 1, god: -1, good: 2, evolve: 1 },
-    "polkinghorne-s-dual-aspect-monism":                { aspects: 2, physical: -1, everywhere: -1, quantum: 1, god: 2, good: 1, evolve: 1 },
+    "atmanspacher-s-dual-aspect-monism":                { aspects: 2, physical: -1, newphysics: 1, quantum: 2 },
+    "davidson-s-anomalous-monism":                      { physical: 2, laws: -2, inner: -1, everywhere: -1, newphysics: -1 },
+    "leslie-s-consciousness-inside-an-infinite-mind":   { aspects: -1, physical: -2, inner: 1, god: -1, good: 2 },
+    "polkinghorne-s-dual-aspect-monism":                { aspects: 2, physical: -1, everywhere: -1, god: 2, good: 1 },
     "ramachandran-s-new-physics-and-neuroscience":      { physical: 1, everywhere: -1, laws: 1, newphysics: 2, outthere: -1, god: -1 },
     "russellian-monism":                                { aspects: 1, inner: 2, everywhere: 1, newphysics: -1, outthere: -1 },
     "strawson-s-realistic-monism-and-real-materialism": { aspects: -1, physical: 2, inner: 2, everywhere: 2, newphysics: -1, god: -1 },
     "tegmark-s-state-of-matter":                        { aspects: -1, physical: 2, inner: -2, everywhere: -2, laws: 2, newphysics: -1, quantum: -2, god: -1 },
-    "teilhard-de-chardin-s-evolving-consciousness":     { aspects: 1, physical: -1, inner: 1, everywhere: 2, god: 2, evolve: 2 },
+    "teilhard-de-chardin-s-evolving-consciousness":     { aspects: 1, physical: -1, inner: 1, everywhere: 2, god: 1, evolve: 2 },
     "velmans-s-reflexive-monism":                       { aspects: 2, physical: -1, everywhere: 1, outthere: 2 },
   };
 

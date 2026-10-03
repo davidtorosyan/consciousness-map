@@ -33,7 +33,7 @@ window.LOC_CATEGORIES = [
     id: "panpsychisms",
     name: "Panpsychisms",
     color: "#CF56CA",
-    tagline: "Experience is built into everything, down to grains of sand.",
+    tagline: "Experience is a basic feature of matter, down to its tiniest parts.",
     url: "https://loc.closertotruth.com/panpsychisms",
   },
   {

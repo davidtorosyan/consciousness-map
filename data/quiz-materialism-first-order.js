@@ -26,9 +26,9 @@
   ];
 
   var profiles = {
-    "direct-perception-theory":                                { direct: 2, content: -1, transparent: 1, local: -1 },
+    "direct-perception-theory":                                { direct: 2, content: -1, transparent: 1 },
     "jackson-s-representationalism-and-the-knowledge-argument": { direct: -2, content: 2, transparent: 1, contingent: -2 },
-    "lamme-s-recurrent-processing-theory":                     { direct: -1, content: -1, local: 2, system: -1 },
+    "lamme-s-recurrent-processing-theory":                     { direct: -1, local: 2, system: -1 },
     "t-w-clark-s-content-hypothesis":                          { direct: -2, content: 1, system: 2 },
     "transparency-theory":                                     { content: 1, transparent: 2 },
     "tye-s-contingentism":                                     { direct: -1, content: 2, transparent: 1, local: -1, contingent: 2 },

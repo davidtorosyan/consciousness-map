@@ -25,10 +25,10 @@
   ];
 
   var profiles = {
-    "quantum-dimensions-quantum-machinery":   { brain: 2, collapse: -1, hidden: -1, cosmic: -1, relations: -1, beyond: -1 },
-    "quantum-dimensions-mind-and-collapse":   { brain: 1, collapse: 2, hidden: -1, beyond: 1 },
+    "quantum-dimensions-quantum-machinery":   { brain: 2, hidden: -1, beyond: -1 },
+    "quantum-dimensions-mind-and-collapse":   { brain: 1, collapse: 2, beyond: 1 },
     "quantum-dimensions-hidden-orders":       { brain: -1, collapse: -1, hidden: 2, beyond: 1 },
-    "quantum-dimensions-cosmic-consciousness": { brain: -1, collapse: -1, cosmic: 2, beyond: -1 },
+    "quantum-dimensions-cosmic-consciousness": { brain: -1, cosmic: 2 },
     "quantum-dimensions-relational-views":    { brain: -1, collapse: -2, hidden: -1, relations: 2, beyond: -1 },
   };
 
@@ -77,7 +77,7 @@
       tagline: "Experience comes from quantum effects in your neurons.",
       sub: "quantum-dimensions-quantum-machinery" },
     { key: "quantum-dimensions-mind-and-collapse", name: "Mind settles quantum maybes",
-      tagline: "Your choices turn possibilities into facts.",
+      tagline: "Your mind turns quantum possibilities into definite facts.",
       sub: "quantum-dimensions-mind-and-collapse" },
     { key: "quantum-dimensions-hidden-orders", name: "Hidden orders and dimensions",
       tagline: "Mind belongs to a deeper level of reality.",

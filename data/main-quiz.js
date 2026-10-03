@@ -50,13 +50,13 @@
     "materialism":               { physical: 2, mind: -2, deeper: -1, independent: 2, causal: -1, explain: 2, wide: -1, medium: 1, separate: -2, physics: -1, anomaly: -1, firstp: -1, solvable: 2 },
     "non-reductive-physicalism": { physical: 2, mind: -1, independent: 2, causal: 2, explain: -2, wide: -1, separate: -2, anomaly: -1, solvable: 1 },
     "quantum-dimensions":        { physical: 1, independent: 1, explain: -1, medium: -2, physics: 2, solvable: 1 },
-    "information":               { mind: 1, explain: -1, wide: 1, medium: 2, separate: -1, physics: -1, solvable: 2 },
+    "information":               { mind: 1, explain: -1, wide: 1, separate: -1, physics: -1, solvable: 2 },
     "panpsychisms":              { mind: 2, independent: 1, explain: -2, wide: 2, separate: -1, solvable: 1 },
     "neutral-monism":            { physical: -1, mind: -1, deeper: 2, explain: -1, solvable: 1 },
     "dualisms":                  { physical: -2, mind: 2, deeper: -1, independent: 2, causal: 1, explain: -2, wide: -1, medium: -1, separate: 2, anomaly: 1 },
     "idealisms":                 { physical: -2, mind: 2, deeper: -1, independent: -2, explain: -2, separate: 1, anomaly: 1, firstp: 1, solvable: 1 },
-    "phenomenology":             { causal: 1, explain: -1, medium: -1, separate: -1, firstp: 2 },
-    "anomalous-altered-states":  { physical: -1, mind: 1, explain: -1, separate: 1, anomaly: 2 },
+    "phenomenology":             { explain: -1, medium: -1, separate: -1, firstp: 2 },
+    "anomalous-altered-states":  { physical: -1, explain: -1, separate: 1, anomaly: 2 },
     "challenge":                 { explain: -1, solvable: -2 },
   };
 
@@ -82,7 +82,7 @@
       axes: { causal: 1 },
     },
     {
-      t: "Something as simple as an atom might have a tiny glimmer of experience.",
+      t: "Even something as simple as an atom has a tiny glimmer of experience.",
       why: "Not thoughts or feelings like yours, just the faintest trace of there being something it\u2019s like to be it. No means experience only shows up in brains, or at least in complex systems.",
       axes: { wide: 1 },
     },
@@ -97,7 +97,7 @@
       axes: { deeper: 1 },
     },
     {
-      t: "Setting God aside, the physical world would still exist even if no human or animal mind had ever existed.",
+      t: "Setting aside God or any cosmic mind, the physical world would still exist even if no mind of any kind had ever existed.",
       why: "Most people assume so. But some views hold that the physical world is how mind appears, so without minds there would be no world at all.",
       axes: { independent: 1 },
     },

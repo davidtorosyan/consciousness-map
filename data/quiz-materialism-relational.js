@@ -30,14 +30,14 @@
   ];
 
   var profiles = {
-    "a-clark-s-extended-mind":                              { extend: 2, life: -2, subject: -1, reduce: 1 },
-    "cooke-s-nondual-naturalism-living-mirror-theory":      { extend: 1, life: 2, structure: 1, interface: -2, subject: -1, reduce: 1 },
+    "a-clark-s-extended-mind":                              { extend: 2, life: -2 },
+    "cooke-s-nondual-naturalism-living-mirror-theory":      { extend: 1, life: 2, structure: 1, interface: 1, subject: -1, reduce: 1 },
     "jaworski-s-hylomorphism":                              { extend: -1, life: 1, subject: 2, reduce: -2 },
-    "kojdi-s-interface-ontology-of-consciousness":          { interface: 2, frame: 1 },
+    "kojdi-s-interface-ontology-of-consciousness":          { interface: 2, frame: 1, reduce: -1 },
     "lahav-s-relativistic-theory":                          { extend: -1, life: -1, frame: 2, reduce: 1 },
     "loorits-s-structural-realism":                         { extend: -1, life: -1, structure: 2, frame: -1, reduce: 2 },
-    "mitchell-and-jenning-s-consciousness-needs-a-subject": { extend: -1, life: 2, structure: -1, subject: 2 },
-    "tsuchiya-s-relational-approach-to-consciousness":      { structure: 2, reduce: -1 },
+    "mitchell-and-jenning-s-consciousness-needs-a-subject": { extend: -1, life: 2, subject: 2 },
+    "tsuchiya-s-relational-approach-to-consciousness":      { structure: 2 },
   };
 
   var questions = [

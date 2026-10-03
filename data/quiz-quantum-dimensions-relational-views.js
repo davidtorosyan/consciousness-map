@@ -18,8 +18,8 @@
   ];
 
   var profiles = {
-    "rovelli-s-relational-physics":    { time: -2, relative: 2, inside: -1 },
-    "smolin-s-causal-theory-of-views": { time: 2, relative: -1, inside: 1, laws: 2 },
+    "rovelli-s-relational-physics":    { time: -2, relative: 2 },
+    "smolin-s-causal-theory-of-views": { time: 2, relative: -1, laws: 2 },
   };
 
   var questions = [
@@ -57,7 +57,7 @@
       tagline: "Nothing exists on its own — everything is relations.",
       url: "https://loc.closertotruth.com/theory/rovelli-s-relational-physics" },
     { key: "smolin-s-causal-theory-of-views", name: "Smolin’s Causal Theory of Views",
-      tagline: "Every event has its own point of view.",
+      tagline: "Consciousness arises only in rare, never-repeated views of events.",
       url: "https://loc.closertotruth.com/theory/smolin-s-causal-theory-of-views" }
     ],
     axes: axes,

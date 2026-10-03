@@ -26,10 +26,10 @@
   ];
 
   var profiles = {
-    "bohm-s-implicate-explicate-order":                             { enfold: 2, extra: -1, meaning: 1, brain: -1, layers: 1, quantum: 2 },
-    "carr-s-quantum-theory-psi-mental-space":                       { extra: 2, brain: -1, psi: 2, quantum: 1 },
+    "bohm-s-implicate-explicate-order":                             { enfold: 2, meaning: 1, brain: -1, layers: 1, quantum: 2 },
+    "carr-s-quantum-theory-psi-mental-space":                       { extra: 2, brain: -1, psi: 2 },
     "pacheco-s-science-of-unity":                                   { enfold: 1, extra: 2, brain: -1, layers: 2 },
-    "tozzi-s-multidimensional-brain":                               { enfold: -1, extra: 1, meaning: -1, brain: 2, quantum: -1 },
+    "tozzi-s-multidimensional-brain":                               { extra: 1, brain: 2, quantum: -1 },
     "pylkkaenen-s-quantum-potential-energy-and-active-information": { enfold: 1, extra: -1, meaning: 2, brain: 1, quantum: 2 },
   };
 

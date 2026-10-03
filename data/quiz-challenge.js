@@ -42,27 +42,27 @@
   ];
 
   var profiles = {
-    "akselruds-explanatory-faculty-consciousness-as-internalized-explanation": { solvable: -1, dissolve: -1, open: -1, selfexplain: 2, primitive: -2 },
+    "akselruds-explanatory-faculty-consciousness-as-internalized-explanation": { solvable: -1, open: -1, selfexplain: 2, primitive: -2 },
     "crow-s-funhouse-of-consciousness":                     { solvable: -1, open: 1, art: 2 },
     "champagne-s-semiotic-account":                         { dissolve: 2, open: -1, primitive: -1 },
-    "cohen-s-ultra-fine-tuned-personal-consciousness":      { dissolve: -1, cosmic: 1, finetune: 2 },
+    "cohen-s-ultra-fine-tuned-personal-consciousness":      { dissolve: -1, finetune: 2 },
     "davies-s-consciousness-in-the-cosmos":                 { solvable: 1, dissolve: -1, open: -1, cosmic: 2, finetune: 1 },
-    "delaflors-model-dependent-ontology":                   { dissolve: 2, brain: -1, open: 1, selfexplain: 1, primitive: -1 },
-    "eagleman-s-possibilianism":                            { solvable: 1, neutral: 1, open: 2 },
+    "delaflors-model-dependent-ontology":                   { dissolve: 2, open: 1, primitive: -1 },
+    "eagleman-s-possibilianism":                            { neutral: 1, open: 2 },
     "hartford-s-minded-eternal-conjecture":                 { brain: -1, open: -1, cosmic: 2, minded: 2 },
     "levin-s-technological-approach-to-mind-everywhere":    { solvable: 1, brain: -1, open: -1, beyond: 2, art: -1 },
     "mcginn-s-ultimate-mystery-mysterianism":               { solvable: -2, dissolve: -1, brain: 1, open: -1, minded: -1, primitive: -1 },
     "merriam-s-calculus-of-qualia-as-logical-primitives":   { solvable: -1, dissolve: -1, open: -1, selfexplain: -1, primitive: 2 },
-    "musser-s-is-it-really-so-hard":                        { solvable: 2, dissolve: 1, cosmic: 1, beyond: 1 },
-    "nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe": { solvable: -1, dissolve: -1, open: 1, bottom: 2 },
-    "nagel-s-mind-and-cosmos":                              { solvable: -1, dissolve: -2, brain: -2, open: -1, cosmic: 2, minded: -1 },
+    "musser-s-is-it-really-so-hard":                        { solvable: 2, cosmic: 1 },
+    "nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe": { solvable: -1, dissolve: -1, open: -1, bottom: 2 },
+    "nagel-s-mind-and-cosmos":                              { dissolve: -2, brain: -2, open: -1, cosmic: 2, minded: -1 },
     "owen-s-mind-body-powers-ncc-are-philosophically-and-religiously-neutral": { solvable: 1, brain: -1, neutral: 2, open: -1 },
     "rlk-reflections":                                      { dissolve: -1, open: 2 },
     "raman-s-cosmic-significance":                          { dissolve: -1, brain: 1, cosmic: 2, minded: -1 },
     "s-harris-s-mystery-of-consciousness":                  { solvable: -1, dissolve: -2, brain: -1, neutral: 1, selfexplain: -1, primitive: 1 },
     "shermer-s-known-unknown-and-possibly-unknowable":      { solvable: -1, brain: 2, neutral: -1, cosmic: -1, finetune: -1, minded: -2 },
     "silers-art-consciousness":                             { open: -1, art: 2 },
-    "tallis-s-anti-neuromania-skepticism":                  { solvable: -1, dissolve: -1, brain: -2, neutral: 1, open: -1, beyond: -1, minded: -1 },
+    "tallis-s-anti-neuromania-skepticism":                  { solvable: -1, dissolve: -1, brain: -2, neutral: 1, open: 1, beyond: -1, minded: -1 },
   };
 
   var questions = [
@@ -148,7 +148,7 @@
       tagline: "The mystery is a funhouse to wander, not a puzzle to solve.",
       url: "https://loc.closertotruth.com/theory/crow-s-funhouse-of-consciousness" },
     { key: "champagne-s-semiotic-account", name: "Champagne’s Semiotic Account",
-      tagline: "The hard problem is a trick of language.",
+      tagline: "Qualities split from causes only in thought; the puzzle dissolves.",
       url: "https://loc.closertotruth.com/theory/champagne-s-semiotic-account" },
     { key: "cohen-s-ultra-fine-tuned-personal-consciousness", name: "Cohen’s Ultra-Fine-Tuned Personal Consciousness",
       tagline: "Your existence needed the universe finely tuned.",
@@ -202,7 +202,7 @@
       tagline: "Art and metaphor reveal what consciousness is.",
       url: "https://loc.closertotruth.com/theory/silers-art-consciousness" },
     { key: "tallis-s-anti-neuromania-skepticism", name: "Tallis’s Anti-Neuromania Skepticism",
-      tagline: "The brain-scan fashion is mostly hype.",
+      tagline: "Brain activity alone can never explain conscious experience.",
       url: "https://loc.closertotruth.com/theory/tallis-s-anti-neuromania-skepticism" }
     ],
     axes: axes,

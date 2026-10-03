@@ -33,7 +33,7 @@
   var profiles = {
     "enactivism":                          { world: 2, models: 2, life: 1, skill: 1, symbol: -1, inside: 1 },
     "froese-s-irruption-theory":           { world: 1, models: 1, life: 1, cause: 2, symbol: -1, inside: 1 },
-    "gibson-s-ecological-psychology":      { world: 1, models: 2, symbol: -2, inside: -1 },
+    "gibson-s-ecological-psychology":      { world: 1, models: 2, symbol: -2 },
     "noe-s-out-of-our-heads-theory":       { world: 2, models: 1, life: 1, skill: 2, symbol: -1 },
     "pretel-wilson-s-human-systems-theory": { possible: 2 },
     "thompson-s-mind-in-life":             { world: 1, models: 1, life: 2, cause: 1, inside: 2 },

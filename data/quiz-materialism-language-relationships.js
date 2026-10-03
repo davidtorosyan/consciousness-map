@@ -39,16 +39,16 @@
 
   var profiles = {
     "brand-deisler-s-linguistically-attributed-biographical-self-and-conscious-action": { social: 2, human: 1, labels: -1, needs: -1 },
-    "chomsky-s-language-and-consciousness":                  { mystery: 2, thought: 2, tell: -2, social: -1, needs: -1 },
+    "chomsky-s-language-and-consciousness":                  { mystery: 2, thought: 2, social: -1, needs: -1 },
     "drabkin-s-language-as-fundamental-expression":          { speaks: 2, needs: 1, labels: -1 },
-    "fedotovs-communication-hypothesis-of-consciousness":    { tell: 2, thought: -2, social: 1, needs: -1 },
-    "hickey-s-language-and-consciousness":                   { thought: 2, needs: -2, labels: 1, human: -1, mystery: -1 },
+    "fedotovs-communication-hypothesis-of-consciousness":    { tell: 2, thought: -2, needs: 1 },
+    "hickey-s-language-and-consciousness":                   { thought: 1, needs: -2, labels: 1, human: -1, mystery: -1 },
     "jaynes-s-breakdown-of-the-bicameral-mind":              { recent: 2, human: 2, needs: 1, labels: -1, social: 1, mystery: -1 },
-    "koch-s-consciousness-does-not-depend-on-language":      { needs: -2, tell: -2, human: -2, recent: -2, labels: 1, mystery: -1 },
+    "koch-s-consciousness-does-not-depend-on-language":      { needs: -2, tell: -2, human: -2, recent: -2, mystery: -1 },
     "parrington-s-language-and-tool-driven-consciousness":   { tools: 2, human: 2, social: 1, together: 1, needs: -1, recent: -1 },
-    "searle-s-language-and-consciousness":                   { together: 2, needs: -2, mystery: -2, speaks: -2, recent: -2, tell: -1 },
-    "skopelitou-s-logos-language-before-consciousness":      { needs: 2, labels: -2, tell: 1, together: -1 },
-    "smith-s-language-as-classifier-of-consciousness":       { labels: 2, tell: 1, needs: -1, thought: -1 },
+    "searle-s-language-and-consciousness":                   { together: 2, needs: -2, mystery: -2, speaks: -2, recent: -2, tell: -1, human: 2 },
+    "skopelitou-s-logos-language-before-consciousness":      { needs: 2, labels: -2, tell: 1, together: -1, speaks: 1 },
+    "smith-s-language-as-classifier-of-consciousness":       { labels: 1, tell: 1, needs: -1, thought: -1 },
   };
 
   var questions = [
@@ -121,7 +121,7 @@
       tagline: "Your self was built by other people’s words.",
       url: "https://loc.closertotruth.com/theory/brand-deisler-s-linguistically-attributed-biographical-self-and-conscious-action" },
     { key: "chomsky-s-language-and-consciousness", name: "Chomsky’s Language and Consciousness",
-      tagline: "The mystery shows our limits, not magic.",
+      tagline: "The deeper mystery is matter, not mind.",
       url: "https://loc.closertotruth.com/theory/chomsky-s-language-and-consciousness" },
     { key: "drabkin-s-language-as-fundamental-expression", name: "Drabkin’s “Language” as Fundamental Expression",
       tagline: "Reality speaks, and minds listen.",

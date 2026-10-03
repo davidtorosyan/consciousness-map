@@ -27,7 +27,7 @@
 
   var profiles = {
     "blackmore-s-it-s-all-models":                  { qualia: 2, self: 2, predict: 1, looking: 2 },
-    "churchland-s-eliminative-materialism":         { folk: 2, qualia: -1 },
+    "churchland-s-eliminative-materialism":         { folk: 2 },
     "frankish-s-illusionism":                       { folk: -1, qualia: 2, looking: -1 },
     "graziano-s-attention-schema-theory":           { qualia: 1, attention: 2 },
     "ostendorf-s-predictive-pattern-driven-interface": { qualia: 1, self: 2, predict: 2 },
@@ -78,7 +78,7 @@
       tagline: "It’s models all the way down.",
       url: "https://loc.closertotruth.com/theory/blackmore-s-it-s-all-models" },
     { key: "churchland-s-eliminative-materialism", name: "Churchland’s Eliminative Materialism",
-      tagline: "Folk psychology is false; the mind goes.",
+      tagline: "Brain science will replace everyday talk of beliefs and desires.",
       url: "https://loc.closertotruth.com/theory/churchland-s-eliminative-materialism" },
     { key: "frankish-s-illusionism", name: "Frankish’s Illusionism",
       tagline: "Experience is real, but its glow is fake.",

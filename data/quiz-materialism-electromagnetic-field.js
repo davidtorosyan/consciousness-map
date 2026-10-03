@@ -35,10 +35,10 @@
 
   var profiles = {
     "ephaptic-coupling":                                      { feedback: 2, sync: 1, local: 1 },
-    "zhang-s-long-distance-light-speed-telecommunications":   { speed: 2, sync: 2, field: 1, feedback: 1, local: -1 },
-    "ambron-s-local-field-potentials-and-electromagnetic-waves": { local: 2, field: 1, sync: -1 },
-    "hunt-and-schooler-s-general-resonance-theory":           { beyond: 2, sync: 2, field: 1, pattern: -1 },
-    "jones-s-electromagnetic-fields":                         { field: 2, machine: 1, local: 1, sync: -1 },
+    "zhang-s-long-distance-light-speed-telecommunications":   { speed: 2, sync: 2, feedback: 1, local: -1 },
+    "ambron-s-local-field-potentials-and-electromagnetic-waves": { local: 2, field: 1 },
+    "hunt-and-schooler-s-general-resonance-theory":           { beyond: 2, sync: 2, field: 1, machine: -1 },
+    "jones-s-electromagnetic-fields":                         { field: 2, machine: 1, local: 1, beyond: 1 },
     "llinas-s-mindness-state-of-oscillations":                { rhythm: 2, sync: 1, field: -1, beyond: -2, causal: 1 },
     "mcfadden-s-conscious-electromagnetic-information-theory": { field: 2, feedback: 2, causal: 2, machine: 2, beyond: -1, speed: 1 },
     "pockett-s-conscious-and-non-conscious-patterns":         { pattern: 2, field: 2, causal: -2, beyond: -1, machine: 1 },
@@ -116,7 +116,7 @@
       tagline: "Awareness rides on waves around neurons.",
       url: "https://loc.closertotruth.com/theory/ambron-s-local-field-potentials-and-electromagnetic-waves" },
     { key: "hunt-and-schooler-s-general-resonance-theory", name: "Hunt and Schooler’s General Resonance Theory",
-      tagline: "Everything conscious resonates together.",
+      tagline: "Consciousness arises when things resonate in sync.",
       url: "https://loc.closertotruth.com/theory/hunt-and-schooler-s-general-resonance-theory" },
     { key: "jones-s-electromagnetic-fields", name: "Jones’s Electromagnetic Fields",
       tagline: "Your mind is a field your brain generates.",

@@ -24,17 +24,17 @@
       yes: "consciousness is the brain’s world model", no: "consciousness is more than a model" },
     { key: "replay", claim: "Experience is the brain replaying stored past experiences",
       yes: "experience is replay of stored experience", no: "experience is built fresh each moment" },
-    { key: "tracks", claim: "Consciousness runs on several parallel tracks at once",
-      yes: "consciousness runs on parallel tracks", no: "consciousness is one single stream" },
+    { key: "tracks", claim: "Each conscious self lives on its own track through time",
+      yes: "each self has its own track through time", no: "all selves share one present moment" },
   ];
 
   var profiles = {
-    "boyd-s-emergent-information-theory":                 { emerge: 2, acts: -2, cosmic: -1, math: -1 },
+    "boyd-s-emergent-information-theory":                 { emerge: 2, acts: 2, cosmic: -1, math: -1, machine: -1 },
     "doyle-s-experience-recorder-and-reproducer":         { replay: 2, acts: 2, emerge: 1, cosmic: -1, machine: -1 },
-    "langan-s-cognitive-theoretic-model-of-the-universe": { cosmic: 2, emerge: -2, math: 1, acts: 1, model: -1 },
-    "moll-s-multitrack-consciousness-conjecture":         { tracks: 2, cosmic: -1 },
-    "resch-s-platonic-functionalism":                     { math: 2, machine: 2, emerge: -1, cosmic: 1 },
-    "safron-s-integrated-world-modeling-theory":          { model: 2, cosmic: -2, acts: 1, machine: 1, tracks: -1 },
+    "langan-s-cognitive-theoretic-model-of-the-universe": { cosmic: 2, emerge: -2, math: 1, acts: 1 },
+    "moll-s-multitrack-consciousness-conjecture":         { cosmic: -1, tracks: 2 },
+    "resch-s-platonic-functionalism":                     { math: 2, machine: 2, emerge: -1 },
+    "safron-s-integrated-world-modeling-theory":          { model: 2, cosmic: -2, acts: 1, machine: 1 },
   };
 
   var questions = [
@@ -74,8 +74,8 @@
       axes: { replay: 1 },
     },
     {
-      t: "Consciousness runs on several parallel tracks at once, not one single stream.",
-      why: "Yes means separate streams of information run side by side and are woven into what you experience. No means consciousness is a single stream.",
+      t: "Each conscious self lives on its own separate track through time, with its own \u2018now\u2019, rather than everyone sharing one present moment.",
+      why: "Yes means time is laid out all at once and each self moves along its own path through it, feeling its own present. No means there is one shared present moment that everyone lives in.",
       axes: { tracks: 1 },
     },
   ];
@@ -89,7 +89,7 @@
     intro: questions.length + " questions, all inside information views.",
     areas: [
     { key: "boyd-s-emergent-information-theory", name: "Boyd’s Emergent Information Theory",
-      tagline: "Information gains new powers; consciousness rides along.",
+      tagline: "The brain spins off an information mind that steers it back.",
       url: "https://loc.closertotruth.com/theory/boyd-s-emergent-information-theory" },
     { key: "doyle-s-experience-recorder-and-reproducer", name: "Doyle’s Experience Recorder and Reproducer",
       tagline: "The brain records experiences and plays them back.",
@@ -98,7 +98,7 @@
       tagline: "The universe is a self-creating mind.",
       url: "https://loc.closertotruth.com/theory/langan-s-cognitive-theoretic-model-of-the-universe" },
     { key: "moll-s-multitrack-consciousness-conjecture", name: "Moll’s Multitrack Consciousness Conjecture",
-      tagline: "Consciousness runs on parallel tracks of information.",
+      tagline: "Each conscious self rides its own isolated track through block time.",
       url: "https://loc.closertotruth.com/theory/moll-s-multitrack-consciousness-conjecture" },
     { key: "resch-s-platonic-functionalism", name: "Resch’s Platonic Functionalism",
       tagline: "Mind and reality share one deep mathematical structure.",

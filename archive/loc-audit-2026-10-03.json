@@ -1,0 +1,2306 @@
+{
+ "description": "Audit of every quiz's taglines and theory positions against LOC's own entries (data/loc-theories.json), 2026-10-03. Each issue cites LOC text or a published view. All position and wrong/misleading tagline fixes were applied; question notes were applied where a clear rewording existed.",
+ "reviewed": {
+  "main": 11,
+  "panpsychisms": 16,
+  "idealisms": 26,
+  "dualisms": 23,
+  "anomalous-altered-states": 23,
+  "challenge": 22,
+  "neutral-monism": 10,
+  "non-reductive-physicalism": 9,
+  "information": 6,
+  "quantum-dimensions": 5,
+  "quantum-dimensions-quantum-machinery": 9,
+  "quantum-dimensions-mind-and-collapse": 2,
+  "quantum-dimensions-hidden-orders": 5,
+  "quantum-dimensions-cosmic-consciousness": 5,
+  "quantum-dimensions-relational-views": 2,
+  "materialism": 12,
+  "materialism-homeostatic-affective": 15,
+  "materialism-computational-functionalism": 14,
+  "materialism-neurobiological": 12,
+  "materialism-phylogenetic-evolutionary": 12,
+  "materialism-language-relationships": 11,
+  "materialism-electromagnetic-field": 9,
+  "materialism-philosophical": 8,
+  "materialism-relational": 8,
+  "materialism-embodied-enactive": 7,
+  "materialism-higher-order": 7,
+  "materialism-first-order": 6,
+  "materialism-eliminative-illusionism": 5
+ },
+ "issues": [
+  {
+   "quiz": "main",
+   "key": "information",
+   "positions": [
+    {
+     "axis": "medium",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Published view: Tononi & Koch (2015, 'Consciousness: here, there and everywhere?') argue IIT implies a digital computer simulating a brain would have near-zero phi and not be conscious; IIT is the flagship Information theory, so 'strongly agrees a machine running the right program is conscious' misrepresents the category (Chalmers-style information views do agree, so the category is split)."
+    }
+   ]
+  },
+  {
+   "quiz": "main",
+   "key": "panpsychisms",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Experience is a basic feature of matter, down to its tiniest parts.",
+    "evidence": "LOC: consciousness is 'present even at the smallest scales of matter and energy'; only 'in certain aggregates and under certain conditions' do these generate experience. Published view: Goff and Chalmers explicitly deny that rocks or grains of sand as wholes are conscious, so 'down to grains of sand' points at the standard caricature."
+   }
+  },
+  {
+   "quiz": "main",
+   "key": "phenomenology",
+   "positions": [
+    {
+     "axis": "causal",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: phenomenology is 'independent of any theory about its physical basis, metaphysical presuppositions' and seeks to clarify appearance 'without prematurely translating them into causal mechanisms'. Nothing commits it to mental causation over neural causation."
+    }
+   ]
+  },
+  {
+   "quiz": "main",
+   "key": "anomalous-altered-states",
+   "tagline": {
+    "verdict": "vague",
+    "fix": "Psi, near-death and altered states may reveal a non-physical mind.",
+    "evidence": "LOC: 'Explores claims that psi, NDEs, OBEs, and altered states reveal nonphysical aspects of consciousness.' Our tagline names neither the phenomena nor the non-physical claim."
+   },
+   "positions": [
+    {
+     "axis": "mind",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC speaks of 'nonphysical consciousness (or realms)' accessed via psi/NDEs; it says nothing about experience being a fundamental ingredient rather than built from something (e.g. a soul) more basic. The category is defined by evidence-claims, not this metaphysics."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "panprotopsychism",
+   "positions": [
+    {
+     "axis": "qualities",
+     "ours": -1,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC How It Works: 'Emergence occurs when unexperienced qualities transform into experienced ones.' That is qualities existing with no one experiencing them (the 'yes' side)."
+    },
+    {
+     "axis": "combine",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Axis/question: 'The tiny experiences of the particles in your brain somehow combine'. LOC: the basic protophenomenal properties 'are not themselves forms of consciousness'; what combines is non-experiential, so the theory rejects the question's premise."
+    },
+    {
+     "axis": "sharp",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC on borderline cases; no well-known panprotopsychist (Chalmers, Goff as cited) commits to consciousness coming in degrees."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "cosmopsychism",
+   "positions": [
+    {
+     "axis": "tuning",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'facts about little things are grounded in facts about big things' (top-down grounding). Published view: Goff, Nagasawa, Shani treat human minds as grounded in / derived from the cosmic mind, not received by brains like a radio signal; the filter/receiver model is a separate idea."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "qualia-force",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Consciousness emerges from physics, a real force physics can't explain.",
+    "evidence": "LOC: consciousness 'emerges from the fields and particles of fundamental physics' and 'Differs from panpsychism by making consciousness derivative from—but not reducible to—physical laws'. Calling it 'a new fundamental force' hides the strong-emergence claim."
+   },
+   "positions": [
+    {
+     "axis": "physical",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: strongly emergent, 'cannot be explained by fundamental physics, even with knowledge beyond the current, even in principle' and 'arising beyond physics’ full explanation'. That denies a complete physics would include it, though LOC also calls it 'a deep feature of physical reality'; net, no clear stand."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "qualia-space",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Each experience is a shape in its own space of qualities.",
+    "evidence": "LOC: 'a distinct “qualia space” dimension or structure where phenomenal properties are organized', 'Exemplified by IIT’s conceptual structures'. Published view: Tononi's qualia space is an abstract high-dimensional space in which an experience is a geometric shape, not a hidden dimension 'alongside space and time' as our tagline and the dimension question suggest."
+   }
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "chalmers",
+   "positions": [
+    {
+     "axis": "combine",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: panpsychism is viable 'contingent on solving the combination problem'. Published view: Chalmers, 'The Combination Problem for Panpsychism' (2017), treats micro-experiences combining as the central open task, not something he rejects."
+    },
+    {
+     "axis": "physical",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC How It Works: 'Expands physical ontology to include phenomenal or protophenomenal properties at the fundamental level'. Published view: Chalmers presents Russellian panpsychism as compatible with (and completing) physics' structural description. That leans toward 'inside physics', not outside."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "tye",
+   "tagline": {
+    "verdict": "vague",
+    "fix": "Consciousness is on or off, so it must start at the bottom.",
+    "evidence": "LOC's distinguishing idea: 'there are no borderline cases of phenomenal consciousness: it’s an on/off matter', which drives his panpsychism. 'Real and can't be reduced away' fits every theory in this quiz."
+   },
+   "positions": [
+    {
+     "axis": "subjects",
+     "ours": 1,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'at the most fundamental level, there is what Tye labels ‘consciousness*,’ which others would call ‘protoconsciousness.’' The basics carry consciousness*, not full experience."
+    },
+    {
+     "axis": "qualities",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC about unexperienced qualities; with consciousness* at the base, Tye's view does not clearly say every quality belongs to a subject."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "panqualityism",
+   "positions": [
+    {
+     "axis": "combine",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: the base is 'intrinsically qualitative but not intrinsically conscious', 'without positing ubiquitous micro-subjects'. There are no particle experiences to combine; the question's premise ('tiny experiences of the particles') is rejected."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "monadic-panpsychism",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Tiny minds make complex experience through relations, not merging.",
+    "evidence": "LOC: 'a relational explanation of how simple subjects could constitute complex experiences, without them having to combine in virtue of their subjectivity', via 'microphenomenal structuralism'. Nothing in LOC about one monad 'taking the lead' or 'all feeling as one'."
+   },
+   "positions": [
+    {
+     "axis": "combine",
+     "ours": -2,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'simple subjects could constitute complex experiences'. The theory denies subject-combination but keeps micro-constitution, so 'minds are wholes, not built from smaller experiences' at full strength overstates it."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "harris-field",
+   "tagline": {
+    "verdict": "wrong",
+    "fix": "Consciousness is a field everywhere, like spacetime, with no self.",
+    "evidence": "LOC: 'think of consciousness like spacetime—a fundamental field that's everywhere'; 'Consciousness is intrinsic to matter; complex arrangements yield subjective points of view.' Nothing about brains tuning in."
+   },
+   "positions": [
+    {
+     "axis": "tuning",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'complex arrangements yield subjective points of view'. Published view: Harris (Conscious, 2019) does not endorse the brain-as-receiver model."
+    },
+    {
+     "axis": "intrinsic",
+     "ours": -1,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC How It Works: 'Consciousness is intrinsic to matter'."
+    },
+    {
+     "axis": "cosmos",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: a field present everywhere and 'consciousness isn't self-centered'. A subjectless field is not 'the universe as one big mind that your mind is part of'."
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "wallace",
+   "positions": [
+    {
+     "axis": "force",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC Distinguishing Idea: 'No extra forces are needed; physics’ equations describe conscious reality “from the inside.”'"
+    }
+   ]
+  },
+  {
+   "quiz": "panpsychisms",
+   "key": "starrett",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Experience is fundamental and present in all things, not just organisms.",
+    "evidence": "LOC summary: experience is 'a fundamental and ubiquitous aspect of reality, not limited to complex organisms but present in all entities'. Nothing in the packet supports 'model your surroundings and respond'. It may come from Starrett's own papers, so check before changing. Note: this entry's other LOC fields (Core Concepts etc.) are copied from Neutral Monism, a data error in the packet/source."
+   },
+   "positions": [
+    {
+     "axis": "intrinsic",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: experience is 'a fundamental and ubiquitous aspect of reality ... present in all entities'. Nothing says experience is over and above matter."
+    },
+    {
+     "axis": "organize",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC ties mind to self-organisation; LOC says experience is 'present in all entities'. That is closer to 'mind is there whether or not things are active'. Keep it only if Starrett's own publications back it."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "kastrup-s-analytic-idealism",
+   "positions": [
+    {
+     "axis": "meditation",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says his case is 'grounded in philosophical argument' (supports reason=2) but nothing denies meditation reveals the ground; LOC: 'Death may expand awareness, akin to psychedelic or near-death experiences'. Published view: Kastrup writes sympathetically on mysticism (e.g. Meister Eckhart)."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "buddhism-s-empty-illusory-phenomenal-consciousness",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Even the felt quality of experience is empty, a kind of illusion.",
+    "evidence": "LOC Core Claim: 'Phenomenal consciousness has no intrinsic nature; its apparent “what-it’s-like-ness” is a cognitive illusion.' The tagline gives generic no-self, not the distinctive (Garfield) claim about phenomenal consciousness itself."
+   },
+   "positions": [
+    {
+     "axis": "meditation",
+     "ours": 1,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "Axis yes = 'meditation can find the consciousness everything rests on'. LOC: no 'inner qualitative core', consciousness 'arises through interdependent processes', 'no intrinsic nature'. Published view: Garfield's Madhyamaka denies any ground consciousness."
+    },
+    {
+     "axis": "illusion",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Emptiness means lacking inherent nature, not lacking existence; all phenomena are conventionally real but ultimately empty.' Illusion-like, but not simply 'a dream, not how reality is'. Full strength overstates it."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "hoffman-s-conscious-realism-the-case-against-reality",
+   "positions": [
+    {
+     "axis": "cycle",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC or Hoffman's well-known work denies a cosmic journey; the theory is silent on it."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "how-consciousness-becomes-the-physical-universe",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "One consciousness becomes matter and energy through observation.",
+    "evidence": "LOC: 'matter and energy are its complementary expressions'; 'Observation in quantum theory ... giving rise to the physical world'. The theory (title included) is about consciousness becoming the physical universe, not individual minds."
+   },
+   "positions": [
+    {
+     "axis": "quantum",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC How It Works: 'Observation in quantum theory links observer, observed, and observation, giving rise to the physical world'; 'generating matter and energy through quantum-like interactions'."
+    },
+    {
+     "axis": "cycle",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing about life evolving back toward consciousness; only the consciousness-to-matter half is present."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "mcgilchrist-s-relational-creative-process-idealism",
+   "positions": [
+    {
+     "axis": "cycle",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: matter is 'a phase' of a creative consciousness, and 'Cosmos evolves to know itself, with life introducing the capacity for value into cosmic consciousness'. Both halves of the cycle axis."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "pulido-moyano-s-consciousness-endomitosis-theory",
+   "positions": [
+    {
+     "axis": "meditation",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC Ultimate Aim: 'CET seeks liberation through direct recognition of one’s identity with pure, undivided awareness' (Advaita self-inquiry)."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "visan-s-self-reference",
+   "positions": [
+    {
+     "axis": "machine",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC about machines; Vișan's published idealist work gives no well-known endorsement of machine consciousness."
+    }
+   ]
+  },
+  {
+   "quiz": "idealisms",
+   "key": "ward-s-personal-idealism-souls-as-embodied-agents-created-by-god",
+   "positions": [
+    {
+     "axis": "flow",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Published view: Keith Ward, 'Rational Theology and the Creativity of God' (1982) and later works, rejects strict divine immutability for a creative, responsive God. Nothing in LOC supports a still, changeless presence."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "gomatam-s-gv-vedanta-consciousness",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Thought and feeling live in subtle matter; the true self is beyond it.",
+    "evidence": "LOC: 'Conscious properties like thought and emotion are instantiated in \"levels of matter\"'. In this view mind is itself (subtle) matter; it is consciousness/the self, not 'mind', that is distinct from matter."
+   },
+   "positions": [
+    {
+     "axis": "god",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "published view: Gaudiya Vaishnava theology (Gomatam's tradition) holds the individual soul (jiva) eternal and uncreated (cf. Bhagavad Gita 2.20 'never born'); God is its source but does not create each soul. LOC says nothing of creation."
+    },
+    {
+     "axis": "reason",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC gives no claim that argument alone establishes the nonphysical mind; Vedanta's authority is scripture (shabda) and the entry frames illusion (maya) as what hides the self. 'Compatibility with Science' is about accommodating neuroscience, not proving dualism."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "historical-and-traditional-dualisms",
+   "positions": [
+    {
+     "axis": "perennial",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing about religions sharing one hidden truth; it notes 'Abrahamic faiths, despite varied scripture' and lists diverse animism/ancestor worship. Shared assumption of a soul is not a perennialist claim."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "kind-s-dualism-2-0",
+   "positions": [
+    {
+     "axis": "soul",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC: 'Treats phenomenal and physical activities as equally real but non-reducible, without invoking mental substances.' That is the 'special properties, not a separate thing' pole."
+    },
+    {
+     "axis": "interact",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'Seeks a broader account of causation that affirms the reality and efficacy of phenomenal states.'"
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "mascari-s-qualion-mind-paradigm",
+   "positions": [
+    {
+     "axis": "interact",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'The brain (\"Brain 1\") interacts with qualions (\"Brain 2.0\"), which generate unified consciousness fields and enable volition'; aims to preserve freedom 'rejecting deterministic neuro-materialism'."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "nonphysical-component-in-the-human-mind",
+   "positions": [
+    {
+     "axis": "soul",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC: the component is 'distinct from traditional immortal soul concepts' and 'has no awareness itself, but enables richer cognition'. It is a partner of the brain, not the mind as a nonphysical thing in its own right; strong agreement overstates it."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "pitts-s-interactionist-dualism-energy-conservation-and-mental-causation",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Energy conservation doesn't stop a mind from moving the brain.",
+    "evidence": "LOC: Core claim is that 'Conservation-law objections to dualism rest on outdated or circular reasoning'; Pitts defends the possibility ('could be a consequence of interactionism'), he does not assert that the mind does push the brain."
+   },
+   "positions": [
+    {
+     "axis": "reason",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Pitts's work is a rebuttal of one objection (conservation laws), not an argument that the mind is nonphysical. LOC: 'non-conservation ... could be a consequence of interactionism'; nothing claims argument alone proves nonphysicality."
+    },
+    {
+     "axis": "interact",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC is modal: 'mental causation could naturally involve energy non-conservation'; 'Violations ... need not threaten physics'. Defends possibility, so strong agreement overstates."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "property-dualism",
+   "positions": [
+    {
+     "axis": "interact",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing about whether mental properties are causally efficacious; property dualists divide (epiphenomenalists vs. those who affirm mental causation, e.g. Kind's 'efficacy of phenomenal states' in this same quiz)."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "soul-in-islamic-philosophy",
+   "tagline": {
+    "verdict": "vague",
+    "fix": "The soul is an enduring essence that lives on past the body.",
+    "evidence": "LOC: 'The soul (nafs) is a self-aware, enduring essence that unites with the body yet can exist beyond bodily death.' Current tagline says nothing about what the view holds."
+   }
+  },
+  {
+   "quiz": "dualisms",
+   "key": "soul-in-the-hebrew-bible-and-jewish-philosophy",
+   "tagline": {
+    "verdict": "vague",
+    "fix": "Soul and spirit mean life and breath, not a detachable ghost.",
+    "evidence": "LOC: 'nephesh' and 'ruach' 'differ from modern notions, linking life, mind, and breath'; 'Nephesh denotes living beings and bodily life'."
+   },
+   "positions": [
+    {
+     "axis": "prelife",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Segal defends preexistent souls that become thinking with bodily development.' Segal is the entry's lead theorist, so leaning toward 'you began with this life' contradicts it; the entry is at best mixed."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "soul-in-the-new-testament-and-christian-philosophy",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "In the New Testament, the soul is the living person, raised whole.",
+    "evidence": "LOC Core Claim: 'In the New Testament, \"soul\" (psyche) typically means a living person, not an immortal, separable essence'; 'death is unconscious \"sleep\" until bodily resurrection'; theorist is van Inwagen (Christian materialist). The immortal soul is presented as a later Hellenistic absorption."
+   },
+   "positions": [
+    {
+     "axis": "soul",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC Core Claim denies a separable soul in the NT ('not an immortal, separable essence'), and cites van Inwagen's 'Christian materialism'; only later doctrine and 'contemporary Christian dualists' support it. Strong agreement is clearly too strong; at most a lean (or 0)."
+    },
+    {
+     "axis": "prelife",
+     "ours": -2,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Traducianism, Creationism, and Pre-existence offer competing accounts of how individual souls originate.' Pre-existence is listed as a live doctrinal option, so strong rejection overstates."
+    }
+   ]
+  },
+  {
+   "quiz": "dualisms",
+   "key": "trialism",
+   "positions": [
+    {
+     "axis": "god",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: one kind of trialism is 'a reinterpretation of René Descartes's dualism (implicitly in a religious context of the \"soul\")'; theorists include Eccles, published view: Eccles attributed each unique self/soul to 'a supernatural spiritual creation' (Evolution of the Brain, 1989). Not a godless view as a group."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "grinberg-s-syntergic-neuronal-field-theory",
+   "positions": [
+    {
+     "axis": "survival",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC addresses survival; the entry is about the neuronal field interacting with an 'undifferentiated energetic matrix' and nonlocal brain-to-brain communication. No well-known published denial of survival by Grinberg."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "josephson-s-psi-informed-models",
+   "positions": [
+    {
+     "axis": "brain",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC never says the brain filters consciousness; it describes 'Multiple specialized models integrate brain, behavior, and anomalous effects' and explaining higher-level properties from lower-level ones, which reads closer to production than filtering."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "jung-s-collective-unconscious-and-synchronicity",
+   "positions": [
+    {
+     "axis": "brain",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing about the brain filtering or channelling consciousness; the collective unconscious is 'quasi-nonphysical' and connected to individual psyches, not a filter model."
+    },
+    {
+     "axis": "dualism",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC: 'Jung tied synchronicity to a psychophysically neutral reality' (the unus mundus), i.e. mind and matter as aspects of one reality."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "combs-s-chaotic-attractor-and-autopoietic-systems",
+   "positions": [
+    {
+     "axis": "brain",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'Consciousness is a self-generating, chaotic-like attractor'; nothing says the brain produces it. Published view: Combs works in the integral/transpersonal tradition (Wilber-Combs lattice), not a production model."
+    },
+    {
+     "axis": "meaning",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC about meaning built into reality; the entry is about self-organizing patterns of experience."
+    },
+    {
+     "axis": "physics",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC uses 'nonlinear dynamics' and 'chaos theory', a mathematical-physical framework; nothing says the answer lies outside physics."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "ferrer-s-participatory-enactive-realism",
+   "positions": [
+    {
+     "axis": "ground",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Neither mind nor matter is primary'; shifts focus away from 'foundational substances—whether matter or consciousness'. 'Consciousness comes later than matter' contradicts this."
+    },
+    {
+     "axis": "brain",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says consciousness is 'an embodied and relational event'; nothing about the brain as a filter or channel."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "graboi-s-three-aspect-model",
+   "positions": [
+    {
+     "axis": "ground",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC lists matter as one of three aspects alongside mind and pure awareness and says pure awareness 'interacts with a brain'; nothing says matter derives from consciousness."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "harp-s-universal-or-god-consciousness",
+   "positions": [
+    {
+     "axis": "time",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC: 'one experiences the universe beyond space and time'; 'In pure consciousness, all quantum states exist simultaneously without causal interaction' (the 'true awareness stands outside time' pole)."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "hiller-s-eternal-discarnate-consciousness",
+   "positions": [
+    {
+     "axis": "psi",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'OBEs reveal a nonphysical reality with timeless perception, multidimensional travel, and universal telepathy.'"
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "khasho-s-nde-enabled-unified-field-level-model",
+   "positions": [
+    {
+     "axis": "ground",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: consciousness is 'embedded in the field-level state and rendered or filtered through the brain'; nothing says matter comes from consciousness. A deeper organizing field is not a claim that consciousness grounds matter."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "near-death-experiences-survival-past-lives",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "If near-death reports are genuine, mind can work without the brain.",
+    "evidence": "LOC: genuine NDEs 'would seriously challenge materialist theories'; 'no dispositive evidence confirming consciousness survives death'; RLK: 'I still skew skeptical.' The entry is conditional, not a claim that NDEs show it."
+   },
+   "positions": [
+    {
+     "axis": "dualism",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "unsupported",
+     "evidence": "LOC says survival evidence would 'support (but not confirm) a host of nonphysical theories'; nothing commits to interactive two-thing dualism rather than e.g. idealism. Strong agreement is not backed."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "shiah-s-contentless-consciousness-theory",
+   "positions": [
+    {
+     "axis": "survival",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'Near-death experiences, mediumship, and reincarnation studies suggest consciousness exists beyond bodily death'; true consciousness is 'eternal'."
+    }
+   ]
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "key": "tart-s-emergent-interactionism",
+   "positions": [
+    {
+     "axis": "ground",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'Consciousness emerges from continuous interaction between brain/body systems and separate mental/life systems.' The mental system is separate, not later than matter; 'emergent' here means arising from interaction, not that matter came first. Nothing supports 'consciousness comes later than matter'."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "akselruds-explanatory-faculty-consciousness-as-internalized-explanation",
+   "positions": [
+    {
+     "axis": "dissolve",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: the hard problem is 'denied: it is not a property of nature but a structural collision between two mutually exclusive explanatory forms' - not a real problem about nature, though 'neither solved nor dissolved'."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "cohen-s-ultra-fine-tuned-personal-consciousness",
+   "positions": [
+    {
+     "axis": "cosmic",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC only claims all prior cosmic/historical conditions were needed for your qualia; nothing says consciousness plays a fundamental role in the universe."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "delaflors-model-dependent-ontology",
+   "positions": [
+    {
+     "axis": "brain",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: MDO works 'without committing to any ontological substrate, whether material, mental, or otherwise'."
+    },
+    {
+     "axis": "selfexplain",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: consciousness is a 'C2 organization through which experience is rendered as language, self, and world' - rendering, not the mind's explaining turned on itself."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "eagleman-s-possibilianism",
+   "positions": [
+    {
+     "axis": "solvable",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC Open Question: 'science can link brain and mind but may never explain why experiences feel the way they do'."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "musser-s-is-it-really-so-hard",
+   "positions": [
+    {
+     "axis": "dissolve",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: Musser 'rejects strict mysterianism' and is optimistic science can explain it; nothing says the hard problem is a conceptual confusion. That belongs on 'solvable', already +2."
+    },
+    {
+     "axis": "beyond",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC Role of AI: AI 'might uncover theories about consciousness or physics' - AI as a research tool, not a claim that machines or cells have minds."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe",
+   "positions": [
+    {
+     "axis": "open",
+     "ours": 1,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "LOC Distinguishing Idea: 'Proposes \"priority monism,\" where the whole universe ... is the most fundamental entity' - he takes a positive stand, not keeping every option open."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "nagel-s-mind-and-cosmos",
+   "positions": [
+    {
+     "axis": "solvable",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Consciousness cannot yet be explained physically'; 'we have at present no conception'. Published view: Nagel (Mind and Cosmos, 2012) expects a future conceptual revolution could explain it; he is not a mysterian."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "tallis-s-anti-neuromania-skepticism",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Brain activity alone can never explain conscious experience.",
+    "evidence": "LOC Core Claim: 'Rejects the idea that neural activity alone can fully explain consciousness, calling reductionist approaches self-contradictory' - a principled argument, not a complaint about hype or fashion."
+   },
+   "positions": [
+    {
+     "axis": "open",
+     "ours": -1,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Advocates open-ended inquiry and ontological agnosticism'; 'Dismisses materialism, dualism, theism, and panpsychism as inadequate, leaving the problem unresolved'."
+    }
+   ]
+  },
+  {
+   "quiz": "challenge",
+   "key": "champagne-s-semiotic-account",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Qualities split from causes only in thought; the puzzle dissolves.",
+    "evidence": "LOC: the hard problem dissolves 'by not reifying the warranted distinction that generates it' (Peirce: qualities extricable 'only in thought, not in fact') - a real distinction wrongly reified, not a verbal trick."
+   }
+  },
+  {
+   "quiz": "neutral-monism",
+   "key": "atmanspacher-s-dual-aspect-monism",
+   "positions": [
+    {
+     "axis": "inner",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: the underlying reality is 'psychophysically neutral', neither mental nor material; nothing says matter's inner nature is experience-like."
+    },
+    {
+     "axis": "laws",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing against psychophysical laws; it aims 'to explain mind-matter correlations'."
+    }
+   ]
+  },
+  {
+   "quiz": "neutral-monism",
+   "key": "davidson-s-anomalous-monism",
+   "positions": [
+    {
+     "axis": "evolve",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Neither LOC nor Davidson's published work takes a stand on whether the universe evolves toward greater consciousness."
+    }
+   ]
+  },
+  {
+   "quiz": "neutral-monism",
+   "key": "leslie-s-consciousness-inside-an-infinite-mind",
+   "positions": [
+    {
+     "axis": "evolve",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: infinite minds are 'eternally conscious of all that's worth contemplating' - an eternal, static picture; nothing about the universe evolving toward more consciousness."
+    }
+   ]
+  },
+  {
+   "quiz": "neutral-monism",
+   "key": "polkinghorne-s-dual-aspect-monism",
+   "positions": [
+    {
+     "axis": "quantum",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: he 'uses complexity theory to explain top-down causality'. Published view: Polkinghorne drew on chaos theory, not quantum mind, for mind-matter interaction."
+    },
+    {
+     "axis": "evolve",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC about the universe evolving toward greater consciousness; that is Teilhard's thesis, not Polkinghorne's."
+    }
+   ]
+  },
+  {
+   "quiz": "neutral-monism",
+   "key": "teilhard-de-chardin-s-evolving-consciousness",
+   "positions": [
+    {
+     "axis": "god",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'even \"God\" is an emergent in a process of \"theogenesis\"'; 'God and the world co-evolve toward the Omega Point'. A co-evolving, emergent God fits poorly with a strong 'personal God created the universe', though Teilhard as a Jesuit did accept a Creator."
+    }
+   ]
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "key": "cai-and-cai-s-canxian",
+   "positions": [
+    {
+     "axis": "topdown",
+     "ours": 0,
+     "suggested": 2,
+     "kind": "missing",
+     "evidence": "LOC: consciousness possesses 'unique principles and the capacity for downward causation'; 'a real, causally powerful level of reality'."
+    }
+   ]
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "key": "ellis-s-strong-emergence-and-top-down-causation",
+   "positions": [
+    {
+     "axis": "principles",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'strong emergence, where higher-level properties have irreducible causal powers' - if anything it implies irreducible higher-level principles; nothing backs 'no new principles needed'."
+    },
+    {
+     "axis": "settle",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC speaks of 'possibility spaces' actualized by top-down causation, but nothing about each moment being the brain settling into one stable pattern."
+    }
+   ]
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "key": "heraths-state-space-selection-and-the-sentience-factor",
+   "positions": [
+    {
+     "axis": "background",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: the Sentience Factor 'unites with structure only when the system responds to a configuration'. Nothing favors spontaneous background activity over responses."
+    }
+   ]
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "key": "maxwell-s-unique-matching-theory",
+   "tagline": {
+    "verdict": "vague",
+    "fix": "Each possible sensation maps one-to-one onto a brain process.",
+    "evidence": "LOC Core Claim: 'a unique, structure-preserving mapping between sensation space and brain-process space'. The tagline leaves out this one-to-one matching."
+   }
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "key": "nagasawa-s-nontheoretical-physicalism",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "All is physical, yet some physical facts escape every theory.",
+    "evidence": "LOC: 'there are physical facts that cannot be captured even by complete theories of the physical sciences'. The point is not that physics is unfinished."
+   }
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "key": "sanfey-s-abstract-realism",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Consciousness fuses two clashing time perspectives into one moment.",
+    "evidence": "LOC: the 'Temporal Uncertainty Principle defines consciousness as the integration of two contradictory, temporal perspectives'; 'a physical mechanism'. Nothing about an abstract level where mind and matter meet."
+   },
+   "positions": [
+    {
+     "axis": "abstract",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Only the theory's name suggests this. LOC describes consciousness as 'a physical mechanism' and 'two interacting, complex information systems in the brain', with no claim that abstract patterns are real causes."
+    },
+    {
+     "axis": "brain",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC locates the mechanism in 'two interacting, complex information systems in the brain'; nothing says philosophy must lead."
+    },
+    {
+     "axis": "topdown",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'Phenomenal simultaneity grants conscious presence causal power'; 'equivalent in effect to strong emergence'."
+    }
+   ]
+  },
+  {
+   "quiz": "information",
+   "key": "boyd-s-emergent-information-theory",
+   "tagline": {
+    "verdict": "wrong",
+    "fix": "The brain spins off an information mind that steers it back.",
+    "evidence": "LOC: a 'non-material mind ... capable of influencing events in the physical body'; information patterns 'exert top-down causal control over physical brain activity'. Consciousness does not ride along."
+   },
+   "positions": [
+    {
+     "axis": "acts",
+     "ours": -2,
+     "suggested": 2,
+     "kind": "contradicted",
+     "evidence": "LOC: 'exert top-down causal control over physical brain activity'; 'capable of influencing events in the physical body'."
+    },
+    {
+     "axis": "machine",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC: 'While both brains and computers process information, only biological systems self-organize to produce consciousness'."
+    }
+   ]
+  },
+  {
+   "quiz": "information",
+   "key": "langan-s-cognitive-theoretic-model-of-the-universe",
+   "positions": [
+    {
+     "axis": "model",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: a 'self-simulation language ... generates and models reality from within'; consciousness as 'reflexive identity describing self-awareness'. Self-modelling is central, so 'more than a model' has no backing (the axis is about brains anyway)."
+    }
+   ]
+  },
+  {
+   "quiz": "information",
+   "key": "moll-s-multitrack-consciousness-conjecture",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Each conscious self rides its own isolated track through block time.",
+    "evidence": "LOC: 'Each conscious self exists on its own track in time, experiencing a unique now within the block universe'; tracks are 'isolated ... with no cross-access'. It is not one mind running parallel information streams."
+   },
+   "positions": [
+    {
+     "axis": "tracks",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "The axis means one consciousness runs on several parallel tracks at once. In Moll each self has its own single, isolated track ('each one feels present only in its own moment'). His view is about time in the block universe, not parallel streams within one mind. The axis should be reworded to fit him (see questions)."
+    }
+   ]
+  },
+  {
+   "quiz": "information",
+   "key": "resch-s-platonic-functionalism",
+   "positions": [
+    {
+     "axis": "cosmic",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'Physical reality emerges from computation, making minds and worlds Platonic structures'. Minds and worlds are both computations, but nothing says the universe as a whole is a mind."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions",
+   "key": "quantum-dimensions-quantum-machinery",
+   "positions": [
+    {
+     "axis": "cosmic",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Flagship member Orch-OR: LOC 'Suggests consciousness predates life'; Hameroff's proto-conscious OR events are tied to spacetime geometry, not brains."
+    },
+    {
+     "axis": "relations",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "No member core claim says anything about intrinsic vs relational properties; looks guessed."
+    },
+    {
+     "axis": "collapse",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Several members have minds settling quantum outcomes: Beck-Eccles 'Mental volition alters the probability of neurotransmitter release via quantum state reduction'; Shiah 'Consciousness can directly influence the physical world through quantum processes'; Morrison's position-measurements direct attention. Others (Orch-OR, Fisher) disagree, so the group takes no clear stand."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions",
+   "key": "quantum-dimensions-mind-and-collapse",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Your mind turns quantum possibilities into definite facts.",
+    "evidence": "Kauffman's claim is about consciousness converting 'Possibles' into 'Actuals', not about choices; 'choices' points at free will and fits only Stapp."
+   },
+   "positions": [
+    {
+     "axis": "hidden",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Kauffman treats unactualized possibilities as a real level: 'Adopts Heisenberg's \"potentia\" as ontologically real'; 'Res potentia—ontologically real Possibles'. That is not 'the visible world is the only level'."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions",
+   "key": "quantum-dimensions-cosmic-consciousness",
+   "positions": [
+    {
+     "axis": "beyond",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "King: 'Subjective consciousness forms an irreducible, interactive complement to the physical universe'; Torday: 'challenging strict materialism'; Hameroff: persisting 'quantum soul'. Only Wolfram/Keppler read as plainly physical."
+    },
+    {
+     "axis": "collapse",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "King has consciousness acting through 'physically indeterminate phase transition states' ('causal intent'); in Hameroff each OR collapse is itself a proto-conscious moment. No group-wide claim that outcomes happen without minds."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-quantum-machinery",
+   "key": "caveliers-entangled-spins-at-the-nmda-receptor",
+   "positions": [
+    {
+     "axis": "spin",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "The axis/question is about spins of atomic NUCLEI; Cavelier's mechanism is 'entangled radical-pair spin states' and 'electronic wavefunctions' (radical pairs are electron spins). Strongly agreeing aligns him with Fisher on the wrong carrier."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-quantum-machinery",
+   "key": "morrison-s-position-selecting-interactionism",
+   "positions": [
+    {
+     "axis": "mind",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: 'the direct physical correlate of our subjective experience is the wavefunction of a single rare particle'. Nothing says a non-physical mind acts on the brain; the 'interaction' is particle position-measurements 'influenced by sensory inputs, memories, and emotion'. Strongly agree groups him with Eccles-style dualism without evidence."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-quantum-machinery",
+   "key": "fisher-s-quantum-cognition",
+   "positions": [
+    {
+     "axis": "computer",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC or Fisher's published work (Fisher 2015, Ann. Phys.) takes a stand on machine consciousness; he proposes a biological quantum mechanism only."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-quantum-machinery",
+   "key": "poznanski-s-dynamic-organicity-theory",
+   "tagline": {
+    "verdict": "vague",
+    "fix": "Consciousness emerges from quantum-spread information in living brains.",
+    "evidence": "'a living system's quantum reach' is empty; LOC: 'emerges from quantum-delocalized, self-referential information systems in living brains'."
+   }
+  },
+  {
+   "quiz": "quantum-dimensions-hidden-orders",
+   "key": "bohm-s-implicate-explicate-order",
+   "positions": [
+    {
+     "axis": "extra",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC Distinguishing Idea: 'Mind and matter share a common higher-dimensional ground beyond either's independent existence.' Published view: Bohm (Wholeness and the Implicate Order) calls the implicate order a 'higher-dimensional reality'."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-hidden-orders",
+   "key": "carr-s-quantum-theory-psi-mental-space",
+   "positions": [
+    {
+     "axis": "quantum",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC quotes Carr: 'Even if you believe that consciousness collapses the wave function, that doesn't really accommodate consciousness within physics.' His key move is a higher-dimensional 'mental space' (published view: Carr, hyperspatial models of matter and mind), not quantum theory."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-hidden-orders",
+   "key": "tozzi-s-multidimensional-brain",
+   "positions": [
+    {
+     "axis": "enfold",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing about whether the world is made of separate parts; it only concerns high-dimensional brain phase spaces ('hidden geometries linking distant brain regions')."
+    },
+    {
+     "axis": "meaning",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC addresses meaning acting physically; topological/computational neuroscience framework only."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-cosmic-consciousness",
+   "key": "torday-s-cellular-and-cosmic-consciousness",
+   "positions": [
+    {
+     "axis": "field",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'quantum entanglement connect local cellular memories with non-local cosmic consciousness'; 'continuous from physiology to universal mind'. Not 'generated where it happens'."
+    },
+    {
+     "axis": "before",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC posits a 'non-local cosmic consciousness' that cells link to, so 'consciousness arrived with life' is not clearly his view; he grounds individual consciousness in cells but the cosmic side is unaddressed in time."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-relational-views",
+   "key": "smolin-s-causal-theory-of-views",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Consciousness arises only in rare, never-repeated views of events.",
+    "evidence": "LOC Distinguishing Idea: 'Restricts panpsychism to a small set of rare, non-duplicated event views'. Our tagline states the generic premise and misses the theory's point."
+   },
+   "positions": [
+    {
+     "axis": "inside",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Restricts panpsychism to a small set of rare, non-duplicated event views'; 'unprecedented, unique views correlate with conscious moments'. Every event has a view, but only rare ones have a felt side."
+    }
+   ]
+  },
+  {
+   "quiz": "quantum-dimensions-relational-views",
+   "key": "rovelli-s-relational-physics",
+   "positions": [
+    {
+     "axis": "inside",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC Implications: 'May offer a mild form of panpsychism while deflating the \"hard problem\"'. Leaning against an inner side for all events conflicts with this; no stand is safer."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism",
+   "key": "materialism-computational-functionalism",
+   "positions": [
+    {
+     "axis": "body",
+     "ours": -2,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "Strength clearly wrong for the group: Markwell 'embodied self-modeling dynamics'; Malinkovic and Aru 'biological computation where physical, energetic, and chemical properties are part of the computation'; Bitar's units exist to manage 'the body'. Functionalism permits non-living minds, but strongly disagreeing overstates it."
+    },
+    {
+     "axis": "circuits",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "No member claims consciousness is spread beyond particular circuits; Grossberg ties it to specific resonant states, Bitar to PPU/SPU architecture. Looks guessed."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism",
+   "key": "materialism-neurobiological",
+   "positions": [
+    {
+     "axis": "relations",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "No member core claim addresses whether experiences are defined by relations or intrinsic character."
+    },
+    {
+     "axis": "body",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "No member claims a mind could exist without a living body; Searle's biological naturalism ('biological feature of the brain') and Mitchell's Free Agents (living organisms as agents) if anything lean the other way."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism",
+   "key": "materialism-phylogenetic-evolutionary",
+   "positions": [
+    {
+     "axis": "ho",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Member LeDoux is a leading higher-order theorist (his 'Higher-Order Theory of Emotional Consciousness' sits in the Higher-Order school); Dennett is no first-order theorist. No member core claim backs 'first layer of perception is enough'."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism",
+   "key": "materialism-language-relationships",
+   "positions": [
+    {
+     "axis": "ancient",
+     "ours": -2,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Koch: 'Consciousness exists independently of language and is not unique to humans'; Hickey: 'consciousness can exist without it'; Searle: bootstrapping 'across evolution'. Only Jaynes/Skopelitou imply a late origin."
+    },
+    {
+     "axis": "language",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "Strength too high for the group: Koch ('Consciousness Does Not Depend on Language') and Hickey ('consciousness can exist without it') reject it; Chomsky's claim is about mystery, not language making consciousness."
+    },
+    {
+     "axis": "ho",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "No member core claim mentions a higher-order/inner layer; Jaynes's introspection is the closest and is cultural, not a meta-representation claim."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism",
+   "key": "materialism-first-order",
+   "positions": [
+    {
+     "axis": "represent",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "Two of six members reject representation: Direct Perception Theory 'without relying on mental representations'; Transparency Theory 'directly perceiving external objects, not internal mental states'. Strongly agree is too strong for the group."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "pereira-s-sentience",
+   "tagline": {
+    "verdict": "wrong",
+    "fix": "Feeling comes first; thinking is built on top of it.",
+    "evidence": "LOC: 'Consciousness has two layers: basic sentience and higher-level cognitive awareness.' The two layers are feeling and thinking, not two layers of feeling."
+   }
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "entropic-theories",
+   "positions": [
+    {
+     "axis": "entropy",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'local decreases in entropy must be balanced'; Van Hamme: 'stabilized coherence patterns'. Consciousness is tied to local order, not freer or more disorderly activity."
+    },
+    {
+     "axis": "machine",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC: 'Consciousness is real, evolutionarily constrained to living systems'"
+    },
+    {
+     "axis": "selforg",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC about self-maintenance or selves. The mechanisms given are microtubule coherence (Van Hamme) and information deletion (Lugten)."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "pepperell-s-organization-of-energy",
+   "positions": [
+    {
+     "axis": "predict",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC has only a summary about the organization of energy, with nothing on prediction vs senses. I know of no published Pepperell view rejecting predictive perception."
+    },
+    {
+     "axis": "machine",
+     "ours": -2,
+     "suggested": -1,
+     "kind": "unsupported",
+     "evidence": "Published view: Pepperell (2018, Front. Psychol.) argues that consciousness depends on how energy is organized, so a machine would need that physical organization, not just computation. He does not restrict it to living things, so 'only living things' at full strength overstates him."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "seth-s-beast-machine-theory",
+   "positions": [
+    {
+     "axis": "machine",
+     "ours": -2,
+     "suggested": -1,
+     "kind": "unsupported",
+     "evidence": "Published view: Seth (2024-25, 'Conscious AI and biological naturalism') argues that consciousness may depend on being alive and that AI consciousness is unlikely, but he explicitly does not rule it out. A strong 'only living things' misstates him."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "sebastian-s-predictive-machine",
+   "positions": [
+    {
+     "axis": "machine",
+     "ours": 2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC describes the brain as a predictive engine and says nothing about machines or AI. The strong yes looks guessed from the theory's name."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "buzsaki-s-neural-syntax-and-self-caused-rhythms",
+   "positions": [
+    {
+     "axis": "memory",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC frames consciousness as 'internalized action: thinking is simulated doing'. Nothing says consciousness exists for remembering. Buzsaki's hippocampus work is about memory mechanisms, not the purpose of consciousness."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "key": "carhart-harris-s-entropic-brain-hypothesis",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Richer experience comes from more disorderly brain activity.",
+    "evidence": "LOC: 'entropy of spontaneous brain activity indexes the informational richness'. 'Running hotter' suggests temperature or metabolism, but the entropy here is informational disorder. Also, too much entropy means loss of consciousness."
+   }
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "bitar-s-architectural-theory-of-consciousness",
+   "positions": [
+    {
+     "axis": "substrate",
+     "ours": 1,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Explains the rationale for inferring that lower animals have minds but that computers do not.'"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "grossberg-s-adaptive-resonance-theory",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Awareness is expectation and input resonating together.",
+    "evidence": "LOC: 'Bottom-up inputs match top-down expectations, creating a feedback loop'. The resonance is between input and expectation, not the brain 'with itself'."
+   },
+   "positions": [
+    {
+     "axis": "process",
+     "ours": 0,
+     "suggested": 2,
+     "kind": "missing",
+     "evidence": "LOC: 'the mind is an activity, not a thing; a verb, not a noun'"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "mathematical-theories",
+   "positions": [
+    {
+     "axis": "substrate",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC names Penrose among the group's key proponents. Published view: Penrose (The Emperor's New Mind, Shadows of the Mind) argues that consciousness is non-computable, so no computer program would be conscious. The group is split."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "complex-adaptive-systems-models",
+   "positions": [
+    {
+     "axis": "history",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'Consciousness shares CAS traits: unpredictability, recursion, history-dependence, and open boundaries.'"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "computational-theories",
+   "positions": [
+    {
+     "axis": "hologram",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC lists 'neural networks' as part of the field. Connectionist and neural-network computation stores information in distributed form, so computationalism takes no stand on localized storage."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "critical-brain-hypothesis",
+   "positions": [
+    {
+     "axis": "physics",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Criticality is statistical physics applied to neural networks: 'neural networks do their best work when connections are not too weak or too strong.' That is ordinary brain science, not the 'fundamental physics' the question implies (quantum effects, gravity)."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "awret-s-holographic-correspondence-theory-of-consciousness",
+   "positions": [
+    {
+     "axis": "math",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC presents a physical mechanism ('a physics in which things that seem completely different are in some sense identical'). It does not claim consciousness is mathematical or exactly captured by formulas."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "malinkovic-and-aru-s-biological-computationalism",
+   "positions": [
+    {
+     "axis": "math",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says consciousness is a kind of computation ('continuous-valued computations', 'the substrate is the algorithm'). It makes no claim that consciousness exceeds formal description. (Also, the key and name say 'Malinkovic', but LOC lists the theorist as Borjan Milinkovic.)"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "key": "oreilly-shahs-state-space-theory-and-computational-dynamic-monism",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Each moment rebuilds the brain's own recent history.",
+    "evidence": "LOC: 'the brain reconstructs the dynamical history of its own states ... through recurrent feedback' (delay coordinate embedding). 'Replaying' suggests memory replay, which the theory does not claim."
+   }
+  },
+  {
+   "quiz": "materialism-neurobiological",
+   "key": "mitchell-s-free-agents",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Free will is real, and fully physical.",
+    "evidence": "LOC: 'Free will is real and fully physical—no ghost, just the machine doing the work.' 'Not a machine' suggests something non-physical."
+   }
+  },
+  {
+   "quiz": "materialism-neurobiological",
+   "key": "crick-and-koch-s-neural-correlates-of-consciousness",
+   "positions": [
+    {
+     "axis": "machine",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says nothing on machines. Published view: Koch (The Feeling of Life Itself, 2019) says neuromorphic hardware with the right causal structure could be conscious. He rules out digital computers on IIT grounds, not because consciousness needs 'biology like ours'."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-neurobiological",
+   "key": "edelman-s-neural-darwinism-and-reentrant-neural-circuitry",
+   "positions": [
+    {
+     "axis": "reduce",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: 'Qualia are just neural discriminations; the mystery fades once mechanisms are fully understood.'"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-neurobiological",
+   "key": "sapolsky-s-hard-incompatibilism",
+   "positions": [
+    {
+     "axis": "emerge",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC: Sapolsky calls consciousness a 'complex emergent property'; 'emergent side effect of brain processes'."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-phylogenetic-evolutionary",
+   "key": "feinberg-and-mallatt-s-ancient-origins-of-consciousness",
+   "positions": [
+    {
+     "axis": "gradual",
+     "ours": -1,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC: 'Consciousness evolved gradually, not suddenly, tracing back to early life forms.'"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-phylogenetic-evolutionary",
+   "key": "sreedharan-s-affective-survival-theory",
+   "positions": [
+    {
+     "axis": "social",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'selected for its contribution to behavioral flexibility, memory encoding, and social cooperation'. Social function is part of the claim, so it should not lean against."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-phylogenetic-evolutionary",
+   "key": "no-hard-problem-in-william-james-s-psychology",
+   "positions": [
+    {
+     "axis": "grains",
+     "ours": -2,
+     "suggested": -1,
+     "kind": "contradicted",
+     "evidence": "Published view: James, Some Problems of Philosophy (1911): 'our acquaintance with reality grows literally by buds or drops of perception'. A Pluralistic Universe also treats experience as coming in pulses. The 'stream' (Principles, 1890) is how consciousness appears to itself, so a strong 'truly continuous' overstates him."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-phylogenetic-evolutionary",
+   "key": "dennett-s-evolution-of-minds",
+   "positions": [
+    {
+     "axis": "causal",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Published view: Dennett (Consciousness Explained; From Bacteria to Bach) rejects any split between 'experiences themselves' and the brain activity behind them. He would reject the question's premise rather than agree, and LOC says nothing on it."
+    },
+    {
+     "axis": "affect",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC or in Dennett's well-known work says feelings came after perception and thought."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "chomsky-s-language-and-consciousness",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "The deeper mystery is matter, not mind.",
+    "evidence": "LOC Distinguishing Idea: 'The real mystery isn't the mind—it's matter; we don't yet know what the physical even is.' Tagline's 'not magic' points nowhere in the entry."
+   },
+   "positions": [
+    {
+     "axis": "tell",
+     "ours": -2,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC on reportability. Published view: Chomsky stresses unconscious, inaccessible principles of grammar (unconscious states), not conscious states that can't be reported."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "fedotovs-communication-hypothesis-of-consciousness",
+   "positions": [
+    {
+     "axis": "needs",
+     "ours": -1,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC Core Claim: consciousness 'is a state in which a person demonstrates the ability to potentially share information ... through universal conditioned signals (words, gestures, and other language signs)'. Consciousness is defined via language signs, so it does not come before them."
+    },
+    {
+     "axis": "social",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC is about encoding information into messages for interlocutors; it says nothing about the self being given by others' words."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "hickey-s-language-and-consciousness",
+   "positions": [
+    {
+     "axis": "thought",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "unsupported",
+     "evidence": "LOC Core Claim: 'Language organizes thought and communicates experience' — both roles, no claim that thinking is the main one. Strongly agree on 'mainly thinking, only secondarily talking' is overstated."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "koch-s-consciousness-does-not-depend-on-language",
+   "positions": [
+    {
+     "axis": "labels",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC Distinguishing Idea: 'Language shapes experience but is not required for basic awareness.' The axis question says words sort 'rather than shaping what you experience'."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "searle-s-language-and-consciousness",
+   "positions": [
+    {
+     "axis": "human",
+     "ours": 0,
+     "suggested": 2,
+     "kind": "missing",
+     "evidence": "LOC Implications: 'Human consciousness is not just richer than animals'; it's structurally different because of language.' This is almost the quiz question verbatim."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "skopelitou-s-logos-language-before-consciousness",
+   "positions": [
+    {
+     "axis": "speaks",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC summary: a 'fundamental theory of everything' where '\"everything\" is, first of all, a word (which includes time, space, selfhood, the universe)'; Logos is 'the fundamental structure by which consciousness manifests and the world becomes intelligible'. Reality is language-like."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-language-relationships",
+   "key": "smith-s-language-as-classifier-of-consciousness",
+   "positions": [
+    {
+     "axis": "labels",
+     "ours": 2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC Distinguishing Idea: 'Losing words can fragment perception, suggesting language partly shapes consciousness itself'; How It Works: language 'structures how we perceive'. Strongly agreeing that words sort 'rather than shaping' goes against the entry's distinguishing idea."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-electromagnetic-field",
+   "key": "zhang-s-long-distance-light-speed-telecommunications",
+   "positions": [
+    {
+     "axis": "field",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC treats fields as a fast communication channel that 'link parallel neurons instantly'; it never says experience is the field itself."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-electromagnetic-field",
+   "key": "ambron-s-local-field-potentials-and-electromagnetic-waves",
+   "positions": [
+    {
+     "axis": "sync",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "Nothing in LOC about synchrony; LOC says EM waves 'could unify diverse sensory inputs', which isn't a rejection of synchrony."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-electromagnetic-field",
+   "key": "hunt-and-schooler-s-general-resonance-theory",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Consciousness arises when things resonate in sync.",
+    "evidence": "LOC Core Claim: 'Consciousness arises from synchronized resonance across physical systems.' The current tagline suggests all conscious things resonate with each other."
+   },
+   "positions": [
+    {
+     "axis": "machine",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC Beyond Biology: 'artificial systems could host consciousness if they replicate the right resonant structures.'"
+    },
+    {
+     "axis": "pattern",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC requires specific synchronized resonance and phase transitions, not just 'any field of the right strength'; nothing backs the 'no' side."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-electromagnetic-field",
+   "key": "jones-s-electromagnetic-fields",
+   "positions": [
+    {
+     "axis": "beyond",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC Distinguishing Idea: 'Proposes \"neuroelectrical panpsychism\": consciousness arises by merging simple experiences via electrical activity.' Panpsychism means consciousness isn't limited to brains."
+    },
+    {
+     "axis": "sync",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC says field patterns may solve binding 'better than neural circuits' but says nothing against synchrony."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-philosophical",
+   "key": "emergence",
+   "positions": [
+    {
+     "axis": "missing",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC Implications: 'If consciousness is strongly emergent, physics may be incomplete—new fundamental laws may be needed.' That doesn't fit 'we know enough about matter already'."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-philosophical",
+   "key": "flanagan-s-constructive-naturalism",
+   "positions": [
+    {
+     "axis": "irreducible",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC Distinguishing Idea: 'Rejects both reductionism and epiphenomenalism'; How It Works: 'Consciousness emerges from complex brain processes'. Leaning toward 'reduces to what brain cells do' contradicts this (his identity claim is dual-aspect)."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-philosophical",
+   "key": "functionalism",
+   "positions": [
+    {
+     "axis": "irreducible",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "The axis's 'no' pole is 'experience reduces to what brain cells do'; LOC: 'Consciousness depends on causal roles and patterns, not on brain tissue or biology.' Multiple realizability is the classic argument against reduction to neurons."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-philosophical",
+   "key": "goldstein-s-mind-body-problem",
+   "positions": [
+    {
+     "axis": "role",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC discusses first- vs third-person access, with nothing on function vs substrate."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-relational",
+   "key": "a-clark-s-extended-mind",
+   "positions": [
+    {
+     "axis": "reduce",
+     "ours": 1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "Published view: co-theorist David Chalmers holds that physics and neuroscience leave the hard problem unexplained (naturalistic dualism, The Conscious Mind 1996). Clark is a physicalist, so as a pair they take no shared stand."
+    },
+    {
+     "axis": "subject",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC is about coupled cognitive systems, with nothing about experience without a unified subject."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-relational",
+   "key": "cooke-s-nondual-naturalism-living-mirror-theory",
+   "positions": [
+    {
+     "axis": "interface",
+     "ours": -2,
+     "suggested": 1,
+     "kind": "contradicted",
+     "evidence": "LOC How It Works: organisms persist 'through predictive modeling of their environment—this process gives rise to the epistemic interface we call consciousness.' Consciousness is explicitly an interface, not a mirror of the world itself."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-relational",
+   "key": "kojdi-s-interface-ontology-of-consciousness",
+   "positions": [
+    {
+     "axis": "reduce",
+     "ours": 0,
+     "suggested": -1,
+     "kind": "missing",
+     "evidence": "LOC: 'Consciousness is not an emergent add-on within a pre-given physical world, but a condition for the world's intelligibility'; 'Rejects ... reductive eliminativism'; the empirical world is an interface over 'a non-empirical ground'."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-relational",
+   "key": "mitchell-and-jenning-s-consciousness-needs-a-subject",
+   "positions": [
+    {
+     "axis": "structure",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC is about subjects with interests and continuity, with nothing on whether experiences are defined by their relations."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-relational",
+   "key": "tsuchiya-s-relational-approach-to-consciousness",
+   "positions": [
+    {
+     "axis": "reduce",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC presents it as a methodology ('not so much a theory of consciousness per se') with nothing claiming the mind needs something beyond physical explanation."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-embodied-enactive",
+   "key": "gibson-s-ecological-psychology",
+   "positions": [
+    {
+     "axis": "inside",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC: Gibson 'attacks both behaviorism and cognitivism'. Published view: The Ecological Approach to Visual Perception (1979) leans on first-person description (visual world vs visual field), so 'best studied from the outside' isn't backed."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-higher-order",
+   "key": "humphrey-s-mental-representations-and-brain-attractors",
+   "positions": [
+    {
+     "axis": "self",
+     "ours": 0,
+     "suggested": 1,
+     "kind": "missing",
+     "evidence": "LOC Implications: 'The phenomenal self may be \"fake news,\" but evolutionarily useful for survival and social navigation.'"
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-higher-order",
+   "key": "lau-s-perceptual-reality-monitoring-theory",
+   "positions": [
+    {
+     "axis": "show",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC is silent on whether experience's apparent magic is a constructed show. Published view: Lau (In Consciousness We Trust, 2022) is deflationary about qualia's apparent ineffability rather than taking experience at face value."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-first-order",
+   "key": "direct-perception-theory",
+   "positions": [
+    {
+     "axis": "local",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC is about a direct relation to distal objects, with nothing on whether conscious seeing needs access by thought, memory or report."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-first-order",
+   "key": "lamme-s-recurrent-processing-theory",
+   "positions": [
+    {
+     "axis": "content",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "unsupported",
+     "evidence": "LOC is about recurrent sensory loops and access, with nothing on whether phenomenal feel goes beyond representational content."
+    }
+   ]
+  },
+  {
+   "quiz": "materialism-eliminative-illusionism",
+   "key": "churchland-s-eliminative-materialism",
+   "tagline": {
+    "verdict": "misleading",
+    "fix": "Brain science will replace everyday talk of beliefs and desires.",
+    "evidence": "LOC: 'Folk psychology will be replaced—not reduced—by a future neuroscience.' The theory eliminates folk categories, not the mind; 'the mind goes' overstates it."
+   },
+   "positions": [
+    {
+     "axis": "qualia",
+     "ours": -1,
+     "suggested": 0,
+     "kind": "contradicted",
+     "evidence": "LOC: 'consciousness as we know it is likely an illusion'; 'If qualia are illusions...'; 'not a literal inner reality'. Published view: the Churchlands treat qualia as real but neurally reducible, so the evidence is split. Leaning toward 'felt quality is real' contradicts the LOC entry, so 0 is safest."
+    }
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "quiz": "main",
+   "axis": "independent",
+   "problem": "'Setting God aside, ... even if no human or animal mind had ever existed' lets cosmic/analytic idealists (Kastrup, cosmopsychists) answer Yes, since for them the world exists in a universal non-human mind that isn't necessarily God. They get pushed toward the 'world exists without minds' side. Exclude 'any universal or cosmic mind' as well as God."
+  },
+  {
+   "quiz": "main",
+   "axis": "wide",
+   "problem": "'An atom MIGHT have a tiny glimmer of experience' asks about possibility. Agnostic materialists and dualists can agree it is possible, which is much weaker than the axis claim that experience reaches down to atoms."
+  },
+  {
+   "quiz": "panpsychisms",
+   "axis": "combine",
+   "problem": "The question presupposes 'the tiny experiences of the particles'. Panprotopsychists and panqualityists, who hold that micro-qualities (not experiences) combine, must answer No, yet they are coded 'agree'. Either reword ('tiny ingredients of experience in your brain combine') or recode them to 0."
+  },
+  {
+   "quiz": "panpsychisms",
+   "axis": "dimension",
+   "problem": "'A hidden dimension of reality, alongside space and time' reads as a physical extra dimension. Its intended target (Tononi's qualia space) is an abstract mathematical space, so IIT-minded respondents may answer No."
+  },
+  {
+   "quiz": "idealisms",
+   "axis": "selfref",
+   "problem": "'Consciousness ARISES wherever reality turns back on itself' reads as emergence. Most idealists hold that consciousness is fundamental and doesn't arise, so self-reference idealists (Vișan, Nader) may reject the wording despite agreeing with the axis."
+  },
+  {
+   "quiz": "dualisms",
+   "axis": "reason",
+   "problem": "The question asks whether argument alone can show the mind is nonphysical. Physicalists and property-leaning respondents who think the mind is NOT nonphysical will disagree, and get pushed toward the 'scripture, tradition or spiritual insight' pole they don't hold. The disagree reading ('it can't be shown') differs from the axis's no-pole ('faith shows it')."
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "axis": "physics",
+   "problem": "Disagreeing with 'Explaining consciousness will take new physics' is most naturally read as 'current physics/neuroscience is enough', but the axis no-pole is 'the answer lies outside physics'. Materialists would be scored as anti-physics."
+  },
+  {
+   "quiz": "anomalous-altered-states",
+   "axis": "time",
+   "problem": "The question asks whether how minds move through time is a key physics missed; a No answer most naturally means 'time isn't special for consciousness', not the axis no-pole 'true awareness stands outside time'. Ordinary skeptics get pushed toward timeless-awareness theories (e.g. Shiah)."
+  },
+  {
+   "quiz": "challenge",
+   "axis": "cosmic",
+   "problem": "The question asks about a 'fundamental role' in the universe, but the targets mean different things. Raman means cosmic significance and meaning ('makes us cosmically significant'), and Davies means a role in physics. A Raman-type respondent who thinks consciousness is a late, emergent but meaningful event may read 'fundamental' as ontological and disagree."
+  },
+  {
+   "quiz": "non-reductive-physicalism",
+   "axis": "abstract",
+   "problem": "The question is double-barrelled: abstract things 'are real' AND 'play a part in how minds work'. Platonists who hold abstracta are causally inert (e.g. van Inwagen's published view) would agree with half and disagree with half."
+  },
+  {
+   "quiz": "information",
+   "axis": "tracks",
+   "problem": "'Several parallel tracks at once, not one single stream' will be read as multiple simultaneous streams within one mind. Moll, the only target with a strong position, means that each self has its own isolated temporal track in the block universe. The axis needs rewording around time and the felt 'now', or Moll's position needs rethinking."
+  },
+  {
+   "quiz": "quantum-dimensions-quantum-machinery",
+   "axis": "spin",
+   "problem": "Question names nuclear spins specifically, but radical-pair theories (Cavelier, also Shiah's cryptochrome) rely on electron spins; respondents sympathetic to spin-based quantum biology get sorted only toward Fisher."
+  },
+  {
+   "quiz": "quantum-dimensions-quantum-machinery",
+   "axis": "ladder",
+   "problem": "The 'no' pole reads 'experience is there from the start', which sounds like panpsychism, yet it is used for dualists (Beck-Eccles -2, Morrison, Shiah) who simply reject bottom-up building. Someone rejecting the question for dualist reasons and a panpsychist land in the same place."
+  },
+  {
+   "quiz": "quantum-dimensions-hidden-orders",
+   "axis": "extra",
+   "problem": "The 'no' pole contrasts 'an order, not extra dimensions', but LOC describes Bohm's implicate order itself as a 'higher-dimensional ground', so the axis splits Bohm from Carr/Pacheco on a distinction Bohm doesn't make."
+  },
+  {
+   "quiz": "quantum-dimensions",
+   "axis": "collapse",
+   "problem": "The 'no' pole 'quantum outcomes happen with or without minds' is ambiguous for Orch-OR-style views where collapse is objective but each collapse is itself a (proto-)conscious moment; such respondents can't tell which way to answer."
+  },
+  {
+   "quiz": "materialism-phylogenetic-evolutionary",
+   "axis": "causal",
+   "problem": "'Your experiences themselves, not just the brain activity behind them' assumes experience is separate from brain activity. Identity theorists and illusionists (Dennett) who reject epiphenomenalism would still answer No, so the question pushes them toward the epiphenomenalist side, the opposite of the axis's intent."
+  },
+  {
+   "quiz": "materialism-neurobiological",
+   "axis": "agent",
+   "problem": "'not just physics playing out' sets agency against physics. Mitchell, the axis's main Yes theory, explicitly holds that free will is 'fully physical', so a Mitchell-like respondent may disagree."
+  },
+  {
+   "quiz": "materialism-homeostatic-affective",
+   "axis": "machine",
+   "problem": "The question asks about a machine running 'the right loop of predicting and correcting', but the axis is about machine consciousness in general. Theories that reject machines for reasons of energy or substrate (Pepperell, Deacon) are not addressed by a question framed around the predictive loop. The No pole ('only living things') is also stronger than several No theories hold."
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "axis": "mirror",
+   "problem": "The No pole ('mind is simply what the brain does') is plain identity theory, yet Awret, the strongest Yes, describes his duality as making mental and physical states 'in some sense identical'. Identity theorists could reasonably answer either way."
+  },
+  {
+   "quiz": "materialism-computational-functionalism",
+   "axis": "physics",
+   "problem": "'Fundamental physics' will be read as quantum or gravity physics. Theories that use statistical physics (criticality) are scored Yes even though a respondent who agrees with them would answer No."
+  },
+  {
+   "quiz": "materialism-eliminative-illusionism",
+   "axis": "looking",
+   "problem": "The axis's 'no' pole is 'looking closely leaves the illusion in place' (Frankish), but disagreeing with 'looking closely shows experience isn't what it seems' is also the natural answer for anyone who thinks there's no illusion at all. Realists about qualia and persistent-illusion illusionists end up on the same side."
+  },
+  {
+   "quiz": "materialism-philosophical",
+   "axis": "irreducible",
+   "problem": "The 'no' pole is 'experience reduces to what brain cells do', but functionalists and other reductive views reduce experience to roles or patterns, not neurons. A functionalist may disagree with the question while also rejecting the neuron-specific 'no' label, which makes positions on this axis ambiguous."
+  }
+ ]
+}

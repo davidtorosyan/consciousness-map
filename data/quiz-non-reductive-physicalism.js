@@ -36,14 +36,14 @@
   ];
 
   var profiles = {
-    "cai-and-cai-s-canxian":                            { principles: 2, notheory: -1, experience: 1 },
-    "ellis-s-strong-emergence-and-top-down-causation":  { topdown: 2, abstract: 2, principles: -1, brain: 1, settle: 1, match: -1 },
-    "heraths-state-space-selection-and-the-sentience-factor": { settle: 2, brain: 2, principles: 1, background: 1, notheory: -1 },
+    "cai-and-cai-s-canxian":                            { principles: 2, notheory: -1, experience: 1, topdown: 2 },
+    "ellis-s-strong-emergence-and-top-down-causation":  { topdown: 2, abstract: 2, brain: 1, match: -1 },
+    "heraths-state-space-selection-and-the-sentience-factor": { settle: 2, brain: 2, principles: 1, notheory: -1 },
     "maxwell-s-unique-matching-theory":                 { experience: 2, match: 2, brain: -1 },
     "murphy-s-non-reductive-physicalism":               { topdown: 2, afterlife: 2, principles: -1, brain: 1, match: -1 },
     "nagasawa-s-nontheoretical-physicalism":            { notheory: 2, experience: 1, principles: -1, brain: -1 },
     "northoff-s-non-reductive-neurophilosophy":         { background: 2, brain: 2, notheory: -1, principles: -1 },
-    "sanfey-s-abstract-realism":                        { abstract: 2, experience: 1, notheory: -1, brain: -1 },
+    "sanfey-s-abstract-realism":                        { experience: 1, notheory: -1, topdown: 1 },
     "van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead": { afterlife: 2, notheory: 1, abstract: -1, brain: -1 },
   };
 
@@ -69,7 +69,7 @@
       axes: { experience: 1 },
     },
     {
-      t: "Abstract things, like patterns, numbers or plans, are real and play a part in how minds work.",
+      t: "Abstract things, like patterns, numbers or plans, play a real part in how minds work.",
       why: "Yes means some of what shapes a mind isn’t just matter in motion but abstract structure. No means only concrete physical things ever make a difference.",
       axes: { abstract: 1 },
     },
@@ -124,13 +124,13 @@
       tagline: "Fully physical humans, with irreducible higher capacities.",
       url: "https://loc.closertotruth.com/theory/murphy-s-non-reductive-physicalism" },
     { key: "nagasawa-s-nontheoretical-physicalism", name: "Nagasawa’s Nontheoretical Physicalism",
-      tagline: "Physicalism without a finished theory of the physical.",
+      tagline: "All is physical, yet some physical facts escape every theory.",
       url: "https://loc.closertotruth.com/theory/nagasawa-s-nontheoretical-physicalism" },
     { key: "northoff-s-non-reductive-neurophilosophy", name: "Northoff’s Non-Reductive Neurophilosophy",
       tagline: "Consciousness grows from the brain’s background activity.",
       url: "https://loc.closertotruth.com/theory/northoff-s-non-reductive-neurophilosophy" },
     { key: "sanfey-s-abstract-realism", name: "Sanfey’s Abstract Realism",
-      tagline: "Mind and matter meet at an abstract level of reality.",
+      tagline: "Consciousness fuses two clashing time perspectives into one moment.",
       url: "https://loc.closertotruth.com/theory/sanfey-s-abstract-realism" },
     { key: "van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead", name: "Van Inwagen’s Christian Materialism and Resurrection of the Dead",
       tagline: "Entirely material beings, still raised to new life.",

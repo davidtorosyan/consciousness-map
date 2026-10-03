@@ -41,16 +41,16 @@
 
   var profiles = {
     "materialism-homeostatic-affective":       { feeling: 2, substrate: -1, ancient: 1, language: -1, body: 1, illusion: -1 },
-    "materialism-computational-functionalism": { feeling: -1, substrate: 2, circuits: -1, relations: 1, body: -2, represent: 1 },
-    "materialism-neurobiological":             { substrate: -1, circuits: 2, field: -1, relations: -1, body: -1, illusion: -2 },
-    "materialism-phylogenetic-evolutionary":   { feeling: 1, ancient: 2, language: -1, ho: -1 },
-    "materialism-language-relationships":      { feeling: -1, ancient: -2, language: 2, ho: 1 },
+    "materialism-computational-functionalism": { feeling: -1, substrate: 2, relations: 1, body: -1, represent: 1 },
+    "materialism-neurobiological":             { substrate: -1, circuits: 2, field: -1, illusion: -2 },
+    "materialism-phylogenetic-evolutionary":   { feeling: 1, ancient: 2, language: -1 },
+    "materialism-language-relationships":      { feeling: -1, language: 1 },
     "materialism-electromagnetic-field":       { substrate: -2, circuits: -1, field: 2, illusion: -1 },
     "materialism-philosophical":               { substrate: 1, gap: 2, illusion: -1 },
     "materialism-relational":                  { circuits: -1, relations: 2, body: 1, illusion: -1 },
     "materialism-embodied-enactive":           { substrate: -2, circuits: -1, ancient: 1, relations: 1, body: 2, represent: -2 },
     "materialism-higher-order":                { substrate: 1, ancient: -1, ho: 2, represent: 1 },
-    "materialism-first-order":                 { ancient: 1, ho: -2, represent: 2, illusion: -1 },
+    "materialism-first-order":                 { ancient: 1, ho: -2, represent: 1, illusion: -1 },
     "materialism-eliminative-illusionism":     { feeling: -1, substrate: 1, gap: 1, ho: 1, illusion: 2 },
   };
 

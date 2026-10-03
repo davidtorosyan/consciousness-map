@@ -38,16 +38,16 @@
 
   var profiles = {
     "brain-circuits-and-cycles-theories":                         { ncc: -1, loops: 2, background: 1 },
-    "crick-and-koch-s-neural-correlates-of-consciousness":        { reduce: 2, ncc: 2, attention: -1, machine: -1 },
+    "crick-and-koch-s-neural-correlates-of-consciousness":        { reduce: 2, ncc: 2, attention: -1 },
     "bach-s-cortical-conductor-theory":                           { real: -1, attention: 2, machine: 2 },
     "block-s-biological-reductionism":                            { real: 2, reduce: 2, attention: -2, machine: -1 },
     "bunge-s-emergent-materialism":                               { real: 1, emerge: 2, machine: -1 },
-    "edelman-s-neural-darwinism-and-reentrant-neural-circuitry":  { loops: 2, selection: 2 },
+    "edelman-s-neural-darwinism-and-reentrant-neural-circuitry":  { loops: 2, selection: 2, reduce: 1 },
     "hirstein-s-mindmelding":                                     { reduce: 1, shared: 2 },
     "mitchell-s-free-agents":                                     { emerge: 1, machine: -1, agent: 2 },
     "northoff-s-temporo-spatial-sentience":                       { ncc: -1, background: 2 },
     "prinz-s-neurofunctionalism-attention-engenders-experience":  { ncc: 1, attention: 2 },
-    "sapolsky-s-hard-incompatibilism":                            { reduce: 2, agent: -2 },
+    "sapolsky-s-hard-incompatibilism":                            { reduce: 2, agent: -2, emerge: 1 },
     "searle-s-biological-naturalism":                             { real: 2, reduce: -1, emerge: 1, ncc: -1, machine: -2, shared: -1 },
   };
 
@@ -103,8 +103,8 @@
       axes: { shared: 1 },
     },
     {
-      t: "You are a real agent who makes genuine choices, not just physics playing out.",
-      why: "Yes means organisms act on reasons and their choices are their own. No means your genes, brain and history fully decide what you do.",
+      t: "You are a real agent who makes genuine choices.",
+      why: "Yes means organisms act on reasons and their choices are their own, even in a physical world. No means your genes, brain and history fully decide what you do.",
       axes: { agent: 1 },
     },
   ];
@@ -139,7 +139,7 @@
       tagline: "Minds could link up directly, brain to brain.",
       url: "https://loc.closertotruth.com/theory/hirstein-s-mindmelding" },
     { key: "mitchell-s-free-agents", name: "Mitchell’s Free Agents",
-      tagline: "You are a real agent, not a machine.",
+      tagline: "Free will is real, and fully physical.",
       url: "https://loc.closertotruth.com/theory/mitchell-s-free-agents" },
     { key: "northoff-s-temporo-spatial-sentience", name: "Northoff’s Temporo-Spatial Sentience",
       tagline: "The brain’s restless background activity feels.",

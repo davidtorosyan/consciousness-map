@@ -40,15 +40,15 @@
     "andrews-consciousness-without-complex-brains": { simple: 2, late: -2, compare: 2 },
     "cabral-calderin-hechavarria-and-melloni-s-neuroethological-approach": { compare: 2, late: -1 },
     "cleeremans-and-tallon-baudry-s-functional-value": { causal: 2, affect: 1, late: 1, cells: -2 },
-    "dennett-s-evolution-of-minds": { nomystery: 2, gradual: 2, late: 2, causal: 1, social: 1, cells: -1, simple: -1, affect: -1 },
-    "feinberg-and-mallatt-s-ancient-origins-of-consciousness": { simple: 2, images: 2, cells: -2, late: -2, causal: 1, nomystery: 1, gradual: -1, compare: 1 },
+    "dennett-s-evolution-of-minds": { nomystery: 2, gradual: 2, late: 2, social: 1, cells: -1, simple: -1 },
+    "feinberg-and-mallatt-s-ancient-origins-of-consciousness": { simple: 2, images: 2, cells: -2, late: -2, causal: 1, nomystery: 1, gradual: 1, compare: 1 },
     "halligan-and-oakley-s-species-enhancing-epiphenomenalism": { causal: -2, social: 2, late: 1, nomystery: 1 },
     "holmgren-s-grainy-atomic-feels": { grains: 2 },
     "ledoux-s-deep-roots-of-consciousness": { late: 2, affect: -2, simple: -2, cells: -1, compare: -2 },
     "nichols-s-primal-eye": { images: 2, gradual: -2, affect: -1, cells: -2, late: -1 },
-    "no-hard-problem-in-william-james-s-psychology": { causal: 2, nomystery: 2, grains: -2, late: -1 },
+    "no-hard-problem-in-william-james-s-psychology": { causal: 2, nomystery: 2, grains: -1, late: -1 },
     "reber-s-cellular-basis-of-consciousness": { cells: 2, simple: 2, late: -2, affect: 1, nomystery: 1, compare: 1 },
-    "sreedharan-s-affective-survival-theory": { affect: 2, causal: 1, simple: 1, late: -1, images: -1, social: -1 },
+    "sreedharan-s-affective-survival-theory": { affect: 2, causal: 1, simple: 1, late: -1, images: -1 },
   };
 
   var questions = [
@@ -68,8 +68,8 @@
       axes: { late: 1 },
     },
     {
-      t: "Your experiences themselves, not just the brain activity behind them, make a difference to what you do.",
-      why: "Yes means feeling pain or seeing red helps steer your actions. No means the brain does all the work and experience comes along as a by-product.",
+      t: "Your experiences make a real difference to what you do; they aren’t idle by-products of brain activity.",
+      why: "Yes means feeling pain or seeing red helps steer your actions, whether or not experience is itself a kind of brain activity. No means the brain does all the work and experience comes along as a by-product.",
       axes: { causal: 1 },
     },
     {
