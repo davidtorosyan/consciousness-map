@@ -22,7 +22,7 @@
    device that has opened the site once with ?count=off (undo: ?count=on). */
 (function () {
   "use strict";
-  var CODE = "consciousness-map";
+  var CODE = "jimbo84";
   var ENDPOINT = "https://" + CODE + ".goatcounter.com/count";
   var OFF_KEY = "cm_nocount";
 
