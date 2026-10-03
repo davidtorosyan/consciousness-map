@@ -24,6 +24,13 @@
     var quiz = CM.quiz(route.quiz);
     var qs = quiz.questions, n = qs.length;
     var answers = null, idx = 0, locked = false;
+    // usage counts (analytics.js): each question's first answer, and where
+    // people leave a quiz they don't finish
+    var qp = CM.count ? CM.count.quizPath(quiz.key) : "", counted = [], finished = false;
+    function ev(name) { if (CM.count) CM.count.event(name); }
+    window.addEventListener("pagehide", function () {
+      if (!finished && answers) ev("quiz-left/" + qp + "/at-q" + (idx + 1) + "-of-" + n);
+    });
     if (quiz.owner) CM.setAccent(quiz.owner.color);
     document.title = (quiz.owner ? quiz.owner.name + " quiz" : "Quiz") + " — Landscape of Consciousness";
     app.innerHTML = CM.frame(quizTrail(quiz, "Quiz"),
@@ -88,10 +95,12 @@
         var open = !w.classList.contains("open");
         w.classList.toggle("open", open);
         w.style.maxHeight = open ? w.scrollHeight + "px" : "";   // size to content: never clip
+        if (open) ev("dont-get-it/" + qp + "/q" + (idx + 1));
         return;
       }
       locked = true;
       answers[idx] = ans;
+      if (!counted[idx]) { counted[idx] = true; ev("answer/" + qp + "/q" + (idx + 1) + "/" + (ans === "skip" ? "not-sure" : ans)); }
       CM.progress.set(quiz.key, answers);
       el.classList.add("picked-" + ans);
       setTimeout(function () {
@@ -100,7 +109,9 @@
       }, 120);
     }
     function finish() {
+      finished = true;
       CM.progress.clear(quiz.key);
+      countResult(quiz, answers);
       if (answers.some(function (a) { return a === "yes" || a === "no"; })) {
         var top = CM.ranked(quiz, answers)[0];
         CM.history.add({ q: quiz.key || "main", t: Date.now(), a: answers.slice(), top: top ? top.node.name : "" });
@@ -113,7 +124,7 @@
     var saved = CM.progress.get(quiz.key);
     var partial = Array.isArray(saved) && saved.length === n &&
       saved.some(function (x) { return !!x; }) && saved.some(function (x) { return !x; });
-    if (!partial) { answers = fresh(); show(0); return; }
+    if (!partial) { answers = fresh(); ev("quiz-start/" + qp); show(0); return; }
     var resumeAt = 0;
     while (resumeAt < n && saved[resumeAt]) resumeAt++;
     renderProgress(-1);
@@ -121,10 +132,27 @@
       "<h1>" + esc(quiz.data.title) + "</h1>" +
       '<button class="big-start" data-act="resume">Resume — question ' + (resumeAt + 1) + " of " + n + "</button>" +
       '<button class="q-quiet" data-act="restart" style="width:100%">Start over instead</button></div>', function () {
-      body.querySelector('[data-act="resume"]').addEventListener("click", function () { answers = saved; show(resumeAt); });
-      body.querySelector('[data-act="restart"]').addEventListener("click", function () { answers = fresh(); show(0); });
+      body.querySelector('[data-act="resume"]').addEventListener("click", function () { answers = saved; ev("quiz-resume/" + qp); show(resumeAt); });
+      body.querySelector('[data-act="restart"]').addEventListener("click", function () { answers = fresh(); ev("quiz-restart/" + qp); show(0); });
     });
   };
+
+  /* counted once, when a quiz is finished (not on every view of the results) */
+  function countResult(quiz, answers) {
+    if (!CM.count) return;
+    var qp = CM.count.quizPath(quiz.key), n = answers.length;
+    var answered = answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
+    var unsure = answers.filter(function (a) { return a === "skip"; }).length;
+    var top = answered ? CM.ranked(quiz, answers)[0] : null;
+    CM.count.event("quiz-finish/" + qp);
+    CM.count.event("result/" + qp + "/not-sure/" + unsure + "-of-" + n);
+    if (top) CM.count.event("result/" + qp + "/top/" + top.node.key + "-" + top.tier);
+    var flag = !answered ? "no-answers"
+      : CM.lopsided(quiz, answers) ? "all-same"
+      : CM.conflicts(quiz, answers).length ? "contradictory"
+      : top.tier !== "strong" && top.tier !== "partial" ? "no-match" : "";
+    if (flag) CM.count.event("result/" + qp + "/flag/" + flag);
+  }
 
   /* ---------- results ---------- */
   function shareUrl(payload) {
@@ -167,7 +195,7 @@
     var rows = ranked.map(function (x, i) {
       var t = x.node, matched = x.tier === "strong" || x.tier === "partial";
       return '<div class="r-row' + (i === 0 && matched ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
-        '<a class="r-open" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
+        '<a class="r-open" data-count="open-result-' + (i + 1) + '" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
         '<span class="nm">' + esc(t.name) +
         (x.tier === "none" ? "" : '<span class="tier ' + x.tier + '">' + LEGEND[x.tier] + "</span>") + "</span>" +
@@ -187,17 +215,17 @@
     // your own -> go deeper into your top match
     var top = ranked[0], next = "";
     if (route.shared) {
-      next = '<a class="pill wide" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>Take this quiz yourself</span></a>";
+      next = '<a class="pill wide" data-count="take-it-yourself" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>Take this quiz yourself</span></a>";
     } else if (top && (top.tier === "strong" || top.tier === "partial")) {
       var only = !top.node.quiz && top.node.children.length === 1 ? top.node.children[0] : null;
       next = top.node.quiz
-        ? '<a class="pill wide" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>Take the " + esc(top.node.name) + " quiz</span></a>"
+        ? '<a class="pill wide" data-count="next-quiz" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>Take the " + esc(top.node.name) + " quiz</span></a>"
         : only
-          ? '<a class="pill wide" href="' + CM.href(only) + '">' + I.list + "<span>Read about " + esc(only.name) + "</span></a>"
-          : '<a class="pill wide" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
+          ? '<a class="pill wide" data-count="next-read" href="' + CM.href(only) + '">' + I.list + "<span>Read about " + esc(only.name) + "</span></a>"
+          : '<a class="pill wide" data-count="next-read" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
     }
     app.innerHTML = CM.frame(quizTrail(quiz, "Results"),
-      '<div class="r-head"><button class="head-share" data-share>' + I.share + "<span>Share</span></button>" +
+      '<div class="r-head"><button class="head-share" data-share data-count="share">' + I.share + "<span>Share</span></button>" +
       '<div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
       "<h1>Closest first.</h1>" +
       (summary ? '<p class="r-summary">' + esc(route.shared ? summary.replace(/^You think/, "They think") : summary) + "</p>" : "") +

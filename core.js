@@ -379,7 +379,7 @@
   CM.bookmarkButton = function (node, small, pill) {
     var on = CM.favs.has(CM.favId(node));
     var cls = pill ? "pill bm-pill" : "bm-btn" + (small ? " sm" : "");
-    return '<button class="' + cls + (on ? " on" : "") + '" data-bm="' + CM.esc(node.key) +
+    return '<button class="' + cls + (on ? " on" : "") + '" data-count="bookmark" data-bm="' + CM.esc(node.key) +
       '" aria-label="Bookmark ' + CM.esc(node.name) + '" aria-pressed="' + on + '">' + CM.icons.bookmark +
       (pill ? "<span data-bm-label>" + (on ? "Saved" : "Save") + "</span>" : "") + "</button>";
   };
@@ -448,6 +448,7 @@
     var view = route && CM.views[route.view];
     if (view) view(route);
     else CM.views.notFound();
+    if (CM.count) CM.count.page(route);   // analytics.js
   };
   CM.views.notFound = function () {
     document.title = "Not found — Landscape of Consciousness";

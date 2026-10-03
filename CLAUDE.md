@@ -21,6 +21,10 @@ See `README.md` for the file layout and `PLAN.md` for work in progress.
   LOC exactly. Taglines and quiz wording are ours.
 - **Bump `QUIZ_DATA_VERSION`** in `data/quiz-data.js` whenever questions
   change; shared result links carry it and old ones are rejected.
+- **Analytics** (`analytics.js`, GoatCounter): no cookies, nothing personal.
+  New interactions worth counting get a `data-count="<what>"` attribute;
+  answers are counted one question at a time, never as a set, and
+  nothing that could identify a person is sent.
 - **localStorage keys** (`cm_favorites_v1`, `cm_history_v1`) hold users' data.
   Don't change their shape without a migration.
 

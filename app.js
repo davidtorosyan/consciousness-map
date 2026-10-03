@@ -98,7 +98,7 @@
           '<span class="cta-sub">the one theory LOC lists here</span></a>' : "") +
       CM.answerRows(route.from, node.key) +
       '<div class="d-quiet secondary">' +
-      (node.quiz ? '<button class="d-link" data-browse aria-expanded="' + open + '" aria-controls="kids">' +
+      (node.quiz ? '<button class="d-link" data-browse data-count="browse" aria-expanded="' + open + '" aria-controls="kids">' +
         "Browse " + n + " " + kind + ' <span class="caret" aria-hidden="true">\u25BE</span></button>' : "<span></span>") +
       '<a class="d-link" href="' + esc(node.url || node.category.url) + '" target="_blank" rel="noopener">Read on LOC \u2197</a></div>' +
       '<div id="kids"' + (open ? "" : " hidden") + ">" + listRows(node.children) + "</div>");
@@ -145,7 +145,9 @@
       '<header class="hero rise" style="--i:2"><div class="kicker">DEBUG</div>' +
       "<h1>Quiz breakdown</h1>" +
       '<p class="desc">Every quiz on the site, nested, with question counts. Cap: ' +
-      QUIZ_CAP + " per quiz. " + (over ? over + " over cap." : "All within cap.") + "</p></header>" +
+      QUIZ_CAP + " per quiz. " + (over ? over + " over cap." : "All within cap.") + "</p>" +
+      '<p class="desc">Usage counting from this device: ' + (CM.counting && CM.counting() ? "on" : "off") +
+      ' (<a class="dbg-link" href="?path=debug&amp;count=off">turn off</a> · <a class="dbg-link" href="?path=debug&amp;count=on">on</a>; never on localhost).</p></header>' +
       '<div class="dbg-table rise" style="--i:3">' +
       '<div class="dbg-row dbg-head"><span class="dbg-name">Quiz</span>' +
       '<span class="dbg-num">Questions</span><span class="dbg-num">Items</span></div>' +

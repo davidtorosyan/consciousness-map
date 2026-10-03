@@ -17,6 +17,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `index.html` | The only real page: a loader that reads `version.json` and loads the files below as `?v=<build>`, then calls `CM.start()`. |
 | `version.json` | The live build id, written by `deploy.sh` (`"dev"` = never cache). |
 | `core.js` | Shared helpers, storage, share links, the category → school → theory tree, and the router. |
+| `analytics.js` | Anonymous usage counts (page views, quiz funnel, answers, results) sent to GoatCounter; event names are listed at the top of the file. |
 | `app.js` | Home, the category list, category/school pages, theory pages, debug page. |
 | `quiz.js` | Quizzes (in-page, one question at a time) and results. |
 | `saved.js`, `history.js` | Bookmarked theories and past quiz results (localStorage). |
