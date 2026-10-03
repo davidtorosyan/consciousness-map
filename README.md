@@ -29,6 +29,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
 | `deploy.sh` | Check, write a new build id, commit and push to `main`. |
 | `tools/check.js` | Syntax lint and quiz-data integrity checks. |
+| `data/loc-theories.json` | Source data: every theory on the Landscape of Consciousness, pulled verbatim from the site. Not loaded by the site — see below. |
 | `tools/smoke.js` | Headless phone-size walk-through of every page. |
 | `tools/scaffold-axis-quiz.js`, `tools/integrate-quiz.js` | Start a new axis quiz from a category's theory list; swap a finished one into the site. |
 | `tools/eval-quiz.js` | Checks every axis quiz sorts people correctly: ideal and noisy synthetic respondents, edge cases, and role-played thinkers (`tools/eval-thinkers*.json`). |
@@ -54,6 +55,44 @@ URL, so the browser's back button always does the obvious thing.
 
 Legacy forms still work: `<…>/browse` (same as without it), `?r=<payload>`,
 `#/category/<cat>`, `quiz.html`, `favorites.html`, `history.html`.
+
+## LOC theory source data
+
+`data/loc-theories.json` is a straight dump of the
+[Landscape of Consciousness](https://loc.closertotruth.com/) (LOC) theory
+pages, kept here as the source of truth for onboarding new theories. It is
+not loaded by the site and contains no quiz content — just what LOC itself
+publishes, copied from the structured data on each theory page:
+
+- `name`, `slug`, `url` — the theory and where it lives on LOC
+- `category` / `subcategory` — LOC's own placement (subcategory is null
+  where LOC has none)
+- `kind` — `theory`, or `overview` for LOC's category/school overview
+  entries (their LOC shortcode is "Overview")
+- `summary` — LOC's one-paragraph summary of the theory
+- `claims` — the page's "Key Takeaways" (Core Claim, How It Works,
+  Distinguishing Idea, …) as `{title, text}` pairs; some pages have none
+  on LOC, so `claims` is empty for those
+- `theorists` — who the theory is attached to (name, role, LOC's
+  per-person verified flag)
+- `verified`, `verificationStatus`, `verifiedAt`, `verifiedBy` — LOC's
+  review state for the entry, exactly as published
+- `publicationDate`, `sourceUpdatedAt` — LOC's own dates for the entry
+- `pulledAt` — the date this entry was pulled (also `lastPull` at the top
+  of the file for the pull as a whole)
+
+The top level also has an `unavailable` list: pages linked from LOC's
+sitemap or homepage that returned 404 when pulled.
+
+To refresh it, run:
+
+```sh
+node tools/scrape-loc.js
+```
+
+That re-reads LOC's sitemap plus the homepage's theory links, fetches
+every theory page, and rewrites `data/loc-theories.json`. Counts and dates
+in the file are from the last run — check `lastPull` before relying on it.
 
 ## Deploy
 
