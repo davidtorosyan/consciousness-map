@@ -1,5 +1,5 @@
-/* The Phylogenetic / Evolutionary quiz: an axis quiz, like data/quiz-idealisms.js.
-   12 theories LOC lists under Materialism's Phylogenetic / Evolutionary
+/* The Phylogenetic/Evolutionary quiz: an axis quiz, like data/quiz-idealisms.js.
+   12 theories LOC lists under Materialism's Phylogenetic/Evolutionary
    theories. They all agree evolution made consciousness; 11 axes cover
    where they part ways: how far down the tree of life it goes (cells,
    simple animals), whether it is a late arrival needing language or
@@ -110,7 +110,7 @@
   ];
 
   window.QUIZ_DATA.drill["materialism-phylogenetic-evolutionary"] = {
-    name: "Phylogenetic / Evolutionary",
+    name: "Phylogenetic/Evolutionary",
     color: "#EDCF4A",
     categoryId: "materialism",
     kicker: "A QUIZ · MATERIALISM",

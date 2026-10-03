@@ -1,5 +1,5 @@
-/* The Eliminative / Illusionism quiz: an axis quiz, like data/quiz-idealisms.js.
-   5 theories LOC lists under Materialism / Eliminative / Illusionism. They
+/* The Eliminative/Illusionism quiz: an axis quiz, like data/quiz-idealisms.js.
+   5 theories LOC lists under Materialism / Eliminative/Illusionism. They
    agree that our ordinary picture of the mind is wrong; the axes cover
    what each says is wrong with it: everyday mental concepts as a false
    theory, the inner "what it's like" as an illusion, awareness as a model
@@ -67,7 +67,7 @@
   ];
 
   window.QUIZ_DATA.drill["materialism-eliminative-illusionism"] = {
-    name: "Eliminative / Illusionism",
+    name: "Eliminative/Illusionism",
     color: "#EDCF4A",
     categoryId: "materialism",
     kicker: "A QUIZ · MATERIALISM",

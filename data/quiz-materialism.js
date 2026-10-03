@@ -137,7 +137,7 @@
       tagline: "Consciousness lives in specific brain circuits.",
       url: "https://loc.closertotruth.com/theories/neurobiological",
       sub: "materialism-neurobiological" },
-    { key: "materialism-phylogenetic-evolutionary", name: "Phylogenetic / Evolutionary",
+    { key: "materialism-phylogenetic-evolutionary", name: "Phylogenetic/Evolutionary",
       tagline: "Consciousness evolved, step by step.",
       url: "https://loc.closertotruth.com/theories/phylogenetic-evolutionary",
       sub: "materialism-phylogenetic-evolutionary" },
@@ -169,7 +169,7 @@
       tagline: "Experience is the brain's direct picture.",
       url: "https://loc.closertotruth.com/theories/first-order",
       sub: "materialism-first-order" },
-    { key: "materialism-eliminative-illusionism", name: "Eliminative / Illusionism",
+    { key: "materialism-eliminative-illusionism", name: "Eliminative/Illusionism",
       tagline: "The inner glow is a trick of the brain.",
       url: "https://loc.closertotruth.com/theories/eliminative-illusionism",
       sub: "materialism-eliminative-illusionism" }
