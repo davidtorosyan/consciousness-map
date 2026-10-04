@@ -44,7 +44,11 @@ async function collectSlugs() {
   return [...slugs].sort();
 }
 
-/* Join the streamed Next.js payload chunks into one searchable text. */
+/* Join the streamed Next.js payload chunks into one searchable text,
+ * plus a map of Flight row ids. Values in the payload can be "$<id>"
+ * references to a row elsewhere in the stream (long text is often
+ * shipped as its own `T<len>,<text>` blob row); entry fields must be
+ * resolved through this map or they come out as literal "$1d". */
 function payloadText(html) {
   const parts = [];
   const re = /self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g;
@@ -52,7 +56,45 @@ function payloadText(html) {
   while ((m = re.exec(html)) !== null) {
     try { parts.push(JSON.parse(m[1])); } catch (e) { /* skip bad chunk */ }
   }
-  return parts.join('\n');
+  const text = parts.join('\n');
+  const rows = {};
+  const rowRe = /(?:^|\n)([0-9a-f]+):/g;
+  const starts = [];
+  while ((m = rowRe.exec(text)) !== null) {
+    starts.push({ id: m[1], contentStart: rowRe.lastIndex, end: m.index });
+  }
+  for (let i = 0; i < starts.length; i++) {
+    const s = starts[i];
+    const limit = i + 1 < starts.length ? starts[i + 1].end : text.length;
+    let raw = text.slice(s.contentStart, limit).replace(/\n$/, '');
+    const tm = raw.match(/^T([0-9a-f]+),/i);
+    if (tm) {
+      /* Flight text rows declare their length in hex BYTES. */
+      const bytes = Buffer.from(raw, 'utf8');
+      const head = tm[0].length;
+      raw = bytes.slice(head, head + parseInt(tm[1], 16)).toString('utf8');
+    }
+    rows[s.id] = raw;
+  }
+  return { text, rows };
+}
+
+function resolveRefs(value, rows) {
+  if (typeof value === 'string') {
+    const m = value.match(/^\$([0-9a-f]+)$/);
+    if (m && Object.prototype.hasOwnProperty.call(rows, m[1])) {
+      const raw = rows[m[1]];
+      try { return JSON.parse(raw); } catch (e) { return raw; }
+    }
+    return value;
+  }
+  if (Array.isArray(value)) return value.map(v => resolveRefs(v, rows));
+  if (value && typeof value === 'object') {
+    const out = {};
+    for (const k of Object.keys(value)) out[k] = resolveRefs(value[k], rows);
+    return out;
+  }
+  return value;
 }
 
 /* Index of the '{' that opens the object containing position `idx`. */
@@ -91,13 +133,13 @@ function objectEnd(text, start) {
 }
 
 function extractTheory(html) {
-  const text = payloadText(html);
+  const { text, rows } = payloadText(html);
   const idx = text.indexOf('"verificationStatus"');
   if (idx === -1) return null;
   const start = enclosingStart(text, idx);
   const end = objectEnd(text, start);
   if (start === -1 || end === -1) return null;
-  return JSON.parse(text.slice(start, end + 1));
+  return resolveRefs(JSON.parse(text.slice(start, end + 1)), rows);
 }
 
 function slugOf(ref) {
