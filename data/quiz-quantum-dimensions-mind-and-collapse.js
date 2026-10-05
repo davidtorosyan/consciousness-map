@@ -1,7 +1,7 @@
 /* The Mind settles quantum maybes quiz: an axis quiz, like
-   data/quiz-idealisms.js. Two theories on which mind turns quantum
-   possibilities into facts. Four axes tell them apart: attention holding
-   brain states in place, living cells poised between quantum and classical,
+   data/quiz-idealisms.js. Four theories on which mind turns quantum
+   possibilities into facts (two still under LOC review). Four axes tell
+   them apart: attention holding brain states in place, living cells poised between quantum and classical,
    whether mind is at work wherever possibilities become facts, and whether
    minds outrun any algorithm. Checked by tools/eval-quiz.js. */
 (function () {
@@ -20,6 +20,9 @@
   var profiles = {
     "kauffman-s-mind-mediating-possibles-to-actuals":            { poised: 2, everywhere: 1, algorithm: 2 },
     "stapp-s-collapsing-the-wave-function-via-asking-questions": { attention: 2, everywhere: -1, algorithm: 1 },
+    // under LOC review
+    "chalmers-and-mcqueen-s-quantum-collapse":                  { attention: -1, everywhere: 1 },
+    "wigner-von-neumann-s-consciousness-collapse-experience-at-the-quantum-cut": { attention: -1, everywhere: -2 },
   };
 
   var questions = [
@@ -58,7 +61,13 @@
       url: "https://loc.closertotruth.com/theory/kauffman-s-mind-mediating-possibles-to-actuals" },
     { key: "stapp-s-collapsing-the-wave-function-via-asking-questions", name: "Stapp’s Collapsing the Wave Function via Asking “Questions”",
       tagline: "Your mind makes reality definite by questioning nature.",
-      url: "https://loc.closertotruth.com/theory/stapp-s-collapsing-the-wave-function-via-asking-questions" }
+      url: "https://loc.closertotruth.com/theory/stapp-s-collapsing-the-wave-function-via-asking-questions" },
+    { key: "chalmers-and-mcqueen-s-quantum-collapse", name: "Chalmers and McQueen’s Quantum Collapse",
+      tagline: "Integrated conscious states may be what makes quantum outcomes definite.",
+      url: "https://loc.closertotruth.com/theory/chalmers-and-mcqueen-s-quantum-collapse", review: true },
+    { key: "wigner-von-neumann-s-consciousness-collapse-experience-at-the-quantum-cut", name: "Wigner–von Neumann’s Consciousness-Collapse: Experience at the Quantum Cut",
+      tagline: "An observer’s consciousness ends the quantum measurement chain.",
+      url: "https://loc.closertotruth.com/theory/wigner-von-neumann-s-consciousness-collapse-experience-at-the-quantum-cut", review: true }
     ],
     axes: axes,
     profiles: profiles,

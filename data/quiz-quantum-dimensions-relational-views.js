@@ -1,6 +1,6 @@
 /* The Everything is relations quiz: an axis quiz, like
-   data/quiz-idealisms.js. Two physicists' relational pictures. Four axes
-   tell them apart: whether time is real and basic, whether facts are
+   data/quiz-idealisms.js. Three relational pictures from physics (one,
+   QBism, still under LOC review). Four axes tell them apart: whether time is real and basic, whether facts are
    relative to each observer, whether every event has an inside, and
    whether the laws of nature themselves evolve. Checked by
    tools/eval-quiz.js. */
@@ -20,6 +20,8 @@
   var profiles = {
     "rovelli-s-relational-physics":    { time: -2, relative: 2 },
     "smolin-s-causal-theory-of-views": { time: 2, relative: -1, laws: 2 },
+    // under LOC review
+    "qbism-s-primitive-participatory-experience-quantum-agency-and-the-first-person-world": { relative: 2 },
   };
 
   var questions = [
@@ -58,7 +60,10 @@
       url: "https://loc.closertotruth.com/theory/rovelli-s-relational-physics" },
     { key: "smolin-s-causal-theory-of-views", name: "Smolin’s Causal Theory of Views",
       tagline: "Consciousness arises only in rare, never-repeated views of events.",
-      url: "https://loc.closertotruth.com/theory/smolin-s-causal-theory-of-views" }
+      url: "https://loc.closertotruth.com/theory/smolin-s-causal-theory-of-views" },
+    { key: "qbism-s-primitive-participatory-experience-quantum-agency-and-the-first-person-world", name: "QBism’s Primitive, Participatory Experience: Quantum Agency and the First-Person World",
+      tagline: "Quantum states describe each agent’s own experience and bets.",
+      url: "https://loc.closertotruth.com/theory/qbism-s-primitive-participatory-experience-quantum-agency-and-the-first-person-world", review: true }
     ],
     axes: axes,
     profiles: profiles,

@@ -1,6 +1,9 @@
 /* The Consciousness belongs to the cosmos quiz: an axis quiz, like
-   data/quiz-idealisms.js. Five theories that tie consciousness to the
-   universe at large. Seven axes cover their divides: whether consciousness
+   data/quiz-idealisms.js. Eight theories that tie consciousness to the
+   universe at large: six with their own profiles (one, Gambini and
+   Pullin's, still under LOC review) and two grouped with a theory the
+   quiz can't tell them apart from (Faggin with Hameroff, Strømme with
+   Keppler). Seven axes cover their divides: whether consciousness
    came before life, whether it starts in living cells, whether it is a
    kind of computation, whether the brain tunes into a field filling space,
    whether quantum physics is the meeting point, whether choices ride on
@@ -32,6 +35,8 @@
     "king-s-symbiotic-existential-cosmology":       { cell: 2, computation: -1, quantum: 1, choice: 2 },
     "torday-s-cellular-and-cosmic-consciousness":   { cell: 2, quantum: 1 },
     "wolfram-s-consciousness-in-the-ruliad":        { before: -1, cell: -1, computation: 2, field: -1, quantum: -1, choice: -1, slice: 2 },
+    // under LOC review
+    "gambini-and-pullin-s-quantum-panprotopsychism": { cell: -1, quantum: 2, choice: 1 },
   };
 
   var questions = [
@@ -94,7 +99,16 @@
       url: "https://loc.closertotruth.com/theory/torday-s-cellular-and-cosmic-consciousness" },
     { key: "wolfram-s-consciousness-in-the-ruliad", name: "Wolfram’s Consciousness in the Ruliad",
       tagline: "Consciousness is a mind sampling all possible computations.",
-      url: "https://loc.closertotruth.com/theory/wolfram-s-consciousness-in-the-ruliad" }
+      url: "https://loc.closertotruth.com/theory/wolfram-s-consciousness-in-the-ruliad" },
+    { key: "faggin-s-quantum-information-based-panpsychism", name: "Faggin’s Quantum Information-Based Panpsychism",
+      tagline: "Consciousness is built into quantum reality itself.",
+      url: "https://loc.closertotruth.com/theory/faggin-s-quantum-information-based-panpsychism", review: true, group: "hameroff-s-consciousness-came-before-life" },
+    { key: "gambini-and-pullin-s-quantum-panprotopsychism", name: "Gambini and Pullin’s Quantum Panprotopsychism",
+      tagline: "Quantum events have a simple inner side that adds up to minds.",
+      url: "https://loc.closertotruth.com/theory/gambini-and-pullin-s-quantum-panprotopsychism", review: true },
+    { key: "str-mme-s-universal-consciousness-as-foundational-field", name: "Strømme’s Universal Consciousness as Foundational Field",
+      tagline: "One field of consciousness underlies space, time and every mind.",
+      url: "https://loc.closertotruth.com/theory/str-mme-s-universal-consciousness-as-foundational-field", review: true, group: "keppler-s-zero-point-field" }
     ],
     axes: axes,
     profiles: profiles,

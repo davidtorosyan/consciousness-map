@@ -1,6 +1,9 @@
 /* The Computational & Functionalism quiz: an axis quiz, like
-   data/quiz-idealisms.js. 14 theories LOC lists under Materialism >
-   Computational & Functionalism. All treat the mind as something the brain
+   data/quiz-idealisms.js. 22 theories LOC lists under Materialism >
+   Computational & Functionalism: 15 with their own profiles (1 still
+   under LOC review) and 7 grouped with a theory the quiz can't tell them
+   apart from (Bostrom, Putnam, Sejnowski, Turing and Wang with
+   Computational Theories; Dennett and Jackendoff with Minsky). All treat the mind as something the brain
    does; the 12 axes cover where they split: whether the material matters,
    a central stage vs a society of mindless parts, self-modelling, maths,
    ideas from fundamental physics, holographic wave patterns, mind and
@@ -54,6 +57,8 @@
     "minsky-s-society-of-mind":                                         { substrate: 2, central: -2, physics: -1 },
     "oreilly-shahs-state-space-theory-and-computational-dynamic-monism": { substrate: 1, math: 1, history: 2, process: 1 },
     "pribram-s-holonomic-brain-theory":                                 { physics: 1, hologram: 2, mirror: 1 },
+    // under LOC review
+    "agueera-y-arcas-s-computational-functionalism":                    { substrate: 2, selfmodel: 1, central: -1 },
   };
 
   var questions = [
@@ -168,7 +173,31 @@
       url: "https://loc.closertotruth.com/theory/oreilly-shahs-state-space-theory-and-computational-dynamic-monism" },
     { key: "pribram-s-holonomic-brain-theory", name: "Pribram’s Holonomic Brain Theory",
       tagline: "The brain stores memory like a hologram.",
-      url: "https://loc.closertotruth.com/theory/pribram-s-holonomic-brain-theory" }
+      url: "https://loc.closertotruth.com/theory/pribram-s-holonomic-brain-theory" },
+    { key: "agueera-y-arcas-s-computational-functionalism", name: "Agüera y Arcas’s Computational Functionalism",
+      tagline: "Modelling other minds, then your own, makes consciousness.",
+      url: "https://loc.closertotruth.com/theory/agueera-y-arcas-s-computational-functionalism", review: true },
+    { key: "bostrom-s-computational-functionalism", name: "Bostrom’s Computational Functionalism",
+      tagline: "Minds are software; we might even live in a simulation.",
+      url: "https://loc.closertotruth.com/theory/bostrom-s-computational-functionalism", review: true, group: "computational-theories" },
+    { key: "dennett-s-multiple-drafts-model", name: "Dennett’s Multiple Drafts Model",
+      tagline: "No inner theatre, just drafts competing for fame.",
+      url: "https://loc.closertotruth.com/theory/dennett-s-multiple-drafts-model", review: true, group: "minsky-s-society-of-mind" },
+    { key: "jackendoff-s-intermediate-level-cognitive-representations", name: "Jackendoff’s Intermediate-Level Cognitive Representations",
+      tagline: "We are aware of middle-level shapes and sounds, not raw data.",
+      url: "https://loc.closertotruth.com/theory/jackendoff-s-intermediate-level-cognitive-representations", review: true, group: "minsky-s-society-of-mind" },
+    { key: "putnam-s-machine-functionalism", name: "Putnam’s Machine Functionalism",
+      tagline: "Mental states are defined by what they do.",
+      url: "https://loc.closertotruth.com/theory/putnam-s-machine-functionalism", review: true, group: "computational-theories" },
+    { key: "sejnowski-s-computational-two-tiers-and-traveling-waves", name: "Sejnowski’s Computational Two Tiers and Traveling Waves",
+      tagline: "Waves of spiking neurons compute a two-tier mind.",
+      url: "https://loc.closertotruth.com/theory/sejnowski-s-computational-two-tiers-and-traveling-waves", review: true, group: "computational-theories" },
+    { key: "turing-s-imitation-machine-thought-and-the-hidden-mind", name: "Turing’s Imitation, Machine Thought, and the Hidden Mind",
+      tagline: "Judge machine minds by what they do, as we judge people.",
+      url: "https://loc.closertotruth.com/theory/turing-s-imitation-machine-thought-and-the-hidden-mind", review: true, group: "computational-theories" },
+    { key: "wang-s-layered-architecture-and-cognitive-informatics", name: "Wang’s Layered Architecture and Cognitive Informatics",
+      tagline: "Consciousness is the top layer of the brain’s formal architecture.",
+      url: "https://loc.closertotruth.com/theory/wang-s-layered-architecture-and-cognitive-informatics", review: true, group: "computational-theories" }
     ],
     axes: axes,
     profiles: profiles,

@@ -1,6 +1,8 @@
 /* The Hidden orders and dimensions quiz: an axis quiz, like
-   data/quiz-idealisms.js. Five theories that place mind in a deeper level
-   of reality. Seven axes cover their divides: an enfolded whole beneath
+   data/quiz-idealisms.js. Six theories that place mind in a deeper level
+   of reality: five with their own profiles, and Van Dusen's (under LOC
+   review) grouped with Pacheco's, which the quiz can't tell apart from
+   it. Seven axes cover their divides: an enfolded whole beneath
    the visible world, literal extra dimensions, meaning that acts
    physically, whether the brain is where the deeper level matters, psychic
    phenomena, repeating layers, and whether quantum physics is the way in.
@@ -93,7 +95,10 @@
       url: "https://loc.closertotruth.com/theory/tozzi-s-multidimensional-brain" },
     { key: "pylkkaenen-s-quantum-potential-energy-and-active-information", name: "Pylkkänen’s Quantum Potential Energy and Active Information",
       tagline: "A deeper quantum order carries meaning in the brain.",
-      url: "https://loc.closertotruth.com/theory/pylkkaenen-s-quantum-potential-energy-and-active-information" }
+      url: "https://loc.closertotruth.com/theory/pylkkaenen-s-quantum-potential-energy-and-active-information" },
+    { key: "van-dusen-s-hyperspatial-dimension-theory", name: "Van Dusen’s Hyperspatial Dimension Theory",
+      tagline: "Mind runs through real higher dimensions; the brain anchors it.",
+      url: "https://loc.closertotruth.com/theory/van-dusen-s-hyperspatial-dimension-theory", review: true, group: "pacheco-s-science-of-unity" }
     ],
     axes: axes,
     profiles: profiles,

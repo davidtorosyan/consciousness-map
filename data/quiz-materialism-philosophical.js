@@ -1,5 +1,8 @@
 /* The Philosophical quiz: an axis quiz, like data/quiz-idealisms.js.
-   8 theories LOC lists under Materialism's Philosophical theories. All
+   14 theories LOC lists under Materialism's Philosophical theories: 11
+   with their own profiles (3 still under LOC review) and 3 grouped with a
+   theory the quiz can't tell them apart from (Kim with Epiphenomenalism;
+   Ney and Weisberg with Hardcastle). All
    take mind to be physical; 8 axes cover how they differ: experience as an
    irreducible new property, mind defined by its job rather than its stuff,
    a lasting limit to science, the mystery as a quirk of our thinking vs
@@ -37,6 +40,10 @@
     "mitchell-s-15-questions":                              { questions: 2, power: 2, irreducible: 1, limit: -1 },
     "philosophical-history-of-materialism":                 { ancient: 2, irreducible: -1, limit: -1 },
     "stoljar-s-epistemic-view-and-non-standard-physicalism": { missing: 2, illusion: -1, irreducible: -1 },
+    // under LOC review
+    "epiphenomenalism":                                     { irreducible: 2, power: -2 },
+    "hobbes-s-mechanical-phantasms-and-the-material-mind":  { irreducible: -2, limit: -1 },
+    "locke-s-reflexive-consciousness-and-the-making-of-the-person": { missing: 1, limit: 1, illusion: -1 },
   };
 
   var questions = [
@@ -113,7 +120,25 @@
       url: "https://loc.closertotruth.com/theory/philosophical-history-of-materialism" },
     { key: "stoljar-s-epistemic-view-and-non-standard-physicalism", name: "Stoljar’s Epistemic View and Non-Standard Physicalism",
       tagline: "The gap is our ignorance, not a real divide.",
-      url: "https://loc.closertotruth.com/theory/stoljar-s-epistemic-view-and-non-standard-physicalism" }
+      url: "https://loc.closertotruth.com/theory/stoljar-s-epistemic-view-and-non-standard-physicalism" },
+    { key: "epiphenomenalism", name: "Epiphenomenalism (Materialism)",
+      tagline: "Experience is real and physical, but causes nothing.",
+      url: "https://loc.closertotruth.com/theory/epiphenomenalism", review: true },
+    { key: "hobbes-s-mechanical-phantasms-and-the-material-mind", name: "Hobbes’s Mechanical Phantasms and the Material Mind",
+      tagline: "Sensation and thought are just matter in motion.",
+      url: "https://loc.closertotruth.com/theory/hobbes-s-mechanical-phantasms-and-the-material-mind", review: true },
+    { key: "kim-s-supervenience", name: "Kim’s Supervenience",
+      tagline: "No mental difference without a physical difference.",
+      url: "https://loc.closertotruth.com/theory/kim-s-supervenience", review: true, group: "epiphenomenalism" },
+    { key: "locke-s-reflexive-consciousness-and-the-making-of-the-person", name: "Locke’s Reflexive Consciousness and the Making of the Person",
+      tagline: "We may never know whether matter itself can think.",
+      url: "https://loc.closertotruth.com/theory/locke-s-reflexive-consciousness-and-the-making-of-the-person", review: true },
+    { key: "ney-s-physicalism-not-scientism", name: "Ney’s Physicalism, Not Scientism",
+      tagline: "Consciousness is physical, in the sense physics gives that word.",
+      url: "https://loc.closertotruth.com/theory/ney-s-physicalism-not-scientism", review: true, group: "hardcastle-s-argument-against-materialism-skeptics" },
+    { key: "weisberg-s-explanatory-optimism-via-automated-compression-theory", name: "Weisberg’s Explanatory Optimism via Automated Compression Theory",
+      tagline: "Compressed self-access makes experience only look mysterious.",
+      url: "https://loc.closertotruth.com/theory/weisberg-s-explanatory-optimism-via-automated-compression-theory", review: true, group: "hardcastle-s-argument-against-materialism-skeptics" }
     ],
     axes: axes,
     profiles: profiles,

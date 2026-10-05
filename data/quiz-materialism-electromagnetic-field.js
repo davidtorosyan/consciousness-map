@@ -1,5 +1,6 @@
 /* The Electromagnetic Field quiz: an axis quiz, like data/quiz-idealisms.js.
-   9 theories LOC lists under Materialism's Electromagnetic Field theories.
+   12 theories LOC lists under Materialism's Electromagnetic Field theories
+   (3 of them still under LOC review).
    They share a focus on the brain's electrical activity and part ways on
    10 axes: experience as the field itself vs neurons' firing, the field
    acting back on neurons, experience causing actions, synchrony across
@@ -43,6 +44,10 @@
     "mcfadden-s-conscious-electromagnetic-information-theory": { field: 2, feedback: 2, causal: 2, machine: 2, beyond: -1, speed: 1 },
     "pockett-s-conscious-and-non-conscious-patterns":         { pattern: 2, field: 2, causal: -2, beyond: -1, machine: 1 },
     "singer-and-melloni-s-large-scale-synchrony":             { sync: 2, local: -2, field: -1, beyond: -2 },
+    // under LOC review
+    "becker-s-analog-body-electric":                          { field: 2, feedback: 1, local: -1 },
+    "fingelkurts-and-fingelkurts-s-operational-architectonics": { field: 1, sync: 1, machine: 1 },
+    "miller-s-brain-waves-analog-organization-of-cortex":     { sync: 2, local: -2, causal: 1, feedback: 1 },
   };
 
   var questions = [
@@ -132,7 +137,16 @@
       url: "https://loc.closertotruth.com/theory/pockett-s-conscious-and-non-conscious-patterns" },
     { key: "singer-and-melloni-s-large-scale-synchrony", name: "Singer and Melloni’s Large-Scale Synchrony",
       tagline: "Consciousness is the whole brain syncing up.",
-      url: "https://loc.closertotruth.com/theory/singer-and-melloni-s-large-scale-synchrony" }
+      url: "https://loc.closertotruth.com/theory/singer-and-melloni-s-large-scale-synchrony" },
+    { key: "becker-s-analog-body-electric", name: "Becker’s Analog Body Electric",
+      tagline: "Slow electric currents through the nervous system unify experience.",
+      url: "https://loc.closertotruth.com/theory/becker-s-analog-body-electric", review: true },
+    { key: "fingelkurts-and-fingelkurts-s-operational-architectonics", name: "Fingelkurts and Fingelkurts’s Operational Architectonics",
+      tagline: "Brain field patterns and moments of mind share one structure.",
+      url: "https://loc.closertotruth.com/theory/fingelkurts-and-fingelkurts-s-operational-architectonics", review: true },
+    { key: "miller-s-brain-waves-analog-organization-of-cortex", name: "Miller’s Brain Waves’ Analog Organization of Cortex",
+      tagline: "Brain waves big enough to unify the cortex bring awareness.",
+      url: "https://loc.closertotruth.com/theory/miller-s-brain-waves-analog-organization-of-cortex", review: true }
     ],
     axes: axes,
     profiles: profiles,

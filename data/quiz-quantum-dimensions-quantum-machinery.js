@@ -1,7 +1,7 @@
 /* The Quantum machinery in the brain quiz: an axis quiz, like
-   data/quiz-idealisms.js. Nine theories that all put quantum physics inside
-   the brain; they disagree about whether a non-physical mind acts on the
-   brain, whether each moment of experience is a collapse, whether new
+   data/quiz-idealisms.js. Ten theories (one still under LOC review) that all
+   put quantum physics inside the brain; they disagree about whether a
+   non-physical mind acts on the brain, whether each moment of experience is a collapse, whether new
    physics is needed, where the quantum work happens (synapses, nuclear
    spins, one particle, or a brain-wide field), whether experience is
    computable, whether mind reaches outside the body, whether experience
@@ -45,6 +45,8 @@
     "morrison-s-position-selecting-interactionism":               { collapse: 1, synapse: -1, field: -2, computer: 1, psi: -1, ladder: -1 },
     "shiah-s-cryptochrome-theory":                                { mind: 2, newphysics: -1, synapse: -1, field: -1, computer: 1, psi: 2, ladder: -1, spin: 1 },
     "poznanski-s-dynamic-organicity-theory":                      { mind: -2, synapse: -1, field: 1, computer: 1, psi: -1, ladder: 1 },
+    // under LOC review
+    "nevens-quantum-superposition-formation":                     { mind: -1, collapse: -2, newphysics: -1, computer: -2 },
   };
 
   var questions = [
@@ -139,7 +141,10 @@
       url: "https://loc.closertotruth.com/theory/shiah-s-cryptochrome-theory" },
     { key: "poznanski-s-dynamic-organicity-theory", name: "Poznanski’s Dynamic Organicity Theory",
       tagline: "Consciousness is a living system’s quantum reach.",
-      url: "https://loc.closertotruth.com/theory/poznanski-s-dynamic-organicity-theory" }
+      url: "https://loc.closertotruth.com/theory/poznanski-s-dynamic-organicity-theory" },
+    { key: "nevens-quantum-superposition-formation", name: "Neven's Quantum Superposition Formation",
+      tagline: "Experience arises whenever a quantum superposition forms.",
+      url: "https://loc.closertotruth.com/theory/nevens-quantum-superposition-formation", review: true }
     ],
     axes: axes,
     profiles: profiles,

@@ -1,13 +1,17 @@
 /* The Neurobiological quiz: an axis quiz, like data/quiz-idealisms.js.
-   12 theories LOC lists under Materialism > Neurobiological. All look for
-   consciousness in the workings of the brain; the 11 axes cover where they
+   26 theories LOC lists under Materialism > Neurobiological: 21 with their
+   own profiles (9 of them still under LOC review) and 5 grouped with a
+   theory the quiz can't tell them apart from (Sergent with Global
+   Workspace, Calvin with Edelman, He with Northoff, Schiff with Brain
+   Circuits and Cycles, D. Freeman with Merker). All look for
+   consciousness in the workings of the brain; the 12 axes cover where they
    split: experience as real, reduction to brain science, emergence, a
-   minimal neural correlate, signals looping between areas, circuits
-   selected like species, the brain's restless background activity,
-   attention, whether a computer could be conscious, privacy of experience,
-   and free will. Profiles carry each theory's justified rejections as
-   well as its signature. Checked by tools/eval-quiz.js and a blind
-   role-play of named proponents
+   minimal neural correlate, signals looping between areas, experience
+   made below the cortex, circuits selected like species, the brain's
+   restless background activity, attention, whether a computer could be
+   conscious, privacy of experience, and free will. Profiles carry each
+   theory's justified rejections as well as its signature. Checked by
+   tools/eval-quiz.js and a blind role-play of named proponents
    (tools/eval-thinkers-materialism-neurobiological.json). */
 (function () {
   "use strict";
@@ -22,6 +26,8 @@
       yes: "each experience has its own neural signature", no: "experience belongs to the brain as a whole" },
     { key: "loops", claim: "Consciousness needs signals looping back between brain areas",
       yes: "consciousness takes loops of feedback", no: "a single sweep of activity can be enough" },
+    { key: "deep", claim: "Experience is generated in older structures beneath the cortex",
+      yes: "experience comes from older, deeper brain structures", no: "experience is generated in the cortex" },
     { key: "selection", claim: "Brain circuits compete, and the winners are selected",
       yes: "the brain works by selection, like evolution", no: "the brain works by instruction, not selection" },
     { key: "background", claim: "The brain’s restless background activity is where experience begins",
@@ -38,18 +44,29 @@
 
   var profiles = {
     "brain-circuits-and-cycles-theories":                         { ncc: -1, loops: 2, background: 1 },
-    "crick-and-koch-s-neural-correlates-of-consciousness":        { reduce: 2, ncc: 2, attention: -1 },
-    "bach-s-cortical-conductor-theory":                           { real: -1, attention: 2, machine: 2 },
+    "crick-and-koch-s-neural-correlates-of-consciousness":        { reduce: 2, ncc: 2, attention: -1, deep: -1 },
+    "bach-s-cortical-conductor-theory":                           { real: -1, attention: 2, machine: 2, deep: -1 },
     "block-s-biological-reductionism":                            { real: 2, reduce: 2, attention: -2, machine: -1 },
     "bunge-s-emergent-materialism":                               { real: 1, emerge: 2, machine: -1 },
     "edelman-s-neural-darwinism-and-reentrant-neural-circuitry":  { loops: 2, selection: 2, reduce: 1 },
     "hirstein-s-mindmelding":                                     { reduce: 1, shared: 2 },
     "mitchell-s-free-agents":                                     { emerge: 1, machine: -1, agent: 2 },
     "northoff-s-temporo-spatial-sentience":                       { ncc: -1, background: 2 },
-    "prinz-s-neurofunctionalism-attention-engenders-experience":  { ncc: 1, attention: 2 },
+    "prinz-s-neurofunctionalism-attention-engenders-experience":  { ncc: 1, attention: 2, deep: -1 },
     "sapolsky-s-hard-incompatibilism":                            { reduce: 2, agent: -2, emerge: 1 },
     "searle-s-biological-naturalism":                             { real: 2, reduce: -1, emerge: 1, ncc: -1, machine: -2, shared: -1 },
+    // under LOC review
+    "baars-s-and-dehaene-s-global-workspace-theory":              { attention: 1, loops: 1, machine: 2, reduce: 1, deep: -1 },
+    "dendritic-integration-theory":                               { loops: 2, ncc: 1, emerge: -1, machine: -1, deep: -1 },
+    "gray-s-brain-built-world-model-qualia-comparators-late-error-detection": { real: 1, machine: -1, deep: 1 },
+    "hawkins-s-thousand-brain-remembered-modeling":               { machine: 2, emerge: 1, deep: -2 },
+    "libets-mind-time-readiness-potential-unconscious-initiation-delayed-awareness-antedating-consciousness": { real: 2, reduce: -2, emerge: 1, agent: 1 },
+    "mccomas-hippocampal-memory-stream-theory":                   { reduce: 2, ncc: 1, deep: 2 },
+    "merker-s-midbrain-centered-reality-space":                   { real: 1, ncc: 1, deep: 2 },
+    "w-freemans-intentional-neurodynamics":                       { emerge: 2, ncc: -1, background: 1 },
+    "wards-thalamic-dynamic-core-and-mins-thalamic-reticular-gate": { loops: 2, deep: 2 },
   };
+
 
   var questions = [
     {
@@ -76,6 +93,11 @@
       t: "Consciousness needs signals looping back and forth between brain areas, not just flowing one way.",
       why: "Yes means feedback loops and rhythmic cycles of activity are essential. No means a single forward sweep of activity can be enough.",
       axes: { loops: 1 },
+    },
+    {
+      t: "Experience itself is generated by older, deeper parts of the brain, such as the brainstem, thalamus or hippocampus, rather than by the cortex.",
+      why: "The cortex is the brain’s large, wrinkled outer layer. Yes means the cortex mainly supplies content, while the experiencing happens deeper down, in structures many animals share. No means experience is generated in the cortex itself.",
+      axes: { deep: 1 },
     },
     {
       t: "Brain circuits compete like species in evolution, and experience selects the ones that win.",
@@ -152,7 +174,49 @@
       url: "https://loc.closertotruth.com/theory/sapolsky-s-hard-incompatibilism" },
     { key: "searle-s-biological-naturalism", name: "Searle’s Biological Naturalism",
       tagline: "Consciousness is biology, and it’s real.",
-      url: "https://loc.closertotruth.com/theory/searle-s-biological-naturalism" }
+      url: "https://loc.closertotruth.com/theory/searle-s-biological-naturalism" },
+    { key: "baars-s-and-dehaene-s-global-workspace-theory", name: "Baars’s and Dehaene’s Global Workspace Theory",
+      tagline: "What reaches the brain’s global broadcast becomes conscious.",
+      url: "https://loc.closertotruth.com/theory/baars-s-and-dehaene-s-global-workspace-theory", review: true },
+    { key: "sergent-s-global-playground", name: "Sergent’s Global Playground",
+      tagline: "Awareness can catch up with a stimulus after it’s gone.",
+      url: "https://loc.closertotruth.com/theory/sergent-s-global-playground", review: true, group: "baars-s-and-dehaene-s-global-workspace-theory" },
+    { key: "calvin-s-darwinian-mechanism-in-neocortex", name: "Calvin’s Darwinian Mechanism in Neocortex",
+      tagline: "Consciousness is the current winner of a copying contest in cortex.",
+      url: "https://loc.closertotruth.com/theory/calvin-s-darwinian-mechanism-in-neocortex", review: true, group: "edelman-s-neural-darwinism-and-reentrant-neural-circuitry" },
+    { key: "d-freemans-primitive-felt-theory", name: "D. Freeman's Primitive Felt Theory",
+      tagline: "A few basic feelings, made deep in the brain, colour every thought.",
+      url: "https://loc.closertotruth.com/theory/d-freemans-primitive-felt-theory", review: true, group: "merker-s-midbrain-centered-reality-space" },
+    { key: "dendritic-integration-theory", name: "Dendritic Integration Theory",
+      tagline: "Awareness switches on inside single cortical neurons’ branches.",
+      url: "https://loc.closertotruth.com/theory/dendritic-integration-theory", review: true },
+    { key: "gray-s-brain-built-world-model-qualia-comparators-late-error-detection", name: "Gray’s Brain-Built World-Model: Qualia, Comparators, Late-Error Detection",
+      tagline: "Experience is a late display for catching the brain’s mistakes.",
+      url: "https://loc.closertotruth.com/theory/gray-s-brain-built-world-model-qualia-comparators-late-error-detection", review: true },
+    { key: "hawkins-s-thousand-brain-remembered-modeling", name: "Hawkins’s Thousand-Brain Remembered Modeling",
+      tagline: "Thousands of cortical models vote on one world.",
+      url: "https://loc.closertotruth.com/theory/hawkins-s-thousand-brain-remembered-modeling", review: true },
+    { key: "he-s-joint-determinant-theory", name: "He’s Joint Determinant Theory",
+      tagline: "Many brain systems jointly decide what you experience.",
+      url: "https://loc.closertotruth.com/theory/he-s-joint-determinant-theory", review: true, group: "northoff-s-temporo-spatial-sentience" },
+    { key: "libets-mind-time-readiness-potential-unconscious-initiation-delayed-awareness-antedating-consciousness", name: "Libet's Mind Time: Readiness Potential, Unconscious Initiation, Delayed Awareness, Antedating Consciousness",
+      tagline: "Awareness lags the brain, yet a mental field may still act.",
+      url: "https://loc.closertotruth.com/theory/libets-mind-time-readiness-potential-unconscious-initiation-delayed-awareness-antedating-consciousness", review: true },
+    { key: "mccomas-hippocampal-memory-stream-theory", name: "McComas's Hippocampal Memory-Stream Theory",
+      tagline: "Experience is a stream of memories firing in the hippocampus.",
+      url: "https://loc.closertotruth.com/theory/mccomas-hippocampal-memory-stream-theory", review: true },
+    { key: "merker-s-midbrain-centered-reality-space", name: "Merker’s Midbrain-Centered Reality Space",
+      tagline: "The upper brainstem, not the cortex, makes basic experience.",
+      url: "https://loc.closertotruth.com/theory/merker-s-midbrain-centered-reality-space", review: true },
+    { key: "schiff-s-anterior-forebrain-mesocircuit-of-conscious-recovery", name: "Schiff’s Anterior Forebrain Mesocircuit of Conscious Recovery",
+      tagline: "A thalamus-to-cortex loop keeps consciousness switched on.",
+      url: "https://loc.closertotruth.com/theory/schiff-s-anterior-forebrain-mesocircuit-of-conscious-recovery", review: true, group: "brain-circuits-and-cycles-theories" },
+    { key: "w-freemans-intentional-neurodynamics", name: "W. Freeman's Intentional Neurodynamics",
+      tagline: "Awareness is the brain’s cortex snapping into shared patterns.",
+      url: "https://loc.closertotruth.com/theory/w-freemans-intentional-neurodynamics", review: true },
+    { key: "wards-thalamic-dynamic-core-and-mins-thalamic-reticular-gate", name: "Ward's Thalamic Dynamic Core and Min's Thalamic Reticular Gate",
+      tagline: "The thalamus binds cortical content into one experience.",
+      url: "https://loc.closertotruth.com/theory/wards-thalamic-dynamic-core-and-mins-thalamic-reticular-gate", review: true }
     ],
     axes: axes,
     profiles: profiles,
