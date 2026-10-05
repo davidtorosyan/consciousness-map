@@ -20,17 +20,3 @@ window.QUIZ_DATA_VERSION = "20261003a";
    Each lives in its own file, data/quiz-<key>.js (an axis quiz, like the main
    quiz), loaded after this one; see index.html's list. */
 window.QUIZ_DATA.drill = {};
-
-/* Phenomenology has a single theory on LOC, so it has no quiz: its page
-   leads straight to the theory. The entry stays for the map tree. */
-window.QUIZ_DATA.drill["phenomenology"] = {
-  name: "Phenomenology",
-  color: "#FF5733",
-  categoryId: "phenomenology",
-  areas: [
-    { key: "varela-s-neurophenomenology", name: "Varela\u2019s Neurophenomenology",
-      tagline: "First-person reports guide brain science.",
-      url: "https://loc.closertotruth.com/theory/varela-s-neurophenomenology" }
-  ],
-  questions: []
-};

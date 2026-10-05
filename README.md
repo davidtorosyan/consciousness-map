@@ -24,7 +24,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `data/categories.js` | The 11 LOC categories: names, colors, taglines, URLs. |
 | `data/main-quiz.js` | The main quiz: the axes families disagree on, each family's position on them, and the questions. |
 | `data/quiz-<key>.js` | One per category or school quiz (e.g. `quiz-panpsychisms.js`, `quiz-materialism-higher-order.js`): axis quizzes like the main quiz. |
-| `data/quiz-data.js` | `QUIZ_DATA_VERSION`, the category list the quizzes hang off, and Phenomenology (one theory, so no quiz). |
+| `data/quiz-data.js` | `QUIZ_DATA_VERSION` and the category list the quizzes hang off. |
 | `styles.css`, `quiz.css` | All styling. |
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
 | `deploy.sh` | Check, write a new build id, commit and push to `main`. |
