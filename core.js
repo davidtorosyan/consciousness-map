@@ -445,6 +445,7 @@
     }
     if (n === 1 && (a === "browse" || a === "saved" || a === "history" || a === "debug")) return { view: a };
     if (n === 1 && a === "quiz") return { view: "quiz", quiz: null };
+    if (a === "mega" && n <= 2) return { view: "mega", payload: segs[1] || null, shared: param("shared") === "1" };
     if (n === 2 && (a === "share" || a === "results")) return { view: "results", payload: segs[1], shared: a === "share" };
     var last = segs[n - 1];
     var mode = last === "quiz" || last === "browse" ? last : null;   // "browse": list opened

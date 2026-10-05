@@ -64,6 +64,7 @@
       return "/" + (route.shared ? "share/" : "results/") + (r ? quizPath(r.quiz.key) : "invalid");
     }
     if (route.view === "home") return "/";
+    if (route.view === "mega") return route.payload ? (route.shared ? "/share/mega" : "/results/mega") : "/mega";
     if (route.view === "quiz") return "/" + quizPath(route.quiz);
     if (route.node) return "/" + route.node.path + (route.expand ? "/browse" : "");
     return "/" + route.view;

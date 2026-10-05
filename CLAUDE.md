@@ -56,6 +56,8 @@ theory from a sibling, give it `group: "<sibling key>"` and no profile: it
 shares that row in results. Leave out theories a quiz can't place credibly;
 the site never lists theories its quizzes don't cover.
 New quiz files go in `index.html`'s loader list; the tools read it.
+The mega quiz (`mega.js`) is built from every quiz's questions and profiles,
+so quiz changes change it too; run `node tools/eval-mega.js` after big ones.
 `tools/scaffold-axis-quiz.js <key>` starts one from a quiz's theory list and
 `tools/integrate-quiz.js <key>` swaps a finished file into the site.
 

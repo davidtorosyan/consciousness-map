@@ -20,6 +20,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `analytics.js` | Anonymous usage counts (page views, quiz funnel, answers, results) sent to GoatCounter; event names are listed at the top of the file. |
 | `app.js` | Home, the category list, category/school pages, theory pages, debug page. |
 | `quiz.js` | Quizzes (in-page, one question at a time) and results. |
+| `mega.js` | The mega quiz (`?path=mega`, linked quietly from the home footer): one adaptive quiz over every theory, picking each next question to separate the leading candidates. |
 | `saved.js`, `history.js` | Bookmarked theories and past quiz results (localStorage). |
 | `data/categories.js` | The 11 LOC categories: names, colors, taglines, URLs. |
 | `data/main-quiz.js` | The main quiz: the axes families disagree on, each family's position on them, and the questions. |
@@ -32,6 +33,7 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `data/loc-theories.json` | Source data: every theory on the Landscape of Consciousness, pulled verbatim from the site. Not loaded by the site — see below. |
 | `tools/smoke.js` | Headless phone-size walk-through of every page. |
 | `tools/scaffold-axis-quiz.js`, `tools/integrate-quiz.js` | Start a new axis quiz from a category's theory list; swap a finished one into the site. |
+| `tools/eval-mega.js` | Simulated respondents take the mega quiz: how often their theory comes first, and how many questions it takes. |
 | `tools/eval-quiz.js` | Checks every axis quiz sorts people correctly: ideal and noisy synthetic respondents, edge cases, and role-played thinkers (`tools/eval-thinkers*.json`). |
 | `archive/` | Data from earlier versions, kept for reference. Not loaded. |
 

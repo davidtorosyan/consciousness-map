@@ -25,7 +25,8 @@
         "</div>" : "") +
       '<div class="foot rise" style="--i:5">Names and colors follow the official ' +
       '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
-      '<div class="build">build ' + esc(window.CM_BUILD || "dev") + "</div></div>";
+      '<div class="build"><a class="mega-link" href="?path=mega" data-count="mega-entry">Mega quiz</a> \u00b7 build ' +
+      esc(window.CM_BUILD || "dev") + "</div></div>";
   };
 
   CM.views.browse = function () {

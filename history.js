@@ -9,9 +9,10 @@
     catch (e) { return ""; }
   }
   function entryHtml(e, i) {
-    var href = CM.resultsHref(CM.share.encode(e.q === "main" ? null : e.q, e.a || []));
+    var mega = e.q === "mega";
+    var href = mega ? "?path=mega/" + e.p : CM.resultsHref(CM.share.encode(e.q === "main" ? null : e.q, e.a || []));
     return '<a class="fav-card rise" style="--i:' + Math.min(i + 2, 9) + ';text-decoration:none;color:inherit" href="' + esc(href) + '">' +
-      '<div class="grow"><div class="fav-name">' + esc(CM.quizName(e.q)) + "</div>" +
+      '<div class="grow"><div class="fav-name">' + esc(mega ? "Mega quiz" : CM.quizName(e.q)) + "</div>" +
       (e.top ? '<div class="fav-tag">Closest: ' + esc(e.top) + "</div>" : "") +
       '<div class="fav-meta"><span>' + esc(dateStr(e.t)) + "</span></div>" +
       "</div></a>";

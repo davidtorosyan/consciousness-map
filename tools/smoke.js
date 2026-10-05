@@ -55,7 +55,7 @@ function loadData() {
   return sb.window;
 }
 function pages(W) {
-  var D = W.QUIZ_DATA.drill, out = ["", "browse", "quiz", "saved", "history", "debug"];
+  var D = W.QUIZ_DATA.drill, out = ["", "browse", "quiz", "mega", "saved", "history", "debug"];
   function hasQuiz(k) { return D[k].questions && D[k].questions.length; }
   W.LOC_CATEGORIES.forEach(function (c) { out.push(c.id); if (hasQuiz(c.id)) out.push(c.id + "/quiz"); });
   Object.keys(D).forEach(function (k) {
@@ -252,10 +252,39 @@ function pages(W) {
     await checkPage(memNode);
   } catch (e) { fail("grouped theory flow", e.message); }
 
+  /* 8. the mega quiz: hidden link on home, adaptive questions, results */
+  try {
+    await page.evaluate(function () { localStorage.clear(); sessionStorage.clear(); });
+    await open("");
+    await page.click("a.mega-link");
+    await page.waitForFunction(function () { return window.CM_READY; });
+    await page.click('[data-act="go"]');
+    await page.waitForTimeout(300);
+    for (i = 0; i < 6; i++) {
+      await page.click(i % 3 === 2 ? '[data-ans="skip"]' : i % 2 ? '[data-ans="no"]' : '[data-ans="yes"]');
+      await page.waitForTimeout(400);
+    }
+    await page.click('[data-ans="yes"]');
+    await page.waitForTimeout(400);
+    await page.click('[data-act="stop"]');
+    await page.waitForSelector(".r-row", { timeout: 5000 });
+    await checkPage("mega quiz results");
+    if (!(await page.$("[data-share]"))) fail("mega quiz", "results have no share button");
+    var megaUrl = page.url();
+    await page.click(".r-row .r-open");
+    await page.waitForTimeout(400);
+    if (!(await page.$("h1"))) fail("mega quiz", "a result didn't open its theory");
+    await open("?path=history");
+    if ((await page.innerText("#app")).indexOf("Mega quiz") < 0) fail("mega quiz", "finished mega quiz isn't in history");
+    await page.goto(megaUrl.replace(/\?path=mega\/[^&]*/, "?path=mega/broken"));
+    await page.waitForFunction(function () { return window.CM_READY; });
+    if ((await page.innerText("#app")).indexOf("didn\u2019t work") < 0) fail("mega quiz", "a broken results link isn't handled");
+  } catch (e) { fail("mega quiz flow", e.message); }
+
   await browser.close();
   server.close();
   failures.forEach(function (f) { console.log("FAIL: " + f); });
-  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 5 flows: " +
+  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 6 flows: " +
     (failures.length ? failures.length + " failure(s)" : "ok"));
   process.exit(failures.length ? 1 : 0);
 })().catch(function (e) { console.error(e); process.exit(1); });
