@@ -49,6 +49,12 @@ their justified rejections, not just their signature, or sparse profiles get
 swamped. After changing questions or positions, run `tools/eval-quiz.js`;
 every target's ideal respondent must still rank first. Re-run the blind
 role-play (`tools/eval-thinkers*.json`) after changing question wording.
+Hard cap: 12 questions per quiz (`check.js` fails above it); fewer is
+better. Theories LOC hasn't verified carry `review: true` (check.js compares
+names and status with `data/loc-theories.json`). When a quiz can't tell a
+theory from a sibling, give it `group: "<sibling key>"` and no profile: it
+shares that row in results. Leave out theories a quiz can't place credibly;
+the site never lists theories its quizzes don't cover.
 New quiz files go in `index.html`'s loader list; the tools read it.
 `tools/scaffold-axis-quiz.js <key>` starts one from a quiz's theory list and
 `tools/integrate-quiz.js <key>` swaps a finished file into the site.

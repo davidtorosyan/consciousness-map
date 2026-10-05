@@ -93,6 +93,13 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
       Non-Reductive Physicalism, Dualisms, Anomalous and Quantum Machinery.
 - [x] Blind role-plays for the Materialism school quizzes (all but Philosophical,
       whose areas are mostly not named after one well-known proponent).
+- [x] Every quiz checked against LOC's own entries (archive/loc-audit-2026-10-03.json).
+- [x] Theories LOC is still reviewing: 161 of 192 included (53 grouped with
+      a theory whose answers they share), 31 left out (grab-bags, surveys, or
+      too few placeable positions). New quizzes for Phenomenology and the
+      Mind-Brain Identity school. Every quiz at 12 questions or fewer.
+- [ ] Maybe a lower cap (8): costs roughly 5-20 points of noise robustness
+      in the biggest quizzes; see the 2026-10-05 report.
 - [ ] Real content on theory/school pages (descriptions, objections, who holds it).
 - [ ] "Don't get it" text in the category quizzes that explains rather than argues.
 - [ ] Quantum & Dimensions school names are ours, not LOC's; label or realign.

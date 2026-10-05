@@ -229,10 +229,33 @@ function pages(W) {
     if ((await page.$$(".fav-card")).length) fail("saved", "removing the bookmark didn't remove it");
   } catch (e) { fail("bookmark flow", e.message); }
 
+  /* 7. grouped and under-review theories: results show members on their
+        lead's row; member pages say which theories they share answers with */
+  try {
+    var gq = Object.keys(W.QUIZ_DATA.drill).filter(function (k) {
+      return W.QUIZ_DATA.drill[k].areas.some(function (a) { return a.group; });
+    })[0];
+    var gd = W.QUIZ_DATA.drill[gq], mem = gd.areas.filter(function (a) { return a.group; })[0];
+    var lead = gd.areas.filter(function (a) { return a.key === mem.group; })[0];
+    await open("?path=" + gq.replace(gd.categoryId + "-", gd.categoryId + "/") + "/quiz");
+    var nq2 = gd.questions.length;
+    for (i = 0; i < nq2; i++) { await page.click('[data-ans="skip"]'); await page.waitForTimeout(240); }
+    await page.waitForSelector(".r-row", { timeout: 3000 });
+    var rowsText = await page.innerText("#app");
+    if (rowsText.indexOf(mem.name) < 0) fail("grouped theory", mem.name + " isn't shown on " + lead.name + "'s row");
+    if ((await page.$$(".r-row")).length !== gd.areas.filter(function (a) { return !a.group; }).length) fail("grouped theory", "grouped theories should not get rows of their own");
+    var memNode = await page.evaluate(function (k) { var n = CM.node("theory", k); return n && CM.href(n); }, mem.key);
+    await open(memNode);
+    var note = await page.innerText("#app");
+    if (note.indexOf(lead.name) < 0) fail("grouped theory", mem.name + "'s page doesn't mention " + lead.name);
+    if (mem.review && note.indexOf("still reviewing") < 0) fail("under review", mem.name + "'s page doesn't say LOC is reviewing it");
+    await checkPage(memNode);
+  } catch (e) { fail("grouped theory flow", e.message); }
+
   await browser.close();
   server.close();
   failures.forEach(function (f) { console.log("FAIL: " + f); });
-  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 4 flows: " +
+  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 5 flows: " +
     (failures.length ? failures.length + " failure(s)" : "ok"));
   process.exit(failures.length ? 1 : 0);
 })().catch(function (e) { console.error(e); process.exit(1); });
