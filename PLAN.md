@@ -79,7 +79,7 @@ All existing URLs (`?path=…`, legacy `?r=`, `quiz.html`, `favorites.html`,
 ## Product
 
 - [x] **P1. Rebuild the main quiz around positions, not claims.** Questions
-      measure where you stand on 13 underlying questions ("axes"); each family
+      measure where you stand on 12 underlying questions ("axes"); each family
       has a position on them; your match is how closely they agree.
       `data/main-quiz.js`, scored in `core.js`, checked by
       `tools/eval-quiz.js` (synthetic respondents) and a blind role-play of
