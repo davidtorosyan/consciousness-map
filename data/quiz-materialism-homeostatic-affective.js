@@ -1,5 +1,6 @@
 /* The Homeostatic & Affective quiz: an axis quiz, like data/quiz-idealisms.js.
-   15 theories LOC lists under Materialism > Homeostatic & Affective. They
+   18 theories LOC lists under Materialism > Homeostatic & Affective, three
+   of them still under review at LOC (Giannakopoulos, Panksepp, Rudrauf). They
    share a picture of the brain as a living, self-regulating system; the 12
    axes cover where they split: raw feeling as the root, perception as
    prediction, the self as the brain tracking the body, energy and entropy,
@@ -54,6 +55,9 @@
     "sebastian-s-predictive-machine":                                   { predict: 2 },
     "seth-s-beast-machine-theory":                                      { affect: 1, predict: 2, body: 2, machine: -1 },
     "solms-s-affect-as-the-hidden-spring-of-consciousness":             { affect: 2, predict: 1, body: 1, memory: -1, control: 1, machine: 1 },
+    "giannakopoulos-s-entropy-resisting-amplifier-of-persistence":      { entropy: -1, selforg: 2, machine: 1 },
+    "panksepp-s-primal-affective-consciousness":                        { affect: 2, body: 1, layers: 1 },
+    "projective-consciousness-model":                                   { predict: 1, body: 1, machine: 1 },
   };
 
   var questions = [
@@ -171,7 +175,16 @@
       url: "https://loc.closertotruth.com/theory/seth-s-beast-machine-theory" },
     { key: "solms-s-affect-as-the-hidden-spring-of-consciousness", name: "Solms’s Affect as the Hidden Spring of Consciousness",
       tagline: "Feeling is the root of all awareness.",
-      url: "https://loc.closertotruth.com/theory/solms-s-affect-as-the-hidden-spring-of-consciousness" }
+      url: "https://loc.closertotruth.com/theory/solms-s-affect-as-the-hidden-spring-of-consciousness" },
+    { key: "giannakopoulos-s-entropy-resisting-amplifier-of-persistence", name: "Giannakopoulos’s Entropy-Resisting Amplifier of Persistence",
+      tagline: "Consciousness is a pattern holding out against disorder.",
+      url: "https://loc.closertotruth.com/theory/giannakopoulos-s-entropy-resisting-amplifier-of-persistence", review: true },
+    { key: "panksepp-s-primal-affective-consciousness", name: "Panksepp’s Primal Affective Consciousness",
+      tagline: "Raw feeling from ancient brain circuits came first.",
+      url: "https://loc.closertotruth.com/theory/panksepp-s-primal-affective-consciousness", review: true },
+    { key: "projective-consciousness-model", name: "Rudrauf's Projective Consciousness Model",
+      tagline: "Consciousness is the brain’s geometry of point of view.",
+      url: "https://loc.closertotruth.com/theory/projective-consciousness-model", review: true }
     ],
     axes: axes,
     profiles: profiles,

@@ -1,5 +1,6 @@
 /* The Language Relationships quiz: an axis quiz, like data/quiz-idealisms.js.
-   11 theories LOC lists under Materialism's Language Relationships. They
+   13 theories LOC lists under Materialism's Language Relationships, two of
+   them still under review at LOC (Dewart, Toomela). They
    disagree about how language and consciousness depend on each other, so
    11 axes cover: whether consciousness needs language, whether human
    self-awareness is a different kind of thing made by language and
@@ -49,6 +50,8 @@
     "searle-s-language-and-consciousness":                   { together: 2, needs: -2, mystery: -2, speaks: -2, recent: -2, tell: -1, human: 2 },
     "skopelitou-s-logos-language-before-consciousness":      { needs: 2, labels: -2, tell: 1, together: -1, speaks: 1 },
     "smith-s-language-as-classifier-of-consciousness":       { labels: 1, tell: 1, needs: -1, thought: -1 },
+    "dewart-s-assertive-speech-and-self-presence":           { human: 2, needs: 1, thought: -1 },
+    "toomela-s-language-mediated-structural-systemic-theory": { needs: 2, human: 2, social: 1, labels: -1 },
   };
 
   var questions = [
@@ -149,7 +152,13 @@
       url: "https://loc.closertotruth.com/theory/skopelitou-s-logos-language-before-consciousness" },
     { key: "smith-s-language-as-classifier-of-consciousness", name: "Smith’s Language as Classifier of Consciousness",
       tagline: "Words sort and share our experiences.",
-      url: "https://loc.closertotruth.com/theory/smith-s-language-as-classifier-of-consciousness" }
+      url: "https://loc.closertotruth.com/theory/smith-s-language-as-classifier-of-consciousness" },
+    { key: "dewart-s-assertive-speech-and-self-presence", name: "Dewart’s Assertive Speech and Self-Presence",
+      tagline: "Speaking turned animal experience into conscious experience.",
+      url: "https://loc.closertotruth.com/theory/dewart-s-assertive-speech-and-self-presence", review: true },
+    { key: "toomela-s-language-mediated-structural-systemic-theory", name: "Toomela’s Language-Mediated Structural-Systemic Theory",
+      tagline: "Learning words lets you experience your own mind.",
+      url: "https://loc.closertotruth.com/theory/toomela-s-language-mediated-structural-systemic-theory", review: true }
     ],
     axes: axes,
     profiles: profiles,

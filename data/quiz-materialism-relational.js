@@ -1,5 +1,8 @@
 /* The Relational quiz: an axis quiz, like data/quiz-idealisms.js.
-   8 theories LOC lists under Materialism / Relational: each puts
+   13 theories LOC lists under Materialism / Relational, five of them still
+   under review at LOC (Campbell, Fish, Harman, Hofstadter, Manzotti); Fish
+   shares a result with Campbell, since both make experience a direct
+   relation to the things themselves. Each puts
    consciousness in relations (mind to tools and world, experience to
    experience, organism to its parts, observer to frame) rather than in a
    single place or stuff. The axes cover where they actually split: whether
@@ -38,6 +41,10 @@
     "loorits-s-structural-realism":                         { extend: -1, life: -1, structure: 2, frame: -1, reduce: 2 },
     "mitchell-and-jenning-s-consciousness-needs-a-subject": { extend: -1, life: 2, subject: 2 },
     "tsuchiya-s-relational-approach-to-consciousness":      { structure: 2 },
+    "campbell-s-attention-empowered-relationalism":         { interface: -2 },
+    "harman-s-object-oriented-ontology":                    { interface: 1, reduce: -1 },
+    "hofstadter-s-strange-loops":                           { extend: 1, life: -1, subject: 1 },
+    "manzotti-s-mind-object-identity-spread-mind":          { extend: 2, interface: -2, reduce: 2 },
   };
 
   var questions = [
@@ -109,7 +116,23 @@
       url: "https://loc.closertotruth.com/theory/mitchell-and-jenning-s-consciousness-needs-a-subject" },
     { key: "tsuchiya-s-relational-approach-to-consciousness", name: "Tsuchiya’s Relational Approach to Qualia",
       tagline: "Qualia are defined by how they relate.",
-      url: "https://loc.closertotruth.com/theory/tsuchiya-s-relational-approach-to-consciousness" }
+      url: "https://loc.closertotruth.com/theory/tsuchiya-s-relational-approach-to-consciousness" },
+    { key: "campbell-s-attention-empowered-relationalism", name: "J. Campbell’s Attention-Empowered Relationalism",
+      tagline: "Consciously attending to a thing lets you think about it.",
+      url: "https://loc.closertotruth.com/theory/campbell-s-attention-empowered-relationalism", review: true },
+    { key: "fish-s-naive-realism", name: "Fish’s Naïve Realism",
+      tagline: "Experience is a direct relation to real things themselves.",
+      url: "https://loc.closertotruth.com/theory/fish-s-naive-realism", review: true,
+      group: "campbell-s-attention-empowered-relationalism" },
+    { key: "harman-s-object-oriented-ontology", name: "Harman’s Object-Oriented Ontology",
+      tagline: "Consciousness is just one way objects relate to objects.",
+      url: "https://loc.closertotruth.com/theory/harman-s-object-oriented-ontology", review: true },
+    { key: "hofstadter-s-strange-loops", name: "Hofstadter’s Strange Loops",
+      tagline: "The “I” is a loop of symbols perceiving itself.",
+      url: "https://loc.closertotruth.com/theory/hofstadter-s-strange-loops", review: true },
+    { key: "manzotti-s-mind-object-identity-spread-mind", name: "Manzotti’s Mind-Object Identity (\"Spread Mind\")",
+      tagline: "Your experience of an object is the object itself.",
+      url: "https://loc.closertotruth.com/theory/manzotti-s-mind-object-identity-spread-mind", review: true }
     ],
     axes: axes,
     profiles: profiles,

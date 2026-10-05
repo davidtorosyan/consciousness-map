@@ -1,7 +1,10 @@
 /* The Phylogenetic/Evolutionary quiz: an axis quiz, like data/quiz-idealisms.js.
-   12 theories LOC lists under Materialism's Phylogenetic/Evolutionary
-   theories. They all agree evolution made consciousness; 11 axes cover
-   where they part ways: how far down the tree of life it goes (cells,
+   16 theories LOC lists under Materialism's Phylogenetic/Evolutionary
+   theories, four of them still under review at LOC (Birch, Ginsburg and
+   Jablonka, Godfrey-Smith, McGinn). Birch shares a result with Andrews:
+   the quiz can't tell their comparative, widely-spread views apart.
+   LOC's "Additional Theories" grab-bag is left out. They all agree
+   evolution made consciousness; 11 axes cover where they part ways: how far down the tree of life it goes (cells,
    simple animals), whether it is a late arrival needing language or
    self-reflection, whether experience itself does anything, whether it
    evolved for sharing with others, whether evolution leaves a mystery,
@@ -49,6 +52,9 @@
     "no-hard-problem-in-william-james-s-psychology": { causal: 2, nomystery: 2, grains: -1, late: -1 },
     "reber-s-cellular-basis-of-consciousness": { cells: 2, simple: 2, late: -2, affect: 1, nomystery: 1, compare: 1 },
     "sreedharan-s-affective-survival-theory": { affect: 2, causal: 1, simple: 1, late: -1, images: -1 },
+    "ginsburg-and-jablonka-s-associative-learning-during-evolution": { simple: 2, late: -2, cells: -2, gradual: -1 },
+    "godfrey-smith-s-naturalist-gradualist-diversified-evolution-of-consciousness": { gradual: 2, compare: 2, simple: 1, late: -2, nomystery: 1 },
+    "mcginn-s-living-consciousness": { cells: 2, simple: 1, nomystery: -2 },
   };
 
   var questions = [
@@ -152,7 +158,20 @@
       url: "https://loc.closertotruth.com/theory/reber-s-cellular-basis-of-consciousness" },
     { key: "sreedharan-s-affective-survival-theory", name: "Sreedharan’s Affective Survival Theory",
       tagline: "Feelings evolved to keep you alive.",
-      url: "https://loc.closertotruth.com/theory/sreedharan-s-affective-survival-theory" }
+      url: "https://loc.closertotruth.com/theory/sreedharan-s-affective-survival-theory" },
+    { key: "birch-s-comparative-sentience-consciousness-profiles-across-diverse-minds", name: "Birch’s Comparative Sentience: Consciousness Profiles Across Diverse Minds",
+      tagline: "Study sentience across species without settling what it is.",
+      url: "https://loc.closertotruth.com/theory/birch-s-comparative-sentience-consciousness-profiles-across-diverse-minds", review: true,
+      group: "andrews-consciousness-without-complex-brains" },
+    { key: "ginsburg-and-jablonka-s-associative-learning-during-evolution", name: "Ginsburg and Jablonka’s Associative Learning During Evolution",
+      tagline: "Open-ended learning was the mark of the first minds.",
+      url: "https://loc.closertotruth.com/theory/ginsburg-and-jablonka-s-associative-learning-during-evolution", review: true },
+    { key: "godfrey-smith-s-naturalist-gradualist-diversified-evolution-of-consciousness", name: "Godfrey-Smith’s Naturalist, Gradualist, Diversified Evolution of Consciousness",
+      tagline: "Experience dawned slowly, in many forms, across animal life.",
+      url: "https://loc.closertotruth.com/theory/godfrey-smith-s-naturalist-gradualist-diversified-evolution-of-consciousness", review: true },
+    { key: "mcginn-s-living-consciousness", name: "McGinn’s Living Consciousness",
+      tagline: "Mind is found in all living tissue, and nowhere else.",
+      url: "https://loc.closertotruth.com/theory/mcginn-s-living-consciousness", review: true }
     ],
     axes: axes,
     profiles: profiles,

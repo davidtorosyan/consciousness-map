@@ -1,5 +1,7 @@
 /* The Higher-Order quiz: an axis quiz, like data/quiz-idealisms.js.
-   7 theories LOC lists under Materialism / Higher-Order: the brain's
+   10 theories LOC lists under Materialism / Higher-Order, three of them
+   still under review at LOC (Armstrong, Rosenthal, and Brown, who is grouped
+   with Rosenthal: both make the awareness a thought): the brain's
    representations of its own states (or of itself) make experience. The
    axes cover where they part ways: whether a perception must be represented
    by a further brain state, whether the brain tags perceptions as real,
@@ -29,16 +31,20 @@
       yes: "the mind is layers of ever simpler sub-systems", no: "the mind is not built from layers of sub-systems" },
     { key: "compete", claim: "Experience is the winners of a competition among representations",
       yes: "experience is the winning, bound-together representations", no: "experience isn’t settled by competition" },
+    { key: "thought", claim: "Awareness of a perception is a thought about it",
+      yes: "the awareness that makes a state conscious is a thought about it", no: "the awareness that makes a state conscious is an inner sense, like perceiving" },
   ];
 
   var profiles = {
     "deacon-s-symbolic-communication-human-consciousness":          { self: -1, symbol: 2 },
     "humphrey-s-mental-representations-and-brain-attractors":       { higher: 1, symbol: -1, show: 2, self: 1 },
     "lau-s-perceptual-reality-monitoring-theory":                   { higher: 2, reality: 2 },
-    "ledoux-s-higher-order-theory-of-emotional-consciousness":      { higher: 2, emotion: 2, symbol: 1 },
-    "lycan-s-homuncular-functionalism":                             { higher: 2, symbol: -1, show: -1, layers: 2 },
+    "ledoux-s-higher-order-theory-of-emotional-consciousness":      { higher: 2, emotion: 2, symbol: 1, thought: 2 },
+    "lycan-s-homuncular-functionalism":                             { higher: 2, symbol: -1, show: -1, layers: 2, thought: -2 },
     "metzinger-s-no-self-representational-theory-of-subjectivity":  { self: 2, symbol: -1, show: 1 },
     "thagard-s-neural-representation-binding-coherence-competition": { higher: -1, self: -1, symbol: -1, show: -1, layers: 1, compete: 2 },
+    "armstrong-s-higher-order-perception-theory":                   { higher: 2, thought: -2 },
+    "rosenthal-s-higher-order-thought":                             { higher: 2, thought: 2 },
   };
 
   var questions = [
@@ -82,6 +88,11 @@
       why: "Yes means experience is decided by a contest among the brain’s representations. No means something other than such a competition decides what becomes conscious.",
       axes: { compete: 1 },
     },
+    {
+      t: "Being aware of your own perception is more like having a thought about it than like sensing it with an inner eye.",
+      why: "Yes means the awareness that makes a perception conscious is a thought that you’re having it. No means that awareness works more like an inner sense that scans or perceives your own states.",
+      axes: { thought: 1 },
+    },
   ];
 
   window.QUIZ_DATA.drill["materialism-higher-order"] = {
@@ -112,7 +123,17 @@
       url: "https://loc.closertotruth.com/theory/metzinger-s-no-self-representational-theory-of-subjectivity" },
     { key: "thagard-s-neural-representation-binding-coherence-competition", name: "Thagard’s Neural Representation, Binding, Coherence, Competition",
       tagline: "Four brain mechanisms compete into awareness.",
-      url: "https://loc.closertotruth.com/theory/thagard-s-neural-representation-binding-coherence-competition" }
+      url: "https://loc.closertotruth.com/theory/thagard-s-neural-representation-binding-coherence-competition" },
+    { key: "armstrong-s-higher-order-perception-theory", name: "Armstrong’s Higher-Order Perception Theory",
+      tagline: "An inner sense scanning your brain makes states conscious.",
+      url: "https://loc.closertotruth.com/theory/armstrong-s-higher-order-perception-theory", review: true },
+    { key: "rosenthal-s-higher-order-thought", name: "Rosenthal’s Higher-Order Thought",
+      tagline: "A state is conscious when you think you’re in it.",
+      url: "https://loc.closertotruth.com/theory/rosenthal-s-higher-order-thought", review: true },
+    { key: "brown-s-horor-higher-order-representationalism", name: "Brown’s “HOROR” Higher-Order Representationalism",
+      tagline: "Representing that a representation exists is what makes experience.",
+      url: "https://loc.closertotruth.com/theory/brown-s-horor-higher-order-representationalism", review: true,
+      group: "rosenthal-s-higher-order-thought" }
     ],
     axes: axes,
     profiles: profiles,

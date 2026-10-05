@@ -1,5 +1,8 @@
 /* The Eliminative/Illusionism quiz: an axis quiz, like data/quiz-idealisms.js.
-   5 theories LOC lists under Materialism / Eliminative/Illusionism. They
+   11 theories LOC lists under Materialism / Eliminative/Illusionism, six
+   of them still under review at LOC. Four of those share a result with a
+   theory the quiz can't tell them from: Feyerabend and Irvine with
+   Churchland, Kammerer with Humphrey, Ryle with Frankish. They
    agree that our ordinary picture of the mind is wrong; the axes cover
    what each says is wrong with it: everyday mental concepts as a false
    theory, the inner "what it's like" as an illusion, awareness as a model
@@ -31,6 +34,8 @@
     "frankish-s-illusionism":                       { folk: -1, qualia: 2, looking: -1 },
     "graziano-s-attention-schema-theory":           { qualia: 1, attention: 2 },
     "ostendorf-s-predictive-pattern-driven-interface": { qualia: 1, self: 2, predict: 2 },
+    "dennett-s-illusionism":                        { folk: -1, qualia: 2, self: 1, predict: 1 },
+    "humphrey-s-magical-compelling-user-illusion":  { qualia: 2, looking: -1 },
   };
 
   var questions = [
@@ -88,7 +93,29 @@
       url: "https://loc.closertotruth.com/theory/graziano-s-attention-schema-theory" },
     { key: "ostendorf-s-predictive-pattern-driven-interface", name: "Ostendorf’s Predictive, Pattern-Driven Interface",
       tagline: "The self is a useful simulation.",
-      url: "https://loc.closertotruth.com/theory/ostendorf-s-predictive-pattern-driven-interface" }
+      url: "https://loc.closertotruth.com/theory/ostendorf-s-predictive-pattern-driven-interface" },
+    { key: "dennett-s-illusionism", name: "Dennett’s Illusionism",
+      tagline: "There are no qualia; experience isn’t what it seems.",
+      url: "https://loc.closertotruth.com/theory/dennett-s-illusionism", review: true },
+    { key: "feyerabends-revisable-disposable-mind", name: "Feyerabend's Revisable, Disposable Mind",
+      tagline: "Experience is real; our words for it may be scrapped.",
+      url: "https://loc.closertotruth.com/theory/feyerabends-revisable-disposable-mind", review: true,
+      group: "churchland-s-eliminative-materialism" },
+    { key: "humphrey-s-magical-compelling-user-illusion", name: "Humphrey’s Magical-Compelling User Illusion",
+      tagline: "Experience is a magic show the brain stages for itself.",
+      url: "https://loc.closertotruth.com/theory/humphrey-s-magical-compelling-user-illusion", review: true },
+    { key: "kammerer-s-introspective-illusionism", name: "Kammerer’s Introspective Illusionism",
+      tagline: "Introspection misleads us into thinking experience glows.",
+      url: "https://loc.closertotruth.com/theory/kammerer-s-introspective-illusionism", review: true,
+      group: "humphrey-s-magical-compelling-user-illusion" },
+    { key: "irvine-s-scientific-eliminativism", name: "Irvine’s Scientific Eliminativism",
+      tagline: "Science may do better without the word “consciousness”.",
+      url: "https://loc.closertotruth.com/theory/irvine-s-scientific-eliminativism", review: true,
+      group: "churchland-s-eliminative-materialism" },
+    { key: "ryle-s-category-dissolution-of-inner-theater-consciousness", name: "Ryle’s Category-Dissolution of Inner-Theater Consciousness",
+      tagline: "The inner theater is a category mistake, not a place.",
+      url: "https://loc.closertotruth.com/theory/ryle-s-category-dissolution-of-inner-theater-consciousness", review: true,
+      group: "frankish-s-illusionism" }
     ],
     axes: axes,
     profiles: profiles,

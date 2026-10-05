@@ -1,5 +1,6 @@
 /* The Embodied & Enactive quiz: an axis quiz, like data/quiz-idealisms.js.
-   7 theories LOC lists under Materialism / Embodied & Enactive. They agree
+   10 theories LOC lists under Materialism / Embodied & Enactive, three of
+   them still under review at LOC (The Blind Spot, Gefter, Hurley). They agree
    that minds belong to bodies acting in the world; the axes cover where
    they part ways: whether consciousness happens in the head or in engagement
    with the world, whether perception needs inner models, whether mind is
@@ -38,6 +39,9 @@
     "pretel-wilson-s-human-systems-theory": { possible: 2 },
     "thompson-s-mind-in-life":             { world: 1, models: 1, life: 2, cause: 1, inside: 2 },
     "vucolova-s-collapse-into-translation": { models: -1, symbol: 2 },
+    "frank-gleiser-thompson-s-the-blind-spot": { world: 1, inside: 2 },
+    "gefter-s-enactive-qbist-engagement":  { world: 2, models: 2 },
+    "hurley-s-sensorimotor-loops-and-embodied-interaction": { world: 2, models: 1, skill: 1 },
   };
 
   var questions = [
@@ -111,7 +115,16 @@
       url: "https://loc.closertotruth.com/theory/thompson-s-mind-in-life" },
     { key: "vucolova-s-collapse-into-translation", name: "Vucolova’s Collapse into Translation",
       tagline: "Awareness is the body translating the world.",
-      url: "https://loc.closertotruth.com/theory/vucolova-s-collapse-into-translation" }
+      url: "https://loc.closertotruth.com/theory/vucolova-s-collapse-into-translation" },
+    { key: "frank-gleiser-thompson-s-the-blind-spot", name: "Frank/Gleiser/Thompson’s “The Blind Spot”",
+      tagline: "Science can’t step outside experience to explain it.",
+      url: "https://loc.closertotruth.com/theory/frank-gleiser-thompson-s-the-blind-spot", review: true },
+    { key: "gefter-s-enactive-qbist-engagement", name: "Gefter’s Enactive-QBist Engagement",
+      tagline: "Agents and worlds bring each other forth together.",
+      url: "https://loc.closertotruth.com/theory/gefter-s-enactive-qbist-engagement", review: true },
+    { key: "hurley-s-sensorimotor-loops-and-embodied-interaction", name: "Hurley’s Sensorimotor Loops and Embodied Interaction",
+      tagline: "Consciousness lives in loops of perceiving and acting.",
+      url: "https://loc.closertotruth.com/theory/hurley-s-sensorimotor-loops-and-embodied-interaction", review: true }
     ],
     axes: axes,
     profiles: profiles,

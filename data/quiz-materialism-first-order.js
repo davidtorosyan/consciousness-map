@@ -1,5 +1,6 @@
 /* The First-Order quiz: an axis quiz, like data/quiz-idealisms.js.
-   6 theories LOC lists under Materialism / First-Order: experience needs no
+   9 theories LOC lists under Materialism / First-Order, three of them still
+   under review at LOC (Carruthers, Dretske, Hill): experience needs no
    second layer of the brain watching the first. The axes cover where they
    part ways: direct contact with the world vs inner representation, feel
    fixed by what is represented, introspection finding only the world,
@@ -32,6 +33,9 @@
     "t-w-clark-s-content-hypothesis":                          { direct: -2, content: 1, system: 2 },
     "transparency-theory":                                     { content: 1, transparent: 2 },
     "tye-s-contingentism":                                     { direct: -1, content: 2, transparent: 1, local: -1, contingent: 2 },
+    "carruthers-first-order-representationalism":              { direct: -2, content: 1, local: -2 },
+    "dretske-s-information-and-representationalism":           { direct: -1, content: 2, transparent: 2, local: -1 },
+    "hills-representationalism-qualia-s-appearance-and-reality": { direct: -1, content: 2, transparent: -1 },
   };
 
   var questions = [
@@ -92,7 +96,16 @@
       url: "https://loc.closertotruth.com/theory/transparency-theory" },
     { key: "tye-s-contingentism", name: "Tye’s Contingentism",
       tagline: "Mind equals brain here, but not everywhere.",
-      url: "https://loc.closertotruth.com/theory/tye-s-contingentism" }
+      url: "https://loc.closertotruth.com/theory/tye-s-contingentism" },
+    { key: "carruthers-first-order-representationalism", name: "Carruthers’s First-Order Representationalism",
+      tagline: "Perceptions are conscious when broadcast for thought and action.",
+      url: "https://loc.closertotruth.com/theory/carruthers-first-order-representationalism", review: true },
+    { key: "dretske-s-information-and-representationalism", name: "Dretske’s Information and Representationalism",
+      tagline: "Experience is information about the world, ready for use.",
+      url: "https://loc.closertotruth.com/theory/dretske-s-information-and-representationalism", review: true },
+    { key: "hills-representationalism-qualia-s-appearance-and-reality", name: "Hill's Representationalism: Qualia’s Appearance and Reality",
+      tagline: "Even qualia can seem other than they really are.",
+      url: "https://loc.closertotruth.com/theory/hills-representationalism-qualia-s-appearance-and-reality", review: true }
     ],
     axes: axes,
     profiles: profiles,
