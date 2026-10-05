@@ -1,15 +1,18 @@
 /* The Challenge quiz: an axis quiz, like data/quiz-idealisms.js.
-   21 theories LOC lists under Challenge: views that doubt the project of
-   explaining consciousness, or reframe it. LOC lists them flat, so there are
-   no invented sub-schools; instead 13 axes cover the field's real divides:
-   will science explain it, is the hard problem a confusion, is the brain
-   the whole story, does brain science settle anything, should we stay
-   uncommitted, does consciousness matter to the cosmos, plus signatures
-   (mind beyond brains, art and play, no bottom level, fine-tuning, an
-   eternal mind, self-explanation, feelings as primitives). Profiles carry
-   each theory's justified rejections as well as its signature. Checked by
-   tools/eval-quiz.js and a blind role-play of named proponents
-   (tools/eval-thinkers-challenge.json). */
+   28 theories LOC lists under Challenge: views that doubt the project of
+   explaining consciousness, or reframe it. Seven are still under review at
+   LOC; two of those are grouped with a view the quiz can't tell them from
+   (Hacker with Wittgenstein, Schwitzgebel with Fodor). LOC lists them flat,
+   so there are no invented sub-schools; instead 12 axes cover the field's
+   real divides: will science explain it, is the hard problem a confusion,
+   is the brain the whole story, does brain science settle anything, should
+   we stay uncommitted, does consciousness matter to the cosmos, plus
+   signatures (mind beyond brains, art and play, no bottom level,
+   fine-tuning, an eternal mind, feelings as primitives). A question on
+   consciousness as self-explanation was dropped to keep within 12; it
+   separated least. Profiles carry each theory's justified rejections as
+   well as its signature. Checked by tools/eval-quiz.js and a blind
+   role-play of named proponents (tools/eval-thinkers-challenge.json). */
 (function () {
   "use strict";
   var axes = [
@@ -35,14 +38,12 @@
       yes: "your consciousness needed the whole universe to go just so", no: "your consciousness is no cosmic achievement" },
     { key: "minded", claim: "Whatever always existed must have a mind",
       yes: "whatever always existed has a mind", no: "mind came late, from mindless beginnings" },
-    { key: "selfexplain", claim: "Consciousness is the mind’s explaining turned on itself",
-      yes: "consciousness is the mind explaining itself", no: "consciousness is more than self-explanation" },
     { key: "primitive", claim: "Feelings are basic building blocks",
       yes: "feelings are basic building blocks", no: "feelings are made of something more basic" },
   ];
 
   var profiles = {
-    "akselruds-explanatory-faculty-consciousness-as-internalized-explanation": { solvable: -1, open: -1, selfexplain: 2, primitive: -2 },
+    "akselruds-explanatory-faculty-consciousness-as-internalized-explanation": { solvable: -1, open: -1, primitive: -2 },
     "crow-s-funhouse-of-consciousness":                     { solvable: -1, open: 1, art: 2 },
     "champagne-s-semiotic-account":                         { dissolve: 2, open: -1, primitive: -1 },
     "cohen-s-ultra-fine-tuned-personal-consciousness":      { dissolve: -1, finetune: 2 },
@@ -52,17 +53,22 @@
     "hartford-s-minded-eternal-conjecture":                 { brain: -1, open: -1, cosmic: 2, minded: 2 },
     "levin-s-technological-approach-to-mind-everywhere":    { solvable: 1, brain: -1, open: -1, beyond: 2, art: -1 },
     "mcginn-s-ultimate-mystery-mysterianism":               { solvable: -2, dissolve: -1, brain: 1, open: -1, minded: -1, primitive: -1 },
-    "merriam-s-calculus-of-qualia-as-logical-primitives":   { solvable: -1, dissolve: -1, open: -1, selfexplain: -1, primitive: 2 },
+    "merriam-s-calculus-of-qualia-as-logical-primitives":   { solvable: -1, dissolve: -1, open: -1, primitive: 2 },
     "musser-s-is-it-really-so-hard":                        { solvable: 2, cosmic: 1 },
     "nagasawa-s-mind-body-problem-in-an-infinitely-decomposable-universe": { solvable: -1, dissolve: -1, open: -1, bottom: 2 },
     "nagel-s-mind-and-cosmos":                              { dissolve: -2, brain: -2, open: -1, cosmic: 2, minded: -1 },
     "owen-s-mind-body-powers-ncc-are-philosophically-and-religiously-neutral": { solvable: 1, brain: -1, neutral: 2, open: -1 },
     "rlk-reflections":                                      { dissolve: -1, open: 2 },
     "raman-s-cosmic-significance":                          { dissolve: -1, brain: 1, cosmic: 2, minded: -1 },
-    "s-harris-s-mystery-of-consciousness":                  { solvable: -1, dissolve: -2, brain: -1, neutral: 1, selfexplain: -1, primitive: 1 },
+    "s-harris-s-mystery-of-consciousness":                  { solvable: -1, dissolve: -2, brain: -1, neutral: 1, primitive: 1 },
     "shermer-s-known-unknown-and-possibly-unknowable":      { solvable: -1, brain: 2, neutral: -1, cosmic: -1, finetune: -1, minded: -2 },
     "silers-art-consciousness":                             { open: -1, art: 2 },
     "tallis-s-anti-neuromania-skepticism":                  { solvable: -1, dissolve: -1, brain: -2, neutral: 1, open: 1, beyond: -1, minded: -1 },
+    "conway-morris-convergent-sentience-beyond-materialism": { brain: -2, dissolve: -1, solvable: -1, cosmic: 1, minded: 1, finetune: -1 },
+    "fodors-principled-abstention-intentionality-bracketing-phenomenality": { solvable: -1, dissolve: -1, open: 1 },
+    "gabriel-s-new-realism-and-field-of-sense": { brain: -2, solvable: -1, open: -1, beyond: -1 },
+    "wittgensteins-grammatical-fiction": { dissolve: 2, primitive: -2, brain: -1, beyond: -1, neutral: 1, open: -1 },
+    "pinker-s-naturalism": { brain: 2, solvable: -1, dissolve: -1, beyond: 1, cosmic: -1, minded: -1 },
   };
 
   var questions = [
@@ -120,11 +126,6 @@
       t: "Whatever has always existed must itself have a mind.",
       why: "Yes means mind can’t come from something wholly mindless, so the eternal source of things is minded. No means mind came late, from mindless beginnings.",
       axes: { minded: 1 },
-    },
-    {
-      t: "Consciousness is the mind’s power to explain things, turned back on itself.",
-      why: "Yes means experience is what happens when the mind’s explaining is aimed at its own workings. No means consciousness is more than any kind of self-explanation.",
-      axes: { selfexplain: 1 },
     },
     {
       t: "Feelings like the redness of red are basic building blocks, not made of anything simpler.",
@@ -203,7 +204,28 @@
       url: "https://loc.closertotruth.com/theory/silers-art-consciousness" },
     { key: "tallis-s-anti-neuromania-skepticism", name: "Tallis’s Anti-Neuromania Skepticism",
       tagline: "Brain activity alone can never explain conscious experience.",
-      url: "https://loc.closertotruth.com/theory/tallis-s-anti-neuromania-skepticism" }
+      url: "https://loc.closertotruth.com/theory/tallis-s-anti-neuromania-skepticism" },
+    { key: "conway-morris-convergent-sentience-beyond-materialism", name: "Conway Morris's Convergent Sentience Beyond Materialism",
+      tagline: "Evolution keeps arriving at minds, but matter doesn't make them.",
+      url: "https://loc.closertotruth.com/theory/conway-morris-convergent-sentience-beyond-materialism", review: true },
+    { key: "fodors-principled-abstention-intentionality-bracketing-phenomenality", name: "Fodor's Principled Abstention: Intentionality Bracketing Phenomenality",
+      tagline: "Explain thought as computation; admit nobody can explain experience.",
+      url: "https://loc.closertotruth.com/theory/fodors-principled-abstention-intentionality-bracketing-phenomenality", review: true },
+    { key: "gabriel-s-new-realism-and-field-of-sense", name: "Gabriel’s New Realism and Field of Sense",
+      tagline: "You are not your brain; consciousness is where meaning appears.",
+      url: "https://loc.closertotruth.com/theory/gabriel-s-new-realism-and-field-of-sense", review: true },
+    { key: "wittgensteins-grammatical-fiction", name: "Wittgenstein's Grammatical Fiction",
+      tagline: "The demand for a theory of experience is a trick of grammar.",
+      url: "https://loc.closertotruth.com/theory/wittgensteins-grammatical-fiction", review: true },
+    { key: "pinker-s-naturalism", name: "Pinker’s Naturalism",
+      tagline: "The brain does it all, yet felt experience may stay a puzzle.",
+      url: "https://loc.closertotruth.com/theory/pinker-s-naturalism", review: true },
+    { key: "hacker-s-skepticism", name: "Hacker’s Skepticism",
+      tagline: "Consciousness is people’s capacities, not a thing in the head.",
+      url: "https://loc.closertotruth.com/theory/hacker-s-skepticism", group: "wittgensteins-grammatical-fiction", review: true },
+    { key: "schwitzgebels-unreliable-introspection-indeterminate-boundaries-metaphysical-humility", name: "Schwitzgebel's Unreliable Introspection, Indeterminate Boundaries, Metaphysical Humility",
+      tagline: "We can misjudge our own experience, so hold every theory loosely.",
+      url: "https://loc.closertotruth.com/theory/schwitzgebels-unreliable-introspection-indeterminate-boundaries-metaphysical-humility", group: "fodors-principled-abstention-intentionality-bracketing-phenomenality", review: true }
     ],
     axes: axes,
     profiles: profiles,

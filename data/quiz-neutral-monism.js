@@ -1,7 +1,11 @@
 /* The Neutral Monism quiz: an axis quiz, like data/quiz-idealisms.js.
-   10 theories LOC lists under Neutral Monism, from dual-aspect views to
-   panpsychist "real materialism", a physicist's state of matter and two
-   theistic cosmologies. LOC lists them flat. 11 axes cover the field's real
+   17 theories LOC lists under Neutral Monism, from dual-aspect views to
+   panpsychist "real materialism", a physicist's state of matter, theistic
+   cosmologies, Spinoza, Leibniz and Whitehead. LOC lists them flat. Seven are
+   still under review at LOC; two of those are grouped with a verified view
+   the quiz can't tell them from (James with Velmans, Pauli with
+   Atmanspacher). LOC's two grab-bag "Additional Theories" entries are left
+   out. 11 axes cover the field's real
    divides: two sides of one deeper reality vs everything physical, matter's
    hidden inner nature, experience everywhere vs only in some arrangements,
    exact mind-brain laws, new physics, quantum physics, God, a universe that
@@ -46,6 +50,11 @@
     "tegmark-s-state-of-matter":                        { aspects: -1, physical: 2, inner: -2, everywhere: -2, laws: 2, newphysics: -1, quantum: -2, god: -1 },
     "teilhard-de-chardin-s-evolving-consciousness":     { aspects: 1, physical: -1, inner: 1, everywhere: 2, god: 1, evolve: 2 },
     "velmans-s-reflexive-monism":                       { aspects: 2, physical: -1, everywhere: 1, outthere: 2 },
+    "leibnizs-monads":                                  { aspects: -1, physical: -2, everywhere: 2, god: 2, good: 2, outthere: -1 },
+    "spinoza-s-one-reality-embodied-mind-and-graded-consciousness": { aspects: 2, physical: -1, everywhere: 2, laws: 1, god: -2, good: -2, evolve: -1 },
+    "whiteheads-experience-is-fundamental-consciousness-is-not": { aspects: 1, physical: -1, inner: 1, everywhere: 1, god: -1 },
+    "pereira-s-three-aspect-monism":                    { aspects: 1, everywhere: -1, newphysics: -1 },
+    "qri-s-state-space-qualia-formalism-valence-realism": { physical: 1, laws: 2 },
   };
 
   var questions = [
@@ -143,7 +152,28 @@
       url: "https://loc.closertotruth.com/theory/teilhard-de-chardin-s-evolving-consciousness" },
     { key: "velmans-s-reflexive-monism", name: "Velmans’s Reflexive Monism",
       tagline: "Mind and world are two views of one reality.",
-      url: "https://loc.closertotruth.com/theory/velmans-s-reflexive-monism" }
+      url: "https://loc.closertotruth.com/theory/velmans-s-reflexive-monism" },
+    { key: "leibnizs-monads", name: "Leibniz's Monads",
+      tagline: "All reality is perceiving souls, kept in step by God.",
+      url: "https://loc.closertotruth.com/theory/leibnizs-monads", review: true },
+    { key: "spinoza-s-one-reality-embodied-mind-and-graded-consciousness", name: "Spinoza\u2019s One Reality: Embodied Mind and Graded Consciousness",
+      tagline: "Mind and body are one thing, seen as thought or as extension.",
+      url: "https://loc.closertotruth.com/theory/spinoza-s-one-reality-embodied-mind-and-graded-consciousness", review: true },
+    { key: "whiteheads-experience-is-fundamental-consciousness-is-not", name: "Whitehead's Experience is Fundamental, Consciousness is Not",
+      tagline: "Feeling goes all the way down; awareness is rare and late.",
+      url: "https://loc.closertotruth.com/theory/whiteheads-experience-is-fundamental-consciousness-is-not", review: true },
+    { key: "pereira-s-three-aspect-monism", name: "Pereira\u2019s Triple-Aspect Monism",
+      tagline: "Brain activity has three sides: bodily, unconscious and conscious.",
+      url: "https://loc.closertotruth.com/theory/pereira-s-three-aspect-monism", review: true },
+    { key: "qri-s-state-space-qualia-formalism-valence-realism", name: "QRI\u2019s State-Space, Qualia Formalism, Valence Realism",
+      tagline: "Experience has exact mathematical shape, and its pleasantness is real.",
+      url: "https://loc.closertotruth.com/theory/qri-s-state-space-qualia-formalism-valence-realism", review: true },
+    { key: "james-s-radical-empiricism-of-monistic-pure-experience", name: "James\u2019s Radical Empiricism of Monistic Pure Experience",
+      tagline: "Mind and matter are two arrangements of one pure experience.",
+      url: "https://loc.closertotruth.com/theory/james-s-radical-empiricism-of-monistic-pure-experience", group: "velmans-s-reflexive-monism", review: true },
+    { key: "pauli-s-one-world-two-aspects-psychophysical-complementarity", name: "Pauli\u2019s One World, Two Aspects: Psychophysical Complementarity",
+      tagline: "Psyche and matter are complementary sides of one deeper order.",
+      url: "https://loc.closertotruth.com/theory/pauli-s-one-world-two-aspects-psychophysical-complementarity", group: "atmanspacher-s-dual-aspect-monism", review: true }
     ],
     axes: axes,
     profiles: profiles,

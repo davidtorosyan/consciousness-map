@@ -1,15 +1,20 @@
 /* The Anomalous & Altered States quiz: an axis quiz, like data/quiz-idealisms.js.
-   23 theories LOC lists under Anomalous & Altered States: psi researchers,
+   29 theories LOC lists under Anomalous & Altered States: psi researchers,
    survival and near-death research, depth psychology, transpersonal and
-   integral thinkers, and new-field physics. LOC lists them flat, so 13 axes
-   cover the field's real divides: is psi real, does consciousness survive
-   death, does the brain make consciousness or filter it, is consciousness the
-   ground of reality, a personal God, one substance or two, pure contentless
-   awareness vs consciousness-in-relationship, plus signatures (a shared deep
-   layer of minds, meaning built into reality, new physics, altered states as
-   a window, a cosmos evolving toward mind, minds and time). Profiles carry
-   each theory's justified rejections as well as its signature. Checked by
-   tools/eval-quiz.js (no blind role-play yet). */
+   integral thinkers, new-field physics, filter theories and dream science.
+   Six are still under review at LOC; two of those (Mishlove, and James's
+   filter theory) are grouped with DOPS, which the quiz can't tell them from
+   and which builds on James's model. LOC lists them flat, so 12 axes cover
+   the field's real divides: is psi real, does consciousness survive death,
+   does the brain make consciousness or filter it, is consciousness the
+   ground of reality, one substance or two, pure contentless awareness vs
+   consciousness-in-relationship, plus signatures (a shared deep layer of
+   minds, meaning built into reality, new physics, altered states as a
+   window, a cosmos evolving toward mind, minds and time). A personal-God
+   question was dropped to keep within 12; it separated least. Profiles
+   carry each theory's justified rejections as well as its signature.
+   Checked by tools/eval-quiz.js and a blind role-play
+   (tools/eval-thinkers-anomalous-altered-states.json). */
 (function () {
   "use strict";
   var axes = [
@@ -21,8 +26,6 @@
       yes: "the brain makes consciousness", no: "the brain filters or channels consciousness" },
     { key: "ground", claim: "Consciousness is the ground of reality",
       yes: "matter comes from consciousness", no: "consciousness comes later than matter" },
-    { key: "god", claim: "A personal God is the source of consciousness",
-      yes: "consciousness comes from a personal God", no: "the source of consciousness is impersonal" },
     { key: "dualism", claim: "Mind and body are two different things",
       yes: "mind and body are two things that interact", no: "mind and matter are one reality" },
     { key: "shared", claim: "All minds share a deep hidden layer",
@@ -51,9 +54,9 @@
     "dops-s-consciousness-research-and-theory":           { survival: 2, psi: 2, brain: -2, ground: 2, states: 1 },
     "ferrer-s-participatory-enactive-realism":            { pure: -2, dualism: -1, states: 1 },
     "graboi-s-three-aspect-model":                        { psi: 2, pure: 2, dualism: 1, brain: -1 },
-    "harp-s-universal-or-god-consciousness":              { ground: 2, brain: -2, god: 1, pure: 1, physics: 1, dualism: -1, time: -1 },
+    "harp-s-universal-or-god-consciousness":              { ground: 2, brain: -2, pure: 1, physics: 1, dualism: -1, time: -1 },
     "hiller-s-eternal-discarnate-consciousness":          { survival: 2, dualism: 1, shared: 1, brain: -1, psi: 1 },
-    "johnson-and-debold-s-urantia-theocosmic-cosmopsychism": { god: 2, ground: 2, evolve: 1, survival: 1, pure: -1 },
+    "johnson-and-debold-s-urantia-theocosmic-cosmopsychism": { ground: 2, evolve: 1, survival: 1, pure: -1 },
     "khasho-s-nde-enabled-unified-field-level-model":     { brain: -2, survival: 1, physics: 1, states: 1 },
     "mossbridge-s-informational-substrate-as-collective-unconscious": { shared: 2, pure: 1, psi: 2, time: 2, ground: 1 },
     "near-death-experiences-survival-past-lives":         { survival: 2, brain: -2, dualism: 1, states: 1 },
@@ -61,10 +64,14 @@
     "radin-s-challenge-to-materialism":                   { psi: 2, brain: -1, ground: 1, physics: 1, time: 1 },
     "schlitz-s-theory-of-mind":                           { psi: 2, states: 1, brain: -1, pure: -1, shared: 1 },
     "schooler-s-general-resonance-theory-and-subjective-time": { time: 2, physics: 1, psi: 1, dualism: -1 },
-    "sheldrake-s-morphic-fields":                         { psi: 2, physics: 2, shared: 1, brain: -1, god: 1, evolve: 1 },
-    "shiah-s-contentless-consciousness-theory":           { pure: 2, time: -2, states: 2, ground: 1, brain: -1, god: -1, dualism: -1, survival: 1 },
+    "sheldrake-s-morphic-fields":                         { psi: 2, physics: 2, shared: 1, brain: -1, evolve: 1 },
+    "shiah-s-contentless-consciousness-theory":           { pure: 2, time: -2, states: 2, ground: 1, brain: -1, dualism: -1, survival: 1 },
     "swimme-s-cosmogenesis":                              { evolve: 2, dualism: -1, pure: -1 },
     "tart-s-emergent-interactionism":                     { dualism: 2, psi: 2, states: 2, survival: 1, brain: -1 },
+    "bitbol-s-phenomenological-ontology": { states: 2, dualism: -1, pure: 1, brain: -1 },
+    "hobson-s-dreaming-protoconsciousness": { brain: 2, ground: -1, dualism: -1, survival: -1, states: -1 },
+    "huxley-s-mind-at-large-filter-theory": { brain: -2, states: 2, shared: 2, ground: 1, pure: 1 },
+    "campbell-s-theory-of-everything": { ground: 2, survival: 2, psi: 2, evolve: 2, shared: 1, brain: -1, dualism: -1 },
   };
 
   var questions = [
@@ -87,11 +94,6 @@
       t: "Consciousness is the ground of reality: matter comes from mind, not the other way round.",
       why: "Yes means consciousness is what everything rests on. No means consciousness appears later, out of matter, life or relationship.",
       axes: { ground: 1 },
-    },
-    {
-      t: "Consciousness comes from a personal God who knows and creates.",
-      why: "Yes means a God with will and personality is the source of all minds. No means the source is impersonal, or there is no God.",
-      axes: { god: 1 },
     },
     {
       t: "Mind and body are two different kinds of thing that interact.",
@@ -210,7 +212,25 @@
       url: "https://loc.closertotruth.com/theory/swimme-s-cosmogenesis" },
     { key: "tart-s-emergent-interactionism", name: "Tart’s Emergent Interactionism",
       tagline: "Mind and body are different things that interact.",
-      url: "https://loc.closertotruth.com/theory/tart-s-emergent-interactionism" }
+      url: "https://loc.closertotruth.com/theory/tart-s-emergent-interactionism" },
+    { key: "bitbol-s-phenomenological-ontology", name: "Bitbol’s Phenomenological Ontology",
+      tagline: "Altered states reveal a mode of being that is always there.",
+      url: "https://loc.closertotruth.com/theory/bitbol-s-phenomenological-ontology", review: true },
+    { key: "hobson-s-dreaming-protoconsciousness", name: "Hobson’s Dreaming Protoconsciousness",
+      tagline: "Dreaming is the brain’s built-in rehearsal for waking consciousness.",
+      url: "https://loc.closertotruth.com/theory/hobson-s-dreaming-protoconsciousness", review: true },
+    { key: "huxley-s-mind-at-large-filter-theory", name: "Huxley’s Mind-At-Large Filter Theory",
+      tagline: "The brain narrows a vast Mind at Large to what helps survival.",
+      url: "https://loc.closertotruth.com/theory/huxley-s-mind-at-large-filter-theory", review: true },
+    { key: "james-plural-consciousness-brain-as-filter-of-a-wider-consciousness", name: "James's Plural Consciousness, Brain as Filter of a Wider Consciousness",
+      tagline: "The brain may transmit a wider consciousness rather than make it.",
+      url: "https://loc.closertotruth.com/theory/james-plural-consciousness-brain-as-filter-of-a-wider-consciousness", group: "dops-s-consciousness-research-and-theory", review: true },
+    { key: "campbell-s-theory-of-everything", name: "T. Campbell’s Theory of Everything",
+      tagline: "The physical world is a virtual reality run by a larger consciousness.",
+      url: "https://loc.closertotruth.com/theory/campbell-s-theory-of-everything", review: true },
+    { key: "mishlove-s-beyond-the-brain-filtered-survival-consciousness", name: "Mishlove’s Beyond-The-Brain Filtered, Survival Consciousness",
+      tagline: "Brains filter a wider mind, which survives the body.",
+      url: "https://loc.closertotruth.com/theory/mishlove-s-beyond-the-brain-filtered-survival-consciousness", group: "dops-s-consciousness-research-and-theory", review: true }
     ],
     axes: axes,
     profiles: profiles,

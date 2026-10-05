@@ -1,7 +1,8 @@
 /* The Information quiz: an axis quiz, like data/quiz-idealisms.js.
-   6 theories LOC lists under Information. All put information at the centre
+   11 theories LOC lists under Information. All put information at the centre
    of mind; they differ on what it is and where it lives. LOC lists them
-   flat. 8 axes cover the real divides: the cosmos as a mind vs mind in
+   flat. Five are still under review at LOC; one of those (Levin) is grouped
+   with Resch, which the quiz can't tell it from. 8 axes cover the real divides: the cosmos as a mind vs mind in
    brains, information as fundamental vs emerging over time, reality as
    mathematical, whether consciousness does any work, whether a machine
    could be conscious, plus signatures (the brain's world model, replaying
@@ -35,6 +36,10 @@
     "moll-s-multitrack-consciousness-conjecture":         { cosmic: -1, tracks: 2 },
     "resch-s-platonic-functionalism":                     { math: 2, machine: 2, emerge: -1 },
     "safron-s-integrated-world-modeling-theory":          { model: 2, cosmic: -2, acts: 1, machine: 1 },
+    "chalmers-double-aspect-theory-of-information":       { emerge: -2, machine: 2, model: -1 },
+    "davies-hidden-web-of-information":                   { cosmic: 1, math: 1, acts: 1 },
+    "hoel-s-causal-emergence":                            { emerge: 2, acts: 1, cosmic: -1 },
+    "tononi-s-integrated-information-theory":             { machine: -2, model: -1, math: 1, acts: 1, cosmic: -1 },
   };
 
   var questions = [
@@ -105,7 +110,22 @@
       url: "https://loc.closertotruth.com/theory/resch-s-platonic-functionalism" },
     { key: "safron-s-integrated-world-modeling-theory", name: "Safron’s Integrated World Modeling Theory",
       tagline: "Consciousness is the brain’s updating world model.",
-      url: "https://loc.closertotruth.com/theory/safron-s-integrated-world-modeling-theory" }
+      url: "https://loc.closertotruth.com/theory/safron-s-integrated-world-modeling-theory" },
+    { key: "chalmers-double-aspect-theory-of-information", name: "Chalmers\u2019s Double-Aspect Theory of Information",
+      tagline: "Information is basic, with a physical side and an experienced side.",
+      url: "https://loc.closertotruth.com/theory/chalmers-double-aspect-theory-of-information", review: true },
+    { key: "davies-hidden-web-of-information", name: "Davies\u2019s Hidden Web of Information",
+      tagline: "Information may run deeper than matter, with mind central to the cosmos.",
+      url: "https://loc.closertotruth.com/theory/davies-hidden-web-of-information", review: true },
+    { key: "hoel-s-causal-emergence", name: "Hoel\u2019s Causal Emergence",
+      tagline: "Consciousness lives where big-scale brain patterns do the causing.",
+      url: "https://loc.closertotruth.com/theory/hoel-s-causal-emergence", review: true },
+    { key: "tononi-s-integrated-information-theory", name: "Tononi\u2019s Integrated Information Theory",
+      tagline: "Consciousness is integrated cause-and-effect structure, measured as \u03a6.",
+      url: "https://loc.closertotruth.com/theory/tononi-s-integrated-information-theory", review: true },
+    { key: "levin-s-ingressing-minds-from-platonic-space", name: "Levin\u2019s Ingressing Minds from Platonic Space",
+      tagline: "Minds enter the physical world from a space of patterns.",
+      url: "https://loc.closertotruth.com/theory/levin-s-ingressing-minds-from-platonic-space", group: "resch-s-platonic-functionalism", review: true }
     ],
     axes: axes,
     profiles: profiles,

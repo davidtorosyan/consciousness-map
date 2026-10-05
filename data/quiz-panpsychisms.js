@@ -4,8 +4,9 @@
    questions one axis each
    Checked by tools/eval-quiz.js (every theory's ideal respondent must rank
    first) and a blind role-play of named proponents
-   (tools/eval-thinkers-panpsychisms.json). Covers the 16 theories LOC lists
-   under Panpsychisms. */
+   (tools/eval-thinkers-panpsychisms.json). Covers 18 theories LOC lists
+   under Panpsychisms, two of them still under review at LOC (Mørch,
+   Schneider and Bailey); LOC's "Additional Theories" grab-bag is left out. */
 (function () {
   "use strict";
   var axes = [
@@ -57,6 +58,8 @@
     "wallace":             { intrinsic: 1, tuning: -1, physical: 2, force: -1 },
     "whitehead":           { subjects: 2, intrinsic: 1, process: 2, organize: 1 },
     "starrett":            { cosmos: -1, subjects: 2, combine: 1, tuning: -1 },
+    "morch":               { cosmos: -1, subjects: 1, combine: 1, intrinsic: 2, tuning: -1, force: -1, dimension: -1, physical: 1 },
+    "superpsychism":       { cosmos: -1, dimension: 2, physical: 1 },
   };
 
   var questions = [
@@ -177,7 +180,13 @@
       url: "https://loc.closertotruth.com/theory/whitehead-s-process-theory" },
     { key: "starrett", name: "Starrett’s Radical Panpsychism",
       tagline: "Experience is fundamental and present in all things, not just organisms.",
-      url: "https://loc.closertotruth.com/theory/starrett-s-radical-panpsychism" }
+      url: "https://loc.closertotruth.com/theory/starrett-s-radical-panpsychism" },
+    { key: "morch", name: "M\u00f8rch\u2019s Phenomenal-Causal Powers Panpsychism",
+      tagline: "Experience is what gives matter its power to act.",
+      url: "https://loc.closertotruth.com/theory/morch-s-phenomenal-causal-powers-panpsychism", review: true },
+    { key: "superpsychism", name: "Schneider and Bailey\u2019s Entangled Superpsychism",
+      tagline: "The deepest, timeless layer of reality is the most conscious.",
+      url: "https://loc.closertotruth.com/theory/schneider-and-bailey-s-entangled-superpsychism", review: true }
     ],
     axes: axes,
     profiles: profiles,

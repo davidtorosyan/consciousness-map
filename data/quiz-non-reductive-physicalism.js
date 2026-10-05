@@ -1,5 +1,7 @@
 /* The Non-Reductive Physicalism quiz: an axis quiz, like data/quiz-idealisms.js.
-   9 theories LOC lists under Non-Reductive Physicalism. All agree people are
+   11 theories LOC lists under Non-Reductive Physicalism (two, Azarian and
+   Sperry, still under review at LOC; Montero's and Poznanski's entries are
+   left out, as the quiz can't place them on more than a stand or two). All agree people are
    wholly physical yet the mind isn't reduced away; they differ on how. LOC
    lists them flat. 10 axes cover the real divides: mind acting down on the
    brain, new basic principles for mind, physicalism without a finished
@@ -45,6 +47,8 @@
     "northoff-s-non-reductive-neurophilosophy":         { background: 2, brain: 2, notheory: -1, principles: -1 },
     "sanfey-s-abstract-realism":                        { experience: 1, notheory: -1, topdown: 1 },
     "van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead": { afterlife: 2, notheory: 1, abstract: -1, brain: -1 },
+    "azarian-s-self-modeling-strange-loop-theory":      { topdown: 2, notheory: -1, match: -1 },
+    "sperry-s-mentalist-paradigm":                      { topdown: 2, brain: 1 },
   };
 
   var questions = [
@@ -134,7 +138,13 @@
       url: "https://loc.closertotruth.com/theory/sanfey-s-abstract-realism" },
     { key: "van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead", name: "Van Inwagen’s Christian Materialism and Resurrection of the Dead",
       tagline: "Entirely material beings, still raised to new life.",
-      url: "https://loc.closertotruth.com/theory/van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead" }
+      url: "https://loc.closertotruth.com/theory/van-inwagen-s-christian-materialism-and-the-resurrection-of-the-dead" },
+    { key: "azarian-s-self-modeling-strange-loop-theory", name: "Azarian\u2019s Self-Modeling Strange Loop Theory",
+      tagline: "A world model that models itself becomes a self.",
+      url: "https://loc.closertotruth.com/theory/azarian-s-self-modeling-strange-loop-theory", review: true },
+    { key: "sperry-s-mentalist-paradigm", name: "Sperry\u2019s Mentalist Paradigm",
+      tagline: "Consciousness emerges from the brain and steers it from above.",
+      url: "https://loc.closertotruth.com/theory/sperry-s-mentalist-paradigm", review: true }
     ],
     axes: axes,
     profiles: profiles,
