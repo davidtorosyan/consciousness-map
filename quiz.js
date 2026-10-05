@@ -198,6 +198,8 @@
         '<a class="r-open" data-count="open-result-' + (i + 1) + '" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
         '<span class="nm">' + esc(t.name) +
+        (t.members && t.members.length ? '<span class="also">same answers: ' +
+          t.members.map(function (m) { return esc(m.name); }).join(" \u00b7 ") + "</span>" : "") +
         (x.tier === "none" ? "" : '<span class="tier ' + x.tier + '">' + LEGEND[x.tier] + "</span>") + "</span>" +
         "</a>" + (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
     }).join("");

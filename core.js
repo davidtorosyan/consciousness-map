@@ -131,7 +131,11 @@
      node: {kind: "category"|"school"|"theory", key, name, tagline, url, color,
             parent, category, children, quiz (drill key or null), path}
      path is the ?path= value: "materialism", "materialism/higher-order",
-     "materialism/higher-order/<theory>". Schools are areas with `sub`. */
+     "materialism/higher-order/<theory>". Schools are areas with `sub`.
+     Theories LOC hasn't verified yet carry review: true. A theory with
+     group: "<key>" holds the same positions on its quiz's questions as that
+     sibling (its lead): it has no profile of its own, results show it on the
+     lead's row, and node.lead / node.members link them. */
   var QD = window.QUIZ_DATA, DRILL = QD.drill || {};
   var byPath = {}, byKey = {};
   function add(node) { byPath[node.path] = node; byKey[node.kind + ":" + node.key] = node; return node; }
@@ -146,10 +150,16 @@
         kind: school ? "school" : "theory", key: a.key, name: a.name,
         tagline: a.tagline || "", url: a.url || "", color: node.color,
         parent: node, category: node.category, path: node.path + "/" + seg,
+        review: !!a.review, group: a.group || null, members: [],
       });
       if (school) grow(child, a.sub);
       else child.children = [];
       return child;
+    });
+    node.children.forEach(function (c) {
+      if (!c.group) return;
+      c.lead = node.children.filter(function (o) { return o.key === c.group; })[0] || null;
+      if (c.lead) c.lead.members.push(c);
     });
   }
   CM.categories = window.LOC_CATEGORIES.map(function (c) {
@@ -180,7 +190,9 @@
     }
     var owner = CM.quizOwner(key);
     if (!owner) return null;
-    return { key: key, owner: owner, data: DRILL[key], questions: DRILL[key].questions, targets: owner.children };
+    // grouped theories ride on their lead's row
+    return { key: key, owner: owner, data: DRILL[key], questions: DRILL[key].questions,
+      targets: owner.children.filter(function (n) { return !n.lead; }) };
   };
   CM.quizHref = function (key) {
     var owner = key && CM.quizOwner(key);
@@ -312,6 +324,8 @@
      agree (stated once), differ (both sides, so nothing is negated), not
      sure. Strongest stands first. */
   function compareHtml(r, key, from) {
+    var t = CM.node("theory", key);
+    if (t && t.lead) key = t.lead.key;   // a grouped theory holds its lead's positions
     var pos = CM.positions(r.quiz, r.answers), p = r.quiz.data.profiles[key] || {};
     var agree = [], differ = [], unsure = [];
     r.quiz.data.axes.filter(function (x) { return p[x.key]; })

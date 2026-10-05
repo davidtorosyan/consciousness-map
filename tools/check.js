@@ -106,7 +106,7 @@ function checkAxisQuiz(label, T, targetKeys) {
     ["claim", "yes", "no"].forEach(function (k) { if (!x[k]) err(label + ": axis " + x.key + " has no " + k); });
   });
   if (!T.questions || !T.questions.length) err(label + ": no questions");
-  else if (T.questions.length > QUIZ_CAP + 1) warn(label + ": " + T.questions.length + " questions (cap " + QUIZ_CAP + ")");
+  else if (T.questions.length > QUIZ_CAP) err(label + ": " + T.questions.length + " questions (cap " + QUIZ_CAP + ")");
   (T.questions || []).forEach(function (q, i) {
     var where = label + " question " + (i + 1);
     if (!q.t) err(where + ": no text");
@@ -135,6 +135,15 @@ if (!QD.top) err("QUIZ_DATA.top (the main quiz) is missing");
 else if (!QD.top.axes) err("the main quiz should be an axis quiz");
 else checkAxisQuiz("main quiz", QD.top, catIds);
 
+/* LOC's own data (data/loc-theories.json, from tools/scrape-loc.js): theory
+   names must match it and `review` must match its verification status */
+var LOC = null;
+try {
+  LOC = {};
+  JSON.parse(fs.readFileSync(path.join(ROOT, "data", "loc-theories.json"), "utf8")).theories
+    .forEach(function (t) { LOC[t.slug] = t; });
+} catch (e) { warn("data/loc-theories.json not readable; skipping LOC name checks"); LOC = null; }
+function norm(s) { return String(s).replace(/[\u2018\u2019']/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\*+$/, "").trim(); }
 var theoryHome = {};   // theory key -> drill key that lists it
 var subParent = {};    // sub drill key -> parent drill key
 Object.keys(DRILL).forEach(function (dk) {
@@ -142,7 +151,8 @@ Object.keys(DRILL).forEach(function (dk) {
   if (!catIds[d.categoryId]) err(label + ": unknown categoryId " + d.categoryId);
   if (!d.name) err(label + ": no name");
   if (!d.areas || !d.areas.length) { err(label + ": no areas"); return; }
-  var keys = {};
+  var keys = {}, targets = {};
+  d.areas.forEach(function (a) { if (a.key && !a.group) targets[a.key] = true; });
   d.areas.forEach(function (a) {
     if (!a.key) { err(label + ": area without a key"); return; }
     if (keys[a.key]) err(label + ": duplicate area " + a.key);
@@ -158,13 +168,25 @@ Object.keys(DRILL).forEach(function (dk) {
       if (a.key.indexOf(d.categoryId + "-") !== 0) err(label + ": school key " + a.key + " must start with '" + d.categoryId + "-'");
     } else {
       if (!a.url) err(label + ": theory " + a.key + " has no LOC url");
+      if (a.group) {
+        var lead = d.areas.filter(function (o) { return o.key === a.group; })[0];
+        if (!lead) err(label + ": " + a.key + " is grouped with unknown " + a.group);
+        else if (lead.group || lead.sub) err(label + ": " + a.key + " must be grouped with a theory that leads its own group");
+      }
+      if ("review" in a && a.review !== true) err(label + ": " + a.key + ": review must be true or absent");
+      var loc = LOC && LOC[(a.url || "").replace(/.*\/theory\//, "")];
+      if (LOC && !loc) err(label + ": " + a.key + " has no entry in data/loc-theories.json");
+      else if (loc) {
+        if (norm(loc.name) !== norm(a.name)) err(label + ": " + a.key + " is named '" + a.name + "' but LOC says '" + loc.name + "'");
+        if (!!a.review !== (loc.verificationStatus !== "verified")) err(label + ": " + a.key + " review flag doesn't match LOC (" + loc.verificationStatus + ")");
+      }
       if (theoryHome[a.key]) err("theory " + a.key + " is listed by both " + theoryHome[a.key] + " and " + dk);
       theoryHome[a.key] = dk;
       if (DRILL[d.categoryId + "-" + a.key]) err("theory " + a.key + " collides with school quiz " + d.categoryId + "-" + a.key);
     }
     if (a.url && !/^https:\/\/loc\.closertotruth\.com\//.test(a.url)) warn(label + ": area " + a.key + " links outside LOC: " + a.url);
   });
-  if (d.axes) checkAxisQuiz(label, d, keys);
+  if (d.axes) checkAxisQuiz(label, d, targets);
   else if (!d.questions || !d.questions.length) {
     // no quiz: only for a single theory, whose page the category leads to
     if (d.areas.length !== 1) err(label + ": no questions (only a one-theory entry may skip the quiz)");

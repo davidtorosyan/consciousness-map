@@ -146,11 +146,13 @@ function evalQuiz(quiz, thinkersFile) {
     if (!people.length) console.log("  (answers don't match the current " + Q.length + " questions; re-run the role-play)");
     people.forEach(function (p) {
       var r = CM.ranked(quiz, unpack(p.answers)), order = r.map(function (x) { return x.node.key; });
-      var rank = order.indexOf(p.family) + 1;
+      // a thinker filed under a grouped theory counts as its lead's row
+      var t = CM.node("theory", p.family), fam = t && t.lead ? t.lead.key : p.family;
+      var rank = order.indexOf(fam) + 1;
       if (rank === 1) hit1++;
       if (rank <= 3) hit3++;
       console.log("  " + (rank === 1 ? "ok  " : rank <= 3 ? "near" : "MISS") + " " + p.name.padEnd(22) + " expected " +
-        nm(p.family).padEnd(30) + " rank " + rank + "  got " + r.slice(0, 3).map(function (x) {
+        nm(fam).padEnd(30) + " rank " + rank + "  got " + r.slice(0, 3).map(function (x) {
           return name[x.node.key] + " " + x.score.toFixed(2);
         }).join(", "));
     });

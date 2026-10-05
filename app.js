@@ -117,8 +117,16 @@
   /* a theory: save it, read it on LOC, or go back up to its school/category */
   CM.views.theory = function (route) {
     var node = route.node, parent = node.parent;
+    // theories its quiz can't tell apart from this one (same positions)
+    var lead = node.lead || node;
+    var twins = [lead].concat(lead.members).filter(function (t) { return t !== node; });
     render(node, '<div style="--bm:' + esc(node.color) + '">' + head(node, "THEORY") +
-      '<div class="d-actions">' + CM.bookmarkButton(node, false, true) + locPill(node) + "</div></div>" +
+      '<div class="d-actions">' + CM.bookmarkButton(node, false, true) + locPill(node) + "</div>" +
+      (node.review ? '<p class="d-note">LOC is still reviewing this entry.</p>' : "") +
+      (twins.length ? '<p class="d-note">The ' + esc(parent.name) + " quiz can\u2019t tell this apart from " +
+        twins.map(function (t) { return '<a href="' + esc(CM.fromResults(CM.href(t), route.from)) + '">' + esc(t.name) + "</a>"; })
+          .join(", ") + ": they answer its questions the same way.</p>" : "") +
+      "</div>" +
       CM.answerRows(route.from, node.key) +
       '<div class="d-quiet"><a class="d-link" href="' + CM.href(parent) + '">\u2039 Back to ' + esc(parent.name) + "</a></div>");
   };
