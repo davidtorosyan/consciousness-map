@@ -26,6 +26,8 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `data/main-quiz.js` | The main quiz: the axes families disagree on, each family's position on them, and the questions. |
 | `data/quiz-<key>.js` | One per category or school quiz (e.g. `quiz-panpsychisms.js`, `quiz-materialism-higher-order.js`): axis quizzes like the main quiz. |
 | `data/quiz-data.js` | `QUIZ_DATA_VERSION` and the category list the quizzes hang off. |
+| `i18n/ru.js` | Russian: UI strings (keyed by their English text) and translated quiz content, swapped into the data. Loaded only for Russian. |
+| `og-image.png` | The link-preview image (Open Graph / Twitter tags in `index.html`). |
 | `styles.css`, `quiz.css` | All styling. |
 | `quiz.html`, `favorites.html`, `history.html` | Redirects from old URLs. |
 | `deploy.sh` | Check, write a new build id, commit and push to `main`. |
@@ -53,6 +55,8 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 Pages opened from a result carry it as `&r=<payload>` and show how your
 answers lined up. Every screen except the questions themselves is a real
 URL, so the browser's back button always does the obvious thing.
+
+Any page takes `&lang=en` or `&lang=ru` (remembered on the device).
 
 Legacy forms still work: `<…>/browse` (same as without it), `?r=<payload>`,
 `#/category/<cat>`, `quiz.html`, `favorites.html`, `history.html`.

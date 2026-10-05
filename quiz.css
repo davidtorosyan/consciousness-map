@@ -161,3 +161,5 @@ button.d-link{background:none;border:none;cursor:pointer;font:inherit;font-size:
 .cmp-pair:last-child{border-bottom:0}
 .cmp-pair .who{display:inline-block;min-width:74px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 .r-row .nm .also{display:block;margin-top:3px;font-family:var(--sans);font-size:12.5px;line-height:1.4;color:var(--muted)}
+/* keep the eyebrow clear of the Share button (longer in some languages) */
+.r-head .eyebrow{padding-right:150px}

@@ -10,6 +10,35 @@
   "use strict";
   var CM = window.CM = {};
 
+  /* ---------- language ----------
+     index.html picks the language (CM_LANG) and, for anything but English,
+     loads i18n/<lang>.js first, which sets window.CM_I18N = {ui: {...}} and
+     swaps the translated quiz content into the data. UI text is written in
+     English and passed through CM.t: the English text is the key, and a
+     missing translation falls back to English. {name} placeholders are
+     filled from vars (callers escape them). */
+  CM.lang = window.CM_LANG || "en";
+  var UI = (window.CM_I18N && window.CM_I18N.ui) || {};
+  function fill(s, vars) {
+    return vars ? s.replace(/\{(\w+)\}/g, function (m, k) { return k in vars ? vars[k] : m; }) : s;
+  }
+  CM.t = function (en, vars) {
+    var s = UI[en];
+    return fill(typeof s === "string" ? s : en, vars);
+  };
+  /* counted phrases: CM.tn(n, "{n} question", "{n} questions"). A
+     translation is a list of plural forms (Russian: one, few, many). */
+  CM.tn = function (n, one, many) {
+    var forms = UI[one], s;
+    if (Array.isArray(forms)) {
+      var m10 = n % 10, m100 = n % 100;
+      s = forms.length < 3 ? forms[n === 1 ? 0 : 1]
+        : m10 === 1 && m100 !== 11 ? forms[0]
+        : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? forms[1] : forms[2];
+    } else s = n === 1 ? one : many;
+    return fill(s, { n: n });
+  };
+
   /* ---------- html ---------- */
   CM.esc = function (s) {
     return String(s == null ? "" : s)
@@ -26,7 +55,7 @@
   };
   /* breadcrumb: segs = [{label, href?}]; a seg with an href is a link */
   CM.trail = function (segs, extra) {
-    return '<nav class="trail" aria-label="Where you are"><span class="here-dot"></span>' +
+    return '<nav class="trail" aria-label="' + CM.t("Where you are") + '"><span class="here-dot"></span>' +
       segs.map(function (s, i) {
         var cls = "tseg" + (i === 0 ? " root" : "");
         var pre = i > 0 ? '<span class="sep">›</span>' : "";
@@ -200,7 +229,7 @@
   };
   CM.quizName = function (key) {
     var owner = key && key !== "main" && CM.quizOwner(key);
-    return owner ? owner.name : "Main quiz";
+    return owner ? owner.name : CM.t("Main quiz");
   };
 
   /* ---------- scoring ----------
@@ -224,7 +253,7 @@
     Object.keys(sum).forEach(function (k) { if (weight[k]) pos[k] = sum[k] / weight[k]; });
     return pos;
   };
-  CM.TIERS = { strong: "strong match", partial: "partial match", none: "no match", against: "opposite view" };
+  CM.TIERS = { strong: CM.t("strong match"), partial: CM.t("partial match"), none: CM.t("no match"), against: CM.t("opposite view") };
   function axisScores(quiz, answers) {
     var pos = CM.positions(quiz, answers), keys = quiz.data.axes.map(function (x) { return x.key; });
     var un = Math.sqrt(keys.reduce(function (t, k) { return t + Math.pow(pos[k] || 0, 2); }, 0));
@@ -273,7 +302,7 @@
     return y >= 0.85 * (y + n) ? "yes" : n >= 0.85 * (y + n) ? "no" : "";
   };
   /* "You think X, Y and Z." from your strongest positions (axis quizzes) */
-  CM.summary = function (quiz, answers) {
+  CM.summary = function (quiz, answers, theirs) {
     if (CM.lopsided(quiz, answers)) return "";
     var pos = CM.positions(quiz, answers);
     var strong = quiz.data.axes.filter(function (x) { return Math.abs(pos[x.key] || 0) >= 0.5; })
@@ -282,7 +311,7 @@
       .map(function (x) { return pos[x.key] > 0 ? x.yes : x.no; });
     if (!strong.length) return "";
     var last = strong.pop();
-    return "You think " + (strong.length ? strong.join(", ") + " and " : "") + last + ".";
+    return CM.t(theirs ? "They think {list}." : "You think {list}.", { list: (strong.length ? strong.join(", ") + CM.t(" and ") : "") + last });
   };
 
   /* ---------- result links ----------
@@ -298,7 +327,7 @@
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   function backToResults(from) {
     return '<div class="d-quiet"><a class="d-link" data-back-results href="' +
-      CM.esc(CM.resultsHref(from.payload, from.shared)) + '">\u2039 Results</a></div>';
+      CM.esc(CM.resultsHref(from.payload, from.shared)) + '">\u2039 ' + CM.t("Results") + "</a></div>";
   }
   /* axis quizzes: this target's stands, grouped by how your answers relate:
      agree (stated once), differ (both sides, so nothing is negated), not
@@ -322,19 +351,19 @@
     function group(cls, title, n, items) {
       return n ? '<div class="cmp-group ' + cls + '"><div class="cmp-title">' + title + " (" + n + ")</div>" + items + "</div>" : "";
     }
-    var head = agree.length === total ? "You agree on all " + total + " of its points."
-      : !agree.length ? "You don\u2019t share any of its " + total + " points."
-      : "You agree on " + agree.length + " of its " + total + " points.";
-    return '<div class="qa-sec cmp"><div class="eyebrow">COMPARED WITH YOUR ANSWERS</div>' +
+    var head = agree.length === total ? CM.tn(total, "You agree on its one point.", "You agree on all {n} of its points.")
+      : !agree.length ? CM.tn(total, "You don\u2019t share its one point.", "You don\u2019t share any of its {n} points.")
+      : CM.t("You agree on {a} of its {n} points.", { a: agree.length, n: total });
+    return '<div class="qa-sec cmp"><div class="eyebrow">' + CM.t("COMPARED WITH YOUR ANSWERS") + "</div>" +
       '<p class="cmp-head">' + head + "</p>" +
-      group("agree", "\u2713 Where you agree", agree.length,
+      group("agree", "\u2713 " + CM.t("Where you agree"), agree.length,
         "<ul>" + agree.map(function (t) { return "<li>" + e(cap(t)) + "</li>"; }).join("") + "</ul>") +
-      group("differ", "\u2717 Where you differ", differ.length, differ.map(function (d) {
-        return '<div class="cmp-pair"><div><span class="who">This view</span>' + e(cap(d.theirs)) + "</div>" +
-          '<div><span class="who">You</span>' + e(cap(d.yours)) + "</div></div>";
+      group("differ", "\u2717 " + CM.t("Where you differ"), differ.length, differ.map(function (d) {
+        return '<div class="cmp-pair"><div><span class="who">' + CM.t("This view") + "</span>" + e(cap(d.theirs)) + "</div>" +
+          '<div><span class="who">' + CM.t("You") + "</span>" + e(cap(d.yours)) + "</div></div>";
       }).join("")) +
-      group("unsure", "? Where you weren\u2019t sure", unsure.length,
-        "<ul>" + unsure.map(function (t) { return "<li>This view: " + e(t) + "</li>"; }).join("") + "</ul>") +
+      group("unsure", "? " + CM.t("Where you weren\u2019t sure"), unsure.length,
+        "<ul>" + unsure.map(function (t) { return "<li>" + CM.t("This view") + ": " + e(t) + "</li>"; }).join("") + "</ul>") +
       "</div>" + backToResults(from);
   }
   CM.answerRows = function (from, key) {
@@ -346,14 +375,16 @@
   /* ---------- page chrome ----------
      trail on top, one card, footer. Quizzes add the progress row. */
   CM.LOC_URL = "https://loc.closertotruth.com/";
+  /* "<page> — Landscape of Consciousness" */
+  CM.title = function (page) { return (page ? page + " \u2014 " : "") + CM.t("Landscape of Consciousness"); };
   CM.frame = function (trailHtml, body, opts) {
     opts = opts || {};
     return trailHtml +
       (opts.progress ? '<div class="wz-dotsrow"><div class="q-bar" aria-hidden="true"><span id="wz-bar"></span></div><span class="q-count" id="wz-count"></span></div>' : "") +
       '<div class="wz-window" id="wz-window">' + body + "</div>" +
-      '<footer class="wz-foot"><a href="?path=browse">All categories</a>' +
+      '<footer class="wz-foot"><a href="?path=browse">' + CM.t("All categories") + "</a>" +
       '<span aria-hidden="true">·</span>' +
-      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a></footer>';
+      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">' + CM.t("Landscape of Consciousness") + " \u2197</a></footer>";
   };
   /* bookmark toggles: <button data-bm="<theory key>">. As a pill it's
      labelled Save / Saved; otherwise it's just the icon. */
@@ -361,8 +392,8 @@
     var on = CM.favs.has(CM.favId(node));
     var cls = pill ? "pill bm-pill" : "bm-btn" + (small ? " sm" : "");
     return '<button class="' + cls + (on ? " on" : "") + '" data-count="bookmark" data-bm="' + CM.esc(node.key) +
-      '" aria-label="Bookmark ' + CM.esc(node.name) + '" aria-pressed="' + on + '">' + CM.icons.bookmark +
-      (pill ? "<span data-bm-label>" + (on ? "Saved" : "Save") + "</span>" : "") + "</button>";
+      '" aria-label="' + CM.t("Bookmark {name}", { name: CM.esc(node.name) }) + '" aria-pressed="' + on + '">' + CM.icons.bookmark +
+      (pill ? "<span data-bm-label>" + (on ? CM.t("Saved") : CM.t("Save")) + "</span>" : "") + "</button>";
   };
   CM.bindBookmarks = function (root) {
     root.querySelectorAll("[data-bm]").forEach(function (el) {
@@ -376,7 +407,7 @@
           b.classList.toggle("on", on);
           b.setAttribute("aria-pressed", on ? "true" : "false");
           var label = b.querySelector("[data-bm-label]");
-          if (label) label.textContent = on ? "Saved" : "Save";
+          if (label) label.textContent = on ? CM.t("Saved") : CM.t("Save");
         });
       });
     });
@@ -430,13 +461,38 @@
     var view = route && CM.views[route.view];
     if (view) view(route);
     else CM.views.notFound();
+    langPicker();
     if (CM.count) CM.count.page(route);   // analytics.js
   };
+  /* language picker, bottom right on every page. Switching remembers the
+     choice and reloads (the loader swaps the translated text in). */
+  var LANG_NAMES = { en: "EN", ru: "RU" };
+  function langPicker() {
+    if (document.getElementById("lang-pick")) return;
+    var box = document.createElement("div");
+    box.id = "lang-pick";
+    box.className = "lang-pick";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", CM.t("Language"));
+    box.innerHTML = Object.keys(LANG_NAMES).map(function (l) {
+      return '<button type="button" data-lang="' + l + '" lang="' + l + '" aria-pressed="' + (l === CM.lang) + '"' +
+        (l === CM.lang ? ' class="on"' : "") + ">" + LANG_NAMES[l] + "</button>";
+    }).join("");
+    box.addEventListener("click", function (ev) {
+      var b = ev.target.closest && ev.target.closest("[data-lang]"), l = b && b.getAttribute("data-lang");
+      if (!l || l === CM.lang) return;
+      try { localStorage.setItem("cm_lang_v1", l); } catch (e) { /* storage blocked: ?lang= below still works */ }
+      if (CM.count) CM.count.event("lang/" + l);
+      var q = location.search.replace(/([?&])lang=[a-z]+&?/, "$1").replace(/[?&]$/, "");
+      location.href = location.pathname + (q ? q + "&" : "?") + "lang=" + l + location.hash;
+    });
+    document.body.appendChild(box);
+  }
   CM.views.notFound = function () {
-    document.title = "Not found — Landscape of Consciousness";
-    document.getElementById("app").innerHTML = CM.trail([{ label: "Home", href: "./" }]) +
-      '<header class="hero"><div class="kicker">NOT FOUND</div><h1>Nothing here.</h1>' +
-      '<p class="desc">That page doesn’t exist.</p></header>' +
-      '<div class="d-actions"><a class="pill" href="./">Home</a></div>';
+    document.title = CM.title(CM.t("Not found"));
+    document.getElementById("app").innerHTML = CM.trail([{ label: CM.t("Home"), href: "./" }]) +
+      '<header class="hero"><div class="kicker">' + CM.t("NOT FOUND") + "</div><h1>" + CM.t("Nothing here.") + "</h1>" +
+      '<p class="desc">' + CM.t("That page doesn\u2019t exist.") + "</p></header>" +
+      '<div class="d-actions"><a class="pill" href="./">' + CM.t("Home") + "</a></div>";
   };
 })();

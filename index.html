@@ -34,6 +34,24 @@
   "use strict";
   var CSS = ["styles.css", "quiz.css"];
   var JS = ["data/categories.js", "data/quiz-data.js", "data/main-quiz.js", "data/quiz-panpsychisms.js", "data/quiz-idealisms.js", "data/quiz-challenge.js", "data/quiz-neutral-monism.js", "data/quiz-non-reductive-physicalism.js", "data/quiz-information.js", "data/quiz-quantum-dimensions.js", "data/quiz-quantum-dimensions-quantum-machinery.js", "data/quiz-quantum-dimensions-mind-and-collapse.js", "data/quiz-quantum-dimensions-hidden-orders.js", "data/quiz-quantum-dimensions-cosmic-consciousness.js", "data/quiz-quantum-dimensions-relational-views.js", "data/quiz-dualisms.js", "data/quiz-anomalous-altered-states.js", "data/quiz-materialism.js", "data/quiz-materialism-homeostatic-affective.js", "data/quiz-materialism-computational-functionalism.js", "data/quiz-materialism-neurobiological.js", "data/quiz-materialism-phylogenetic-evolutionary.js", "data/quiz-materialism-language-relationships.js", "data/quiz-materialism-electromagnetic-field.js", "data/quiz-materialism-philosophical.js", "data/quiz-materialism-relational.js", "data/quiz-materialism-embodied-enactive.js", "data/quiz-materialism-higher-order.js", "data/quiz-materialism-first-order.js", "data/quiz-materialism-eliminative-illusionism.js", "data/quiz-materialism-mind-brain-identity.js", "data/quiz-phenomenology.js", "core.js", "analytics.js", "app.js", "quiz.js", "mega.js", "saved.js", "history.js"];
+  /* Language: ?lang= (remembered), else the saved choice, else the
+     browser's. Anything but English loads i18n/<lang>.js just before
+     core.js: it swaps translated text into the data and supplies the UI
+     strings. */
+  var LANGS = ["en", "ru"];
+  function pickLang() {
+    var m = /[?&]lang=([a-z]+)/.exec(location.search), saved = null;
+    try {
+      if (m && LANGS.indexOf(m[1]) >= 0) localStorage.setItem("cm_lang_v1", m[1]);
+      saved = localStorage.getItem("cm_lang_v1");
+    } catch (e) { /* storage blocked */ }
+    if (m && LANGS.indexOf(m[1]) >= 0) return m[1];
+    if (saved && LANGS.indexOf(saved) >= 0) return saved;
+    return /^ru\b/i.test(navigator.language || "") ? "ru" : "en";
+  }
+  var lang = window.CM_LANG = pickLang();
+  document.documentElement.lang = lang;
+  if (lang !== "en") JS.splice(JS.indexOf("core.js"), 0, "i18n/" + lang + ".js");
   function load(build) {
     window.CM_BUILD = build;
     var q = "?v=" + encodeURIComponent(build === "dev" ? String(Date.now()) : build);

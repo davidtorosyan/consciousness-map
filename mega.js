@@ -174,14 +174,14 @@
   if (typeof document === "undefined") return;   // loaded by the node tools
   var app = document.getElementById("app");
   function ev(name) { if (CM.count) CM.count.event(name); }
-  function trail(label) { return CM.trail([{ label: "Home", href: "./" }, { label: label }]); }
+  function trail(label) { return CM.trail([{ label: CM.t("Home"), href: "./" }, { label: label }]); }
 
   CM.views.mega = function (route) {
     if (route.payload) return results(route);
     var m = build(), answers = [], locked = false, finished = false;
-    document.title = "Mega quiz — Landscape of Consciousness";
-    app.innerHTML = CM.frame(trail("Mega quiz"),
-      '<div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="Previous question">‹</button></div>' +
+    document.title = CM.title(CM.t("Mega quiz"));
+    app.innerHTML = CM.frame(trail(CM.t("Mega quiz")),
+      '<div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="' + CM.t("Previous question") + '">‹</button></div>' +
       '<div class="wz-body" id="wz-body"></div>', { progress: true });
     var body = document.getElementById("wz-body"), backRow = document.getElementById("wz-back");
     backRow.querySelector("button").addEventListener("click", function () {
@@ -210,17 +210,17 @@
       var q = m.questions[st.next].q, top = st.ranked[0].p;
       // the bar shows how sure the quiz is, not how far through you are
       document.getElementById("wz-bar").style.width = Math.round(100 * Math.min(1, top / STOP.sure)) + "%";
-      document.getElementById("wz-count").textContent = "Question " + (answers.length + 1);
+      document.getElementById("wz-count").textContent = CM.t("Question {n}", { n: answers.length + 1 });
       backRow.style.display = answers.length ? "" : "none";
       function btn(cls, ans, ic, label) {
         return '<button class="a-btn ' + cls + '" data-ans="' + ans + '"><span class="ic">' + ic + '</span><span class="lb">' + label + "</span></button>";
       }
       setBody('<div class="q-qwrap"><div class="q-text">' + esc(q.t) + "</div></div>" +
-        '<div class="a-grid">' + btn("yes", "yes", "✓", "Yes") + btn("no", "no", "✗", "No") +
-        btn("maybe", "skip", "?", "Not sure") +
-        (q.why ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">Don’t get it</span></button>' : "") + "</div>" +
+        '<div class="a-grid">' + btn("yes", "yes", "✓", CM.t("Yes")) + btn("no", "no", "✗", CM.t("No")) +
+        btn("maybe", "skip", "?", CM.t("Not sure")) +
+        (q.why ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">' + CM.t("Don\u2019t get it") + "</span></button>" : "") + "</div>" +
         (q.why ? '<div class="q-why" id="why"><div class="why-card">' + esc(q.why) + "</div></div>" : "") +
-        (answers.length >= STOP.min ? '<button class="q-quiet" data-act="stop" style="width:100%">Show my results now</button>' : ""),
+        (answers.length >= STOP.min ? '<button class="q-quiet" data-act="stop" style="width:100%">' + CM.t("Show my results now") + "</button>" : ""),
       function () {
         body.querySelectorAll("[data-ans]").forEach(function (el) {
           el.addEventListener("click", function () { answer(st.next, el.getAttribute("data-ans"), el); });
@@ -258,18 +258,17 @@
 
     var saved = CM.progress.get("mega");
     if (Array.isArray(saved) && saved.length && decode(encode(saved))) {
-      setBody('<div class="q-start"><div class="eyebrow">MEGA QUIZ</div><h1>Pick up where you left off?</h1>' +
-        '<button class="big-start" data-act="resume">Resume — question ' + (saved.length + 1) + "</button>" +
-        '<button class="q-quiet" data-act="restart" style="width:100%">Start over instead</button></div>', function () {
+      setBody('<div class="q-start"><div class="eyebrow">' + CM.t("MEGA QUIZ") + "</div><h1>" + CM.t("Pick up where you left off?") + "</h1>" +
+        '<button class="big-start" data-act="resume">' + CM.t("Resume \u2014 question {n}", { n: saved.length + 1 }) + "</button>" +
+        '<button class="q-quiet" data-act="restart" style="width:100%">' + CM.t("Start over instead") + "</button></div>", function () {
         body.querySelector('[data-act="resume"]').addEventListener("click", function () { answers = saved; show(); });
         body.querySelector('[data-act="restart"]').addEventListener("click", function () { answers = []; CM.progress.clear("mega"); show(); });
       });
     } else {
       ev("mega-start");
-      setBody('<div class="q-start"><div class="eyebrow">MEGA QUIZ</div><h1>Every theory at once</h1>' +
-        '<p class="lede">One quiz across all ' + build().theories + " theories on the map. Each answer picks the next most useful " +
-        "question, and it stops when one theory clearly fits. It might take ten questions or forty.</p>" +
-        '<button class="big-start" data-act="go">Start</button></div>', function () {
+      setBody('<div class="q-start"><div class="eyebrow">' + CM.t("MEGA QUIZ") + "</div><h1>" + CM.t("Every theory at once") + "</h1>" +
+        '<p class="lede">' + CM.t("One quiz across all {n} theories on the map. Each answer picks the next most useful question, and it stops when one theory clearly fits. It might take ten questions or forty.", { n: build().theories }) + "</p>" +
+        '<button class="big-start" data-act="go">' + CM.t("Start") + "</button></div>", function () {
         body.querySelector('[data-act="go"]').addEventListener("click", show);
       });
     }
@@ -278,11 +277,11 @@
   /* ---------- results ---------- */
   function results(route) {
     var answers = decode(route.payload);
-    document.title = "Mega quiz results — Landscape of Consciousness";
+    document.title = CM.title(CM.t("Mega quiz results"));
     if (!answers) {
-      app.innerHTML = CM.frame(trail("Results"), '<div class="q-start"><div class="eyebrow">RESULTS</div>' +
-        "<h1>That link didn’t work.</h1><p class=\"lede\">It may be from an older version of the quiz.</p>" +
-        '<a class="q-quiet" href="?path=mega">Take the mega quiz</a></div>');
+      app.innerHTML = CM.frame(trail(CM.t("Results")), '<div class="q-start"><div class="eyebrow">' + CM.t("RESULTS") + "</div>" +
+        "<h1>" + CM.t("That link didn\u2019t work.") + '</h1><p class="lede">' + CM.t("It may be from an older version of the quiz.") + "</p>" +
+        '<a class="q-quiet" href="?path=mega">' + CM.t("Take the mega quiz") + "</a></div>");
       return;
     }
     var st = step(answers), top = st.ranked.slice(0, 8).filter(function (x, i) { return i < 3 || x.p >= 0.02; });
@@ -298,30 +297,32 @@
         '<a class="r-open" data-count="open-mega-result-' + (i + 1) + '" href="' + esc(CM.href(t)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
         '<span class="nm">' + esc(t.name) +
-        (t.members.length ? '<span class="also">same answers: ' + t.members.map(function (m) { return esc(m.name); }).join(" · ") + "</span>" : "") +
-        '<span class="also">' + esc(t.parent.name) + " · " + pct(x.p) + " likely</span></span></a>" +
+        (t.members.length ? '<span class="also">' + CM.t("same answers:") + " " + t.members.map(function (m) { return esc(m.name); }).join(" · ") + "</span>" : "") +
+        '<span class="also">' + esc(t.parent.name) + " · " + CM.t("{p} likely", { p: pct(x.p) }) + "</span></span></a>" +
         CM.bookmarkButton(t, true) + "</div>";
     }).join("");
     var lead = st.ranked[0].node, deeper = lead.parent;
     var next = route.shared
-      ? '<a class="pill wide" href="?path=mega">' + I.search + "<span>Take the mega quiz yourself</span></a>"
+      ? '<a class="pill wide" href="?path=mega">' + I.search + "<span>" + CM.t("Take the mega quiz yourself") + "</span></a>"
       : deeper.quiz ? '<a class="pill wide" data-count="mega-next-quiz" href="' + CM.href(deeper, "quiz") + '">' + I.search +
-        "<span>Take the " + esc(deeper.name) + " quiz</span></a>" : "";
-    app.innerHTML = CM.frame(trail("Mega quiz results"),
-      '<div class="r-head"><button class="head-share" data-share data-count="share-mega">' + I.share + "<span>Share</span></button>" +
-      '<div class="eyebrow">MEGA QUIZ</div><h1>Most likely first.</h1>' +
-      '<p class="r-summary">From ' + st.answered + (st.answered === 1 ? " answer" : " answers") +
-      (fams.length ? ", mostly " + fams.slice(0, 2).map(function (c) { return esc(c.name) + " (" + pct(fam[c.key]) + ")"; }).join(", then ") : "") + ".</p>" +
-      (!st.answered ? '<div class="r-note">You didn’t answer Yes or No to anything, so nothing stands out yet.</div>' : "") +
+        "<span>" + CM.t("Take the {name} quiz", { name: esc(deeper.name) }) + "</span></a>" : "";
+    var famText = fams.slice(0, 2).map(function (c) { return esc(c.name) + " (" + pct(fam[c.key]) + ")"; }).join(CM.t(", then "));
+    app.innerHTML = CM.frame(trail(CM.t("Mega quiz results")),
+      '<div class="r-head"><button class="head-share" data-share data-count="share-mega">' + I.share + "<span>" + CM.t("Share") + "</span></button>" +
+      '<div class="eyebrow">' + CM.t("MEGA QUIZ") + "</div><h1>" + CM.t("Most likely first.") + "</h1>" +
+      '<p class="r-summary">' + (fams.length
+        ? CM.tn(st.answered, "From {n} answer, mostly {fams}.", "From {n} answers, mostly {fams}.").replace("{fams}", famText)
+        : CM.tn(st.answered, "From {n} answer.", "From {n} answers.")) + "</p>" +
+      (!st.answered ? '<div class="r-note">' + CM.t("You didn\u2019t answer Yes or No to anything, so nothing stands out yet.") + "</div>" : "") +
       "</div>" + rows + (next ? '<div class="d-actions">' + next + "</div>" : ""));
     var btn = app.querySelector("[data-share]");
     btn.addEventListener("click", function () {
       var url = location.href.split("?")[0] + "?path=mega/" + route.payload + "&shared=1";
       var label = btn.querySelector("span");
-      function done(t) { label.textContent = t; setTimeout(function () { label.textContent = "Share"; }, 1800); }
-      if (navigator.share) navigator.share({ title: "My consciousness-map results", url: url }).then(function () { done("Shared"); }, function () {});
-      else if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { done("Link copied"); }, function () { done("Couldn’t copy"); });
-      else done("Couldn’t copy");
+      function done(msg) { label.textContent = msg; setTimeout(function () { label.textContent = CM.t("Share"); }, 1800); }
+      if (navigator.share) navigator.share({ title: CM.t("My consciousness-map results"), url: url }).then(function () { done(CM.t("Shared")); }, function () {});
+      else if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { done(CM.t("Link copied")); }, function () { done(CM.t("Couldn\u2019t copy")); });
+      else done(CM.t("Couldn\u2019t copy"));
     });
     CM.bindBookmarks(app);
   }

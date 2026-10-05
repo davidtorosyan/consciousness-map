@@ -281,10 +281,35 @@ function pages(W) {
     if ((await page.innerText("#app")).indexOf("didn\u2019t work") < 0) fail("mega quiz", "a broken results link isn't handled");
   } catch (e) { fail("mega quiz flow", e.message); }
 
+  /* 9. Russian: the picker switches language; pages render translated */
+  try {
+    await open("?path=browse");
+    await page.click('#lang-pick [data-lang="ru"]');
+    await page.waitForFunction(function () { return window.CM_READY && document.documentElement.lang === "ru"; }, null, { timeout: 5000 });
+    var ruPages = ["", "browse", "quiz", "materialism", "materialism/higher-order", "dualisms/" + W.QUIZ_DATA.drill.dualisms.areas[0].key, "mega", "history", "saved"];
+    for (i = 0; i < ruPages.length; i++) {
+      await open(ruPages[i] ? "?path=" + ruPages[i] : "");
+      await checkPage("ru ?path=" + ruPages[i]);
+      var txt = await page.innerText("#app");
+      if (!/[\u0400-\u04FF]/.test(txt)) fail("ru ?path=" + ruPages[i], "no Russian text on the page");
+      ["Take the quiz", "All categories", "Not sure", "Closest first"].forEach(function (en) {
+        if (txt.indexOf(en) >= 0) fail("ru ?path=" + ruPages[i], "English left on the page: " + en);
+      });
+    }
+    await open("?path=quiz");
+    for (i = 0; i < W.QUIZ_DATA.top.questions.length; i++) { await page.click(i % 3 ? '[data-ans="yes"]' : '[data-ans="no"]'); await page.waitForTimeout(240); }
+    await page.waitForSelector(".r-row", { timeout: 3000 });
+    await checkPage("ru results");
+    if ((await page.innerText(".r-summary")).indexOf("Вы считаете") < 0) fail("ru results", "summary isn't in Russian");
+    await page.click('#lang-pick [data-lang="en"]');
+    await page.waitForFunction(function () { return window.CM_READY && document.documentElement.lang === "en"; }, null, { timeout: 5000 });
+    if (!(await page.$(".r-row"))) fail("language switch", "switching back to English lost the page");
+  } catch (e) { fail("Russian flow", e.message); }
+
   await browser.close();
   server.close();
   failures.forEach(function (f) { console.log("FAIL: " + f); });
-  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 6 flows: " +
+  console.log("smoke: " + list.length + " pages, " + legacy.length + " legacy URLs, 7 flows: " +
     (failures.length ? failures.length + " failure(s)" : "ok"));
   process.exit(failures.length ? 1 : 0);
 })().catch(function (e) { console.error(e); process.exit(1); });

@@ -1,7 +1,7 @@
 /* Map pages: home, the category list, category/school pages, theory pages, debug. */
 (function () {
   "use strict";
-  var esc = CM.esc, I = CM.icons;
+  var esc = CM.esc, I = CM.icons, t = CM.t;
   var app = document.getElementById("app");
   var QUIZ_CAP = 12;
 
@@ -9,23 +9,23 @@
     // History and Saved only appear once there's something in them
     var nFav = CM.favs.all().length, nHist = CM.history.all().length;
     var nq = window.QUIZ_DATA.top.questions.length;
-    app.innerHTML = CM.trail([{ label: "Home" }]) +
+    document.title = CM.title();
+    app.innerHTML = CM.trail([{ label: t("Home") }]) +
       '<div class="landing-head rise" style="--i:0">' +
-      '<div class="eyebrow">THE LANDSCAPE OF CONSCIOUSNESS</div>' +
-      "<h1>Find your view</h1>" +
-      '<p class="lede">There are hundreds of theories of what consciousness is. ' +
-      "The Landscape of Consciousness sorts them into eleven families. " +
-      "Answer " + nq + " quick questions to see which sound closest to you.</p></div>" +
+      '<div class="eyebrow">' + t("THE LANDSCAPE OF CONSCIOUSNESS") + "</div>" +
+      "<h1>" + t("Find your view") + "</h1>" +
+      '<p class="lede">' + t("There are hundreds of theories of what consciousness is. The Landscape of Consciousness sorts them into eleven families.") + " " +
+      CM.tn(nq, "Answer {n} quick question to see which sound closest to you.", "Answer {n} quick questions to see which sound closest to you.") + "</p></div>" +
       '<div class="d-actions">' +
-      '<a class="pill rise" style="--i:1" href="?path=quiz">' + I.search + "<span>Take the quiz</span></a>" +
-      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>All categories</span></a></div>" +
+      '<a class="pill rise" style="--i:1" href="?path=quiz">' + I.search + "<span>" + t("Take the quiz") + "</span></a>" +
+      '<a class="pill rise" style="--i:2" href="?path=browse">' + I.list + "<span>" + t("All categories") + "</span></a></div>" +
       (nHist || nFav ? '<div class="d-actions">' +
-        (nHist ? '<a class="pill rise" style="--i:3" href="?path=history">' + I.history + "<span>History</span></a>" : "") +
-        (nFav ? '<a class="pill rise" style="--i:4" href="?path=saved">' + I.bookmark + "<span>Saved (" + nFav + ")</span></a>" : "") +
+        (nHist ? '<a class="pill rise" style="--i:3" href="?path=history">' + I.history + "<span>" + t("History") + "</span></a>" : "") +
+        (nFav ? '<a class="pill rise" style="--i:4" href="?path=saved">' + I.bookmark + "<span>" + t("Saved ({n})", { n: nFav }) + "</span></a>" : "") +
         "</div>" : "") +
-      '<div class="foot rise" style="--i:5">Names and colors follow the official ' +
-      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">Landscape of Consciousness ↗</a>' +
-      '<div class="build"><a class="mega-link" href="?path=mega" data-count="mega-entry">Mega quiz</a> \u00b7 build ' +
+      '<div class="foot rise" style="--i:5">' + t("Names and colors follow the official") + " " +
+      '<a href="' + CM.LOC_URL + '" target="_blank" rel="noopener">' + t("Landscape of Consciousness") + " \u2197</a>" +
+      '<div class="build"><a class="mega-link" href="?path=mega" data-count="mega-entry">' + t("Mega quiz") + "</a> \u00b7 " + t("build") + " " +
       esc(window.CM_BUILD || "dev") + "</div></div>";
   };
 
@@ -37,10 +37,11 @@
         '<span class="sub-tag">' + esc(c.tagline) + "</span></span>" +
         '<span class="chev">›</span></a>';
     }).join("");
-    app.innerHTML = CM.trail([{ label: "Home", href: "./" }, { label: "All categories" }]) +
-      '<header class="hero rise" style="--i:2"><div class="kicker">ALL CATEGORIES</div>' +
-      "<h1>The eleven categories</h1>" +
-      '<p class="desc">Every family of theories on the map. Open one to see what\u2019s inside it or take its quiz.</p></header>' +
+    document.title = CM.title(t("All categories"));
+    app.innerHTML = CM.trail([{ label: t("Home"), href: "./" }, { label: t("All categories") }]) +
+      '<header class="hero rise" style="--i:2"><div class="kicker">' + t("ALL CATEGORIES") + "</div>" +
+      "<h1>" + t("The eleven categories") + "</h1>" +
+      '<p class="desc">' + t("Every family of theories on the map. Open one to see what\u2019s inside it or take its quiz.") + "</p></header>" +
       rows;
   };
 
@@ -48,7 +49,7 @@
   function nodeTrail(node) {
     var chain = [];
     for (var n = node; n; n = n.parent) chain.unshift(n);
-    return CM.trail([{ label: "Home", href: "./" }].concat(chain.map(function (n, i) {
+    return CM.trail([{ label: t("Home"), href: "./" }].concat(chain.map(function (n, i) {
       return { label: n.name, href: i < chain.length - 1 ? CM.href(n) : null };
     })));
   }
@@ -56,7 +57,7 @@
   function locPill(node) {
     var url = node.url || node.category.url;
     return '<a class="pill" href="' + esc(url) + '" target="_blank" rel="noopener">' +
-      "<span>Read on LOC \u2197</span></a>";
+      "<span>" + t("Read on LOC") + " \u2197</span></a>";
   }
   function head(node, kicker) {
     var long = node.name.length > 36 ? ' class="long"' : "";
@@ -76,7 +77,7 @@
   }
   function render(node, body) {
     CM.setAccent(node.color);
-    document.title = node.name + " \u2014 Landscape of Consciousness";
+    document.title = CM.title(node.name);
     app.innerHTML = CM.frame(nodeTrail(node), body);
     CM.bindBookmarks(app);
     CM.bindBackToResults(app);
@@ -86,22 +87,23 @@
      Its schools/theories stay folded behind a secondary Browse button. */
   CM.views.group = function (route) {
     var node = route.node, n = node.children.length;
-    var kind = node.children.some(function (x) { return x.kind === "school"; }) ? "schools" : "theories";
+    var schools = node.children.some(function (x) { return x.kind === "school"; });
     var open = route.expand || (!node.quiz && n > 1);
     var nq = node.quiz ? CM.quiz(node.quiz).questions.length : 0;
-    render(node, head(node, node.kind === "school" ? "SCHOOL" : "CATEGORY") +
+    render(node, head(node, node.kind === "school" ? t("SCHOOL") : t("CATEGORY")) +
       (node.quiz ? '<a class="big-start cta" href="' + CM.href(node, "quiz") + '">' +
-        "<span>Take the " + esc(node.name) + " quiz</span>" +
-        '<span class="cta-sub">' + nq + (nq === 1 ? " question" : " questions") + "</span></a>"
+        "<span>" + t("Take the {name} quiz", { name: esc(node.name) }) + "</span>" +
+        '<span class="cta-sub">' + CM.tn(nq, "{n} question", "{n} questions") + "</span></a>"
         // a one-theory category has no quiz: lead straight to the theory
         : n === 1 ? '<a class="big-start cta" href="' + CM.href(node.children[0]) + '">' +
-          "<span>Read about " + esc(node.children[0].name) + "</span>" +
-          '<span class="cta-sub">the one theory LOC lists here</span></a>' : "") +
+          "<span>" + t("Read about {name}", { name: esc(node.children[0].name) }) + "</span>" +
+          '<span class="cta-sub">' + t("the one theory LOC lists here") + "</span></a>" : "") +
       CM.answerRows(route.from, node.key) +
       '<div class="d-quiet secondary">' +
       (node.quiz ? '<button class="d-link" data-browse data-count="browse" aria-expanded="' + open + '" aria-controls="kids">' +
-        "Browse " + n + " " + kind + ' <span class="caret" aria-hidden="true">\u25BE</span></button>' : "<span></span>") +
-      '<a class="d-link" href="' + esc(node.url || node.category.url) + '" target="_blank" rel="noopener">Read on LOC \u2197</a></div>' +
+        (schools ? CM.tn(n, "Browse {n} school", "Browse {n} schools") : CM.tn(n, "Browse {n} theory", "Browse {n} theories")) +
+        ' <span class="caret" aria-hidden="true">\u25BE</span></button>' : "<span></span>") +
+      '<a class="d-link" href="' + esc(node.url || node.category.url) + '" target="_blank" rel="noopener">' + t("Read on LOC") + " \u2197</a></div>" +
       '<div id="kids"' + (open ? "" : " hidden") + ">" + listRows(node.children) + "</div>");
     var btn = app.querySelector("[data-browse]");
     if (btn) btn.addEventListener("click", function () {
@@ -121,15 +123,16 @@
     // theories its quiz can't tell apart from this one (same positions)
     var lead = node.lead || node;
     var twins = [lead].concat(lead.members).filter(function (t) { return t !== node; });
-    render(node, '<div style="--bm:' + esc(node.color) + '">' + head(node, "THEORY") +
+    render(node, '<div style="--bm:' + esc(node.color) + '">' + head(node, t("THEORY")) +
       '<div class="d-actions">' + CM.bookmarkButton(node, false, true) + locPill(node) + "</div>" +
-      (node.review ? '<p class="d-note">LOC is still reviewing this entry.</p>' : "") +
-      (twins.length ? '<p class="d-note">The ' + esc(parent.name) + " quiz can\u2019t tell this apart from " +
-        twins.map(function (t) { return '<a href="' + esc(CM.fromResults(CM.href(t), route.from)) + '">' + esc(t.name) + "</a>"; })
-          .join(", ") + ": they answer its questions the same way.</p>" : "") +
+      (node.review ? '<p class="d-note">' + t("LOC is still reviewing this entry.") + "</p>" : "") +
+      (twins.length ? '<p class="d-note">' + t("The {quiz} quiz can\u2019t tell this apart from {list}: they answer its questions the same way.", {
+        quiz: esc(parent.name),
+        list: twins.map(function (x) { return '<a href="' + esc(CM.fromResults(CM.href(x), route.from)) + '">' + esc(x.name) + "</a>"; }).join(", ") }) +
+        "</p>" : "") +
       "</div>" +
       CM.answerRows(route.from, node.key) +
-      '<div class="d-quiet"><a class="d-link" href="' + CM.href(parent) + '">\u2039 Back to ' + esc(parent.name) + "</a></div>");
+      '<div class="d-quiet"><a class="d-link" href="' + CM.href(parent) + '">\u2039 ' + t("Back to {name}", { name: esc(parent.name) }) + "</a></div>");
   };
 
   /* ---------- debug: quiz nesting + question counts ---------- */

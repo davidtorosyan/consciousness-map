@@ -6,12 +6,12 @@
    results URL, so every screen after the questions is a real page. */
 (function () {
   "use strict";
-  var esc = CM.esc, I = CM.icons;
+  var esc = CM.esc, I = CM.icons, t = CM.t;
   var app = document.getElementById("app");
 
   /* breadcrumb for a quiz's pages: Home › Category › School › <label> */
   function quizTrail(quiz, label, extra) {
-    var segs = [{ label: "Home", href: "./" }];
+    var segs = [{ label: t("Home"), href: "./" }];
     var chain = [];
     for (var n = quiz.owner; n; n = n.parent) chain.unshift(n);
     chain.forEach(function (n) { segs.push({ label: n.name, href: CM.href(n) }); });
@@ -32,9 +32,9 @@
       if (!finished && answers) ev("quiz-left/" + qp + "/at-q" + (idx + 1) + "-of-" + n);
     });
     if (quiz.owner) CM.setAccent(quiz.owner.color);
-    document.title = (quiz.owner ? quiz.owner.name + " quiz" : "Quiz") + " — Landscape of Consciousness";
-    app.innerHTML = CM.frame(quizTrail(quiz, "Quiz"),
-      '<div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="Previous question">‹</button></div>' +
+    document.title = CM.title(quiz.owner ? t("{name} quiz", { name: quiz.owner.name }) : t("Quiz"));
+    app.innerHTML = CM.frame(quizTrail(quiz, t("Quiz")),
+      '<div class="q-backrow" id="wz-back" style="display:none"><button class="q-backbtn" aria-label="' + t("Previous question") + '">‹</button></div>' +
       '<div class="wz-body" id="wz-body"></div>', { progress: true });
     var body = document.getElementById("wz-body");
     var backRow = document.getElementById("wz-back");
@@ -45,7 +45,7 @@
     /* a bar, not one dot per question: 26 dots overflowed a phone */
     function renderProgress(i) {
       document.getElementById("wz-bar").style.width = (i < 0 ? 0 : Math.round(100 * i / n)) + "%";
-      document.getElementById("wz-count").textContent = i >= 0 && i < n ? (i + 1) + " of " + n : "";
+      document.getElementById("wz-count").textContent = i >= 0 && i < n ? t("{i} of {n}", { i: i + 1, n: n }) : "";
     }
     /* swap the card's contents with a quick fade */
     function setBody(html, after) {
@@ -71,9 +71,9 @@
       }
       return '<div class="q-qwrap"><div class="q-text">' + esc(q.t) + "</div></div>" +
         '<div class="a-grid">' +
-        btn("yes", "yes", "✓", "Yes") + btn("no", "no", "✗", "No") +
-        btn("maybe", "skip", "?", "Not sure") +
-        (q.why ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">Don’t get it</span></button>' : "") +
+        btn("yes", "yes", "✓", t("Yes")) + btn("no", "no", "✗", t("No")) +
+        btn("maybe", "skip", "?", t("Not sure")) +
+        (q.why ? '<button class="a-btn whyb" data-ans="why"><span class="ic">◇</span><span class="lb">' + t("Don\u2019t get it") + "</span></button>" : "") +
         "</div>" +
         (q.why ? '<div class="q-why" id="why"><div class="why-card">' + esc(q.why) + "</div></div>" : "");
     }
@@ -128,10 +128,12 @@
     var resumeAt = 0;
     while (resumeAt < n && saved[resumeAt]) resumeAt++;
     renderProgress(-1);
-    setBody('<div class="q-start"><div class="eyebrow">' + esc(quiz.data.kicker) + "</div>" +
-      "<h1>" + esc(quiz.data.title) + "</h1>" +
-      '<button class="big-start" data-act="resume">Resume — question ' + (resumeAt + 1) + " of " + n + "</button>" +
-      '<button class="q-quiet" data-act="restart" style="width:100%">Start over instead</button></div>', function () {
+    var kicker = CM.lang === "en" ? quiz.data.kicker
+      : t("A QUIZ") + " \u00b7 " + (quiz.owner ? quiz.owner.name : t("THE BIG PICTURE")).toUpperCase();
+    setBody('<div class="q-start"><div class="eyebrow">' + esc(kicker) + "</div>" +
+      "<h1>" + esc(t(quiz.data.title)) + "</h1>" +
+      '<button class="big-start" data-act="resume">' + t("Resume \u2014 question {i} of {n}", { i: resumeAt + 1, n: n }) + "</button>" +
+      '<button class="q-quiet" data-act="restart" style="width:100%">' + t("Start over instead") + "</button></div>", function () {
       body.querySelector('[data-act="resume"]').addEventListener("click", function () { answers = saved; ev("quiz-resume/" + qp); show(resumeAt); });
       body.querySelector('[data-act="restart"]').addEventListener("click", function () { answers = fresh(); ev("quiz-restart/" + qp); show(0); });
     });
@@ -167,70 +169,71 @@
     var url = shareUrl(payload);
     // native share sheet where available (iOS), clipboard everywhere else
     if (navigator.share) {
-      navigator.share({ title: "My consciousness-map results", url: url }).then(function () { done("Shared"); }, function () { /* dismissed */ });
+      navigator.share({ title: t("My consciousness-map results"), url: url }).then(function () { done(t("Shared")); }, function () { /* dismissed */ });
     } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () { done("Link copied"); }, function () { done("Couldn\u2019t copy"); });
-    } else done("Couldn\u2019t copy");
+      navigator.clipboard.writeText(url).then(function () { done(t("Link copied")); }, function () { done(t("Couldn\u2019t copy")); });
+    } else done(t("Couldn\u2019t copy"));
   }
   /* tiers come from CM.ranked: strong / partial / none, plus "against" on
      axis quizzes, where a family can hold the opposite of your views */
-  var LEGEND = { strong: "strong match", partial: "partial", none: "", against: "opposite" };
+  var LEGEND = { strong: t("strong match"), partial: t("partial"), none: "", against: t("opposite") };
 
   CM.views.results = function (route) {
     var r = CM.share.decode(route.payload);
-    document.title = "Results — Landscape of Consciousness";
+    document.title = CM.title(t("Results"));
     if (!r) {
-      app.innerHTML = CM.frame(CM.trail([{ label: "Home", href: "./" }, { label: "Results" }]),
-        '<div class="q-start"><div class="eyebrow">RESULTS</div>' +
-        "<h1>That link didn’t work.</h1>" +
-        '<p class="lede">It may be from an older version of the quiz.</p>' +
-        '<a class="q-quiet" href="?path=quiz">Take the quiz instead</a></div>');
+      app.innerHTML = CM.frame(CM.trail([{ label: t("Home"), href: "./" }, { label: t("Results") }]),
+        '<div class="q-start"><div class="eyebrow">' + t("RESULTS") + "</div>" +
+        "<h1>" + t("That link didn\u2019t work.") + "</h1>" +
+        '<p class="lede">' + t("It may be from an older version of the quiz.") + "</p>" +
+        '<a class="q-quiet" href="?path=quiz">' + t("Take the quiz instead") + "</a></div>");
       return;
     }
     var quiz = r.quiz, from = { payload: route.payload, shared: route.shared };
     if (quiz.owner) CM.setAccent(quiz.owner.color);
     var ranked = CM.ranked(quiz, r.answers);
     var answered = r.answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
-    var conflicts = CM.conflicts(quiz, r.answers), summary = CM.summary(quiz, r.answers);
+    var conflicts = CM.conflicts(quiz, r.answers), summary = CM.summary(quiz, r.answers, route.shared);
     var rows = ranked.map(function (x, i) {
       var t = x.node, matched = x.tier === "strong" || x.tier === "partial";
       return '<div class="r-row' + (i === 0 && matched ? " top1" : "") + '" style="--bm:' + esc(t.color) + ";--tint:" + esc(t.color) + '">' +
         '<a class="r-open" data-count="open-result-' + (i + 1) + '" href="' + esc(CM.fromResults(CM.href(t), from)) + '">' +
         '<span class="rank">' + (i + 1) + "</span>" +
         '<span class="nm">' + esc(t.name) +
-        (t.members && t.members.length ? '<span class="also">same answers: ' +
+        (t.members && t.members.length ? '<span class="also">' + CM.t("same answers:") + " " +
           t.members.map(function (m) { return esc(m.name); }).join(" \u00b7 ") + "</span>" : "") +
         (x.tier === "none" ? "" : '<span class="tier ' + x.tier + '">' + LEGEND[x.tier] + "</span>") + "</span>" +
         "</a>" + (t.kind === "theory" ? CM.bookmarkButton(t, true) : "") + "</div>";
     }).join("");
     var lopsided = CM.lopsided(quiz, r.answers);
     var notes = !answered
-      ? "You didn\u2019t answer Yes or No to anything, so nothing stands out yet."
+      ? t("You didn\u2019t answer Yes or No to anything, so nothing stands out yet.")
       : lopsided
-        ? "You answered " + (lopsided === "yes" ? "Yes" : "No") + " to almost everything, but the statements point in different directions, so this is only a rough guide."
+        ? t(lopsided === "yes" ? "You answered Yes to almost everything, but the statements point in different directions, so this is only a rough guide."
+          : "You answered No to almost everything, but the statements point in different directions, so this is only a rough guide.")
       : conflicts.length
-        ? "Some of your answers point in opposite directions (questions " + conflicts.map(function (p) {
-            return (p[0] + 1) + " and " + (p[1] + 1);
-          }).join("; ") + "), so read this as a rough guide."
+        ? t("Some of your answers point in opposite directions (questions {list}), so read this as a rough guide.", { list: conflicts.map(function (p) {
+            return t("{a} and {b}", { a: p[0] + 1, b: p[1] + 1 });
+          }).join("; ") })
         : "";
     // one obvious next step: someone else's result -> take it yourself;
     // your own -> go deeper into your top match
     var top = ranked[0], next = "";
     if (route.shared) {
-      next = '<a class="pill wide" data-count="take-it-yourself" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>Take this quiz yourself</span></a>";
+      next = '<a class="pill wide" data-count="take-it-yourself" href="' + CM.quizHref(quiz.key) + '">' + I.search + "<span>" + t("Take this quiz yourself") + "</span></a>";
     } else if (top && (top.tier === "strong" || top.tier === "partial")) {
       var only = !top.node.quiz && top.node.children.length === 1 ? top.node.children[0] : null;
       next = top.node.quiz
-        ? '<a class="pill wide" data-count="next-quiz" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>Take the " + esc(top.node.name) + " quiz</span></a>"
+        ? '<a class="pill wide" data-count="next-quiz" href="' + CM.href(top.node, "quiz") + '">' + I.search + "<span>" + t("Take the {name} quiz", { name: esc(top.node.name) }) + "</span></a>"
         : only
-          ? '<a class="pill wide" data-count="next-read" href="' + CM.href(only) + '">' + I.list + "<span>Read about " + esc(only.name) + "</span></a>"
-          : '<a class="pill wide" data-count="next-read" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>Read about your top match</span></a>";
+          ? '<a class="pill wide" data-count="next-read" href="' + CM.href(only) + '">' + I.list + "<span>" + t("Read about {name}", { name: esc(only.name) }) + "</span></a>"
+          : '<a class="pill wide" data-count="next-read" href="' + esc(CM.fromResults(CM.href(top.node), from)) + '">' + I.list + "<span>" + t("Read about your top match") + "</span></a>";
     }
-    app.innerHTML = CM.frame(quizTrail(quiz, "Results"),
-      '<div class="r-head"><button class="head-share" data-share data-count="share">' + I.share + "<span>Share</span></button>" +
-      '<div class="eyebrow">' + (route.shared ? "SHARED RESULT" : "YOUR RESULTS") + "</div>" +
-      "<h1>Closest first.</h1>" +
-      (summary ? '<p class="r-summary">' + esc(route.shared ? summary.replace(/^You think/, "They think") : summary) + "</p>" : "") +
+    app.innerHTML = CM.frame(quizTrail(quiz, t("Results")),
+      '<div class="r-head"><button class="head-share" data-share data-count="share">' + I.share + "<span>" + t("Share") + "</span></button>" +
+      '<div class="eyebrow">' + (route.shared ? t("SHARED RESULT") : t("YOUR RESULTS")) + "</div>" +
+      "<h1>" + t("Closest first.") + "</h1>" +
+      (summary ? '<p class="r-summary">' + esc(summary) + "</p>" : "") +
       (notes ? '<div class="r-note">' + notes + "</div>" : "") +
       "</div>" + rows +
       (next ? '<div class="d-actions">' + next + "</div>" : ""));

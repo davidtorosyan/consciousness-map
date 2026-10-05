@@ -183,6 +183,58 @@ Object.keys(DRILL).forEach(function (dk) {
   if (dk === DRILL[dk].categoryId && !catIds[dk]) err("quiz " + dk + " isn't a category or a school");
 });
 
+/* ---------- 4: translations (i18n/<lang>.js) ----------
+   Each must parse, cover every piece of quiz content and every UI string
+   the code passes through CM.t / CM.tn (missing ones fall back to English,
+   so those are warnings), and keep the same {placeholders}. */
+var i18nDir = path.join(ROOT, "i18n");
+var uiKeys = {};
+["core.js", "app.js", "quiz.js", "mega.js", "saved.js", "history.js"].forEach(function (f) {
+  var src = fs.readFileSync(path.join(ROOT, f), "utf8"), m;
+  var reT = /(?:CM\.t|[^\w.]t)\(\s*"((?:[^"\\]|\\.)*)"/g;
+  while ((m = reT.exec(src))) uiKeys[JSON.parse('"' + m[1] + '"')] = f;
+  var reTn = /CM\.tn\([^,]+,\s*"((?:[^"\\]|\\.)*)"/g;
+  while ((m = reTn.exec(src))) uiKeys[JSON.parse('"' + m[1] + '"')] = f;
+});
+(fs.existsSync(i18nDir) ? fs.readdirSync(i18nDir) : []).filter(function (f) { return /\.js$/.test(f); }).forEach(function (f) {
+  var p = path.join(i18nDir, f), label = "i18n/" + f;
+  try { childProcess.execFileSync(process.execPath, ["--check", p], { stdio: "pipe" }); }
+  catch (e) { err("syntax error in " + label + ":\n" + String(e.stderr)); return; }
+  var sb = { window: {} };
+  vm.createContext(sb);
+  scripts.filter(function (s) { return s.indexOf("data/") === 0; }).concat([label]).forEach(function (s) {
+    vm.runInContext(fs.readFileSync(path.join(ROOT, s), "utf8"), sb, { filename: s });
+  });
+  var I = sb.window.CM_I18N || {}, C = I.content || {}, UIt = I.ui || {};
+  function vars(s) { return (String(s).match(/\{\w+\}/g) || []).sort().join(","); }
+  Object.keys(uiKeys).forEach(function (k) {
+    if (!(k in UIt)) { warn(label + ": no translation for \"" + k + "\" (" + uiKeys[k] + ")"); return; }
+    [].concat(UIt[k]).forEach(function (v) {
+      // counted phrases may or may not show {n} in any one form
+      function strip(x) { return vars(x).split(",").filter(function (p) { return p && p !== "{n}"; }).join(","); }
+      if (Array.isArray(UIt[k]) ? strip(v) !== strip(k) : vars(v) !== vars(k))
+        err(label + ": \"" + k + "\" -> \"" + v + "\" changes the {placeholders}");
+    });
+  });
+  var missing = 0;
+  function need(cond, what) { if (!cond) { missing++; if (missing <= 10) warn(label + ": untranslated " + what); } }
+  CATS.forEach(function (c) { need(C.categories && C.categories[c.id], "category " + c.id); });
+  var all = [["main", QD.top]].concat(Object.keys(DRILL).map(function (k) { return [k, DRILL[k]]; }));
+  all.forEach(function (e) {
+    var k = e[0], d = e[1], t = (C.quizzes || {})[k];
+    if (!d.axes) return;
+    if (!t) { need(false, "quiz " + k); return; }
+    d.axes.forEach(function (a) { var x = t.axes[a.key] || {}; need(x.claim && x.yes && x.no, k + " axis " + a.key); });
+    d.questions.forEach(function (q) { var x = t.questions[Object.keys(q.axes)[0]] || {}; need(x.t && (x.why || !q.why), k + " question " + (q.t || "").slice(0, 40)); });
+    (d.areas || []).forEach(function (a) {
+      var x = t.areas[a.key] || {};
+      need(!a.tagline || x.tagline, k + " tagline " + a.key);
+      if (a.sub) need(x.name, k + " school name " + a.key);
+    });
+  });
+  if (missing > 10) warn(label + ": ... " + (missing - 10) + " more untranslated");
+});
+
 /* ---------- report ---------- */
 warnings.forEach(function (w) { console.log("warn: " + w); });
 errors.forEach(function (e) { console.log("ERROR: " + e); });

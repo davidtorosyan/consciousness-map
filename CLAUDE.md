@@ -25,7 +25,15 @@ See `README.md` for the file layout and `PLAN.md` for work in progress.
   New interactions worth counting get a `data-count="<what>"` attribute;
   answers are counted one question at a time, never as a set, and
   nothing that could identify a person is sent.
-- **localStorage keys** (`cm_favorites_v1`, `cm_history_v1`) hold users' data.
+- **Languages** (English, Russian; picker bottom right). UI text is written
+  in English and passed through `CM.t("...")` / `CM.tn(n, one, many)`; the
+  English text is the key into `i18n/<lang>.js`, which also holds the
+  translated quiz content (axes, questions, school names, taglines; theory
+  names stay as LOC has them). New or changed UI text and quiz content need
+  a translation there: `check.js` warns about anything missing (it falls
+  back to English) and fails on mismatched `{placeholders}`. Yes/no phrases
+  must read after "You think …" in every language.
+- **localStorage keys** (`cm_favorites_v1`, `cm_history_v1`, `cm_lang_v1`) hold users' data.
   Don't change their shape without a migration.
 
 ## Checking your work
