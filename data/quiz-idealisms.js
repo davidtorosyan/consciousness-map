@@ -1,14 +1,20 @@
 /* The Idealisms quiz: an axis quiz, like data/main-quiz.js.
-   26 theories LOC lists under Idealisms, many of them close cousins in the
-   contemplative, non-dual tradition. LOC lists them flat, so there are no
-   invented sub-schools; instead 13 axes cover the field's real divides:
-   one consciousness or many minds, a personal God, reason vs contemplative
-   insight, the world as illusion vs real-but-mental, still presence vs
-   creative flow, plus signatures (physics as consciousness's own rules,
-   quantum arguments, cosmic cycles, language/meaning, self-reference,
-   machines). Profiles carry each theory's justified rejections as well as
-   its signature. Checked by tools/eval-quiz.js and a blind role-play of
-   named proponents (tools/eval-thinkers-idealisms.json). */
+   42 theories LOC lists under Idealisms (26 verified, 16 still under LOC
+   review), many of them close cousins in the contemplative, non-dual
+   tradition. 9 of the review theories share a result with a close
+   verified or better-known cousin the quiz can't tell apart (`group`):
+   Śaṅkara and Indian Cosmic Consciousness with Sri Ramana; Nāgārjuna with
+   Buddhism's Empty Consciousness; Sprigge and Yetter-Chappell with
+   Kastrup; Schelling with Richheimer; Aurobindo with Sarkar; Berkeley
+   and Builes with Ward. LOC lists them flat, so there are no invented
+   sub-schools; instead 12 axes cover the field's real divides: one consciousness or
+   many minds, a personal God, reason vs contemplative insight, the world
+   as illusion vs real-but-mental, still presence vs creative flow, plus
+   signatures (physics as consciousness's own rules, quantum arguments,
+   cosmic cycles, language/meaning, self-reference). Profiles carry each
+   theory's justified rejections as well as its signature. Checked by
+   tools/eval-quiz.js and a blind role-play of named proponents
+   (tools/eval-thinkers-idealisms.json). */
 (function () {
   "use strict";
   var axes = [
@@ -36,26 +42,24 @@
       yes: "reality is made of meaning", no: "meaning comes later than reality" },
     { key: "selfref", claim: "Consciousness is reality turning back on itself",
       yes: "consciousness is reality turning back on itself", no: "consciousness is more than self-reference" },
-    { key: "machine", claim: "No machine could ever be conscious",
-      yes: "no machine could be conscious", no: "a machine might be conscious" },
   ];
 
   var profiles = {
-    "bentley-hart-s-consciousness-being-god":               { one: 1, god: 2, ineffable: 1, reason: 1, illusion: -1, flow: -1, cycle: -1, machine: 1 },
-    "chopra-s-only-the-whole-is-conscious":                 { one: 2, meditation: 1, illusion: 1, quantum: 1, flow: -1, machine: 1 },
+    "bentley-hart-s-consciousness-being-god":               { one: 1, god: 2, ineffable: 1, reason: 1, illusion: -1, flow: -1, cycle: -1 },
+    "chopra-s-only-the-whole-is-conscious":                 { one: 2, meditation: 1, illusion: 1, quantum: 1, flow: -1 },
     "dao-de-jing-s-constant-dao":                           { god: -1, ineffable: 2, reason: -1, meditation: 1, illusion: -1, flow: 1 },
-    "kastrup-s-analytic-idealism":                          { one: 1, god: -1, ineffable: -1, reason: 2, illusion: -1, machine: 1 },
-    "nader-s-all-there-is":                                 { one: 2, meditation: 1, illusion: -1, flow: -1, meaning: 1, selfref: 2, machine: 1 },
+    "kastrup-s-analytic-idealism":                          { one: 1, god: -1, ineffable: -1, reason: 2, illusion: -1 },
+    "nader-s-all-there-is":                                 { one: 2, meditation: 1, illusion: -1, flow: -1, meaning: 1, selfref: 2 },
     "albahari-s-perennial-idealism":                        { one: 2, god: -1, ineffable: 1, reason: 1, meditation: 1, illusion: 1, flow: -1 },
-    "arendsen-s-complex-idealism":                          { one: 1, reason: 1, illusion: -1, flow: 2, machine: 2 },
+    "arendsen-s-complex-idealism":                          { one: 1, reason: 1, illusion: -1, flow: 2 },
     "bhart-hari-s-linguistic-idealism":                     { one: 1, god: -1, ineffable: -1, illusion: 1, meaning: 2 },
     "buddhism-s-empty-illusory-phenomenal-consciousness":   { one: -1, god: -2, ineffable: 1, meditation: -1, illusion: 1, flow: 1 },
     "forrest-s-intelligent-idealism":                       { ineffable: -1, reason: 1, laws: 2, meaning: 1 },
     "goswami-s-self-aware-universe":                        { one: 1, reason: 1, meditation: 1, laws: 1, quantum: 2, cycle: 1 },
     "hoffman-s-conscious-realism-the-case-against-reality": { god: -1, reason: 2, illusion: 2 },
     "how-consciousness-becomes-the-physical-universe":      { one: 2, reason: 1, illusion: -1, laws: 1, quantum: 1 },
-    "kak-s-universal-consciousness":                        { one: 1, meditation: 1, quantum: 1, selfref: 1, machine: 2 },
-    "mcgilchrist-s-relational-creative-process-idealism":   { one: 1, ineffable: 1, illusion: -1, flow: 2, machine: 1, cycle: 1 },
+    "kak-s-universal-consciousness":                        { one: 1, meditation: 1, quantum: 1, selfref: 1 },
+    "mcgilchrist-s-relational-creative-process-idealism":   { one: 1, ineffable: 1, illusion: -1, flow: 2, cycle: 1 },
     "meijer-s-universal-knowledge-field":                   { one: 1, reason: 1, illusion: -1, quantum: 1, meaning: 2 },
     "pulido-moyano-s-consciousness-endomitosis-theory":     { one: 1, flow: 1, cycle: 1, selfref: 1, meditation: 1 },
     "richheimer-s-ground-substance-of-creation":            { one: 1, illusion: -1, laws: 1, flow: 1, cycle: 2 },
@@ -67,6 +71,13 @@
     "theise-s-and-kafatos-fundamental-awareness-and-complexity": { one: 1, god: -1, reason: 2, quantum: 1, illusion: -1 },
     "visan-s-self-reference":                               { ineffable: -1, reason: 1, selfref: 2 },
     "ward-s-personal-idealism-souls-as-embodied-agents-created-by-god": { one: -2, god: 2, illusion: -2 },
+    "bradley-s-absolute-idealism":                          { one: 2, god: -1, ineffable: 1, reason: 1, illusion: 1, flow: -1 },
+    "fichte-s-self-positing-i":                             { god: -1, reason: 2, illusion: -1, flow: 1, selfref: 2 },
+    "hegel-s-dialectical-consciousness-in-the-development-of-spirit": { one: 1, ineffable: -2, reason: 2, meditation: -1, illusion: -1, flow: 1, cycle: 1, selfref: 1 },
+    "kant-s-transcendental-idealism":                       { ineffable: 1, reason: 1, meditation: -2, illusion: -1, laws: 2 },
+    "kashmir-shaivism-s-dynamic-non-dualism":               { one: 2, god: 1, meditation: 2, illusion: -2, flow: 2, cycle: 1, selfref: 1 },
+    "schopenhauer-s-the-world-as-will":                     { one: 1, god: -2, illusion: 1, flow: 1, cycle: -1 },
+    "yog-c-ras-mind-only-how-store-consciousness-makes-experience-cohere-without-external-objects": { one: -1, god: -2, meditation: 1, illusion: 1, flow: 1 },
   };
 
   var questions = [
@@ -129,11 +140,6 @@
       t: "Consciousness is reality turning back on itself, the way a mind can think about itself.",
       why: "Yes means self-reference, a system representing or looking at itself, is what experience is. No means consciousness is more than self-reference.",
       axes: { selfref: 1 },
-    },
-    {
-      t: "No computer, however advanced, could ever be conscious.",
-      why: "Yes means consciousness can\u2019t be built by arranging parts, however cleverly. No means a machine might one day be conscious.",
-      axes: { machine: 1 },
     },
   ];
 
@@ -223,6 +229,55 @@
     { key: "ward-s-personal-idealism-souls-as-embodied-agents-created-by-god", name: "Ward’s Personal Idealism: Souls as Embodied Agents Created by God",
       tagline: "Reality is made of souls, made by God.",
       url: "https://loc.closertotruth.com/theory/ward-s-personal-idealism-souls-as-embodied-agents-created-by-god" }
+,
+    { key: "berkeley-s-immaterialist-idealism", name: "Berkeley’s Immaterialist Idealism",
+      tagline: "Only minds and their ideas exist, kept in order by God.", group: "ward-s-personal-idealism-souls-as-embodied-agents-created-by-god",
+      url: "https://loc.closertotruth.com/theory/berkeley-s-immaterialist-idealism", review: true },
+    { key: "bradley-s-absolute-idealism", name: "Bradley’s Absolute Idealism",
+      tagline: "One all-embracing experience; finite selves are partial appearances of it.",
+      url: "https://loc.closertotruth.com/theory/bradley-s-absolute-idealism", review: true },
+    { key: "builes-modal-idealism", name: "Builes’s Modal Idealism",
+      tagline: "Idealism is necessarily true; other possible worlds are God’s thoughts.", group: "ward-s-personal-idealism-souls-as-embodied-agents-created-by-god",
+      url: "https://loc.closertotruth.com/theory/builes-modal-idealism", review: true },
+    { key: "fichte-s-self-positing-i", name: "Fichte’s Self-Positing I",
+      tagline: "Experience is the self’s own activity, checked by the world and others.",
+      url: "https://loc.closertotruth.com/theory/fichte-s-self-positing-i", review: true },
+    { key: "hegel-s-dialectical-consciousness-in-the-development-of-spirit", name: "Hegel’s Dialectical Consciousness in the Development of Spirit",
+      tagline: "Consciousness grows through stages until spirit comes to know itself.",
+      url: "https://loc.closertotruth.com/theory/hegel-s-dialectical-consciousness-in-the-development-of-spirit", review: true },
+    { key: "indian-cosmic-consciousness", name: "Indian Cosmic Consciousness",
+      tagline: "One boundless consciousness appears as many selves and a world.", group: "sri-ramana-s-self-as-pure-consciousness",
+      url: "https://loc.closertotruth.com/theory/indian-cosmic-consciousness", review: true },
+    { key: "kant-s-transcendental-idealism", name: "Kant’s Transcendental Idealism",
+      tagline: "The mind’s own forms shape experience; things in themselves stay hidden.",
+      url: "https://loc.closertotruth.com/theory/kant-s-transcendental-idealism", review: true },
+    { key: "kashmir-shaivism-s-dynamic-non-dualism", name: "Kashmir Shaivism’s Dynamic Non-Dualism",
+      tagline: "Divine consciousness vibrates into a world that is real, not illusion.",
+      url: "https://loc.closertotruth.com/theory/kashmir-shaivism-s-dynamic-non-dualism", review: true },
+    { key: "n-g-rjuna-s-empty-consciousness-experience-without-essence", name: "Nāgārjuna’s Empty Consciousness: Experience Without Essence",
+      tagline: "Experience is real but empty of any nature of its own.", group: "buddhism-s-empty-illusory-phenomenal-consciousness",
+      url: "https://loc.closertotruth.com/theory/n-g-rjuna-s-empty-consciousness-experience-without-essence", review: true },
+    { key: "a-karas-self-luminous-nondualism", name: "Śaṅkara's Self-Luminous Nondualism",
+      tagline: "Self-luminous consciousness alone is real, and you are it.", group: "sri-ramana-s-self-as-pure-consciousness",
+      url: "https://loc.closertotruth.com/theory/a-karas-self-luminous-nondualism", review: true },
+    { key: "schelling-s-nature-spirit-and-the-identity-of-mind", name: "Schelling’s Nature, Spirit, and the Identity of Mind",
+      tagline: "Nature is spirit asleep, waking up to itself in us.", group: "richheimer-s-ground-substance-of-creation",
+      url: "https://loc.closertotruth.com/theory/schelling-s-nature-spirit-and-the-identity-of-mind", review: true },
+    { key: "schopenhauer-s-the-world-as-will", name: "Schopenhauer’s The World as Will",
+      tagline: "Beneath the world we perceive lies one blind, striving will.",
+      url: "https://loc.closertotruth.com/theory/schopenhauer-s-the-world-as-will", review: true },
+    { key: "sprigge-s-absolute-idealism", name: "Sprigge’s Absolute Idealism",
+      tagline: "All experiences are parts of one cosmic experience.", group: "kastrup-s-analytic-idealism",
+      url: "https://loc.closertotruth.com/theory/sprigge-s-absolute-idealism", review: true },
+    { key: "sri-aurobindo-s-evolving-consciousness", name: "Sri Aurobindo’s Evolving Consciousness",
+      tagline: "Divine consciousness evolves through matter, life and mind toward the supramental.", group: "sarkar-s-infinite-supreme-consciousness",
+      url: "https://loc.closertotruth.com/theory/sri-aurobindo-s-evolving-consciousness", review: true },
+    { key: "yetter-chappell-s-non-theistic-idealism", name: "Yetter-Chappell’s Non-Theistic Idealism",
+      tagline: "One unified field of experience holds the world, with no God needed.", group: "kastrup-s-analytic-idealism",
+      url: "https://loc.closertotruth.com/theory/yetter-chappell-s-non-theistic-idealism", review: true },
+    { key: "yog-c-ras-mind-only-how-store-consciousness-makes-experience-cohere-without-external-objects", name: "Yogācāra's Mind-Only: How Store Consciousness Makes Experience Cohere Without External Objects",
+      tagline: "Experience is cognition alone; no outer objects stand behind it.",
+      url: "https://loc.closertotruth.com/theory/yog-c-ras-mind-only-how-store-consciousness-makes-experience-cohere-without-external-objects", review: true }
     ],
     axes: axes,
     profiles: profiles,

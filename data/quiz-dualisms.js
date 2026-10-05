@@ -1,16 +1,21 @@
 /* The Dualisms quiz: an axis quiz, like data/quiz-idealisms.js.
-   23 theories LOC lists under Dualisms: named philosophers' dualisms, soul
-   teachings of religious traditions, esoteric schools, and the broad
-   historical entries. LOC lists them flat, so there are no invented
-   sub-schools; instead 13 axes cover the field's real divides: a soul as a
-   thing vs mental properties, God as the soul's source, the soul's life
-   before birth, whether a soul without its body is a whole person, how
-   many parts a person has, argument vs scripture or spiritual insight, the
-   mind acting on the brain, plus signatures (memory outside the brain,
-   mind as subtle matter, one truth behind all religions, spirits in
-   nature, colours really out in the world, three basic kinds). Profiles
-   carry each theory's justified rejections as well as its signature.
-   Checked by tools/eval-quiz.js and a blind role-play of named proponents
+   40 theories LOC lists under Dualisms (23 verified, 17 still under LOC
+   review): named philosophers' dualisms, soul teachings of religious and
+   Indian traditions, esoteric schools, and the broad historical entries.
+   8 of the review theories share a result with a close verified or
+   better-known cousin the quiz can't tell apart (`group`): Aquinas with
+   Stump; Chalmers with Property Dualism; Composite Dualism and Descartes
+   with Swinburne; Hasker and Libet with Emergent Dualism; Indian Personal
+   Consciousness with Gomatam; Interactive Dualism with Pitts. LOC lists
+   them flat, so there are no invented sub-schools; instead 11 axes cover
+   the field's real divides: a soul as a thing vs mental properties, God as
+   the soul's source, the soul's life before birth, whether a soul without
+   its body is a whole person, how many parts a person has, argument vs
+   scripture or spiritual insight, the mind acting on the brain, plus
+   signatures (one truth behind all religions, spirits in nature, colours
+   really out in the world, three basic kinds). Profiles carry each
+   theory's justified rejections as well as its signature. Checked by
+   tools/eval-quiz.js and a blind role-play of named proponents
    (tools/eval-thinkers-dualisms.json). */
 (function () {
   "use strict";
@@ -29,10 +34,6 @@
       yes: "argument and evidence show the mind is nonphysical", no: "scripture, tradition or spiritual insight show the way" },
     { key: "interact", claim: "The mind acts on the brain",
       yes: "the mind changes what the brain does", no: "brain events have physical causes only" },
-    { key: "memory", claim: "Memories aren’t stored in the brain",
-      yes: "memories are kept in the mind, beyond the brain", no: "memories are traces in the brain" },
-    { key: "subtle", claim: "Thoughts are subtle matter, apart from the self that witnesses them",
-      yes: "thoughts are subtle matter, watched by the true self", no: "thoughts belong to the conscious self itself" },
     { key: "perennial", claim: "All religions share one hidden truth about the soul",
       yes: "all religions share one hidden truth about the soul", no: "religions teach genuinely different things about the soul" },
     { key: "spirits", claim: "Spirits fill the natural world",
@@ -44,29 +45,38 @@
   ];
 
   var profiles = {
-    "steiner-s-esoteric-soul-and-consciousness":            { soul: 2, prelife: 2, embodied: -1, parts: 2, reason: -1, memory: 1, perennial: -1, spirits: 1, realism: 1 },
-    "bergson-s-multiplicity-duration-perception-memory":    { soul: 1, interact: 1, memory: 2, realism: 1 },
-    "feser-s-neo-thomistic-neo-aristotelian-common-sense-dualism": { soul: 1, god: 2, prelife: -2, embodied: 2, parts: -2, reason: 2, subtle: -1, realism: 2 },
+    "steiner-s-esoteric-soul-and-consciousness":            { soul: 2, prelife: 2, embodied: -1, parts: 2, reason: -1, perennial: -1, spirits: 1, realism: 1 },
+    "bergson-s-multiplicity-duration-perception-memory":    { soul: 1, interact: 1, realism: 1 },
+    "feser-s-neo-thomistic-neo-aristotelian-common-sense-dualism": { soul: 1, god: 2, prelife: -2, embodied: 2, parts: -2, reason: 2, realism: 2 },
     "god-as-the-supplier-of-souls":                         { soul: 2, god: 2, prelife: -2, reason: -1 },
-    "gomatam-s-gv-vedanta-consciousness":                   { soul: 2, prelife: 2, embodied: -2, parts: 1, subtle: 2 },
+    "gomatam-s-gv-vedanta-consciousness":                   { soul: 2, prelife: 2, embodied: -2, parts: 1 },
     "historical-and-traditional-dualisms":                  { soul: 2, reason: -1, spirits: 1 },
     "kind-s-dualism-2-0":                                   { god: -1, prelife: -1, reason: 2, spirits: -1, soul: -1, interact: 1 },
     "lorber-s-soul-and-spirit":                             { soul: 2, god: 2, prelife: 1, embodied: -2, parts: 2, reason: -2, perennial: -1, spirits: 1 },
     "mascari-s-qualion-mind-paradigm":                      { soul: 1, god: -2, prelife: -1, reason: 1, spirits: -1, interact: 1 },
-    "moreland-s-christian-soul":                            { soul: 2, god: 2, prelife: -1, embodied: 1, parts: -1, reason: 1, interact: 1, subtle: -2, perennial: -1 },
+    "moreland-s-christian-soul":                            { soul: 2, god: 2, prelife: -1, embodied: 1, parts: -1, reason: 1, interact: 1, perennial: -1 },
     "nonphysical-component-in-the-human-mind":              { soul: 1, parts: -1, interact: 2, three: -1 },
     "philosophical-history-of-dualism":                     { soul: 2, embodied: -1, parts: -1, reason: 2, interact: 1, realism: -1 },
     "pitts-s-interactionist-dualism-energy-conservation-and-mental-causation": { interact: 1 },
-    "property-dualism":                                     { soul: -2, god: -1, prelife: -2, reason: 1, memory: -1, spirits: -2, three: -1 },
+    "property-dualism":                                     { soul: -2, god: -1, prelife: -2, reason: 1, spirits: -2, three: -1 },
     "realms-of-the-soul":                                   { soul: 2, prelife: 2, embodied: -1, perennial: 1 },
     "soul-in-indigenous-religions":                         { soul: 1, prelife: 1, parts: 2, reason: -2, spirits: 2 },
     "soul-in-islamic-philosophy":                           { soul: 2, god: 2, prelife: -1, embodied: -1, parts: 1, reason: 1 },
     "soul-in-the-hebrew-bible-and-jewish-philosophy":       { soul: -1, god: 2, embodied: 2, parts: 1, reason: -1 },
     "soul-in-the-new-testament-and-christian-philosophy":   { soul: 1, god: 1, prelife: -1, embodied: 1, reason: -1, perennial: -1 },
     "stump-s-thomistic-dualism":                            { soul: 1, god: 2, prelife: -2, embodied: 2, parts: -2, reason: 1 },
-    "swinburne-s-substance-dualism":                        { soul: 2, god: 2, prelife: -1, embodied: -1, parts: -2, reason: 2, interact: 2, memory: -1, subtle: -2, spirits: -1, realism: -1, three: -1 },
-    "theosophy-s-eclectic-soul-and-consciousness":          { soul: 2, god: -1, prelife: 2, embodied: -2, parts: 2, reason: -1, memory: 1, subtle: 1, perennial: 2, spirits: 1 },
+    "swinburne-s-substance-dualism":                        { soul: 2, god: 2, prelife: -1, embodied: -1, parts: -2, reason: 2, interact: 2, spirits: -1, realism: -1, three: -1 },
+    "theosophy-s-eclectic-soul-and-consciousness":          { soul: 2, god: -1, prelife: 2, embodied: -2, parts: 2, reason: -1, perennial: 2, spirits: 1 },
     "trialism":                                             { three: 2 },
+    "aristotle-s-hylomorphism":                             { soul: -1, god: -1, prelife: -1, embodied: 2, parts: -1, reason: 2, realism: 2 },
+    "avicenna-s-flying-man-and-self-present-soul":          { soul: 2, god: 1, prelife: -2, embodied: -1, parts: -1, reason: 2, interact: 1 },
+    "emergent-dualism":                                     { soul: 2, god: -1, prelife: -2, parts: -1, reason: 2, interact: 2, spirits: -1 },
+    "epiphenomenalism-dualism":                             { soul: -2, god: -1, prelife: -2, interact: -2, spirits: -1 },
+    "malebranche-s-divine-occasionalism-inner-sensation-and-phenomenal-experience": { soul: 2, god: 2, embodied: -1, parts: -2, interact: -2, realism: -2 },
+    "nida-ruemelin-s-subject-body-dualism":                 { soul: 1, embodied: -1, parts: -2, reason: 2, interact: 1 },
+    "ny-ya-s-contingent-consciousness-of-the-enduring-self": { soul: 2, god: -1, prelife: 2, reason: 1, realism: 2 },
+    "popper-and-eccles-interactionist-dualism-three-worlds-and-the-liaison-brain": { soul: 1, reason: 2, interact: 2, three: 2 },
+    "s-khyas-pure-witness-and-the-material-mind":           { soul: 1, god: -2, prelife: 2, embodied: -2, parts: 1, three: -1 },
   };
 
   var questions = [
@@ -104,16 +114,6 @@
       t: "Your mind acts on your brain, causing physical changes in it that wouldn’t happen otherwise.",
       why: "Yes means mental causes really change what neurons do. No means brain events have physical causes only, even if the mind is something more.",
       axes: { interact: 1 },
-    },
-    {
-      t: "Your memories are not stored in your brain.",
-      why: "Yes means the past is kept in the mind itself, and the brain only helps call it up. No means memories are traces laid down in the brain.",
-      axes: { memory: 1 },
-    },
-    {
-      t: "Your thoughts and emotions are made of a subtle kind of matter, separate from the conscious self that witnesses them.",
-      why: "Yes means mind and thinking are finer layers of nature, and the true self only watches them. No means thinking and feeling belong to the conscious self itself.",
-      axes: { subtle: 1 },
     },
     {
       t: "At their hidden core, the world’s religions all teach the same truth about the soul.",
@@ -213,7 +213,58 @@
       url: "https://loc.closertotruth.com/theory/theosophy-s-eclectic-soul-and-consciousness" },
     { key: "trialism", name: "Trialism",
       tagline: "Not one stuff, not two, but three.",
-      url: "https://loc.closertotruth.com/theory/trialism" }
+      url: "https://loc.closertotruth.com/theory/trialism" },
+    { key: "aquinas-s-hylomorphism", name: "Aquinas’s Hylomorphism",
+      tagline: "The soul is the body’s form, so you are one thing, not two.", group: "stump-s-thomistic-dualism",
+      url: "https://loc.closertotruth.com/theory/aquinas-s-hylomorphism", review: true },
+    { key: "aristotle-s-hylomorphism", name: "Aristotle’s Hylomorphism",
+      tagline: "The soul is the form of a living body, not a passenger in it.",
+      url: "https://loc.closertotruth.com/theory/aristotle-s-hylomorphism", review: true },
+    { key: "avicenna-s-flying-man-and-self-present-soul", name: "Avicenna’s Flying Man and Self-Present Soul",
+      tagline: "The soul knows itself directly, even with every sense cut off.",
+      url: "https://loc.closertotruth.com/theory/avicenna-s-flying-man-and-self-present-soul", review: true },
+    { key: "chalmers-naturalistic-dualism", name: "Chalmers’s Naturalistic Dualism",
+      tagline: "Experience is a basic part of nature that physics leaves out.", group: "property-dualism",
+      url: "https://loc.closertotruth.com/theory/chalmers-naturalistic-dualism", review: true },
+    { key: "composite-dualism", name: "Composite Dualism",
+      tagline: "A person is a body and a nonphysical soul together.", group: "swinburne-s-substance-dualism",
+      url: "https://loc.closertotruth.com/theory/composite-dualism", review: true },
+    { key: "descartes-s-substance-dualism", name: "Descartes’s Substance Dualism",
+      tagline: "A thinking mind and an extended body are two different substances.", group: "swinburne-s-substance-dualism",
+      url: "https://loc.closertotruth.com/theory/descartes-s-substance-dualism", review: true },
+    { key: "emergent-dualism", name: "Emergent Dualism",
+      tagline: "A working brain gives rise to a new, nonphysical self.",
+      url: "https://loc.closertotruth.com/theory/emergent-dualism", review: true },
+    { key: "epiphenomenalism-dualism", name: "Epiphenomenalism (Dualism)",
+      tagline: "Experience is real and nonphysical, but it changes nothing physical.",
+      url: "https://loc.closertotruth.com/theory/epiphenomenalism-dualism", review: true },
+    { key: "haskers-unified-experience-conscious-self-causal-mind-requires-a-brain-generated-nonphysical-substance", name: "Hasker's Unified Experience, Conscious Self, Causal Mind Requires a Brain-Generated Nonphysical Substance",
+      tagline: "Unified experience needs a nonphysical self, generated by the brain.", group: "emergent-dualism",
+      url: "https://loc.closertotruth.com/theory/haskers-unified-experience-conscious-self-causal-mind-requires-a-brain-generated-nonphysical-substance", review: true },
+    { key: "indian-personal-consciousness-plural-selves-and-real-matter", name: "Indian Personal Consciousness: Plural Selves and Real Matter",
+      tagline: "Many eternal selves and a real material world, not one consciousness.", group: "gomatam-s-gv-vedanta-consciousness",
+      url: "https://loc.closertotruth.com/theory/indian-personal-consciousness-plural-selves-and-real-matter", review: true },
+    { key: "interactive-dualism", name: "Interactive Dualism",
+      tagline: "Mind and body really act on each other, despite physics’ objections.", group: "pitts-s-interactionist-dualism-energy-conservation-and-mental-causation",
+      url: "https://loc.closertotruth.com/theory/interactive-dualism", review: true },
+    { key: "libets-conscious-mental-field", name: "Libet's Conscious Mental Field",
+      tagline: "The brain generates a unified, nonphysical mental field that acts back on it.", group: "emergent-dualism",
+      url: "https://loc.closertotruth.com/theory/libets-conscious-mental-field", review: true },
+    { key: "malebranche-s-divine-occasionalism-inner-sensation-and-phenomenal-experience", name: "Malebranche’s Divine Occasionalism: Inner Sensation and Phenomenal Experience",
+      tagline: "God alone causes; bodily events are only the occasion for sensations.",
+      url: "https://loc.closertotruth.com/theory/malebranche-s-divine-occasionalism-inner-sensation-and-phenomenal-experience", review: true },
+    { key: "nida-ruemelin-s-subject-body-dualism", name: "Nida-Rümelin’s Subject-Body Dualism",
+      tagline: "You are an experiencing subject that has a body but isn’t one.",
+      url: "https://loc.closertotruth.com/theory/nida-ruemelin-s-subject-body-dualism", review: true },
+    { key: "ny-ya-s-contingent-consciousness-of-the-enduring-self", name: "Nyāya’s Contingent Consciousness of the Enduring Self",
+      tagline: "An eternal self is conscious only when linked to a body.",
+      url: "https://loc.closertotruth.com/theory/ny-ya-s-contingent-consciousness-of-the-enduring-self", review: true },
+    { key: "popper-and-eccles-interactionist-dualism-three-worlds-and-the-liaison-brain", name: "Popper and Eccles's Interactionist Dualism: Three Worlds and the Liaison Brain",
+      tagline: "A nonphysical mind steers the brain; physics isn’t causally closed.",
+      url: "https://loc.closertotruth.com/theory/popper-and-eccles-interactionist-dualism-three-worlds-and-the-liaison-brain", review: true },
+    { key: "s-khyas-pure-witness-and-the-material-mind", name: "Sāṃkhya's Pure Witness and the Material Mind",
+      tagline: "Pure consciousness only witnesses; the thinking mind is itself material.",
+      url: "https://loc.closertotruth.com/theory/s-khyas-pure-witness-and-the-material-mind", review: true }
     ],
     axes: axes,
     profiles: profiles,
