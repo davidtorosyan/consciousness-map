@@ -1,5 +1,5 @@
 /* The Materialism quiz: an axis quiz, like data/quiz-idealisms.js.
-   The top level of materialism: 12 schools LOC lists, each a nested quiz
+   The top level of materialism: 13 schools LOC lists, each a nested quiz
    (`sub`). All agree the mind is physical; the 12 axes are where the
    schools part ways: feeling and the body's needs first, computation
    independent of what does it, specific brain circuits, consciousness as
@@ -52,6 +52,7 @@
     "materialism-higher-order":                { substrate: 1, ancient: -1, ho: 2, represent: 1 },
     "materialism-first-order":                 { ancient: 1, ho: -2, represent: 1, illusion: -1 },
     "materialism-eliminative-illusionism":     { feeling: -1, substrate: 1, gap: 1, ho: 1, illusion: 2 },
+    "materialism-mind-brain-identity":         { substrate: -1, circuits: 1, field: -1, gap: 1, body: -1, illusion: -1 },
   };
 
   var questions = [
@@ -172,7 +173,11 @@
     { key: "materialism-eliminative-illusionism", name: "Eliminative/Illusionism",
       tagline: "The inner glow is a trick of the brain.",
       url: "https://loc.closertotruth.com/theories/eliminative-illusionism",
-      sub: "materialism-eliminative-illusionism" }
+      sub: "materialism-eliminative-illusionism" },
+    { key: "materialism-mind-brain-identity", name: "Mind-Brain Identity",
+      tagline: "Experiences simply are brain processes.",
+      url: "https://loc.closertotruth.com/theories/mind-brain-identity",
+      sub: "materialism-mind-brain-identity" }
     ],
     axes: axes,
     profiles: profiles,
