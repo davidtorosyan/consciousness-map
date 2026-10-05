@@ -26,8 +26,6 @@
       yes: "mind and matter share a deeper source", no: "mind or matter is the bottom layer" },
     { key: "independent", claim: "The physical world exists independently of minds",
       yes: "the world exists without minds", no: "the world depends on mind" },
-    { key: "causal", claim: "Thoughts cause things in their own right",
-      yes: "thoughts cause things in their own right", no: "the neurons do all the causing" },
     { key: "explain", claim: "Brain science could fully explain experience",
       yes: "brain science can explain experience", no: "brain science leaves something out" },
     { key: "wide", claim: "Experience reaches all the way down to simple things",
@@ -47,13 +45,13 @@
   ];
 
   var profiles = {
-    "materialism":               { physical: 2, mind: -2, deeper: -1, independent: 2, causal: -1, explain: 2, wide: -1, medium: 1, separate: -2, physics: -1, anomaly: -1, firstp: -1, solvable: 2 },
-    "non-reductive-physicalism": { physical: 2, mind: -1, independent: 2, causal: 2, explain: -2, wide: -1, separate: -2, anomaly: -1, solvable: 1 },
+    "materialism":               { physical: 2, mind: -2, deeper: -1, independent: 2, explain: 2, wide: -1, medium: 1, separate: -2, physics: -1, anomaly: -1, firstp: -1, solvable: 2 },
+    "non-reductive-physicalism": { physical: 2, mind: -1, independent: 2, explain: -2, wide: -1, separate: -2, anomaly: -1, solvable: 1 },
     "quantum-dimensions":        { physical: 1, independent: 1, explain: -1, medium: -2, physics: 2, solvable: 1 },
     "information":               { mind: 1, explain: -1, wide: 1, separate: -1, physics: -1, solvable: 2 },
     "panpsychisms":              { mind: 2, independent: 1, explain: -2, wide: 2, separate: -1, solvable: 1 },
     "neutral-monism":            { physical: -1, mind: -1, deeper: 2, explain: -1, solvable: 1 },
-    "dualisms":                  { physical: -2, mind: 2, deeper: -1, independent: 2, causal: 1, explain: -2, wide: -1, medium: -1, separate: 2, anomaly: 1 },
+    "dualisms":                  { physical: -2, mind: 2, deeper: -1, independent: 2, explain: -2, wide: -1, medium: -1, separate: 2, anomaly: 1 },
     "idealisms":                 { physical: -2, mind: 2, deeper: -1, independent: -2, explain: -2, separate: 1, anomaly: 1, firstp: 1, solvable: 1 },
     "phenomenology":             { explain: -1, medium: -1, separate: -1, firstp: 2 },
     "anomalous-altered-states":  { physical: -1, explain: -1, separate: 1, anomaly: 2 },
@@ -75,11 +73,6 @@
       t: "Experience isn\u2019t built from anything more basic. It\u2019s one of reality\u2019s fundamental ingredients, like space, time or mass.",
       why: "Most things are made of something more basic. This asks whether experience is like that too, or whether it sits at the bottom of reality, not built from anything else.",
       axes: { mind: 1 },
-    },
-    {
-      t: "Your thoughts and decisions cause things to happen in their own right, not only because of the neuron-level physics underneath them.",
-      why: "When you decide to raise your hand, is the decision itself doing causal work, or is it all neurons firing, with \u2018the decision\u2019 just a way of describing them?",
-      axes: { causal: 1 },
     },
     {
       t: "Even something as simple as an atom has a tiny glimmer of experience.",
