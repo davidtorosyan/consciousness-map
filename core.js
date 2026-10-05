@@ -204,15 +204,11 @@
   };
 
   /* ---------- scoring ----------
-     Two kinds of quiz:
-     - axis quizzes (the main quiz, data/main-quiz.js): answers place you on
-       underlying axes; a family's score is the cosine similarity between your
-       positions and its profile, from -1 (opposite) to 1 (same).
-     - point quizzes (category/school quizzes): each answer adds points to
-       areas; the score is the point total.
-     CM.ranked returns [{node, score, tier}] best first, tier one of
-     strong / partial / none / against, for either kind. */
-  function isAxisQuiz(quiz) { return !!(quiz.data && quiz.data.axes); }
+     Every quiz is an axis quiz: answers place you on underlying axes, and a
+     target's score is the cosine similarity between your positions and its
+     profile, from -1 (opposite) to 1 (same). CM.ranked returns
+     [{node, score, tier}] best first, tier one of strong / partial / none /
+     against. */
   /* your position on each axis you answered something about, -1..1 */
   CM.positions = function (quiz, answers) {
     var sum = {}, weight = {};
@@ -240,17 +236,8 @@
     });
     return sc;
   }
-  function pointScores(quiz, answers) {
-    var sc = {};
-    answers.forEach(function (ans, i) {
-      if (ans !== "yes" && ans !== "no") return;
-      var pts = quiz.questions[i][ans] || {};
-      Object.keys(pts).forEach(function (k) { sc[k] = (sc[k] || 0) + pts[k]; });
-    });
-    return sc;
-  }
   CM.ranked = function (quiz, answers) {
-    var axis = isAxisQuiz(quiz), sc = axis ? axisScores(quiz, answers) : pointScores(quiz, answers);
+    var sc = axisScores(quiz, answers);
     // a "strong" match needs evidence: at least half the questions answered
     var answered = answers.filter(function (a) { return a === "yes" || a === "no"; }).length;
     // and no answers that contradict each other
@@ -260,15 +247,13 @@
       var s = sc[node.key] || 0, tier;
       // thresholds from tools/eval-quiz.js score distributions: a typical
       // result has one or two strong matches
-      if (axis) tier = s >= 0.55 ? (enough ? "strong" : "partial") : s >= 0.25 ? "partial" : s > -0.25 ? "none" : "against";
-      else tier = s >= 3 ? "strong" : s > 0 ? "partial" : "none";
+      tier = s >= 0.55 ? (enough ? "strong" : "partial") : s >= 0.25 ? "partial" : s > -0.25 ? "none" : "against";
       return { node: node, score: s, tier: tier, i: i };
     }).sort(function (a, b) { return b.score - a.score || a.i - b.i; });
   };
   /* pairs of answers that contradict each other: two questions asking
-     opposite things, answered the same way (axis quizzes) */
+     opposite things, answered the same way */
   CM.conflicts = function (quiz, answers) {
-    if (!isAxisQuiz(quiz)) return [];
     var out = [], qs = quiz.questions;
     for (var i = 0; i < qs.length; i++) for (var j = i + 1; j < qs.length; j++) {
       if (answers[i] !== answers[j] || (answers[i] !== "yes" && answers[i] !== "no")) continue;
@@ -282,7 +267,6 @@
   /* answered (nearly) everything the same way: "yes" or "no", else "".
      The statements point in different directions, so that's not a view. */
   CM.lopsided = function (quiz, answers) {
-    if (!isAxisQuiz(quiz)) return "";
     var y = 0, n = 0;
     answers.forEach(function (a) { if (a === "yes") y++; else if (a === "no") n++; });
     if (y + n < 8) return "";
@@ -290,7 +274,7 @@
   };
   /* "You think X, Y and Z." from your strongest positions (axis quizzes) */
   CM.summary = function (quiz, answers) {
-    if (!isAxisQuiz(quiz) || CM.lopsided(quiz, answers)) return "";
+    if (CM.lopsided(quiz, answers)) return "";
     var pos = CM.positions(quiz, answers);
     var strong = quiz.data.axes.filter(function (x) { return Math.abs(pos[x.key] || 0) >= 0.5; })
       .sort(function (a, b) { return Math.abs(pos[b.key]) - Math.abs(pos[a.key]); })
@@ -311,10 +295,6 @@
     return from ? href + "&r=" + from.payload + (from.shared ? "&shared=1" : "") : href;
   };
   /* why a result scored the way it did, for the family/area `key` */
-  function row(cls, mark, text, label) {
-    return '<div class="qa-row ' + cls + '"><span class="qa-mark">' + mark + "</span>" +
-      '<span class="qa-q">' + CM.esc(text) + '</span><span class="qa-a">' + label + "</span></div>";
-  }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   function backToResults(from) {
     return '<div class="d-quiet"><a class="d-link" data-back-results href="' +
@@ -360,20 +340,7 @@
   CM.answerRows = function (from, key) {
     var r = from && CM.share.decode(from.payload);
     if (!r) return "";
-    if (isAxisQuiz(r.quiz)) return compareHtml(r, key, from);
-    // point quizzes: the questions that scored this area, marked by your answer
-    var rows = [];
-    r.quiz.questions.forEach(function (q, i) {
-      var yp = (q.yes && q.yes[key]) || 0, np = (q.no && q.no[key]) || 0;
-      if (!yp && !np) return;
-      var a = r.answers[i];
-      if (a === "yes" || a === "no") {
-        var hit = a === "yes" ? yp > 0 : np > 0;
-        rows.push(row(hit ? "al" : "mis", hit ? "\u2713" : "\u2717", q.t, a));
-      } else rows.push(row("na", "\u2013", q.t, a === "skip" ? "not sure" : "\u2013"));
-    });
-    if (!rows.length) return "";
-    return '<div class="qa-sec"><div class="eyebrow">HOW YOU LINED UP</div>' + rows.join("") + "</div>" + backToResults(from);
+    return compareHtml(r, key, from);
   };
 
   /* ---------- page chrome ----------

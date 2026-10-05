@@ -32,7 +32,6 @@ Everything is served from `index.html`; the view is chosen by `?path=`.
 | `tools/check.js` | Syntax lint and quiz-data integrity checks. |
 | `data/loc-theories.json` | Source data: every theory on the Landscape of Consciousness, pulled verbatim from the site. Not loaded by the site — see below. |
 | `tools/smoke.js` | Headless phone-size walk-through of every page. |
-| `tools/scaffold-axis-quiz.js`, `tools/integrate-quiz.js` | Start a new axis quiz from a category's theory list; swap a finished one into the site. |
 | `tools/eval-mega.js` | Simulated respondents take the mega quiz: how often their theory comes first, and how many questions it takes. |
 | `tools/eval-quiz.js` | Checks every axis quiz sorts people correctly: ideal and noisy synthetic respondents, edge cases, and role-played thinkers (`tools/eval-thinkers*.json`). |
 | `archive/` | Data from earlier versions, kept for reference. Not loaded. |

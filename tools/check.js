@@ -81,21 +81,6 @@ CATS.forEach(function (c) {
   if (!DRILL[c.id]) err("category " + c.id + " has no entry (QUIZ_DATA.drill." + c.id + ")");
 });
 
-function checkQuestions(label, questions, validKeys) {
-  if (!questions || !questions.length) { err(label + ": no questions"); return; }
-  if (questions.length > QUIZ_CAP) warn(label + ": " + questions.length + " questions (cap " + QUIZ_CAP + ")");
-  questions.forEach(function (q, i) {
-    var where = label + " question " + (i + 1);
-    if (!q.t) err(where + ": no text");
-    ["yes", "no"].forEach(function (a) {
-      Object.keys(q[a] || {}).forEach(function (k) {
-        if (!validKeys[k]) err(where + ": '" + a + "' scores unknown key " + k);
-        if (typeof q[a][k] !== "number") err(where + ": '" + a + "." + k + "' is not a number");
-      });
-    });
-  });
-}
-
 /* axis quizzes (the main quiz, and category/school quizzes with `axes`):
    questions measure axes, targets have positions on them */
 function checkAxisQuiz(label, T, targetKeys) {
@@ -191,7 +176,7 @@ Object.keys(DRILL).forEach(function (dk) {
     // no quiz: only for a single theory, whose page the category leads to
     if (d.areas.length !== 1) err(label + ": no questions (only a one-theory entry may skip the quiz)");
   }
-  else checkQuestions(label, d.questions, keys);
+  else err(label + ": has questions but no axes (every quiz is an axis quiz)");
 });
 Object.keys(DRILL).forEach(function (dk) {
   if (dk !== DRILL[dk].categoryId && !subParent[dk]) err("school quiz " + dk + " isn't listed by any parent");
